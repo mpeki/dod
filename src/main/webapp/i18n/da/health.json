@@ -1,0 +1,32 @@
+{
+    "health": {
+        "title": "Sundhed",
+        "refresh.button": "Opdatér",
+        "stacktrace": "Stacktrace",
+        "details": {
+            "details": "Details",
+            "properties": "Properties",
+            "name": "Name",
+            "value": "Value",
+            "error": "Error"
+        },
+        "indicator": {
+            "binders": "Message broker",
+            "discoveryComposite": "Discovery Composite",
+            "refreshScope": "Microservice Refresh Scope",
+            "configServer": "Microservice Config Server",
+            "hystrix": "Hystrix",
+            "diskSpace": "Diskplads",
+            "mail": "Email",
+            "mongo": "MongoDB"
+        },
+        "table": {
+            "service": "Tjenestenavn",
+            "status": "Status"
+        },
+        "status": {
+            "UP": "OP",
+            "DOWN": "NED"
+        }
+    }
+}
