@@ -1,9 +1,15 @@
-name: CI main
+name: CI
 on:
   push:
-    branches: [ 'main|alpha|beta|DOD-*' ]
+    branches:
+      - 'main'
+      - 'alpha'
+      - 'beta'
   pull_request:
-    branches: [ 'main|alpha|beta|DOD-*' ]
+    branches:
+      - 'main'
+      - 'alpha'
+      - 'beta'
   workflow_dispatch:
 jobs:
   verify-and-release:

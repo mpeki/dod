@@ -40,8 +40,8 @@
       [
         "@semantic-release/exec",
         {
-          "verifyConditionsCmd": "./gradlew jibDockerBuild",
-          "publishCmd": "./gradlew jib"
+          "verifyConditionsCmd": "./gradlew jacocoTestCoverageVerification",
+          "publishCmd": "./gradlew clean"
         }
       ]
     ]
