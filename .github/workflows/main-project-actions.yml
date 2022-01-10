@@ -5,6 +5,7 @@ on:
       - 'main'
       - 'alpha'
       - 'beta'
+      - 'DOD-*'
   pull_request:
     branches:
       - 'main'
@@ -14,7 +15,6 @@ on:
 jobs:
   verify-and-release:
     runs-on: ubuntu-latest
-#    container: macp/dev-toolbox:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
