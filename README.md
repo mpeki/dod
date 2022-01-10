@@ -1,6 +1,9 @@
 # DoD
 Electrifying the Swedish Roleplaying game: Drager &amp; Dæmoner
 
+# GitHub
+[Issue Tracking](https://github.com/mpeki/dod/projects/1) and [Wiki](https://github.com/mpeki/dod/wiki).
+
 # Build
 Gradle is building, verifying and publishing the project.
 
@@ -16,9 +19,6 @@ See the [CHANGELOG](CHANGELOG.md).
 Currently using the [semantic-release project](https://semantic-release.gitbook.io/semantic-release/) to manage versions, 
 since the project is being build with Gradle, the https://www.npmjs.com/package/gradle-semantic-release-plugin has been 
 applied.
-
-## Wiki
-Todo
 
 ## Badges
 We don't need no stinking badges: https://www.youtube.com/watch?v=VqomZQMZQCQ but here you go:
