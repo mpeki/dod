@@ -1,19 +1,28 @@
-name: CI
+name: CI main
 on:
   push:
-    branches: [ main ]
+    branches: [ 'main|alpha|beta|DOD-*' ]
   pull_request:
-    branches: [ main ]
+    branches: [ 'main|alpha|beta|DOD-*' ]
   workflow_dispatch:
 jobs:
-  verify:
+  verify-and-release:
     runs-on: ubuntu-latest
+#    container: macp/dev-toolbox:latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Build with Gradle
+          cache: gradle
+      - name: Build and verify
         run: ./gradlew build
+      - name: Install semantic-release dependencies
+        run: npm install
+      - name: Do semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
+        run: npx semantic-release
