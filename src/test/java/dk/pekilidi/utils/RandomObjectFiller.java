@@ -1,7 +1,9 @@
 package dk.pekilidi.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -13,10 +15,28 @@ public class RandomObjectFiller {
     T instance = clazz.getDeclaredConstructor().newInstance();
     for(Field field: clazz.getDeclaredFields()) {
       field.setAccessible(true);
-      Object value = getRandomValueForField(field);
-      field.set(instance, value);
+      Object value = null;
+      if(field.getType().equals(List.class)){
+        value = getRandomValueForField(clazz,field);
+      } else {
+        value = getRandomValueForField(field);
+      }
+      if(field.getName() != "serialVersionUID" ){
+        field.set(instance, value);
+      }
     }
     return instance;
+  }
+
+  private <T> Object getRandomValueForField(Class<T> clazz, Field field) throws Exception {
+    Class<?> type = field.getType();
+    if(type.equals(List.class)){
+      Field f = clazz.getDeclaredField(field.getName());
+      ParameterizedType stringListType = (ParameterizedType) f.getGenericType();
+      Class<?> listClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+      return List.of(listClass.getDeclaredConstructor().newInstance());
+    }
+    return createAndFill(type);
   }
 
   private Object getRandomValueForField(Field field) throws Exception {

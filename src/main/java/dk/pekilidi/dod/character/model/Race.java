@@ -1,21 +1,33 @@
 package dk.pekilidi.dod.character.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Race {
+@Table(
+        uniqueConstraints=
+        @UniqueConstraint(columnNames={"name", "character_template_id"})
+)
+public class Race implements Serializable {
+
+  private static final long serialVersionUID = -8860486223584199305L;
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NonNull
+  @Column(name="name", unique=true)
   private String name;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "character_template_id", referencedColumnName = "id")
+  @JsonIgnore
+  private CharacterTemplate characterTemplate;
 }

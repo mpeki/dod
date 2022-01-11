@@ -1,0 +1,252 @@
+databaseChangeLog:
+- changeSet:
+    id: 1642517503440-1
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: base_traitPK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: group_value
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: start_value
+            type: INT
+        - column:
+            name: trait_name
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: value
+            type: INT
+        - column:
+            name: character_id
+            type: BIGINT
+        - column:
+            name: dodcharacter_id
+            type: BIGINT
+        tableName: base_trait
+- changeSet:
+    id: 1642517503440-2
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: base_trait_rulePK
+            name: id
+            type: BIGINT
+        - column:
+            name: base_trait_die_roll
+            type: VARCHAR(255)
+        - column:
+            name: base_trait_hero_die_roll
+            type: VARCHAR(255)
+        - column:
+            name: base_trait_name
+            type: VARCHAR(255)
+        tableName: base_trait_rule
+- changeSet:
+    id: 1642517503440-3
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: character_templatePK
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: character_template
+- changeSet:
+    id: 1642517503440-4
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: character_template_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: base_trait_rules_id
+            type: BIGINT
+        tableName: character_template_base_trait_rules
+- changeSet:
+    id: 1642517503440-5
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: dodcharacterPK
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: race_id
+            type: BIGINT
+        tableName: dodcharacter
+- changeSet:
+    id: 1642517503440-6
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: racePK
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: character_template_id
+            type: BIGINT
+        tableName: race
+- changeSet:
+    id: 1642517503440-7
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_CHARACTER_TEMPLATENAME_COL
+        tableName: character_template
+- changeSet:
+    id: 1642517503440-8
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_RACENAME_COL
+        tableName: race
+- changeSet:
+    id: 1642517503440-9
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: base_trait_rules_id
+        constraintName: UK_2cg9j8vhevl570acpju84ec8j
+        tableName: character_template_base_trait_rules
+- changeSet:
+    id: 1642517503440-10
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name, character_template_id
+        constraintName: UKldfll8p1ac14slnmwagx1brla
+        tableName: race
+- changeSet:
+    id: 1642517503440-11
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: character_template_id
+        baseTableName: race
+        constraintName: FK1g4iy6xybufe8yrj3a8reee1g
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: character_template
+        validate: true
+- changeSet:
+    id: 1642517503440-12
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: character_template_id
+        baseTableName: character_template_base_trait_rules
+        constraintName: FK29raow2vrmuv1f609uo6je4xm
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: character_template
+        validate: true
+- changeSet:
+    id: 1642517503440-13
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: character_id
+        baseTableName: base_trait
+        constraintName: FK4qo0w62lnl71bibgqnjsi6rud
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: dodcharacter
+        validate: true
+- changeSet:
+    id: 1642517503440-14
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: dodcharacter_id
+        baseTableName: base_trait
+        constraintName: FK9cepop994v2i8jly2nwfe4xmf
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: dodcharacter
+        validate: true
+- changeSet:
+    id: 1642517503440-15
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: race_id
+        baseTableName: dodcharacter
+        constraintName: FKhf6u3xrd7c5anh2tojkns76sg
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: race
+        validate: true
+- changeSet:
+    id: 1642517503440-16
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: base_trait_rules_id
+        baseTableName: character_template_base_trait_rules
+        constraintName: FKleoj6fbe3tyud1x5hquao13ms
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: base_trait_rule
+        validate: true
+

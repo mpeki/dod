@@ -1,10 +1,9 @@
 package dk.pekilidi.dod.character;
 
 import dk.pekilidi.dod.DodApplication;
-import dk.pekilidi.dod.character.data.BeingDTO;
+import dk.pekilidi.dod.character.data.CharacterDTO;
 import dk.pekilidi.dod.character.data.RaceDTO;
-import dk.pekilidi.dod.character.model.Being;
-import dk.pekilidi.dod.character.model.Race;
+import dk.pekilidi.dod.character.model.DODCharacter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +21,18 @@ class DODCharacterServiceWithRulesTest {
 
   @Test
   void getCharacterReturnChar(){
-    BeingDTO testChar = new BeingDTO("bilbo",new RaceDTO("tiefling"));
-    Being newBeing = charService.createCharacter(testChar);
-    assertThat(newBeing.getName()).isEqualTo("bilbo_NAME_CHANGED");
-    assertThat(newBeing.getRace().getName()).isEqualTo("tiefling");
+    CharacterDTO testChar = new CharacterDTO("bilbo",new RaceDTO("human", null), null);
+    DODCharacter newBeing = charService.createCharacter(testChar);
+    assertThat(newBeing.getBaseTraits()).isNotNull();
+    assertThat(newBeing.getBaseTraits()).isNotEmpty();
+    assertThat(newBeing.getRace().getName()).isEqualTo("human");
   }
 
   @Test
   void getCharacterNonExistingRaceThrowsException(){
-    BeingDTO testChar = new BeingDTO("bilbo",new RaceDTO("hobbit"));
+    CharacterDTO testChar = new CharacterDTO("bilbo",new RaceDTO("hobbit", null),null);
     RaceNotFoundException thrown = Assertions.assertThrows(RaceNotFoundException.class, () -> {
-      Being newBeing = charService.createCharacter(testChar);
+      DODCharacter newBeing = charService.createCharacter(testChar);
     });
   }
 }

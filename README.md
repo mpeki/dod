@@ -26,3 +26,6 @@ See the [CHANGELOG](CHANGELOG.md).
 Currently using the [semantic-release project](https://semantic-release.gitbook.io/semantic-release/) to manage versions, 
 since the project is being build with Gradle, the https://www.npmjs.com/package/gradle-semantic-release-plugin has been 
 applied.
+
+## Liquibase
+To reset the initial schema creation yaml (01-create-schema.yaml) run: `gradle liquibaseDiffChangeLog`

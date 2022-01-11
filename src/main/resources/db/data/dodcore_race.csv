@@ -1,2 +1,2 @@
-id,name
-1,tiefling
+id;name;character_template_id
+1;human;1

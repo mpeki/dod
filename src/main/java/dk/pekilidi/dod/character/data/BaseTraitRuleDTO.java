@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaceDTO {
-    private String name;
-    private CharacterTemplateDTO characterTemplate;
+public class BaseTraitRuleDTO {
+    private String baseTraitName;
+    private String baseTraitDieRoll;
+    private String baseTraitHeroDieRoll;
 }

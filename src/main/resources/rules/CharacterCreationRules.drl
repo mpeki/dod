@@ -1,8 +1,71 @@
-import  dk.pekilidi.dod.character.model.Being;
+import  dk.pekilidi.dod.character.data.CharacterTemplateDTO
+import  dk.pekilidi.dod.character.data.CharacterDTO
+import java.util.Arrays;
+import dk.pekilidi.dod.util.Dice
+import dk.pekilidi.dod.character.data.BaseTraitRuleDTO
+import dk.pekilidi.dod.character.data.BaseTraitDTO
+import java.util.List
+import java.util.Collections
+import java.util.ArrayList;
 
-rule "Bla bla bla rule"
+rule "Set BaseTrait values"
     when
-        being : Being( name!=null );
+        character : dk.pekilidi.dod.character.data.CharacterDTO( baseTraits == null || baseTraits.size() < race.characterTemplate.baseTraitRules.size() );
+        characterTemplate : CharacterTemplateDTO() from character.getRace().getCharacterTemplate()
     then
-        being.setName(being.getName() + "_NAME_CHANGED");
+        for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
+            int eyes = Dice.roll(rule.getBaseTraitDieRoll());
+            BaseTraitDTO baseTrait = new BaseTraitDTO(rule.getBaseTraitName(),eyes,eyes,-1);
+            insert(baseTrait);
+            character.addBaseTrait(baseTrait);
+        }
+        update(character)
+end;
+
+rule "Set Group Value 0"
+    when
+        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 0 && value <= 3);
+    then
+        baseTrait.setGroupValue(0);
+        update(baseTrait)
+end;
+
+rule "Set Group Value 1"
+    when
+        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 4 && value <= 8);
+    then
+        baseTrait.setGroupValue(1);
+        update(baseTrait)
+end;
+
+rule "Set Group Value 2"
+    when
+        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 9 && value <= 12);
+    then
+        baseTrait.setGroupValue(2);
+        update(baseTrait)
+end;
+
+rule "Set Group Value 3"
+    when
+        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 13 && value <= 16);
+    then
+        baseTrait.setGroupValue(3);
+        update(baseTrait)
+end;
+
+rule "Set Group Value 4"
+    when
+        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 17 && value <= 20);
+    then
+        baseTrait.setGroupValue(4);
+        update(baseTrait)
+end;
+
+rule "Set Group Value 5"
+    when
+        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 21 && value <= 25);
+    then
+        baseTrait.setGroupValue(5);
+        update(baseTrait)
 end;
