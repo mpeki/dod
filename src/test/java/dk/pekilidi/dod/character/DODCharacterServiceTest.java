@@ -15,7 +15,7 @@ import liquibase.pro.packaged.T;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DODCharacterServiceTest {
+class DODCharacterServiceTest {
 
   private CharacterRepository charRepo;
   private DODCharacterService charService;
@@ -28,7 +28,7 @@ public class DODCharacterServiceTest {
   }
 
   @Test
-  public void getCharacterReturnChar(){
+  void getCharacterReturnChar(){
     Being testChar = new Being(0L,"kyron",new Race(0L,"tiefling"));
     given(charRepo.findByName("kyron")).willReturn(testChar);
     Being being = charService.getCharacterByName("kyron");
@@ -37,7 +37,7 @@ public class DODCharacterServiceTest {
   }
 
   @Test
-  public void testPojoMethods(){
+  void testPojoMethods(){
     Race testRace = new Race(12L,"tiefling");
     Being testChar = new Being(13L,"kyron",testRace);
     given(charRepo.findByName("kyron")).willReturn(testChar);
@@ -48,7 +48,7 @@ public class DODCharacterServiceTest {
 
 
   @Test
-  public void getCharacterReturnCharNotFound() throws Exception {
+  void getCharacterReturnCharNotFound() throws Exception {
     assertThrows(CharacterNotFoundException.class, () -> {
       charService.getCharacterByName("abe");
     });
