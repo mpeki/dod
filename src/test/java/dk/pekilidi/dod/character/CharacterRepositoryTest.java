@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 @DataJpaTest(excludeAutoConfiguration = LiquibaseAutoConfiguration.class)
-public class CharacterRepositoryTest {
+class CharacterRepositoryTest {
 
   @Autowired
   private CharacterRepository repository;
@@ -19,7 +19,7 @@ public class CharacterRepositoryTest {
   private TestEntityManager entityManager;
 
   @Test
-  public void getCharacterReturnsChar() throws Exception {
+  void getCharacterReturnsChar() throws Exception {
 
     Race race = entityManager.persist(new Race(null,"tiefling"));
     entityManager.persistFlushFind(new Being(null,"kyron",race));

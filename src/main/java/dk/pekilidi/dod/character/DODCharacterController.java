@@ -16,11 +16,11 @@ public class DODCharacterController {
   private DODCharacterService characterService;
 
   @GetMapping("/char/{name}")
-  private Being getCharacter(@PathVariable String name){
+  public Being getCharacter(@PathVariable String name){
     return characterService.getCharacterByName(name);
   }
 
   @ExceptionHandler
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  private void characterNotFoundHandler(CharacterNotFoundException ex) {}
+  public void characterNotFoundHandler(CharacterNotFoundException ex) { /* Just need the HttpStatus.NOT_FOUND */ }
 }

@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @WebMvcTest(DODCharacterController.class)
-public class DODCharacterControllerTest {
+class DODCharacterControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -23,7 +23,7 @@ public class DODCharacterControllerTest {
   private DODCharacterService characterService;
 
   @Test
-  public void getCharacterShouldReturnChar() throws Exception {
+  void getCharacterShouldReturnChar() throws Exception {
 
     given(characterService.getCharacterByName(anyString())).willReturn(new Being(0L,"kyron",new Race(0L,"tiefling")));
 
@@ -34,7 +34,7 @@ public class DODCharacterControllerTest {
   }
 
   @Test
-  public void getCharacterNotFound() throws Exception {
+  void getCharacterNotFound() throws Exception {
     given(characterService.getCharacterByName(anyString())).willThrow(new CharacterNotFoundException());
     mockMvc.perform(MockMvcRequestBuilders.get("/char/kyron"))
         .andExpect(status().isNotFound());

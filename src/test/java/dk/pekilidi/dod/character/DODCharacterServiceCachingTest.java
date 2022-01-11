@@ -16,14 +16,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @AutoConfigureTestDatabase
-public class DODCharacterServiceCachingTest {
+class DODCharacterServiceCachingTest {
   @Autowired
   private DODCharacterService service;
   @MockBean
   private CharacterRepository charRepo;
 
   @Test
-  public void testCharServiceCache() throws Exception{
+  void testCharServiceCache() throws Exception{
     given(charRepo.findByName(anyString())).willReturn(new Being(0L,"kyron",new Race(0L,"tiefling")));
     service.getCharacterByName("kyron");
     service.getCharacterByName("kyron");

@@ -13,13 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-public class DodApplicationIntegrationTest {
+class DodApplicationIntegrationTest {
 
   @Autowired
   private TestRestTemplate restTemplate;
 
   @Test
-  public void testGetNamedCharacter() throws Exception {
+  void testGetNamedCharacter() throws Exception {
 
     //arrange
     //act

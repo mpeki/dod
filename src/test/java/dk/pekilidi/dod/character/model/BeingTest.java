@@ -4,15 +4,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Test;
 
-public class BeingTest {
+class BeingTest {
 
   RandomObjectFiller rof = new RandomObjectFiller();
 
   @Test
   public void testConstructors() throws Exception {
     Being firstObject = new Being();
+    Long id = firstObject.getId();
+    String name = firstObject.getName();
+    Race race = firstObject.getRace();
+
     assertThrows(NullPointerException.class, () -> {
-      new Being(firstObject.getId(), firstObject.getName(), firstObject.getRace());
+      new Being(id, name, race);
     });
     assertThrows(NullPointerException.class, () -> {
       new Being(0L, "test", null);
@@ -20,7 +24,7 @@ public class BeingTest {
   }
 
   @Test
-  public void testExpectedNullPointers() throws Exception {
+  void testExpectedNullPointers() throws Exception {
     Being firstObject = new Being();
     assertThrows(NullPointerException.class, () -> {
       firstObject.setName(null);
@@ -33,7 +37,7 @@ public class BeingTest {
 
 
   @Test
-  public void testEquals() throws Exception {
+  void testEquals() throws Exception {
     Being firstObject = rof.createAndFill(Being.class);
     Being secondObject = rof.createAndFill(Being.class);
     assertNotEquals(firstObject,secondObject);
@@ -44,7 +48,7 @@ public class BeingTest {
   }
 
   @Test
-  public void testHashCode() throws Exception {
+  void testHashCode() throws Exception {
     Being firstObject = rof.createAndFill(Being.class);
     Being secondObject = rof.createAndFill(Being.class);
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());

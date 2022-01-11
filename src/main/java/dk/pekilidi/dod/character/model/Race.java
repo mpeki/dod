@@ -1,12 +1,10 @@
 package dk.pekilidi.dod.character.model;
 
+import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
