@@ -42,8 +42,9 @@ class DODCharacterServiceTest {
     Being testChar = new Being(13L,"kyron",testRace);
     given(charRepo.findByName("kyron")).willReturn(testChar);
     Being being = charService.getCharacterByName("kyron");
-    assertThat(being).isEqualTo(testChar);
-    assertThat(being).hasToString(testChar.toString());
+    assertThat(being)
+            .isEqualTo(testChar)
+            .hasToString(testChar.toString());
   }
 
 

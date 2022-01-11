@@ -9,7 +9,7 @@ class BeingTest {
   RandomObjectFiller rof = new RandomObjectFiller();
 
   @Test
-  public void testConstructors() throws Exception {
+  void testConstructors() throws Exception {
     Being firstObject = new Being();
     Long id = firstObject.getId();
     String name = firstObject.getName();
