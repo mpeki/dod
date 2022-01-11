@@ -40,7 +40,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
-      - name: Install semantic-release dependencies
+      - name: Prepare semantic-release
         run: npm install
       - name: Do semantic-release
         env:
