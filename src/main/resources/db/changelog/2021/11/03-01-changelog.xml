@@ -7,7 +7,7 @@
   objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
   <changeSet id="1635926915495-1" author="msp (generated)">
     <createTable tableName="being">
-      <column name="id" type="BIGINT">
+      <column name="id" type="BIGINT" autoIncrement="true">
         <constraints nullable="false" primaryKey="true" primaryKeyName="pk_being"/>
       </column>
       <column name="name" type="VARCHAR(255)"/>
@@ -16,7 +16,7 @@
   </changeSet>
   <changeSet id="1635926915495-2" author="msp (generated)">
     <createTable tableName="race">
-      <column name="id" type="BIGINT">
+      <column name="id" type="BIGINT" autoIncrement="true">
         <constraints nullable="false" primaryKey="true" primaryKeyName="pk_race"/>
       </column>
       <column name="name" type="VARCHAR(255)"/>

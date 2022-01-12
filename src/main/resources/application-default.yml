@@ -1,8 +1,6 @@
 spring:
   application:
     name: dod
-  profiles:
-    active: ${ACTIVE_PROFILES}
   cloud:
     config:
       enabled: false
@@ -16,23 +14,21 @@ spring:
   #   Database Settings
   ###
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    platform: h2
+    url: jdbc:mysql://db:3306/dodcore
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: sa
-    password:
-    driverClassName: org.h2.Driver
+    password: example
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: none
       use-new-id-generator-mappings: false
     properties:
       hibernate:
-        enable_lazy_load_no_trans: true
+        enable_lazy_load_no_trans: false
         show_sql: true
         use_sql_comments: true
         format_sql: true
         cache:
           use_second_level_cache: false
-          use_query_cache: false
     open-in-view: true

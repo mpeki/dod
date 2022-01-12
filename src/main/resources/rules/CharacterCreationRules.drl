@@ -1,0 +1,8 @@
+import  dk.pekilidi.dod.character.model.Being;
+
+rule "Bla bla bla rule"
+    when
+        being : Being( name!=null );
+    then
+        being.setName(being.getName() + "_NAME_CHANGED");
+end;

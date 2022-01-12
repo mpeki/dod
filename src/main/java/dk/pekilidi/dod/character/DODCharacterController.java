@@ -1,13 +1,10 @@
 package dk.pekilidi.dod.character;
 
+import dk.pekilidi.dod.character.data.BeingDTO;
 import dk.pekilidi.dod.character.model.Being;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -18,6 +15,11 @@ public class DODCharacterController {
   @GetMapping("/char/{name}")
   public Being getCharacter(@PathVariable String name){
     return characterService.getCharacterByName(name);
+  }
+
+  @PostMapping("/char")
+  Being postCharacter(@RequestBody BeingDTO newBeing) {
+    return characterService.createCharacter(newBeing);
   }
 
   @ExceptionHandler
