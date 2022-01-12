@@ -47,7 +47,6 @@ class DODCharacterServiceTest {
             .hasToString(testChar.toString());
   }
 
-
   @Test
   void getCharacterReturnCharNotFound() throws Exception {
     assertThrows(CharacterNotFoundException.class, () -> {
