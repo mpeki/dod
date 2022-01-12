@@ -1,3 +1,10 @@
+# [1.0.0-alpha.2](https://github.com/mpeki/dod/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-01-12)
+
+
+### Features
+
+* **DOD-17:** Added Drools Support ([4542033](https://github.com/mpeki/dod/commit/454203310c3a3e8e4999165d33212518cba3b8b8))
+
 # 1.0.0-alpha.1 (2022-01-10)
 
 
