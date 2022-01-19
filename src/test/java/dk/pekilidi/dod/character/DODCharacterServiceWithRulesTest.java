@@ -1,7 +1,6 @@
 package dk.pekilidi.dod.character;
 
 import dk.pekilidi.dod.DodApplication;
-import dk.pekilidi.dod.character.data.BaseTraitDTO;
 import dk.pekilidi.dod.character.data.CharacterDTO;
 import dk.pekilidi.dod.character.data.RaceDTO;
 import dk.pekilidi.dod.character.model.DODCharacter;
@@ -23,7 +22,7 @@ class DODCharacterServiceWithRulesTest {
   @Test
   void getCharacterReturnChar(){
     CharacterDTO testChar = new CharacterDTO("bilbo",new RaceDTO("human", null), null);
-    DODCharacter newBeing = charService.createCharacter(testChar);
+    CharacterDTO newBeing = charService.createCharacter(testChar);
     assertThat(newBeing.getBaseTraits()).isNotNull();
     assertThat(newBeing.getBaseTraits()).isNotEmpty();
     assertThat(newBeing.getRace().getName()).isEqualTo("human");
@@ -33,7 +32,7 @@ class DODCharacterServiceWithRulesTest {
   void getCharacterNonExistingRaceThrowsException(){
     CharacterDTO testChar = new CharacterDTO("bilbo",new RaceDTO("hobbit", null),null);
     RaceNotFoundException thrown = Assertions.assertThrows(RaceNotFoundException.class, () -> {
-      DODCharacter newBeing = charService.createCharacter(testChar);
+      CharacterDTO newBeing = charService.createCharacter(testChar);
     });
   }
 }

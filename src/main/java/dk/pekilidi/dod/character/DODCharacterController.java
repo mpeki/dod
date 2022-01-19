@@ -18,7 +18,7 @@ public class DODCharacterController {
   }
 
   @PostMapping("/char")
-  DODCharacter postCharacter(@RequestBody CharacterDTO newCharacter) {
+  CharacterDTO postCharacter(@RequestBody CharacterDTO newCharacter) {
     return characterService.createCharacter(newCharacter);
   }
 

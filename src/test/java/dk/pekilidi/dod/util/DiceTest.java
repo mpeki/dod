@@ -14,7 +14,7 @@ class DiceTest {
     @Test
     void testDie6Rolled3timesPlus3(){
         int result = Dice.roll("3t6+3");
-        assertTrue(result >= 3 && result <= 18);
+        assertTrue(result >= 6 && result <= 21);
     }
 
     @Test

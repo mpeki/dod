@@ -1,11 +1,11 @@
 package dk.pekilidi.utils;
 
+import dk.pekilidi.dod.character.BaseTraitName;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigInteger;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class RandomObjectFiller {
 
@@ -16,7 +16,7 @@ public class RandomObjectFiller {
     for(Field field: clazz.getDeclaredFields()) {
       field.setAccessible(true);
       Object value = null;
-      if(field.getType().equals(List.class)){
+      if(field.getType().equals(List.class) || field.getType().equals(Map.class)){
         value = getRandomValueForField(clazz,field);
       } else {
         value = getRandomValueForField(field);
@@ -35,6 +35,12 @@ public class RandomObjectFiller {
       ParameterizedType stringListType = (ParameterizedType) f.getGenericType();
       Class<?> listClass = (Class<?>) stringListType.getActualTypeArguments()[0];
       return List.of(listClass.getDeclaredConstructor().newInstance());
+    }
+    else if(type.equals(Map.class)){
+//      Field f = clazz.getDeclaredField(field.getName());
+//      ParameterizedType stringListType = (ParameterizedType) f.getGenericType();
+//      Class<?> listClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+      return Collections.emptyMap();
     }
     return createAndFill(type);
   }

@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.character.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dk.pekilidi.dod.character.BaseTraitName;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +26,9 @@ public class BaseTrait implements Serializable {
     private DODCharacter character;
 
     @NonNull
-    private String traitName;
+    @Enumerated(EnumType.STRING)
+    private BaseTraitName traitName;
+
     private int value;
     private int startValue;
     private int groupValue;
