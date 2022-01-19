@@ -8,9 +8,9 @@ import java.util.List
 import java.util.Collections
 import java.util.ArrayList;
 
-rule "Set BaseTrait values"
+rule "Initialize base traits"
     when
-        character : dk.pekilidi.dod.character.data.CharacterDTO( baseTraits == null || baseTraits.size() < race.characterTemplate.baseTraitRules.size() );
+        character : dk.pekilidi.dod.character.data.CharacterDTO( baseTraits == null );
         characterTemplate : CharacterTemplateDTO() from character.getRace().getCharacterTemplate()
     then
         for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
