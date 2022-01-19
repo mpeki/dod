@@ -1,0 +1,8 @@
+id;base_trait_name;base_trait_die_roll;base_trait_hero_die_roll
+1;strength;3t6;2t6+6
+2;size;3t6;2t6+6
+3;stamina;3t6;2t6+6
+4;dexterity;3t6;2t6+6
+5;intelligence;3t6;2t6+6
+6;psyche;3t6;2t6+6
+7;charisma;1t20;1t20

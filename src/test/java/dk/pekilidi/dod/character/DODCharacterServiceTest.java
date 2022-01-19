@@ -7,11 +7,10 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import dk.pekilidi.dod.character.model.Being;
+import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.character.model.Race;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import liquibase.pro.packaged.T;
+
+import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,20 +27,27 @@ class DODCharacterServiceTest {
   }
 
   @Test
-  void getCharacterReturnChar(){
-    Being testChar = new Being(0L,"kyron",new Race(0L,"tiefling"));
+  void getCharacterReturnChar() throws Exception {
+    DODCharacter testChar = new RandomObjectFiller().createAndFill(DODCharacter.class);
+    testChar.setRace(new Race(null,"tiefling",null));
+    testChar.setName("kyron");
     given(charRepo.findByName("kyron")).willReturn(testChar);
-    Being being = charService.getCharacterByName("kyron");
+    DODCharacter being = charService.getCharacterByName("kyron");
     assertThat(being.getName()).isEqualTo("kyron");
     assertThat(being.getRace().getName()).isEqualTo("tiefling");
   }
 
   @Test
-  void testPojoMethods(){
-    Race testRace = new Race(12L,"tiefling");
-    Being testChar = new Being(13L,"kyron",testRace);
+  void testPojoMethods() throws Exception {
+    RandomObjectFiller objFiller = new RandomObjectFiller();
+    DODCharacter testChar = objFiller.createAndFill(DODCharacter.class);
+    Race testRace = objFiller.createAndFill(Race.class);
+    testRace.setName("tiefling");
+    testChar.setRace(testRace);
+    testChar.setName("kyron");
+
     given(charRepo.findByName("kyron")).willReturn(testChar);
-    Being being = charService.getCharacterByName("kyron");
+    DODCharacter being = charService.getCharacterByName("kyron");
     assertThat(being)
             .isEqualTo(testChar)
             .hasToString(testChar.toString());

@@ -1,7 +1,8 @@
 package dk.pekilidi.dod.character;
 
-import dk.pekilidi.dod.character.data.BeingDTO;
-import dk.pekilidi.dod.character.model.Being;
+import dk.pekilidi.dod.character.data.CharacterDTO;
+import dk.pekilidi.dod.character.data.RaceDTO;
+import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.character.model.Race;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DODCharacterService {
@@ -29,8 +31,8 @@ public class DODCharacterService {
   }
 
   @Cacheable("characters")
-  public Being getCharacterByName(String name) {
-    Being being = characterRepository.findByName(name);
+  public DODCharacter getCharacterByName(String name) {
+    DODCharacter being = characterRepository.findByName(name);
     if(being == null){
       throw new CharacterNotFoundException();
     }
@@ -46,17 +48,19 @@ public class DODCharacterService {
     return race;
   }
 
-
-  public Being createCharacter(BeingDTO newBeing){
-    Race race = getRaceByName(newBeing.getRace().getName());
-    Being beingEntity = modelMapper.map(newBeing, Being.class);
-    beingEntity.setRace(race);
+  @Transactional
+  public DODCharacter createCharacter(CharacterDTO newCharacter){
+    Race race = getRaceByName(newCharacter.getRace().getName());
+    newCharacter.setRace(modelMapper.map(race, RaceDTO.class));
     KieSession kieSession = kieContainer.newKieSession();
-    kieSession.insert(beingEntity);
+    kieSession.insert(newCharacter);
     kieSession.fireAllRules();
     kieSession.dispose();
-    beingEntity = characterRepository.save(beingEntity);
+    DODCharacter result = modelMapper.map(newCharacter, DODCharacter.class);
+    result.setRace(race);
+    result.setBaseTraits(result.getBaseTraits());
+    result = characterRepository.save(result);
 
-    return beingEntity;
+     return result;
   }
 }

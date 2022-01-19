@@ -6,10 +6,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dk.pekilidi.dod.character.data.BeingDTO;
+import dk.pekilidi.dod.character.data.CharacterDTO;
 import dk.pekilidi.dod.character.data.RaceDTO;
-import dk.pekilidi.dod.character.model.Being;
+import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.character.model.Race;
+import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,8 +34,10 @@ class DODCharacterControllerTest {
 
   @Test
   void getCharacterShouldReturnChar() throws Exception {
-
-    given(characterService.getCharacterByName(anyString())).willReturn(new Being(0L,"kyron",new Race(0L,"tiefling")));
+    DODCharacter testBeing = new RandomObjectFiller().createAndFill(DODCharacter.class);
+    testBeing.setName("kyron");
+    testBeing.setRace(new Race(null,"tiefling", null));
+    given(characterService.getCharacterByName(anyString())).willReturn(testBeing);
 
     mockMvc.perform(MockMvcRequestBuilders.get("/char/kyron"))
         .andExpect(status().isOk())
@@ -53,8 +56,11 @@ class DODCharacterControllerTest {
   @Test
   void postCharacterShouldReturnChar() throws Exception {
 
-    BeingDTO being = new BeingDTO("hans",new RaceDTO("tiefling"));
-    given(characterService.createCharacter(being)).willReturn(new Being(0L,"hans",new Race(0L,"tiefling")));
+    DODCharacter resultBeing = new DODCharacter();
+    resultBeing.setName("hans");
+    resultBeing.setRace(new Race(null,"tiefling",null));
+    CharacterDTO being = new CharacterDTO("hans", new RaceDTO("tiefling",null), null);
+    given(characterService.createCharacter(being)).willReturn(resultBeing);
     mockMvc.perform(MockMvcRequestBuilders.post("/char")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(being)))

@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BeingDTO {
-
-    private String name;
-    private RaceDTO race;
+public class BaseTraitDTO {
+    private String traitName;
+    private int value = -1;
+    private int startValue = -1;
+    private int groupValue = -1;
 }

@@ -1,12 +1,12 @@
 plugins {
+	id 'java'
+	id 'maven-publish'
+	id 'jacoco'
 	id 'org.springframework.boot' version '2.6.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'org.asciidoctor.convert' version '1.5.8'
-	id 'java'
-	id 'jacoco'
+//	id 'org.asciidoctor.convert' version '1.5.8'
 	id 'org.sonarqube' version '3.3'
 	id 'com.google.cloud.tools.jib' version '3.1.4'
-	id 'maven-publish'
 }
 
 group = 'dk.pekilidi'
@@ -34,7 +34,7 @@ dependencies {
 	implementation 'org.liquibase:liquibase-core'
 	implementation 'org.drools:drools-core:7.63.0.Final'
 	implementation 'org.kie:kie-spring:7.63.0.Final'
-	implementation 'mysql:mysql-connector-java'
+	implementation 'mysql:mysql-connector-java:8.0.25'
 	implementation 'org.modelmapper:modelmapper:3.0.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -64,7 +64,7 @@ test {
 jacocoTestReport {
 	dependsOn test
 	reports {
-		xml.enabled true
+		xml.required = true
 	}
 }
 
@@ -89,10 +89,10 @@ jacocoTestCoverageVerification {
 	}
 }
 
-asciidoctor {
-	inputs.dir snippetsDir
-	dependsOn test
-}
+//asciidoctor {
+//	inputs.dir snippetsDir
+//	dependsOn test
+//}
 
 publishing {
 	publications {
@@ -121,3 +121,5 @@ jib {
 		image = 'macp/dod'
 	}
 }
+
+apply from: 'gradle/liquibase.gradle'

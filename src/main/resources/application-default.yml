@@ -19,7 +19,7 @@ spring:
     username: sa
     password: example
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none
       use-new-id-generator-mappings: false

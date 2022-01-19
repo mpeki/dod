@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/45177f65/entityManagerFactory/dod.main/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="117.0" y="0.0">BaseTraitRule#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/BaseTraitRule.java</node>
+    <node x="136.5" y="180.0">BaseTraitTemplate#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/BaseTraitTemplate.java</node>
+    <node x="175.0" y="348.0">Race#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/Race.java</node>
+    <node x="96.0" y="516.0">Character#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/Character.java</node>
+    <node x="399.0" y="0.0">AbstractPersistable#jar:///home/msp/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.6.0/bd08ea8db76c7c82397307dda2e253180c31b7ec/spring-data-jpa-2.6.0.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class</node>
+    <node x="0.0" y="312.0">BaseTrait#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/BaseTrait.java</node>
+    <node x="400.5" y="108.0">AbstractAuditable#jar:///home/msp/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.6.0/bd08ea8db76c7c82397307dda2e253180c31b7ec/spring-data-jpa-2.6.0.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Character#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/Character.java" target="BaseTrait#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/BaseTrait.java" relationship="RELATION">
+      <point x="0.0" y="-41.0" />
+      <point x="156.5" y="491.0" />
+      <point x="77.5" y="491.0" />
+      <point x="0.0" y="77.0" />
+    </edge>
+    <edge source="Race#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/Race.java" target="BaseTraitTemplate#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/BaseTraitTemplate.java" relationship="RELATION">
+      <point x="0.0" y="-41.0" />
+      <point x="0.0" y="41.0" />
+    </edge>
+    <edge source="Character#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/Character.java" target="Race#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/Race.java" relationship="RELATION">
+      <point x="0.0" y="-41.0" />
+      <point x="156.5" y="491.0" />
+      <point x="235.5" y="491.0" />
+      <point x="0.0" y="41.0" />
+    </edge>
+    <edge source="BaseTraitTemplate#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/BaseTraitTemplate.java" target="BaseTraitRule#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/BaseTraitRule.java" relationship="RELATION">
+      <point x="0.0" y="-41.0" />
+      <point x="0.0" y="65.0" />
+    </edge>
+    <edge source="AbstractAuditable#jar:///home/msp/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.6.0/bd08ea8db76c7c82397307dda2e253180c31b7ec/spring-data-jpa-2.6.0.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="AbstractPersistable#jar:///home/msp/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.6.0/bd08ea8db76c7c82397307dda2e253180c31b7ec/spring-data-jpa-2.6.0.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class" relationship="INHERITANCE">
+      <point x="0.0" y="-41.0" />
+      <point x="0.0" y="29.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="300.5" y="299.0" />
+  <SelectedNodes>
+    <node>Character#file:///home/msp/Dev/msp/github.com/dod/src/main/java/dk/pekilidi/dod/character/model/Character.java</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Embeddables</Category>
+    <Category>Properties</Category>
+    <Category>Superclasses</Category>
+  </Categories>
+</Diagram>
+

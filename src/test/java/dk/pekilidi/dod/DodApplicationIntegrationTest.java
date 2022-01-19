@@ -3,7 +3,7 @@ package dk.pekilidi.dod;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-import dk.pekilidi.dod.character.model.Being;
+import dk.pekilidi.dod.character.model.DODCharacter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,12 @@ class DodApplicationIntegrationTest {
 
     //arrange
     //act
-    ResponseEntity<Being> response = restTemplate.getForEntity("/char/{name}", Being.class,"kyron");
-    Being character = response.getBody();
+    ResponseEntity<DODCharacter> response = restTemplate.getForEntity("/char/{name}", DODCharacter.class,"vokan fagerhård");
+    DODCharacter character = response.getBody();
     //assert
+    assert character != null;
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assertThat(character.getName()).isEqualTo("kyron");
-    assertThat(character.getRace().getName()).isEqualTo("tiefling");
+    assertThat(character.getName()).isEqualTo("vokan fagerhård");
+    assertThat(character.getRace().getName()).isEqualTo("human");
   }
 }
