@@ -7,6 +7,9 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import dk.pekilidi.dod.character.data.BaseTraitDTO;
+import dk.pekilidi.dod.character.data.CharacterDTO;
+import dk.pekilidi.dod.character.data.RaceDTO;
 import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.character.model.Race;
 
@@ -35,6 +38,15 @@ class DODCharacterServiceTest {
     DODCharacter being = charService.getCharacterByName("kyron");
     assertThat(being.getName()).isEqualTo("kyron");
     assertThat(being.getRace().getName()).isEqualTo("tiefling");
+  }
+
+  @Test
+  void addDuplicateBaseTrait(){
+    CharacterDTO testChar = new CharacterDTO("bilbo",new RaceDTO("human", null), null);
+    testChar.addBaseTrait(new BaseTraitDTO("strength",0,0,0));
+    assertThat(testChar.getBaseTraits().size()).isEqualTo(1);
+    testChar.addBaseTrait(new BaseTraitDTO("strength",0,0,0));
+    assertThat(testChar.getBaseTraits().size()).isEqualTo(1);
   }
 
   @Test
