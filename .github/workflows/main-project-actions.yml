@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build and verify
-        run: ./gradlew build sonarqube --info
+        run: ./gradlew test jacocoTestCoverageVerification sonarqube --info
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
