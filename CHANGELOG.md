@@ -1,3 +1,10 @@
+# [1.0.0-alpha.3](https://github.com/mpeki/dod/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-01-19)
+
+
+### Features
+
+* **DOD-15:** Datamodel expanded ([968e763](https://github.com/mpeki/dod/commit/968e763bc51722c8b32c438841772df49c0f7dd8))
+
 # [1.0.0-alpha.2](https://github.com/mpeki/dod/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-01-12)
 
 
