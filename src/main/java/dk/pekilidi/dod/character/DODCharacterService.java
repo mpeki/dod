@@ -49,18 +49,18 @@ public class DODCharacterService {
   }
 
   @Transactional
-  public DODCharacter createCharacter(CharacterDTO newCharacter){
+  public CharacterDTO createCharacter(CharacterDTO newCharacter){
     Race race = getRaceByName(newCharacter.getRace().getName());
     newCharacter.setRace(modelMapper.map(race, RaceDTO.class));
     KieSession kieSession = kieContainer.newKieSession();
     kieSession.insert(newCharacter);
     kieSession.fireAllRules();
     kieSession.dispose();
-    DODCharacter result = modelMapper.map(newCharacter, DODCharacter.class);
-    result.setRace(race);
-    result.setBaseTraits(result.getBaseTraits());
-    result = characterRepository.save(result);
+    DODCharacter characterEntity = modelMapper.map(newCharacter, DODCharacter.class);
+    characterEntity.setRace(race);
+    characterEntity.setBaseTraits(characterEntity.getBaseTraits());
+    characterRepository.save(characterEntity);
 
-     return result;
+     return newCharacter;
   }
 }

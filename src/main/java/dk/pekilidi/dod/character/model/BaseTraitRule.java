@@ -1,8 +1,10 @@
 package dk.pekilidi.dod.character.model;
 
+import dk.pekilidi.dod.character.BaseTraitName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +21,10 @@ public class BaseTraitRule implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String baseTraitName;
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private BaseTraitName baseTraitName;
+
     private String baseTraitDieRoll;
     private String baseTraitHeroDieRoll;
 }

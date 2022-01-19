@@ -56,9 +56,9 @@ class DODCharacterControllerTest {
   @Test
   void postCharacterShouldReturnChar() throws Exception {
 
-    DODCharacter resultBeing = new DODCharacter();
+    CharacterDTO resultBeing = new CharacterDTO();
     resultBeing.setName("hans");
-    resultBeing.setRace(new Race(null,"tiefling",null));
+    resultBeing.setRace(new RaceDTO("tiefling",null));
     CharacterDTO being = new CharacterDTO("hans", new RaceDTO("tiefling",null), null);
     given(characterService.createCharacter(being)).willReturn(resultBeing);
     mockMvc.perform(MockMvcRequestBuilders.post("/char")

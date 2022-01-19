@@ -16,11 +16,18 @@ class BeingTest {
     Race race = firstObject.getRace();
 
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter(id,name,null, race);
+      new DODCharacter(id,name,null, race,null, null, -1);
     });
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter(null, "test",null, null);
+      new DODCharacter("test",null);
     });
+  }
+
+  @Test
+  void testRequiredArgsConstructor() {
+    DODCharacter newChar = new DODCharacter("Peter",new Race(null, "human", null));
+    assertNotNull(newChar);
+    assertEquals("Peter", newChar.getName());
   }
 
   @Test
@@ -38,7 +45,8 @@ class BeingTest {
     DODCharacter firstObject = rof.createAndFill(DODCharacter.class);
     DODCharacter secondObject = rof.createAndFill(DODCharacter.class);
     assertNotEquals(firstObject,secondObject);
-    DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(),firstObject.getBaseTraits(), firstObject.getRace());
+    DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(),firstObject.getBaseTraits(),
+            firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints());
     assertEquals(firstObject,copied);
     copied.setName("abe");
     assertNotEquals(firstObject,copied);
@@ -49,9 +57,10 @@ class BeingTest {
     DODCharacter firstObject = rof.createAndFill(DODCharacter.class);
     DODCharacter secondObject = rof.createAndFill(DODCharacter.class);
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
-    DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(),firstObject.getBaseTraits(), firstObject.getRace());
+    DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(),firstObject.getBaseTraits(),
+            firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints());
     assertEquals(firstObject.hashCode(), copied.hashCode());
-    copied.setName("abe");
+    copied.setName("Heman");
     assertNotEquals(firstObject.hashCode(), copied.hashCode());
   }
 }

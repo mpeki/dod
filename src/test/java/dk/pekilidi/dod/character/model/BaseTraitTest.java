@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.character.model;
 
+import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ class BaseTraitTest {
   void testConstructors() throws Exception {
     BaseTrait firstObject = new BaseTrait();
     Long id = firstObject.getId();
-    String traitName = firstObject.getTraitName();
+    BaseTraitName traitName = firstObject.getTraitName();
     DODCharacter character = firstObject.getCharacter();
 
     assertThrows(NullPointerException.class, () -> {
@@ -41,18 +42,19 @@ class BaseTraitTest {
     assertNotEquals(firstObject,secondObject);
     BaseTrait copied = new BaseTrait(firstObject.getId(), firstObject.getCharacter(),firstObject.getTraitName(), firstObject.getValue(), firstObject.getStartValue(), firstObject.getGroupValue());
     assertEquals(firstObject,copied);
-    copied.setTraitName("abe");
+    copied.setValue(12);
     assertNotEquals(firstObject,copied);
   }
 
   @Test
   void testHashCode() throws Exception {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
+    firstObject.setTraitName(BaseTraitName.SIZE);
     BaseTrait secondObject = rof.createAndFill(BaseTrait.class);
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
     BaseTrait copied = new BaseTrait(firstObject.getId(), firstObject.getCharacter(),firstObject.getTraitName(), firstObject.getValue(), firstObject.getStartValue(), firstObject.getGroupValue());
     assertEquals(firstObject.hashCode(), copied.hashCode());
-    copied.setTraitName("abe");
+    copied.setTraitName(BaseTraitName.STRENGTH);
     assertNotEquals(firstObject.hashCode(), copied.hashCode());
   }
 }

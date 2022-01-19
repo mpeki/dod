@@ -6,7 +6,10 @@ import dk.pekilidi.dod.character.data.BaseTraitRuleDTO
 import dk.pekilidi.dod.character.data.BaseTraitDTO
 import java.util.List
 import java.util.Collections
-import java.util.ArrayList;
+import java.util.ArrayList
+import dk.pekilidi.dod.character.CharacterState;
+import dk.pekilidi.dod.character.AgeGroup
+import dk.pekilidi.dod.character.BaseTraitName;
 
 rule "Initialize base traits"
     when
@@ -19,12 +22,13 @@ rule "Initialize base traits"
             insert(baseTrait);
             character.addBaseTrait(baseTrait);
         }
+        character.setState(CharacterState.BASE_TRAITS_SET);
         update(character)
 end;
 
 rule "Set Group Value 0"
     when
-        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 0 && value <= 3);
+        baseTrait : BaseTraitDTO( value != -1 && value >= 0 && value <= 3);
     then
         baseTrait.setGroupValue(0);
         update(baseTrait)
@@ -32,7 +36,7 @@ end;
 
 rule "Set Group Value 1"
     when
-        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 4 && value <= 8);
+        baseTrait : BaseTraitDTO( value != -1 && value >= 4 && value <= 8);
     then
         baseTrait.setGroupValue(1);
         update(baseTrait)
@@ -40,7 +44,7 @@ end;
 
 rule "Set Group Value 2"
     when
-        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 9 && value <= 12);
+        baseTrait : BaseTraitDTO( value != -1 && value >= 9 && value <= 12);
     then
         baseTrait.setGroupValue(2);
         update(baseTrait)
@@ -48,7 +52,7 @@ end;
 
 rule "Set Group Value 3"
     when
-        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 13 && value <= 16);
+        baseTrait : BaseTraitDTO( value != -1 && value >= 13 && value <= 16);
     then
         baseTrait.setGroupValue(3);
         update(baseTrait)
@@ -56,7 +60,7 @@ end;
 
 rule "Set Group Value 4"
     when
-        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 17 && value <= 20);
+        baseTrait : BaseTraitDTO( value != -1 && value >= 17 && value <= 20);
     then
         baseTrait.setGroupValue(4);
         update(baseTrait)
@@ -64,8 +68,63 @@ end;
 
 rule "Set Group Value 5"
     when
-        baseTrait : BaseTraitDTO( groupValue == -1 && value != -1 && value >= 21 && value <= 25);
+        baseTrait : BaseTraitDTO( value != -1 && value >= 21 && value <= 25);
     then
         baseTrait.setGroupValue(5);
         update(baseTrait)
+end;
+
+// ----------------------- Age Modifiers ----------------------------------------
+rule "Apply modifiers for age group YOUNG"
+    no-loop
+    when
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.YOUNG);
+    then
+        character.incrementTrait(BaseTraitName.DEXTERITY, 1);
+        character.setBaseSkillPoints(260);
+        character.setState(CharacterState.AGE_GROUP_SET);
+        update(character)
+end;
+
+rule "Apply modifiers for age group MATURE"
+    no-loop
+    when
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.MATURE);
+    then
+        character.incrementTrait(BaseTraitName.PSYCHE, 1);
+        character.setBaseSkillPoints(320);
+        character.setState(CharacterState.AGE_GROUP_SET);
+        update(character)
+end;
+
+rule "Apply modifiers for age group MIDDLE_AGED"
+    no-loop
+    when
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.MIDDLE_AGED);
+    then
+        character.decrementTrait(BaseTraitName.STRENGTH, 2);
+        character.decrementTrait(BaseTraitName.CONSTITUTION, 1);
+        character.decrementTrait(BaseTraitName.DEXTERITY, 1);
+        character.incrementTrait(BaseTraitName.INTELLIGENCE, 1);
+        character.incrementTrait(BaseTraitName.PSYCHE, 1);
+        character.incrementTrait(BaseTraitName.CHARISMA, 1);
+        character.setState(CharacterState.AGE_GROUP_SET);
+        character.setBaseSkillPoints(380);
+        update(character)
+end;
+
+rule "Apply modifiers for age group OLD"
+    no-loop
+    when
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.OLD);
+    then
+        character.decrementTrait(BaseTraitName.STRENGTH, 5);
+        character.decrementTrait(BaseTraitName.CONSTITUTION, 3);
+        character.decrementTrait(BaseTraitName.DEXTERITY, 3);
+        character.incrementTrait(BaseTraitName.INTELLIGENCE, 1);
+        character.incrementTrait(BaseTraitName.PSYCHE, 3);
+        character.incrementTrait(BaseTraitName.CHARISMA, 1);
+        character.setState(CharacterState.AGE_GROUP_SET);
+        character.setBaseSkillPoints(440);
+        update(character)
 end;

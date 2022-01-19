@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.character.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,5 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RaceDTO {
     private String name;
+    @JsonIgnore
     private CharacterTemplateDTO characterTemplate;
 }

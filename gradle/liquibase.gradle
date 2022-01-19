@@ -18,6 +18,9 @@ Properties liquibaseProps = new Properties()
 liquibaseProps.load(new FileInputStream("gradle/liquibase.properties"))
 
 task liquibaseDiffChangelog(type: JavaExec) {
+    doFirst {
+        cleanInitialSchemaFile()
+    }
     group = "liquibase"
 
 
@@ -31,6 +34,10 @@ task liquibaseDiffChangelog(type: JavaExec) {
     args "--url=" + liquibaseProps.getProperty('url')
     args "--driver=" + liquibaseProps.getProperty('driver')
     args "diffChangeLog"
+}
+
+def cleanInitialSchemaFile(){
+    new File(projectDir, "src/main/resources/db/changelog/01-create-schema.yaml").text = ""
 }
 
 def buildTimestamp() {
