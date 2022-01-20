@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,23 +18,32 @@ public class CharacterDTO {
 
     private String name;
     private RaceDTO race;
-    private Map<BaseTraitName,BaseTraitDTO> baseTraits;
+    private EnumMap<BaseTraitName,BaseTraitDTO> baseTraits;
     private AgeGroup ageGroup;
     private CharacterState state;
     private int baseSkillPoints;
 
-    public CharacterDTO(String name, RaceDTO race, Map<BaseTraitName,BaseTraitDTO> baseTraits) {
+    public CharacterDTO(String name, RaceDTO race, EnumMap<BaseTraitName,BaseTraitDTO> baseTraits) {
         this(name,race,baseTraits,AgeGroup.MATURE, CharacterState.NEW, -1);
     }
 
     public void addBaseTrait(BaseTraitDTO baseTrait){
         if(baseTraits == null){
-            baseTraits = new HashMap<>();
+            baseTraits = new EnumMap<>(BaseTraitName.class);
         }
-        baseTraits.putIfAbsent(baseTrait.getTraitName(),baseTrait);
+        baseTraits.putIfAbsent(baseTrait.getTraitName(), baseTrait);
     }
 
     public void incrementTrait(BaseTraitName traitName, int by){
+
+        if(baseTraits != null){
+            baseTraits.computeIfPresent(traitName,  (k, v) -> {
+                v.setGroupValue(v.getValue() + by);
+                return v;
+            });
+        }
+
+
         if(baseTraits != null && baseTraits.containsKey(traitName)){
             BaseTraitDTO updateTrait = baseTraits.get(traitName);
             updateTrait.setValue(updateTrait.getValue() + by);

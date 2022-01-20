@@ -27,7 +27,7 @@ class CharacterDTOTest {
         characterDTO.incrementTrait(BaseTraitName.DEXTERITY, 5);
         characterDTO.decrementTrait(BaseTraitName.DEXTERITY, 5);
         characterDTO.updateBaseTrait(BaseTraitName.DEXTERITY, 7);
-        characterDTO.addBaseTrait(new BaseTraitDTO());
+        characterDTO.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY, 0, 0, 0));
         assertNotNull(characterDTO.getBaseTraits());
     }
 

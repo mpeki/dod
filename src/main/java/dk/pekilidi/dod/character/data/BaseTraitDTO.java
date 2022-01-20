@@ -10,8 +10,8 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseTraitDTO {
-    @NonNull
-    private BaseTraitName traitName;
+
+    @NonNull private BaseTraitName traitName;
     private int value = -1;
     private int startValue = -1;
     private int groupValue = -1;
