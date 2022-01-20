@@ -36,7 +36,7 @@ public class CharacterDTO {
 
         if(baseTraits != null){
             baseTraits.computeIfPresent(traitName,  (k, v) -> {
-                v.setGroupValue(v.getValue() + by);
+                v.setValue(v.getValue() + by);
                 return v;
             });
         }
@@ -45,7 +45,7 @@ public class CharacterDTO {
     public void decrementTrait(BaseTraitName traitName, int by){
         if(baseTraits != null){
             baseTraits.computeIfPresent(traitName,  (k, v) -> {
-                v.setGroupValue(v.getValue() - by); return v;
+                v.setValue(v.getValue() - by); return v;
             });
         }
     }
@@ -53,7 +53,7 @@ public class CharacterDTO {
     public void updateBaseTrait(BaseTraitName traitName, int newValue){
         if(baseTraits != null){
             baseTraits.computeIfPresent(traitName,  (k, v) -> {
-                v.setGroupValue(newValue); return v;
+                v.setValue(newValue); return v;
             });
         }
     }
