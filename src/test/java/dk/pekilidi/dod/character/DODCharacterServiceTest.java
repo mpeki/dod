@@ -44,9 +44,9 @@ class DODCharacterServiceTest {
   void addDuplicateBaseTrait(){
     CharacterDTO testChar = new CharacterDTO("bilbo",new RaceDTO("human", null), null);
     testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY,0,0,0));
-    assertThat(testChar.getBaseTraits().size()).isEqualTo(1);
+    assertThat(testChar.getBaseTraits()).hasSize(1);
     testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY,0,0,0));
-    assertThat(testChar.getBaseTraits().size()).isEqualTo(1);
+    assertThat(testChar.getBaseTraits()).hasSize(1);
   }
 
   @Test

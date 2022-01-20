@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.EnumMap;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -16,12 +17,12 @@ public class CharacterDTO {
 
     private String name;
     private RaceDTO race;
-    private EnumMap<BaseTraitName,BaseTraitDTO> baseTraits;
+    private Map<BaseTraitName,BaseTraitDTO> baseTraits;
     private AgeGroup ageGroup;
     private CharacterState state;
     private int baseSkillPoints;
 
-    public CharacterDTO(String name, RaceDTO race, EnumMap<BaseTraitName,BaseTraitDTO> baseTraits) {
+    public CharacterDTO(String name, RaceDTO race, Map<BaseTraitName,BaseTraitDTO> baseTraits) {
         this(name,race,baseTraits,AgeGroup.MATURE, CharacterState.NEW, -1);
     }
 
@@ -36,8 +37,7 @@ public class CharacterDTO {
 
         if(baseTraits != null){
             baseTraits.computeIfPresent(traitName,  (k, v) -> {
-                v.setValue(v.getValue() + by);
-                return v;
+                v.setValue(v.getValue() + by); return v;
             });
         }
     }
