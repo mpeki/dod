@@ -1,3 +1,11 @@
+# [1.0.0-alpha.3](https://github.com/mpeki/dod/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-01-20)
+
+
+### Features
+
+* **DOD-15:** Datamodel expanded ([968e763](https://github.com/mpeki/dod/commit/968e763bc51722c8b32c438841772df49c0f7dd8))
+* **DOD-19:** Age based modifiers implemented ([edda466](https://github.com/mpeki/dod/commit/edda46619406e9966e3c875fccbd181fdb709813))
+
 # [1.0.0-alpha.4](https://github.com/mpeki/dod/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-01-20)
 
 
