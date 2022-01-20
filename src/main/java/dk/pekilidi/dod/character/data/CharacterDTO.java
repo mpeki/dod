@@ -8,8 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -42,29 +40,21 @@ public class CharacterDTO {
                 return v;
             });
         }
-
-
-        if(baseTraits != null && baseTraits.containsKey(traitName)){
-            BaseTraitDTO updateTrait = baseTraits.get(traitName);
-            updateTrait.setValue(updateTrait.getValue() + by);
-            baseTraits.put(traitName,updateTrait);
-        }
     }
 
     public void decrementTrait(BaseTraitName traitName, int by){
-        if(baseTraits != null && baseTraits.containsKey(traitName)){
-            BaseTraitDTO updateTrait = baseTraits.get(traitName);
-            updateTrait.setValue(updateTrait.getValue() - by);
-            baseTraits.put(traitName,updateTrait);
+        if(baseTraits != null){
+            baseTraits.computeIfPresent(traitName,  (k, v) -> {
+                v.setGroupValue(v.getValue() - by); return v;
+            });
         }
     }
 
-
     public void updateBaseTrait(BaseTraitName traitName, int newValue){
-        if(baseTraits != null && baseTraits.containsKey(traitName)){
-            BaseTraitDTO updateTrait = baseTraits.get(traitName);
-            updateTrait.setValue(newValue);
-            baseTraits.put(traitName,updateTrait);
+        if(baseTraits != null){
+            baseTraits.computeIfPresent(traitName,  (k, v) -> {
+                v.setGroupValue(newValue); return v;
+            });
         }
     }
 
