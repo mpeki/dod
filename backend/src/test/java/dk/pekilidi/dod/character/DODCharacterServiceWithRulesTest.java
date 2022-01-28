@@ -3,7 +3,6 @@ package dk.pekilidi.dod.character;
 import dk.pekilidi.dod.DodApplication;
 import dk.pekilidi.dod.character.data.CharacterDTO;
 import dk.pekilidi.dod.character.data.RaceDTO;
-import dk.pekilidi.dod.character.model.DODCharacter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

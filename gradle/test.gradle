@@ -1,0 +1,13 @@
+apply plugin: 'jacoco'
+apply plugin: 'java'
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+}
+
+test { useJUnitPlatform() }
+
+tasks.named('jacocoTestReport').configure {
+    dependsOn tasks.named('check')
+}

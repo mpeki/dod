@@ -1,7 +1,5 @@
 package dk.pekilidi.utils;
 
-import dk.pekilidi.dod.character.BaseTraitName;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigInteger;
