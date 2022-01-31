@@ -14,10 +14,13 @@ jib {
     //Why this? https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#why-is-my-image-created-48-years-ago
     jib.container.creationTime = 'USE_CURRENT_TIMESTAMP'
     from {
-        image ='adoptopenjdk:11-jre'
+        image ='adoptopenjdk@sha256:ad6431b2e2a6f8016aa6d79c3f588783af9fdc06cafe131fd0d3faf560914b13'
     }
     to {
         image = "macp/dod:${project.version}"
         tags = ["latest"]
+    }
+    container {
+      jvmFlags = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]
     }
 }

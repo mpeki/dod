@@ -14,6 +14,8 @@ import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.character.model.Race;
 
 import dk.pekilidi.utils.RandomObjectFiller;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,8 +36,11 @@ class DODCharacterServiceTest {
     DODCharacter testChar = new RandomObjectFiller().createAndFill(DODCharacter.class);
     testChar.setRace(new Race(null,"tiefling",null));
     testChar.setName("kyron");
-    given(charRepo.findByName("kyron")).willReturn(testChar);
-    DODCharacter being = charService.getCharacterByName("kyron");
+    List<DODCharacter> testChars = List.of(testChar);
+    given(charRepo.findByName("kyron")).willReturn(testChars);
+    List<DODCharacter> chars = charService.getCharactersByName("kyron");
+    assertThat(chars.size()).isEqualTo(1);
+    DODCharacter being = chars.get(0);
     assertThat(being.getName()).isEqualTo("kyron");
     assertThat(being.getRace().getName()).isEqualTo("tiefling");
   }
@@ -58,18 +63,26 @@ class DODCharacterServiceTest {
     testChar.setRace(testRace);
     testChar.setName("kyron");
 
-    given(charRepo.findByName("kyron")).willReturn(testChar);
-    DODCharacter being = charService.getCharacterByName("kyron");
+    given(charRepo.findById(1L)).willReturn(Optional.of(testChar));
+    DODCharacter being = charService.findCharacterById(1L);
     assertThat(being)
             .isEqualTo(testChar)
             .hasToString(testChar.toString());
   }
 
   @Test
-  void getCharacterReturnCharNotFound() throws Exception {
+  void getCharacterByIdReturnCharNotFound() throws Exception {
     assertThrows(CharacterNotFoundException.class, () -> {
-      charService.getCharacterByName("abe");
+      charService.findCharacterById(2L);
     });
   }
+
+  @Test
+  void getCharacterByNameReturnCharNotFound() throws Exception {
+    assertThrows(CharacterNotFoundException.class, () -> {
+      charService.getCharactersByName("NONAME");
+    });
+  }
+
 
 }

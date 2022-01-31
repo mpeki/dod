@@ -1,9 +1,12 @@
 package dk.pekilidi.dod.character.data;
 
+import static dk.pekilidi.dod.character.AgeGroup.*;
+
 import dk.pekilidi.dod.character.AgeGroup;
 import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.dod.character.CharacterState;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +14,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CharacterDTO {
@@ -18,12 +22,13 @@ public class CharacterDTO {
     private String name;
     private RaceDTO race;
     private Map<BaseTraitName,BaseTraitDTO> baseTraits;
-    private AgeGroup ageGroup;
+    @Builder.Default
+    private AgeGroup ageGroup = MATURE;
     private CharacterState state;
     private int baseSkillPoints;
 
     public CharacterDTO(String name, RaceDTO race, Map<BaseTraitName,BaseTraitDTO> baseTraits) {
-        this(name,race,baseTraits,AgeGroup.MATURE, CharacterState.NEW, -1);
+        this(name,race,baseTraits, MATURE, CharacterState.NEW, -1);
     }
 
     public void addBaseTrait(BaseTraitDTO baseTrait){

@@ -1,9 +1,18 @@
 version: "3.9"
 services:
-  char:
+
+  frontend:
+    image: "macp/dod-ui:latest"
+    build:
+      context: ./frontend
+    ports:
+      - "8081:80"
+
+  backend:
     image: "macp/dod:latest"
     ports:
       - "8080:8080"
+      - "5005:5005"
   db:
     image: "mysql:8.0"
     volumes:
@@ -17,5 +26,6 @@ services:
       MYSQL_PASSWORD: example
     ports:
       - "3306:3306"
+
 volumes:
   db_data: {}

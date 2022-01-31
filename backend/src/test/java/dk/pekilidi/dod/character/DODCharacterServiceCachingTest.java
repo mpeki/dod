@@ -8,6 +8,8 @@ import static org.mockito.BDDMockito.given;
 import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.character.model.Race;
 import dk.pekilidi.utils.RandomObjectFiller;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -26,11 +28,13 @@ class DODCharacterServiceCachingTest {
   @Test
   void testCharServiceCache() throws Exception{
     DODCharacter testBeing = new RandomObjectFiller().createAndFill(DODCharacter.class);
+    List<DODCharacter> chars = new ArrayList<>(1);
     testBeing.setName("kyron");
     testBeing.setRace(new Race(null,"tiefling",null));
-    given(charRepo.findByName(anyString())).willReturn(testBeing);
-    service.getCharacterByName("kyron");
-    service.getCharacterByName("kyron");
+    chars.add(testBeing);
+    given(charRepo.findByName(anyString())).willReturn(chars);
+    service.getCharactersByName("kyron");
+    service.getCharactersByName("kyron");
     verify(charRepo, times(1)).findByName("kyron");
   }
 

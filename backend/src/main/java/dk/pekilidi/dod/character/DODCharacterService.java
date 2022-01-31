@@ -4,6 +4,8 @@ import dk.pekilidi.dod.character.data.CharacterDTO;
 import dk.pekilidi.dod.character.data.RaceDTO;
 import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.character.model.Race;
+import java.util.List;
+import java.util.Optional;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +33,12 @@ public class DODCharacterService {
   }
 
   @Cacheable("characters")
-  public DODCharacter getCharacterByName(String name) {
-    DODCharacter being = characterRepository.findByName(name);
-    if(being == null){
+  public List<DODCharacter> getCharactersByName(String name) {
+    List<DODCharacter> chars = characterRepository.findByName(name);
+    if(chars == null || chars.isEmpty()){
       throw new CharacterNotFoundException();
     }
-    return being;
+    return chars;
   }
 
   @Cacheable("races")
@@ -63,4 +65,19 @@ public class DODCharacterService {
 
      return newCharacter;
   }
+
+  @Cacheable("characters")
+  public DODCharacter findCharacterById(Long charId){
+    Optional<DODCharacter> result = characterRepository.findById(charId);
+    if(result.isPresent()){
+      return result.get();
+    } else {
+      throw new CharacterNotFoundException();
+    }
+  }
+
+//  public void save(CharacterDTO charUpdate) {
+//    DODCharacter characterEntity = modelMapper.map(charUpdate, DODCharacter.class);
+//    characterRepository.save(characterEntity);
+//  }
 }

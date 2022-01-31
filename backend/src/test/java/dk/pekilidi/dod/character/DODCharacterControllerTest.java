@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.character;
 
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,9 +38,9 @@ class DODCharacterControllerTest {
     DODCharacter testBeing = new RandomObjectFiller().createAndFill(DODCharacter.class);
     testBeing.setName("kyron");
     testBeing.setRace(new Race(null,"tiefling", null));
-    given(characterService.getCharacterByName(anyString())).willReturn(testBeing);
+    given(characterService.findCharacterById(anyLong())).willReturn(testBeing);
 
-    mockMvc.perform(MockMvcRequestBuilders.get("/char/kyron"))
+    mockMvc.perform(MockMvcRequestBuilders.get("/char/1"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("name").value("kyron"))
         .andExpect(jsonPath("race.name").value("tiefling"));
@@ -47,8 +48,8 @@ class DODCharacterControllerTest {
 
   @Test
   void getCharacterNotFound() throws Exception {
-    given(characterService.getCharacterByName(anyString())).willThrow(new CharacterNotFoundException());
-    mockMvc.perform(MockMvcRequestBuilders.get("/char/kyron"))
+    given(characterService.getCharactersByName(anyString())).willThrow(new CharacterNotFoundException());
+    mockMvc.perform(MockMvcRequestBuilders.get("/char/name/kyron"))
         .andExpect(status().isNotFound());
 
   }
@@ -67,6 +68,7 @@ class DODCharacterControllerTest {
 //              .andDo(MockMvcResultHandlers.print())
               .andExpect(status().isOk())
               .andExpect(jsonPath("name").value("hans"))
+              .andExpect(jsonPath("ageGroup").value("MATURE"))
               .andExpect(jsonPath("race.name").value("tiefling"));
   }
 

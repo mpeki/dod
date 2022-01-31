@@ -1,10 +1,14 @@
+import React from 'react';
+
+import Card from '../UI/Card';
+
 const BaseTraitItem = (props) => {
     return (
-        <div>
-            <div>{props.traitName} : </div>
-            <div>{props.value}</div>
-            <div>({props.groupValue})</div>
-        </div>
+        <Card className='expense-item'>
+          <div>
+            <div>{props.traitName} : {props.value} ({props.groupValue})</div>
+          </div>
+        </Card>
     )
 }
 

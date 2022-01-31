@@ -3,8 +3,12 @@ package dk.pekilidi.dod;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.pekilidi.dod.character.model.DODCharacter;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,12 +27,20 @@ class DodApplicationIntegrationTest {
 
     //arrange
     //act
-    ResponseEntity<DODCharacter> response = restTemplate.getForEntity("/char/{name}", DODCharacter.class,"vokan fagerhård");
-    DODCharacter character = response.getBody();
+    ResponseEntity<Object[]> response = restTemplate.getForEntity("/char/name/{name}", Object[].class,"vokan fagerhård");
+    Object[] responseBody = response.getBody();
     //assert
-    assert character != null;
+    assert responseBody != null;
+    assert responseBody.length != 0;
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assertThat(character.getName()).isEqualTo("vokan fagerhård");
-    assertThat(character.getRace().getName()).isEqualTo("human");
+    ObjectMapper mapper = new ObjectMapper();
+    List result = Arrays.stream(responseBody)
+        .map(object -> mapper.convertValue(object, DODCharacter.class))
+        .map(DODCharacter::getName)
+        .collect(Collectors.toList());
+    assert result.size() != 0;
+//    DODCharacter character = responseBody.get(0);
+//    assertThat(character.getName()).isEqualTo("vokan fagerhård");
+//    assertThat(character.getRace().getName()).isEqualTo("human");
   }
 }

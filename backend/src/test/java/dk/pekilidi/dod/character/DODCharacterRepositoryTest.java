@@ -26,7 +26,7 @@ class DODCharacterRepositoryTest {
     testBeing.setName("kyron");
     testBeing.setRace(race);
     entityManager.persistFlushFind(testBeing);
-    DODCharacter DODCharacter = repository.findByName("kyron");
+    DODCharacter DODCharacter = repository.findById(1L).get();
     Assertions.assertThat(DODCharacter.getName()).isEqualTo("kyron");
     Assertions.assertThat(DODCharacter.getRace().getName()).isEqualTo("tiefling");
   }
