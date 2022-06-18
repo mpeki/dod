@@ -11,8 +11,17 @@ We don't need no stinking badges: https://www.youtube.com/watch?v=VqomZQMZQCQ bu
 # GitHub
 [Issue Tracking](https://github.com/mpeki/dod/projects/1) and [Wiki](https://github.com/mpeki/dod/wiki).
 
-# Build
+# Build & Test
 Gradle is building, verifying and publishing the project.
+
+Building the project from the commandline: `gradle build` - this will also run tests. To run e.g. backend tests alone
+execute: `gradle :backend:test`
+
+Running test coverage locally: `gradle test jacocoTestCoverageVerification --info` and view the report [here](./backend/build/reports/jacoco/test/html/index.html). 
+
+## IntelliJ
+When running tests via IntelliJ remember that the `test` profile should be active, this is achieved by setting the 
+environment variable: `SPRING_PROFILES_ACTIVE=test`  
 
 ## Docker
 [Jib](https://github.com/GoogleContainerTools/jib) and the 
@@ -29,3 +38,6 @@ applied.
 
 ## Liquibase
 To reset the initial schema creation yaml (01-create-schema.yaml) run: `gradle liquibaseDiffChangeLog`
+
+## References
+* Project structure: https://github.com/KengoTODA/gradle-boilerplate and https://github.com/spotbugs/spotbugs-gradle-plugin

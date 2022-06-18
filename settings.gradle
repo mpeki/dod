@@ -6,4 +6,6 @@ pluginManagement {
 }
 
 rootProject.name = 'dod'
+include ':backend'
+include ':frontend'
 

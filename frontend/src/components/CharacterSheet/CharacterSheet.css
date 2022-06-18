@@ -1,0 +1,7 @@
+.character-sheet {
+  padding: 1rem;
+  background-color: rgb(140, 151, 135);
+  margin: 2rem auto;
+  width: 50rem;
+  max-width: 95%;
+}

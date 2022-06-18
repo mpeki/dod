@@ -36,3 +36,9 @@ build/
 .vscode/
 /.jpb/
 /derby.log
+/backend/derby.log
+/frontend/.eslintcache
+/frontend/package-lock.json
+/frontend/node_modules/
+/node_modules/
+/package-lock.json

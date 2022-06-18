@@ -15,7 +15,7 @@ dependencies {
 //liquibaseProps.load(new FileInputStream("src/main/resources/liquibase-task.properties"))
 
 Properties liquibaseProps = new Properties()
-liquibaseProps.load(new FileInputStream("gradle/liquibase.properties"))
+liquibaseProps.load(new FileInputStream("$rootDir/gradle/liquibase.properties"))
 
 task liquibaseDiffChangelog(type: JavaExec) {
     doFirst {
