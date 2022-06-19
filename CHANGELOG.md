@@ -6,19 +6,6 @@
 * **DOD-15:** Datamodel expanded ([968e763](https://github.com/mpeki/dod/commit/968e763bc51722c8b32c438841772df49c0f7dd8))
 * **DOD-19:** Age based modifiers implemented ([edda466](https://github.com/mpeki/dod/commit/edda46619406e9966e3c875fccbd181fdb709813))
 * **DOD-24:** Adding a frontend ([a4ddbae](https://github.com/mpeki/dod/commit/a4ddbae0ccd93aec5d32f7ab2ab6c7c3f4861bad))
-* **DOD-24:** Adding a frontend ([ef68aa6](https://github.com/mpeki/dod/commit/ef68aa605c7e4d7ceded03e0b568174e293e9e63))
-* **DOD-24:** Adding a frontend ([aa0c015](https://github.com/mpeki/dod/commit/aa0c015ce015c1b20b6013c0307341e2cf142bbd))
-
-# [1.0.0-alpha.3](https://github.com/mpeki/dod/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-06-19)
-
-
-### Features
-
-* **DOD-15:** Datamodel expanded ([968e763](https://github.com/mpeki/dod/commit/968e763bc51722c8b32c438841772df49c0f7dd8))
-* **DOD-19:** Age based modifiers implemented ([edda466](https://github.com/mpeki/dod/commit/edda46619406e9966e3c875fccbd181fdb709813))
-* **DOD-24:** Adding a frontend ([a4ddbae](https://github.com/mpeki/dod/commit/a4ddbae0ccd93aec5d32f7ab2ab6c7c3f4861bad))
-* **DOD-24:** Adding a frontend ([ef68aa6](https://github.com/mpeki/dod/commit/ef68aa605c7e4d7ceded03e0b568174e293e9e63))
-* **DOD-24:** Adding a frontend ([aa0c015](https://github.com/mpeki/dod/commit/aa0c015ce015c1b20b6013c0307341e2cf142bbd))
 
 # [1.0.0-alpha.2](https://github.com/mpeki/dod/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-01-12)
 
