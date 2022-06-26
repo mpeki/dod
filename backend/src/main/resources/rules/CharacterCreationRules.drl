@@ -17,7 +17,7 @@ rule "Initialize base traits"
         characterTemplate : CharacterTemplateDTO() from character.getRace().getCharacterTemplate()
     then
         for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
-            int eyes = Dice.roll(rule.getBaseTraitDieRoll());
+            int eyes = Dice.roll(character.isHero() ? rule.getBaseTraitHeroDieRoll() : rule.getBaseTraitDieRoll());
             BaseTraitDTO baseTrait = new BaseTraitDTO(rule.getBaseTraitName(),eyes,eyes,-1);
             insert(baseTrait);
             character.addBaseTrait(baseTrait);

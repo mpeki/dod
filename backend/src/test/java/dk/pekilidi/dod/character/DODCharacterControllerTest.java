@@ -35,9 +35,9 @@ class DODCharacterControllerTest {
 
   @Test
   void getCharacterShouldReturnChar() throws Exception {
-    DODCharacter testBeing = new RandomObjectFiller().createAndFill(DODCharacter.class);
+    CharacterDTO testBeing = new RandomObjectFiller().createAndFill(CharacterDTO.class);
     testBeing.setName("kyron");
-    testBeing.setRace(new Race(null,"tiefling", null));
+    testBeing.setRace(new RaceDTO("tiefling", null));
     given(characterService.findCharacterById(anyLong())).willReturn(testBeing);
 
     mockMvc.perform(MockMvcRequestBuilders.get("/char/1"))
@@ -60,7 +60,7 @@ class DODCharacterControllerTest {
     CharacterDTO resultBeing = new CharacterDTO();
     resultBeing.setName("hans");
     resultBeing.setRace(new RaceDTO("tiefling",null));
-    CharacterDTO being = new CharacterDTO("hans", new RaceDTO("tiefling",null), null);
+    CharacterDTO being = new CharacterDTO("hans", new RaceDTO("tiefling",null), null, AgeGroup.MATURE, null, 0, false);
     given(characterService.createCharacter(being)).willReturn(resultBeing);
     mockMvc.perform(MockMvcRequestBuilders.post("/char")
             .contentType(MediaType.APPLICATION_JSON)

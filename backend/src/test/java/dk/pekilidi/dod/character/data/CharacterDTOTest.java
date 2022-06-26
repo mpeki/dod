@@ -17,7 +17,7 @@ class CharacterDTOTest {
 
     @Test
     void requiredArgsConstructor(){
-        characterDTO = new CharacterDTO("testName", new RaceDTO(), null);
+        characterDTO = CharacterDTO.builder().name("testName").build();
         assertEquals("testName", characterDTO.getName());
     }
 

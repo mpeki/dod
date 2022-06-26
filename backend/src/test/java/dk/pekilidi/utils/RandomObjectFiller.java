@@ -51,6 +51,8 @@ public class RandomObjectFiller {
     if(type.isEnum()) {
       Object[] enumValues = type.getEnumConstants();
       return enumValues[random.nextInt(enumValues.length)];
+    } else if(type.equals(Boolean.TYPE) || type.equals(Boolean.class)) {
+      return random.nextBoolean();
     } else if(type.equals(Integer.TYPE) || type.equals(Integer.class)) {
       return random.nextInt();
     } else if(type.equals(Long.TYPE) || type.equals(Long.class)) {
