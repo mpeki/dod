@@ -8,34 +8,31 @@ import java.util.List;
 import java.util.Optional;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.modelmapper.ModelMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DODCharacterService {
 
+  private final ModelMapper modelMapper = new ModelMapper();
   @Autowired
   private CharacterRepository characterRepository;
-
   @Autowired
   private RaceRepository raceRepository;
-
   @Autowired
   private KieContainer kieContainer;
 
-  private final ModelMapper modelMapper = new ModelMapper();
-
   public DODCharacterService(CharacterRepository characterRepository) {
-      this.characterRepository = characterRepository;
+    this.characterRepository = characterRepository;
   }
 
   @Cacheable("characters")
   public List<DODCharacter> getCharactersByName(String name) {
     List<DODCharacter> chars = characterRepository.findByName(name);
-    if(chars == null || chars.isEmpty()){
+    if (chars == null || chars.isEmpty()) {
       throw new CharacterNotFoundException();
     }
     return chars;
@@ -44,14 +41,14 @@ public class DODCharacterService {
   @Cacheable("races")
   public Race getRaceByName(String name) {
     Race race = raceRepository.findByName(name);
-    if(race == null){
+    if (race == null) {
       throw new RaceNotFoundException();
     }
     return race;
   }
 
   @Transactional
-  public CharacterDTO createCharacter(CharacterDTO newCharacter){
+  public CharacterDTO createCharacter(CharacterDTO newCharacter) {
     Race race = getRaceByName(newCharacter.getRace().getName());
     newCharacter.setRace(modelMapper.map(race, RaceDTO.class));
     KieSession kieSession = kieContainer.newKieSession();
@@ -63,21 +60,21 @@ public class DODCharacterService {
     characterEntity.setBaseTraits(characterEntity.getBaseTraits());
     characterRepository.save(characterEntity);
 
-     return newCharacter;
+    return newCharacter;
   }
 
   @Cacheable("characters")
-  public DODCharacter findCharacterById(Long charId){
+  public CharacterDTO findCharacterById(Long charId) {
     Optional<DODCharacter> result = characterRepository.findById(charId);
-    if(result.isPresent()){
-      return result.get();
+    if (result.isPresent()) {
+      return modelMapper.map(result.get(), CharacterDTO.class);
     } else {
       throw new CharacterNotFoundException();
     }
   }
 
-//  public void save(CharacterDTO charUpdate) {
-//    DODCharacter characterEntity = modelMapper.map(charUpdate, DODCharacter.class);
-//    characterRepository.save(characterEntity);
-//  }
+  //  public void save(CharacterDTO charUpdate) {
+  //    DODCharacter characterEntity = modelMapper.map(charUpdate, DODCharacter.class);
+  //    characterRepository.save(characterEntity);
+  //  }
 }

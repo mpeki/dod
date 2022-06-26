@@ -18,12 +18,13 @@ public class BaseTrait implements Serializable {
     private static final long serialVersionUID = 2277570107538234893L;
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private DODCharacter character;
+//    @JsonIgnore
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private DODCharacter character;
 
     @NonNull
     @Enumerated(EnumType.STRING)

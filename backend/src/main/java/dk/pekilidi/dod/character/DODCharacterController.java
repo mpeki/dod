@@ -20,7 +20,7 @@ public class DODCharacterController {
   }
 
   @GetMapping("/char/{id}")
-  public DODCharacter getCharacter(@PathVariable Long id){
+  public CharacterDTO getCharacter(@PathVariable Long id){
     return characterService.findCharacterById(id);
   }
 

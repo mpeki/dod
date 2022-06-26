@@ -18,11 +18,15 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 
 class DODCharacterServiceTest {
 
   private CharacterRepository charRepo;
   private DODCharacterService charService;
+
+  private final ModelMapper modelMapper = new ModelMapper();
+
 
   @BeforeEach
   void setMockOutput() {
@@ -47,7 +51,7 @@ class DODCharacterServiceTest {
 
   @Test
   void addDuplicateBaseTrait(){
-    CharacterDTO testChar = new CharacterDTO("bilbo",new RaceDTO("human", null), null);
+    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human", null)).build();
     testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY,0,0,0));
     assertThat(testChar.getBaseTraits()).hasSize(1);
     testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY,0,0,0));
@@ -62,12 +66,12 @@ class DODCharacterServiceTest {
     testRace.setName("tiefling");
     testChar.setRace(testRace);
     testChar.setName("kyron");
-
+    CharacterDTO testCharDTO = modelMapper.map(testChar, CharacterDTO.class);
     given(charRepo.findById(1L)).willReturn(Optional.of(testChar));
-    DODCharacter being = charService.findCharacterById(1L);
+    CharacterDTO being = charService.findCharacterById(1L);
     assertThat(being)
-            .isEqualTo(testChar)
-            .hasToString(testChar.toString());
+            .isEqualTo(testCharDTO)
+            .hasToString(testCharDTO.toString());
   }
 
   @Test

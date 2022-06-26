@@ -26,10 +26,7 @@ public class CharacterDTO {
     private AgeGroup ageGroup = MATURE;
     private CharacterState state;
     private int baseSkillPoints;
-
-    public CharacterDTO(String name, RaceDTO race, Map<BaseTraitName,BaseTraitDTO> baseTraits) {
-        this(name,race,baseTraits, MATURE, CharacterState.NEW, -1);
-    }
+    private boolean hero;
 
     public void addBaseTrait(BaseTraitDTO baseTrait){
         if(baseTraits == null){

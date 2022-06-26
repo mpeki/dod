@@ -20,7 +20,7 @@ class DODCharacterServiceWithRulesTest {
 
   @Test
   void getCharacterReturnChar(){
-    CharacterDTO testChar = new CharacterDTO("bilbo",new RaceDTO("human", null), null);
+    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human", null)).build();
     CharacterDTO newBeing = charService.createCharacter(testChar);
     assertThat(newBeing.getBaseTraits()).isNotNull();
     assertThat(newBeing.getBaseTraits()).isNotEmpty();
@@ -29,7 +29,7 @@ class DODCharacterServiceWithRulesTest {
 
   @Test
   void getCharacterNonExistingRaceThrowsException(){
-    CharacterDTO testChar = new CharacterDTO("bilbo",new RaceDTO("hobbit", null),null);
+    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("hobbit", null)).build();
     RaceNotFoundException thrown = Assertions.assertThrows(RaceNotFoundException.class, () -> {
       CharacterDTO newBeing = charService.createCharacter(testChar);
     });
