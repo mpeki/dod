@@ -1,3 +1,10 @@
+# [1.0.0-alpha.4](https://github.com/mpeki/dod/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-06-26)
+
+
+### Features
+
+* **DOD-29:** Implemented hero flag ([12e4469](https://github.com/mpeki/dod/commit/12e4469ef0a3607b322c5f7f26ffe60bcd7655d3))
+
 # [1.0.0-alpha.3](https://github.com/mpeki/dod/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-06-19)
 
 
