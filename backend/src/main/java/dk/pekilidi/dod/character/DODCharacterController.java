@@ -2,6 +2,7 @@ package dk.pekilidi.dod.character;
 
 import dk.pekilidi.dod.character.data.CharacterDTO;
 import dk.pekilidi.dod.character.model.DODCharacter;
+import dk.pekilidi.dod.rules.changes.ChangeRequest;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,11 @@ public class DODCharacterController {
     return characterService.findCharacterById(id);
   }
 
-//  @PatchMapping("/char/{id}")
-//  public DODCharacter patchCharacter(@RequestBody CharacterDTO charUpdate, @PathVariable("id") String id){
-//    characterService.save(charUpdate);
-//    return null;
-//  }
+  @PostMapping("/char/{id}/change")
+  @ResponseBody
+  public ChangeRequest buyBasetraitIncrease(@PathVariable String id, @RequestBody ChangeRequest change){
+    return characterService.increaseBasetrait(Long.parseLong(id), change);
+  }
 
   @PostMapping("/char")
   CharacterDTO postCharacter(@RequestBody CharacterDTO newCharacter) {

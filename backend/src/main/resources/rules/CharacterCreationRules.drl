@@ -11,7 +11,7 @@ import dk.pekilidi.dod.character.CharacterState;
 import dk.pekilidi.dod.character.AgeGroup
 import dk.pekilidi.dod.character.BaseTraitName;
 
-rule "Initialize base traits"
+rule "Initialize base traits and hero points"
     when
         character : dk.pekilidi.dod.character.data.CharacterDTO( baseTraits == null );
         characterTemplate : CharacterTemplateDTO() from character.getRace().getCharacterTemplate()
@@ -21,6 +21,11 @@ rule "Initialize base traits"
             BaseTraitDTO baseTrait = new BaseTraitDTO(rule.getBaseTraitName(),eyes,eyes,-1);
             insert(baseTrait);
             character.addBaseTrait(baseTrait);
+        }
+        if (character.isHero()){
+          character.setHeroPoints(0);
+        } else {
+          character.setHeroPoints(-1);
         }
         character.setState(CharacterState.BASE_TRAITS_SET);
         update(character)

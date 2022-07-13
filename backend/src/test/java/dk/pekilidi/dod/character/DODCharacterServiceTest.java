@@ -1,6 +1,5 @@
 package dk.pekilidi.dod.character;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.*;
@@ -51,11 +50,19 @@ class DODCharacterServiceTest {
 
   @Test
   void addDuplicateBaseTrait(){
-    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human", null)).build();
+    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human")).build();
     testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY,0,0,0));
     assertThat(testChar.getBaseTraits()).hasSize(1);
     testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY,0,0,0));
     assertThat(testChar.getBaseTraits()).hasSize(1);
+  }
+
+  @Test
+  void addNullNamedBaseTrait(){
+    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human")).build();
+    assertThrows(NullPointerException.class, () -> {
+      testChar.addBaseTrait(new BaseTraitDTO(null,0,0,0));
+    });
   }
 
   @Test

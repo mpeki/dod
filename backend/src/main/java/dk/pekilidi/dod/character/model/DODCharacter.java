@@ -3,6 +3,7 @@ package dk.pekilidi.dod.character.model;
 import dk.pekilidi.dod.character.AgeGroup;
 import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.dod.character.CharacterState;
+import dk.pekilidi.dod.character.data.DODFact;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +25,7 @@ public class DODCharacter implements Serializable {
   private static final long serialVersionUID = 5434025811976973643L;
 
   public DODCharacter(String name, @NonNull Race race) {
-    this(null, name,null, race, MATURE, NEW, -1);
+    this(null, name, Map.of(), race, MATURE, NEW, -1, -1, false);
   }
 
   @Id
@@ -42,7 +43,7 @@ public class DODCharacter implements Serializable {
   private Map<BaseTraitName,BaseTrait> baseTraits;
 
   @NonNull
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   private Race race;
 
   @Column(length = 32, columnDefinition = "varchar(32) default 'MATURE'")
@@ -55,6 +56,12 @@ public class DODCharacter implements Serializable {
 
   @Column(columnDefinition = "int default -1")
   private int baseSkillPoints = -1;
+
+  @Column(columnDefinition = "int default -1")
+  private int heroPoints = -1;
+
+  @Transient
+  private boolean hero;
 
   @Override
   public boolean equals(Object o) {
