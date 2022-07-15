@@ -1,0 +1,25 @@
+import  dk.pekilidi.dod.character.data.CharacterTemplateDTO
+import  dk.pekilidi.dod.character.data.CharacterDTO
+import java.util.Arrays;
+import dk.pekilidi.dod.util.Dice
+import dk.pekilidi.dod.character.data.BaseTraitRuleDTO
+import dk.pekilidi.dod.character.data.BaseTraitDTO
+import java.util.List
+import java.util.Collections
+import java.util.ArrayList
+import dk.pekilidi.dod.character.CharacterState;
+import dk.pekilidi.dod.character.AgeGroup
+import dk.pekilidi.dod.character.BaseTraitName;
+import dk.pekilidi.dod.rules.changes.ChangeType
+
+rule "Character change - modify base trait"
+    no-loop
+    when
+        changeRequest : dk.pekilidi.dod.rules.changes.ChangeRequest( changeType == ChangeType.BASE_TRAIT );
+        change : Integer() from changeRequest.getModifier;
+        cost : Number() from change * 2
+        character : CharacterDTO( state == CharacterState.INIT_COMPLETE && heroPoints - cost.intValue() >= 0);
+    then
+      character.setHeroPoints(character.getHeroPoints() - cost.intValue());
+      character.incrementTrait((BaseTraitName) changeRequest.getChangeKey(), change);
+end;

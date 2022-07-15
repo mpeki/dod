@@ -16,7 +16,7 @@ class BeingTest {
     Race race = firstObject.getRace();
 
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter(id,name,null, race,null, null, -1);
+      new DODCharacter(id,name,null, race,null, null, -1, -1, false);
     });
     assertThrows(NullPointerException.class, () -> {
       new DODCharacter("test",null);
@@ -46,7 +46,8 @@ class BeingTest {
     DODCharacter secondObject = rof.createAndFill(DODCharacter.class);
     assertNotEquals(firstObject,secondObject);
     DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(),firstObject.getBaseTraits(),
-            firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints());
+            firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
+            firstObject.getHeroPoints(), false);
     assertEquals(firstObject,copied);
     copied.setName("abe");
     assertNotEquals(firstObject,copied);
@@ -58,7 +59,8 @@ class BeingTest {
     DODCharacter secondObject = rof.createAndFill(DODCharacter.class);
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
     DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(),firstObject.getBaseTraits(),
-            firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints());
+            firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
+        firstObject.getHeroPoints(), false);
     assertEquals(firstObject.hashCode(), copied.hashCode());
     copied.setName("Heman");
     assertNotEquals(firstObject.hashCode(), copied.hashCode());

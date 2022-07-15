@@ -12,6 +12,15 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class BaseTraitDTO {
 
+    public BaseTraitDTO(@NonNull BaseTraitName traitName, int value, int startValue, int groupValue) {
+        this.traitName = traitName;
+        this.value = value;
+        this.startValue = startValue;
+        this.groupValue = groupValue;
+    }
+
+    @JsonIgnore
+    private Long id;
     @JsonIgnore
     @NonNull
     private BaseTraitName traitName;

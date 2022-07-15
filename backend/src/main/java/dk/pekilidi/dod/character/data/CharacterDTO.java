@@ -5,6 +5,7 @@ import static dk.pekilidi.dod.character.AgeGroup.*;
 import dk.pekilidi.dod.character.AgeGroup;
 import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.dod.character.CharacterState;
+import dk.pekilidi.dod.rules.changes.ChangeKey;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,8 +18,9 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CharacterDTO {
+public class CharacterDTO implements DODFact {
 
+    private Long id;
     private String name;
     private RaceDTO race;
     private Map<BaseTraitName,BaseTraitDTO> baseTraits;
@@ -26,7 +28,10 @@ public class CharacterDTO {
     private AgeGroup ageGroup = MATURE;
     private CharacterState state;
     private int baseSkillPoints;
-    private boolean hero;
+    @Builder.Default
+    private int heroPoints = -1;
+    @Builder.Default
+    private boolean hero = false;
 
     public void addBaseTrait(BaseTraitDTO baseTrait){
         if(baseTraits == null){

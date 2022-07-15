@@ -1,4 +1,7 @@
 spring:
+  h2:
+    console:
+      enabled: true
   application:
     name: dod
   profiles:
