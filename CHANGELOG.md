@@ -1,3 +1,10 @@
+# [1.0.0-alpha.5](https://github.com/mpeki/dod/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2022-07-15)
+
+
+### Features
+
+* **DOD-30:** Implement first version of change requests ([1844c30](https://github.com/mpeki/dod/commit/1844c307b66ebe96fd48d245faf975c31a00261f))
+
 # [1.0.0-alpha.4](https://github.com/mpeki/dod/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-06-26)
 
 
