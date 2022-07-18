@@ -3,9 +3,11 @@ package dk.pekilidi.dod.rules.changes;
 import dk.pekilidi.dod.character.data.DODFact;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.With;
 
@@ -15,6 +17,7 @@ import lombok.With;
 @EqualsAndHashCode
 @ToString
 @Getter
+@Setter
 @With
 public class ChangeRequest implements DODFact {
 
@@ -24,5 +27,8 @@ public class ChangeRequest implements DODFact {
   private Object objectBeforeChange;
   private Object objectAfterChange;
   private Object modifier;
+  @Default
+  private ChangeStatus status = ChangeStatus.REJECTED;
+  private ChangeStatusLabel statusLabel;
 
 }

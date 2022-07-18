@@ -37,6 +37,16 @@ databaseChangeLog:
       changes:
         - loadData:
             encoding: UTF-8
+            file: db/data/dodcore_base_body.csv
+            quotchar:  ''''
+            separator:  ;
+            tableName: base_body
+  - changeSet:
+      id: load-configuration-data-04
+      author: msp
+      changes:
+        - loadData:
+            encoding: UTF-8
             file: db/data/dodcore_character.csv
             quotchar:  ''''
             separator:  ;

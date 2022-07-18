@@ -3,9 +3,12 @@ package dk.pekilidi.dod;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.pekilidi.dod.character.data.CharacterDTO;
 import dk.pekilidi.dod.character.model.DODCharacter;
 
+import dk.pekilidi.dod.util.objects.CharacterMapper;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,13 +37,13 @@ class DodApplicationIntegrationTest {
     assert responseBody.length != 0;
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     List result = Arrays.stream(responseBody)
-        .map(object -> mapper.convertValue(object, DODCharacter.class))
-        .map(DODCharacter::getName)
+        .map(object -> mapper.convertValue(object, CharacterDTO.class))
         .collect(Collectors.toList());
     assert result.size() != 0;
-//    DODCharacter character = responseBody.get(0);
-//    assertThat(character.getName()).isEqualTo("vokan fagerhård");
-//    assertThat(character.getRace().getName()).isEqualTo("human");
+    CharacterDTO character = (CharacterDTO)result.get(0);
+    assertThat(character.getName()).isEqualTo("vokan fagerhård");
+    assertThat(character.getRace().getName()).isEqualTo("human");
   }
 }

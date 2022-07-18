@@ -12,6 +12,7 @@ import dk.pekilidi.dod.character.data.RaceDTO;
 import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.character.model.Race;
 
+import dk.pekilidi.dod.util.objects.CharacterMapper;
 import dk.pekilidi.utils.RandomObjectFiller;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ class DODCharacterServiceTest {
   private CharacterRepository charRepo;
   private DODCharacterService charService;
 
-  private final ModelMapper modelMapper = new ModelMapper();
+  private final CharacterMapper modelMapper = new CharacterMapper();
 
 
   @BeforeEach

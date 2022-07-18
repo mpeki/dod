@@ -54,6 +54,19 @@ class RaceTest {
   }
 
   @Test
+  void testEqualsSame() throws Exception {
+    Race firstObject = rof.createAndFill(Race.class);
+    assertEquals(firstObject,firstObject);
+  }
+
+  @Test
+  void testEqualsNull() throws Exception {
+    Race firstObject = rof.createAndFill(Race.class);
+    assertNotEquals(null,firstObject);
+  }
+
+
+  @Test
   void testHashCode() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
     Race secondObject = rof.createAndFill(Race.class);

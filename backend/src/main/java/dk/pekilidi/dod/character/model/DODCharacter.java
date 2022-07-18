@@ -4,12 +4,14 @@ import dk.pekilidi.dod.character.AgeGroup;
 import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.dod.character.CharacterState;
 import dk.pekilidi.dod.character.data.DODFact;
+import dk.pekilidi.dod.character.model.body.BaseBody;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
+import lombok.Builder.Default;
 
 import static dk.pekilidi.dod.character.AgeGroup.*;
 import static dk.pekilidi.dod.character.CharacterState.NEW;
@@ -24,14 +26,11 @@ public class DODCharacter implements Serializable {
 
   private static final long serialVersionUID = 5434025811976973643L;
 
-  public DODCharacter(String name, @NonNull Race race) {
-    this(null, name, Map.of(), race, MATURE, NEW, -1, -1, false);
-  }
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NonNull
   private String name;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -59,6 +58,10 @@ public class DODCharacter implements Serializable {
 
   @Column(columnDefinition = "int default -1")
   private int heroPoints = -1;
+
+  @NonNull
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private BaseBody body;
 
   @Transient
   private boolean hero;
