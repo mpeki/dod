@@ -1,6 +1,8 @@
 package dk.pekilidi.dod.character.model;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import dk.pekilidi.dod.character.model.body.HumanoidBody;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Test;
 
@@ -16,16 +18,16 @@ class BeingTest {
     Race race = firstObject.getRace();
 
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter(id,name,null, race,null, null, -1, -1, false);
+      new DODCharacter(id,name,null, race, null, null, -1, -1, null, false);
     });
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter("test",null);
+      new DODCharacter("test",null, new HumanoidBody());
     });
   }
 
   @Test
   void testRequiredArgsConstructor() {
-    DODCharacter newChar = new DODCharacter("Peter",new Race(null, "human", null));
+    DODCharacter newChar = new DODCharacter("Peter",new Race(null, "human", null), new HumanoidBody());
     assertNotNull(newChar);
     assertEquals("Peter", newChar.getName());
   }
@@ -47,7 +49,7 @@ class BeingTest {
     assertNotEquals(firstObject,secondObject);
     DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(),firstObject.getBaseTraits(),
             firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
-            firstObject.getHeroPoints(), false);
+            firstObject.getHeroPoints(), firstObject.getBody(),false);
     assertEquals(firstObject,copied);
     copied.setName("abe");
     assertNotEquals(firstObject,copied);
@@ -60,7 +62,7 @@ class BeingTest {
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
     DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(),firstObject.getBaseTraits(),
             firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
-        firstObject.getHeroPoints(), false);
+        firstObject.getHeroPoints(), firstObject.getBody(), false);
     assertEquals(firstObject.hashCode(), copied.hashCode());
     copied.setName("Heman");
     assertNotEquals(firstObject.hashCode(), copied.hashCode());

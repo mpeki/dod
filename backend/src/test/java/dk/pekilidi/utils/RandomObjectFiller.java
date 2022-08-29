@@ -1,19 +1,33 @@
 package dk.pekilidi.utils;
 
+import static org.reflections.scanners.Scanners.SubTypes;
+
+import dk.pekilidi.dod.util.Dice;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigInteger;
 import java.util.*;
+import org.reflections.Reflections;
 
 public class RandomObjectFiller {
 
   private final Random random = new Random();
 
   public <T> T createAndFill(Class<T> clazz) throws Exception {
+    if(Modifier.isAbstract(clazz.getModifiers())) {
+      Reflections reflections = new Reflections("dk.pekilidi.dod.character");
+      Set<Class<?>> subTypes = reflections.get(SubTypes.of(clazz).asClass());
+      clazz = subTypes.stream().findAny().isPresent() ? (Class<T>) subTypes.stream().findAny().get().asSubclass(clazz) : null;
+      return createAndFill(subTypes.stream().findAny().get().asSubclass(clazz));
+    }
     T instance = clazz.getDeclaredConstructor().newInstance();
     for(Field field: clazz.getDeclaredFields()) {
       field.setAccessible(true);
       Object value = null;
+      if(field.getType().equals(Class.class)){
+          continue;
+      }
       if(field.getType().equals(List.class) || field.getType().equals(Map.class)){
         value = getRandomValueForField(clazz,field);
       } else {
@@ -35,9 +49,6 @@ public class RandomObjectFiller {
       return List.of(listClass.getDeclaredConstructor().newInstance());
     }
     else if(type.equals(Map.class)){
-//      Field f = clazz.getDeclaredField(field.getName());
-//      ParameterizedType stringListType = (ParameterizedType) f.getGenericType();
-//      Class<?> listClass = (Class<?>) stringListType.getActualTypeArguments()[0];
       return Collections.emptyMap();
     }
     return createAndFill(type);

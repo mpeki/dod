@@ -4,6 +4,8 @@ import dk.pekilidi.dod.DodApplication;
 import dk.pekilidi.dod.character.data.CharacterDTO;
 import dk.pekilidi.dod.character.data.RaceDTO;
 import dk.pekilidi.dod.rules.changes.ChangeRequest;
+import dk.pekilidi.dod.rules.changes.ChangeStatus;
+import dk.pekilidi.dod.rules.changes.ChangeStatusLabel;
 import dk.pekilidi.dod.rules.changes.ChangeType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,8 +21,6 @@ class DODCharacterServiceWithRulesTest {
 
   @Autowired
   private DODCharacterService charService;
-  @Autowired
-  private CharacterRepository charRepo;
 
   @Test
   void createCharacterReturnChar(){
@@ -47,6 +47,21 @@ class DODCharacterServiceWithRulesTest {
   }
 
   @Test
+  void createdCharacterHasBody() {
+    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").hero(true).race(new RaceDTO("human")).build();
+    charService.createCharacter(testChar);
+    assertThat(testChar.getBodyParts()).isNotEmpty();
+  }
+
+  @Test
+  void foundCharacterHasBody(){
+    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").hero(true).race(new RaceDTO("human")).build();
+    CharacterDTO newBeing = charService.createCharacter(testChar);
+    newBeing = charService.findCharacterById(newBeing.getId());
+    assertThat(newBeing.getBodyParts()).isNotEmpty();
+  }
+
+  @Test
   void buyBasetraitIncrease() {
 
     CharacterDTO newChar = charService.createCharacter(CharacterDTO.builder()
@@ -58,6 +73,7 @@ class DODCharacterServiceWithRulesTest {
     newChar = charService.save(newChar);
     int orgStrength = newChar.getBaseTraits().get(STRENGTH).getValue();
     ChangeRequest change = ChangeRequest.builder()
+        .changeDescription("Increase strength")
         .changeType(ChangeType.BASE_TRAIT)
         .changeKey(STRENGTH)
         .modifier(1).build();
@@ -66,6 +82,29 @@ class DODCharacterServiceWithRulesTest {
     assertThat(orgStrength).isNotEqualTo(result.getBaseTraits().get(STRENGTH).getValue());
     assertThat(result.getHeroPoints()).isEqualTo(0);
   }
+
+  @Test
+  void buyBaseTraitIncreaseRejected() {
+
+    CharacterDTO newChar = charService.createCharacter(CharacterDTO.builder()
+        .name("tester")
+        .hero(true)
+        .race(new RaceDTO("human")).build());
+    newChar.setState(INIT_COMPLETE);
+    newChar = charService.save(newChar);
+    int orgStrength = newChar.getBaseTraits().get(STRENGTH).getValue();
+    ChangeRequest change = ChangeRequest.builder()
+        .changeType(ChangeType.BASE_TRAIT)
+        .changeKey(STRENGTH)
+        .modifier(1).build();
+    ChangeRequest changeRequest = charService.increaseBasetrait(newChar.getId(), change);
+    CharacterDTO result = (CharacterDTO)changeRequest.getObjectAfterChange();
+    assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
+    assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.INSUFFICIENT_HERO_POINTS);
+    assertThat(orgStrength).isEqualTo(result.getBaseTraits().get(STRENGTH).getValue());
+    assertThat(result.getHeroPoints()).isEqualTo(0);
+  }
+
 
   @Test
   void getCharacterNonExistingRaceThrowsException(){

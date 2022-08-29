@@ -1,5 +1,5 @@
-import  dk.pekilidi.dod.character.data.CharacterTemplateDTO
-import  dk.pekilidi.dod.character.data.CharacterDTO
+import dk.pekilidi.dod.character.data.CharacterTemplateDTO
+import dk.pekilidi.dod.character.data.CharacterDTO
 import java.util.Arrays;
 import dk.pekilidi.dod.util.Dice
 import dk.pekilidi.dod.character.data.BaseTraitRuleDTO
@@ -11,6 +11,20 @@ import dk.pekilidi.dod.character.CharacterState;
 import dk.pekilidi.dod.character.AgeGroup
 import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.dod.rules.changes.ChangeType
+import dk.pekilidi.dod.rules.changes.ChangeRequest
+import dk.pekilidi.dod.rules.changes.ChangeStatus
+import dk.pekilidi.dod.rules.changes.ChangeStatusLabel
+
+rule "Character change - check hero points"
+    no-loop
+    when
+        changeRequest : dk.pekilidi.dod.rules.changes.ChangeRequest( changeType == ChangeType.BASE_TRAIT );
+        change : Integer() from changeRequest.getModifier;
+        cost : Number() from change * 2
+        character : CharacterDTO( state == CharacterState.INIT_COMPLETE && heroPoints - cost.intValue() < 0);
+    then
+      changeRequest.setStatusLabel(ChangeStatusLabel.INSUFFICIENT_HERO_POINTS);
+end;
 
 rule "Character change - modify base trait"
     no-loop
@@ -20,6 +34,8 @@ rule "Character change - modify base trait"
         cost : Number() from change * 2
         character : CharacterDTO( state == CharacterState.INIT_COMPLETE && heroPoints - cost.intValue() >= 0);
     then
+      changeRequest.setStatus(ChangeStatus.APPROVED);
+      changeRequest.setStatusLabel(ChangeStatusLabel.OK_BASE_TRAIT_MODIFICATION);
       character.setHeroPoints(character.getHeroPoints() - cost.intValue());
       character.incrementTrait((BaseTraitName) changeRequest.getChangeKey(), change);
 end;

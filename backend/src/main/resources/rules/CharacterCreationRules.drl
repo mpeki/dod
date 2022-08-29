@@ -9,12 +9,19 @@ import java.util.Collections
 import java.util.ArrayList
 import dk.pekilidi.dod.character.CharacterState;
 import dk.pekilidi.dod.character.AgeGroup
-import dk.pekilidi.dod.character.BaseTraitName;
+import dk.pekilidi.dod.character.BaseTraitName
+import com.google.common.math.IntMath
+import java.math.RoundingMode
+import java.lang.reflect.Field;
+import dk.pekilidi.dod.character.model.body.HumanoidBody
+import dk.pekilidi.dod.character.model.body.BodyPart
+import dk.pekilidi.dod.character.data.BodyPartDTO
+import dk.pekilidi.dod.character.model.body.BodyPartName
 
 rule "Initialize base traits and hero points"
     when
-        character : dk.pekilidi.dod.character.data.CharacterDTO( baseTraits == null );
-        characterTemplate : CharacterTemplateDTO() from character.getRace().getCharacterTemplate()
+        character : dk.pekilidi.dod.character.data.CharacterDTO( baseTraits.size == 0 && race != null );
+        characterTemplate : CharacterTemplateDTO() from character.race.characterTemplate
     then
         for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
             int eyes = Dice.roll(character.isHero() ? rule.getBaseTraitHeroDieRoll() : rule.getBaseTraitDieRoll());
@@ -29,6 +36,55 @@ rule "Initialize base traits and hero points"
         }
         character.setState(CharacterState.BASE_TRAITS_SET);
         update(character)
+end;
+
+rule "Initialize body - total HP"
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.AGE_GROUP_SET &&
+                               getBaseTraitValue(BaseTraitName.SIZE) != -1 &&
+                               getBaseTraitValue(BaseTraitName.CONSTITUTION) != -1 )
+  then
+    Integer size = character.getBaseTraitValue(BaseTraitName.SIZE);
+    Integer constitution =  character.getBaseTraitValue(BaseTraitName.CONSTITUTION);
+    Integer totalHP = IntMath.divide(size + constitution, 2, RoundingMode.CEILING);
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.TOTAL).maxHP(totalHP).currentHP(totalHP).build());
+    character.setState(CharacterState.TOTAL_HP_SET);
+    update(character)
+end;
+
+
+rule "Initialize body - body parts HP - humanoid"
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.TOTAL_HP_SET)
+    characterTemplate : CharacterTemplateDTO( bodyTypeClass == HumanoidBody.class ) from character.race.characterTemplate
+  then
+    Integer totalHp = character.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP();
+    Integer headHP = IntMath.divide(totalHp,4,RoundingMode.CEILING);
+    Integer chestHP = IntMath.divide(totalHp,2,RoundingMode.CEILING);
+    Integer stomachHP = IntMath.divide(totalHp,3,RoundingMode.CEILING);
+    Integer armsHP = IntMath.divide(totalHp,5,RoundingMode.CEILING);
+    Integer legsHP = IntMath.divide(totalHp,3,RoundingMode.CEILING);
+
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.HEAD).maxHP(headHP).currentHP(headHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.CHEST).maxHP(chestHP).currentHP(chestHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.STOMACH).maxHP(stomachHP).currentHP(stomachHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.LEFT_ARM).maxHP(armsHP).currentHP(armsHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.RIGHT_ARM).maxHP(armsHP).currentHP(armsHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.LEFT_LEG).maxHP(legsHP).currentHP(legsHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.RIGHT_LEG).maxHP(legsHP).currentHP(legsHP).build());
+
+    character.setState(CharacterState.BODY_PART_HP_SET);
+    update(character)
+end;
+
+rule "Check character completion"
+  when
+    character : dk.pekilidi.dod.character.data.CharacterDTO( state == CharacterState.BODY_PART_HP_SET)
+  then
+    character.setState(CharacterState.INIT_COMPLETE);
+    update(character)
 end;
 
 rule "Set Group Value 0"
@@ -133,3 +189,24 @@ rule "Apply modifiers for age group OLD"
         character.setBaseSkillPoints(440);
         update(character)
 end;
+
+/*
+rule "Set body and body parts - humanoid"
+    when
+        characterTemplate : dk.pekilidi.dod.character.data.CharacterTemplateDTO( bodyTypeClass == null );
+    then
+        for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
+            int eyes = Dice.roll(character.isHero() ? rule.getBaseTraitHeroDieRoll() : rule.getBaseTraitDieRoll());
+            BaseTraitDTO baseTrait = new BaseTraitDTO(rule.getBaseTraitName(),eyes,eyes,-1);
+            insert(baseTrait);
+            character.addBaseTrait(baseTrait);
+        }
+        if (character.isHero()){
+          character.setHeroPoints(0);
+        } else {
+          character.setHeroPoints(-1);
+        }
+        character.setState(CharacterState.BASE_TRAITS_SET);
+        update(character)
+end;
+*/
