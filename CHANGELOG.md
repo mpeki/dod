@@ -1,3 +1,10 @@
+# [1.0.0-alpha.6](https://github.com/mpeki/dod/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2022-08-29)
+
+
+### Features
+
+* **DOD-33:** give char a body ([048a158](https://github.com/mpeki/dod/commit/048a158ebae5caac79fcdae6fa190d969cbb2a42))
+
 # [1.0.0-alpha.5](https://github.com/mpeki/dod/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2022-07-15)
 
 
