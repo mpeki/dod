@@ -42,7 +42,7 @@ class DODCharacterServiceWithRulesTest {
     assertThat(newBeing.getBaseTraits()).isNotEmpty();
     assertThat(newBeing.getBaseTraits().get(STRENGTH).getValue()).isGreaterThanOrEqualTo(7);
     assertThat(newBeing.getBaseTraits().get(STRENGTH).getValue()).isLessThanOrEqualTo(18);
-    assertThat(newBeing.getHeroPoints()).isEqualTo(0);
+    assertThat(newBeing.getHeroPoints()).isZero();
     assertThat(newBeing.getRace().getName()).isEqualTo("human");
   }
 
@@ -80,7 +80,7 @@ class DODCharacterServiceWithRulesTest {
     ChangeRequest changeRequest = charService.increaseBasetrait(newChar.getId(), change);
     CharacterDTO result = (CharacterDTO)changeRequest.getObjectAfterChange();
     assertThat(orgStrength).isNotEqualTo(result.getBaseTraits().get(STRENGTH).getValue());
-    assertThat(result.getHeroPoints()).isEqualTo(0);
+    assertThat(result.getHeroPoints()).isZero();
   }
 
   @Test
@@ -102,7 +102,7 @@ class DODCharacterServiceWithRulesTest {
     assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.INSUFFICIENT_HERO_POINTS);
     assertThat(orgStrength).isEqualTo(result.getBaseTraits().get(STRENGTH).getValue());
-    assertThat(result.getHeroPoints()).isEqualTo(0);
+    assertThat(result.getHeroPoints()).isZero();
   }
 
 

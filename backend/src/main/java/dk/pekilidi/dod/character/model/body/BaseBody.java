@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.character.model.body;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -24,7 +25,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "body_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class BaseBody {
+public abstract class BaseBody implements Serializable {
+
+  private static final long serialVersionUID = -4047526321333706702L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

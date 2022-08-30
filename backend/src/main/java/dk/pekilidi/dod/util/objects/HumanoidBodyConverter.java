@@ -19,7 +19,10 @@ import org.modelmapper.Converter;
 
 public class HumanoidBodyConverter {
 
-  public static Converter<Map<BodyPartName, BodyPartDTO>, HumanoidBody> toHumanoidEntity = context -> {
+  private HumanoidBodyConverter() {
+  }
+
+  protected static Converter<Map<BodyPartName, BodyPartDTO>, HumanoidBody> toHumanoidEntity = context -> {
     Map<BodyPartName, BodyPartDTO> source = context.getSource();
     return source == null || source.size() == 0 ? new HumanoidBody() : HumanoidBody
         .builder()
@@ -34,7 +37,7 @@ public class HumanoidBodyConverter {
         .build();
   };
 
-  public static Converter<HumanoidBody, Map<BodyPartName, BodyPartDTO>> toHumanoidDTO = context -> initBodyPartsMap(
+  protected static Converter<HumanoidBody, Map<BodyPartName, BodyPartDTO>> toHumanoidDTO = context -> initBodyPartsMap(
       context.getSource());
 
   private static EnumMap<BodyPartName, BodyPartDTO> initBodyPartsMap(HumanoidBody source) {
