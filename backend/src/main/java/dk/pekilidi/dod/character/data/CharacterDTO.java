@@ -9,7 +9,6 @@ import dk.pekilidi.dod.character.model.body.BodyPartName;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
-import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -27,13 +26,10 @@ public class CharacterDTO implements DODFact, Serializable {
   private Long id;
   @Default
   private String name = "NONAME";
-  @Transient
   private RaceDTO race;
   @Default
-  @Transient
   private Map<BaseTraitName, BaseTraitDTO> baseTraits = new EnumMap<>(BaseTraitName.class);
   @Default
-  @Transient
   private Map<BodyPartName, BodyPartDTO> bodyParts = new EnumMap<>(BodyPartName.class);
   @Default
   private AgeGroup ageGroup = MATURE;

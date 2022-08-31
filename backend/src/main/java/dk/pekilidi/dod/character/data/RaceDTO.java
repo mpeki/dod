@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.character.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaceDTO {
+public class RaceDTO implements Serializable {
+
+    private static final long serialVersionUID = -2393069543783772239L;
 
     public RaceDTO(String name) {
         this.name = name;

@@ -1,7 +1,9 @@
 package dk.pekilidi.dod.character.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,6 @@ class CharacterTemplateTest {
   @Test
   void testEqualsNull() throws Exception {
     CharacterTemplate firstObject = rof.createAndFill(CharacterTemplate.class);
-    assertNotEquals(firstObject, null);
+    assertFalse(firstObject.equals(null)); //NOSONAR
   }
 }
