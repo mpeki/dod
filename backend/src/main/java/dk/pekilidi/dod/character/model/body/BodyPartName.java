@@ -1,7 +1,10 @@
 package dk.pekilidi.dod.character.model.body;
 
 import dk.pekilidi.dod.rules.changes.ChangeKey;
+import java.io.Serializable;
 
-public enum BodyPartName implements ChangeKey {
-  TOTAL, HEAD, CHEST, STOMACH, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG
+public enum BodyPartName implements ChangeKey, Serializable {
+  TOTAL, HEAD, CHEST, STOMACH, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG;
+
+  private static final long serialVersionUID = -4787939824473814511L;
 }

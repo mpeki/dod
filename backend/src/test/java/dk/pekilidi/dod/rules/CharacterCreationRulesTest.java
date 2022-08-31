@@ -21,7 +21,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 @DroolsSession(resources = {"classpath:/rules/CharacterCreationRules.drl"},
     ignoreRules = {"before", "after"},
     logResources = true)
-public class CharacterCreationRulesTest {
+class CharacterCreationRulesTest {
 
   @RegisterExtension
   public DroolsAssert drools = new DroolsAssert();
