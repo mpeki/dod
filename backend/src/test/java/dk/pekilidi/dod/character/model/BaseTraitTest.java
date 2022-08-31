@@ -62,13 +62,13 @@ class BaseTraitTest {
   @Test
   void testEqualsNull() throws Exception {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
-    assertNotEquals(firstObject,null);
+    assertNotEquals(null, firstObject);
   }
 
   @Test
   void testEqualsAnotherClass() throws Exception {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
-    assertNotEquals(firstObject,"HAT");
+    assertNotEquals("HAT", firstObject);
   }
 
 

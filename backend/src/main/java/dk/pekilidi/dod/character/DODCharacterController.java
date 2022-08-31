@@ -28,12 +28,10 @@ public class DODCharacterController {
   public List<DODCharacter> getCharacters(@PathVariable String name) {
     List<DODCharacter> entities = characterService.getCharactersByName(name);
     CharacterMapper mapper = new CharacterMapper();
-    List result = Arrays
+    return Arrays
         .stream(entities.toArray())
         .map(object -> mapper.map(object, DODCharacter.class))
         .collect(Collectors.toList());
-
-    return result;
   }
 
   @GetMapping("/char/{id}")

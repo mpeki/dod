@@ -1,20 +1,37 @@
 package dk.pekilidi.dod.character.model;
 
+import static dk.pekilidi.dod.character.AgeGroup.MATURE;
+import static dk.pekilidi.dod.character.CharacterState.NEW;
+
 import dk.pekilidi.dod.character.AgeGroup;
 import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.dod.character.CharacterState;
-import dk.pekilidi.dod.character.data.DODFact;
 import dk.pekilidi.dod.character.model.body.BaseBody;
-import lombok.*;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
-import lombok.Builder.Default;
-
-import static dk.pekilidi.dod.character.AgeGroup.*;
-import static dk.pekilidi.dod.character.CharacterState.NEW;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -35,11 +52,11 @@ public class DODCharacter implements Serializable {
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinTable(name = "character_trait_mapping",
-          joinColumns = {@JoinColumn(name = "character_id", referencedColumnName = "id")},
-          inverseJoinColumns = {@JoinColumn(name = "base_trait_id", referencedColumnName = "id")})
+      joinColumns = {@JoinColumn(name = "character_id", referencedColumnName = "id")},
+      inverseJoinColumns = {@JoinColumn(name = "base_trait_id", referencedColumnName = "id")})
   @MapKey(name = "traitName")
   @ToString.Exclude
-  private Map<BaseTraitName,BaseTrait> baseTraits;
+  private Map<BaseTraitName, BaseTrait> baseTraits;
 
   @NonNull
   @OneToOne(cascade = CascadeType.ALL)
@@ -68,8 +85,12 @@ public class DODCharacter implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     DODCharacter that = (DODCharacter) o;
     return id.equals(that.id) && Objects.equals(name, that.name);
   }
@@ -81,9 +102,6 @@ public class DODCharacter implements Serializable {
 
   @Override
   public String toString() {
-    return "DODCharacter{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            '}';
+    return "DODCharacter{" + "id=" + id + ", name='" + name + '\'' + '}';
   }
 }

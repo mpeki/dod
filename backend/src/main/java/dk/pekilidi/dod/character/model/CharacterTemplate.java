@@ -1,15 +1,20 @@
 package dk.pekilidi.dod.character.model;
 
+import dk.pekilidi.dod.character.model.body.BaseBody;
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -23,36 +28,35 @@ import org.hibernate.Hibernate;
 @Entity
 public class CharacterTemplate implements Serializable {
 
-    private static final long serialVersionUID = 4121021561881935955L;
+  private static final long serialVersionUID = 4121021561881935955L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @NonNull
-    @Column(unique=true)
-    private String name;
+  @NonNull
+  @Column(unique = true)
+  private String name;
 
-    @OneToMany
-    private List<BaseTraitRule> baseTraitRules;
+  @OneToMany
+  private List<BaseTraitRule> baseTraitRules;
 
-    private Class bodyTypeClass;
+  private Class<BaseBody> bodyTypeClass;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
-            return false;
-        }
-        CharacterTemplate that = (CharacterTemplate) o;
-        return Objects.equals(id, that.id);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
     }
+    CharacterTemplate that = (CharacterTemplate) o;
+    return Objects.equals(id, that.id);
+  }
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 }

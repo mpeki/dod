@@ -30,8 +30,6 @@ class BaseTraitRuleTest {
   @Test
   void testEqualsNull() throws Exception {
     BaseTraitRule firstObject = rof.createAndFill(BaseTraitRule.class);
-    assertNotEquals(firstObject, null);
+    assertNotEquals(null, firstObject);
   }
-
-
 }
