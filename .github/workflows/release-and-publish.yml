@@ -35,9 +35,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
         run: npx semantic-release
       - name: Build and push Docker image
-        run: ./gradlew jibDockerBuild
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: macp/dod:latest
+        run: ./gradlew jib
