@@ -1,6 +1,5 @@
 apply plugin: 'maven-publish'
 apply plugin: 'com.google.cloud.tools.jib'
-apply plugin: 'com.bmuschko.docker-remote-api'
 
 publishing {
     publications {
