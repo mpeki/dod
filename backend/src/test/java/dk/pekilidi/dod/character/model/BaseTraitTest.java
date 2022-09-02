@@ -48,9 +48,12 @@ class BaseTraitTest {
     assertNotEquals(firstObject, copied);
     copied.setValue(firstObject.getValue());
     assertEquals(firstObject, copied);
-    copied.setTraitName(BaseTraitName.CONSTITUTION);
+    if(copied.getTraitName().equals(BaseTraitName.CONSTITUTION)){
+      copied.setTraitName(BaseTraitName.STRENGTH);
+    } else {
+      copied.setTraitName(BaseTraitName.CONSTITUTION);
+    }
     assertNotEquals(firstObject, copied);
-
   }
 
   @Test
