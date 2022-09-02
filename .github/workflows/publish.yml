@@ -1,12 +1,14 @@
 name: Publish
 on:
   workflow_run:
-    workflows: ["CI"]
+    workflows: [CI]
     types:
       - completed
+    branches: [39-auto-push-docker-image]
 jobs:
   publish:
     name: Push Docker image to Docker Hub
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
