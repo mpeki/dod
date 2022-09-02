@@ -1,12 +1,17 @@
 name: Release and publish
 on:
   workflow_run:
-    workflows: [Verify]
+    workflows: ["build and verify"]
+    branches:
+      - 'main'
+      - 'alpha'
+      - 'beta'
     types:
       - completed
   workflow_dispatch:
 jobs:
   release-and-publish:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

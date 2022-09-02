@@ -1,4 +1,4 @@
-name: Verify
+name: build and verify
 on:
   push:
     branches:
@@ -12,8 +12,25 @@ on:
       - 'beta'
   workflow_dispatch:
 jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: gradle
+      - name: Build and test
+        run: ./gradlew test
   verify:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
