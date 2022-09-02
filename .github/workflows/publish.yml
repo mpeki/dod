@@ -4,7 +4,7 @@ on:
     workflows: [CI]
     types:
       - completed
-    workflow_dispatch:
+  workflow_dispatch:
 jobs:
   publish:
     name: Push Docker image to Docker Hub
