@@ -12,7 +12,7 @@ on:
       - 'beta'
   workflow_dispatch:
 jobs:
-  verify-and-release:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

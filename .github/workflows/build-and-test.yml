@@ -1,6 +1,10 @@
 name: build and test
 on:
   push:
+    branches-ignore:
+      - 'main'
+      - 'alpha'
+      - 'beta'
   workflow_dispatch:
 jobs:
   build-and-test:
