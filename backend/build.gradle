@@ -11,7 +11,7 @@ dependencies {
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.drools:drools-core:7.63.0.Final'
     implementation 'org.kie:kie-spring:7.63.0.Final'
-    implementation 'mysql:mysql-connector-java:8.0.25'
+    implementation 'mysql:mysql-connector-java:8.0.30'
     implementation 'org.modelmapper:modelmapper:3.0.0'
     implementation 'com.google.guava:guava:31.1-jre'
     compileOnly 'org.projectlombok:lombok'
