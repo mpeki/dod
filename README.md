@@ -4,7 +4,7 @@ Electrifying the Swedish Roleplaying game: Drager &amp; Dæmoner
 ## Badges
 We don't need no stinking badges: https://www.youtube.com/watch?v=VqomZQMZQCQ but here you go:
 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mpeki_dod&metric=coverage)](https://sonarcloud.io/api/project_badges/measure?project=mpeki_dod&metric=coverage)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mpeki_dod&metric=coverage)](https://sonarcloud.io/project/overview?id=mpeki_dod)
 [![Known Vulnerabilities](https://snyk.io/test/github/mpeki/dod/badge.svg)](https://snyk.io/test/github/mpeki/dod/badge.svg)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 

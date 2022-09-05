@@ -39,6 +39,8 @@ public class CharacterDTO implements DODFact, Serializable {
   private int heroPoints = -1;
   @Default
   private boolean hero = false;
+  @Default
+  private String damageBonus = "NA";
 
   public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
     if (baseTraits.containsKey(baseTraitName)) {

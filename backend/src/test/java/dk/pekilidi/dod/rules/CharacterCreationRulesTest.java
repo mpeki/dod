@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.rules;
 
+import static dk.pekilidi.dod.character.CharacterState.BODY_PART_HP_SET;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import dk.pekilidi.dod.character.BaseTraitName;
@@ -17,6 +18,8 @@ import org.droolsassert.TestRules;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @DroolsSession(resources = {"classpath:/rules/CharacterCreationRules.drl"},
     ignoreRules = {"before", "after"},
@@ -78,7 +81,8 @@ class CharacterCreationRulesTest {
       "Initialize base traits and hero points",
       "Initialize body - total HP",
       "Initialize body - body parts HP - humanoid",
-      "Check character completion"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
+      "Check character completion",
+      "Initialize damage bonus"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRaceAndAbleToCalculateTotalHP() {
     drools.insert(validNonHero);
     drools.fireAllRules();
@@ -87,6 +91,42 @@ class CharacterCreationRulesTest {
     assertEquals(2, drools.getObjects(BaseTraitDTO.class).size());
     assertEquals(8, drools.getObjects(CharacterDTO.class).get(0).getBodyParts().size());
     CharacterDTO characterDTO = drools.getObject(CharacterDTO.class);
+    assertEquals(CharacterState.INIT_COMPLETE, characterDTO.getState());
+  }
+
+
+  @ParameterizedTest
+  @CsvSource({
+      "1, '-1t2'",
+      "4, '-1t2'",
+      "5, '-1'",
+      "13, 'none'",
+      "16, '+1t2'",
+      "34, '+2t6'",
+      "46, '+3t8'",
+      "71, '+6t6'",
+      "80, '+6t6'",
+      "81, '+7t6'",
+      "90, '+7t6'",
+      "91, '+8t6'",
+      "100, '+8t6'",
+      "101, '+9t6'",
+      "104, '+9t6'",
+      "110, '+9t6'",
+      "120, '+10t6'"
+  })
+  @TestRules(expected = {
+      "Check character completion",
+      "Initialize damage bonus"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
+  void characterCreationCharacterTestDamageBonusLimits(int averageVal, String damageBonus ) {
+    validNonHero.getBaseTraits().put(BaseTraitName.STRENGTH, new BaseTraitDTO(BaseTraitName.STRENGTH, averageVal, 1, -1));
+    validNonHero.getBaseTraits().put(BaseTraitName.SIZE, new BaseTraitDTO(BaseTraitName.SIZE, averageVal, 1, -1));
+    validNonHero.setState(BODY_PART_HP_SET);
+    drools.insert(validNonHero);
+    drools.fireAllRules();
+    drools.assertFactsCount(1);
+    CharacterDTO characterDTO = drools.getObject(CharacterDTO.class);
+    assertEquals(damageBonus, characterDTO.getDamageBonus());
     assertEquals(CharacterState.INIT_COMPLETE, characterDTO.getState());
   }
 }

@@ -1,7 +1,7 @@
 name: Release and publish
 on:
   workflow_run:
-    workflows: ["build and verify"]
+    workflows: [ "build and verify" ]
     branches:
       - 'main'
       - 'alpha'
