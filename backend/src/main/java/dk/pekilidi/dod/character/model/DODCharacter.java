@@ -83,6 +83,9 @@ public class DODCharacter implements Serializable {
   @Transient
   private boolean hero;
 
+  @Column(columnDefinition = "varchar(32) default 'NA'")
+  private String damageBonus = "NA";
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

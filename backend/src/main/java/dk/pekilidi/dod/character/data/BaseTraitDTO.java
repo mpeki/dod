@@ -15,9 +15,9 @@ public class BaseTraitDTO implements Serializable {
 
     private static final long serialVersionUID = -2330840748162459050L;
 
-    public BaseTraitDTO(@NonNull BaseTraitName traitName, int value, int startValue, int groupValue) {
+    public BaseTraitDTO(@NonNull BaseTraitName traitName, int currentValue, int startValue, int groupValue) {
         this.traitName = traitName;
-        this.currentValue = value;
+        this.currentValue = currentValue;
         this.startValue = startValue;
         this.groupValue = groupValue;
     }
