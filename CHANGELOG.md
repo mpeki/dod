@@ -1,3 +1,10 @@
+# [1.0.0-alpha.7](https://github.com/mpeki/dod/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2022-09-07)
+
+
+### Features
+
+* **DOD-37:** add damage bonus to character ([f11e1cd](https://github.com/mpeki/dod/commit/f11e1cd709c436921841486294a8ee2f71767e7e))
+
 # [1.0.0-alpha.6](https://github.com/mpeki/dod/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2022-08-29)
 
 
