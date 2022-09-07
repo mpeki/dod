@@ -1,13 +1,15 @@
+apply plugin: 'io.spring.dependency-management'
+
 configurations {
     liquibase
 }
 
 dependencies {
-    implementation 'mysql:mysql-connector-java:8.0.25'
-    implementation 'org.liquibase.ext:liquibase-hibernate5:4.6.2'
-    implementation 'org.liquibase:liquibase-core:4.6.2'
-    implementation 'org.liquibase:liquibase-gradle-plugin:2.1.0'
-    implementation 'org.springframework.data:spring-data-jpa:2.6.0'
+    implementation 'mysql:mysql-connector-java:8.0.30'
+    implementation 'org.liquibase.ext:liquibase-hibernate5:4.15.0'
+    implementation 'org.liquibase:liquibase-core:4.15.0'
+    implementation 'org.liquibase:liquibase-gradle-plugin:2.1.1'
+    implementation 'org.springframework.data:spring-data-jpa'
 }
 
 //loading properties file.

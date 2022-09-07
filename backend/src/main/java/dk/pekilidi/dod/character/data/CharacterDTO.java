@@ -42,7 +42,7 @@ public class CharacterDTO implements DODFact, Serializable {
 
   public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
     if (baseTraits.containsKey(baseTraitName)) {
-      return baseTraits.get(baseTraitName).getValue();
+      return baseTraits.get(baseTraitName).getCurrentValue();
     }
     return -1;
   }
@@ -57,21 +57,21 @@ public class CharacterDTO implements DODFact, Serializable {
 
   public void incrementTrait(BaseTraitName traitName, int by) {
     baseTraits.computeIfPresent(traitName, (k, v) -> {
-      v.setValue(v.getValue() + by);
+      v.setCurrentValue(v.getCurrentValue() + by);
       return v;
     });
   }
 
   public void decrementTrait(BaseTraitName traitName, int by) {
     baseTraits.computeIfPresent(traitName, (k, v) -> {
-      v.setValue(v.getValue() - by);
+      v.setCurrentValue(v.getCurrentValue() - by);
       return v;
     });
   }
 
   public void updateBaseTrait(BaseTraitName traitName, int newValue) {
     baseTraits.computeIfPresent(traitName, (k, v) -> {
-      v.setValue(newValue);
+      v.setCurrentValue(newValue);
       return v;
     });
   }

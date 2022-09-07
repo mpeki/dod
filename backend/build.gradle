@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'jacoco'
 
 group 'dk.pekilidi'
 sourceCompatibility = '11'
@@ -9,9 +10,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.liquibase:liquibase-core'
-    implementation 'org.drools:drools-core:7.63.0.Final'
-    implementation 'org.kie:kie-spring:7.63.0.Final'
-    implementation 'mysql:mysql-connector-java:8.0.25'
+    implementation 'org.drools:drools-core:7.73.0.Final'
+    implementation 'org.kie:kie-spring:7.73.0.Final'
+    implementation 'mysql:mysql-connector-java:8.0.30'
     implementation 'org.modelmapper:modelmapper:3.0.0'
     implementation 'com.google.guava:guava:31.1-jre'
     compileOnly 'org.projectlombok:lombok'
@@ -23,7 +24,7 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.reflections:reflections:0.10.2'
-    testImplementation 'org.droolsassert:droolsassert:3.0.8'
+    testImplementation 'org.droolsassert:droolsassert:3.0.10'
 }
 
 dependencyManagement {
@@ -41,6 +42,10 @@ test {
         excludes = ['org.drools.*']
     }
     finalizedBy jacocoTestReport
+}
+
+jacoco {
+    toolVersion = "0.8.8"
 }
 
 jacocoTestReport {

@@ -2,6 +2,7 @@ package dk.pekilidi.dod.character.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BodyPartDTO {
+public class BodyPartDTO implements Serializable {
+
+  private static final long serialVersionUID = 6802315925684473259L;
 
   @JsonIgnore
   @NonNull

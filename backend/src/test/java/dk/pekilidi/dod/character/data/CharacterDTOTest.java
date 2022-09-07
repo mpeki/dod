@@ -38,7 +38,7 @@ class CharacterDTOTest {
         characterDTO.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY,5,5,0));
         assertNotNull(characterDTO.getBaseTraits());
         characterDTO.incrementTrait(BaseTraitName.DEXTERITY, 5);
-        assertEquals(10, characterDTO.getBaseTraits().get(BaseTraitName.DEXTERITY).getValue());
+        assertEquals(10, characterDTO.getBaseTraits().get(BaseTraitName.DEXTERITY).getCurrentValue());
         characterDTO.incrementTrait(BaseTraitName.SIZE, 5);
         assertNull(characterDTO.getBaseTraits().get(BaseTraitName.SIZE));
     }
@@ -50,7 +50,7 @@ class CharacterDTOTest {
         characterDTO.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY,5,5,0));
         assertNotNull(characterDTO.getBaseTraits());
         characterDTO.decrementTrait(BaseTraitName.DEXTERITY, 5);
-        assertEquals(0, characterDTO.getBaseTraits().get(BaseTraitName.DEXTERITY).getValue());
+        assertEquals(0, characterDTO.getBaseTraits().get(BaseTraitName.DEXTERITY).getCurrentValue());
         characterDTO.decrementTrait(BaseTraitName.SIZE, 5);
         assertNull(characterDTO.getBaseTraits().get(BaseTraitName.SIZE));
     }
@@ -62,7 +62,7 @@ class CharacterDTOTest {
         characterDTO.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY,5,5,0));
         assertNotNull(characterDTO.getBaseTraits());
         characterDTO.updateBaseTrait(BaseTraitName.DEXTERITY, 7);
-        assertEquals(7, characterDTO.getBaseTraits().get(BaseTraitName.DEXTERITY).getValue());
+        assertEquals(7, characterDTO.getBaseTraits().get(BaseTraitName.DEXTERITY).getCurrentValue());
         characterDTO.updateBaseTrait(BaseTraitName.SIZE, 5);
         assertNull(characterDTO.getBaseTraits().get(BaseTraitName.SIZE));
     }

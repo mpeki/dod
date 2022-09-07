@@ -41,12 +41,12 @@ class BaseTraitTest {
     BaseTrait secondObject = rof.createAndFill(BaseTrait.class);
     assertNotEquals(firstObject, secondObject);
     BaseTrait copied = new BaseTrait(
-        firstObject.getId(), firstObject.getTraitName(), firstObject.getValue(), firstObject.getStartValue(),
+        firstObject.getId(), firstObject.getTraitName(), firstObject.getCurrentValue(), firstObject.getStartValue(),
         firstObject.getGroupValue());
     assertEquals(firstObject, copied);
-    copied.setValue(12);
+    copied.setCurrentValue(12);
     assertNotEquals(firstObject, copied);
-    copied.setValue(firstObject.getValue());
+    copied.setCurrentValue(firstObject.getCurrentValue());
     assertEquals(firstObject, copied);
     if(copied.getTraitName().equals(BaseTraitName.CONSTITUTION)){
       copied.setTraitName(BaseTraitName.STRENGTH);
@@ -82,7 +82,7 @@ class BaseTraitTest {
     BaseTrait secondObject = rof.createAndFill(BaseTrait.class);
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
     BaseTrait copied = new BaseTrait(
-        firstObject.getId(), firstObject.getTraitName(), firstObject.getValue(), firstObject.getStartValue(),
+        firstObject.getId(), firstObject.getTraitName(), firstObject.getCurrentValue(), firstObject.getStartValue(),
         firstObject.getGroupValue());
     assertEquals(firstObject.hashCode(), copied.hashCode());
     copied.setTraitName(BaseTraitName.STRENGTH);
