@@ -13,7 +13,7 @@ dependencies {
     implementation 'org.drools:drools-core:7.73.0.Final'
     implementation 'org.kie:kie-spring:7.73.0.Final'
     implementation 'mysql:mysql-connector-java:8.0.30'
-    implementation 'org.modelmapper:modelmapper:3.0.0'
+    implementation 'org.modelmapper:modelmapper:3.1.0'
     implementation 'com.google.guava:guava:31.1-jre'
     compileOnly 'org.projectlombok:lombok'
 //     implementation "org.springdoc:springdoc-openapi-ui:1.6.9"
