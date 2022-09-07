@@ -17,7 +17,7 @@ public class BaseTraitDTO implements Serializable {
 
     public BaseTraitDTO(@NonNull BaseTraitName traitName, int value, int startValue, int groupValue) {
         this.traitName = traitName;
-        this.value = value;
+        this.currentValue = value;
         this.startValue = startValue;
         this.groupValue = groupValue;
     }
@@ -27,7 +27,7 @@ public class BaseTraitDTO implements Serializable {
     @JsonIgnore
     @NonNull
     private BaseTraitName traitName;
-    private int value = -1;
+    private int currentValue = -1;
     private int startValue = -1;
     private int groupValue = -1;
 }

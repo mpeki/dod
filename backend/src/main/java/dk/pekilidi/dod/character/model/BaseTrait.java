@@ -34,7 +34,7 @@ public class BaseTrait implements Serializable {
   @Enumerated(EnumType.STRING)
   private BaseTraitName traitName;
 
-  private int value;
+  private int currentValue;
   private int startValue;
   private int groupValue;
 
@@ -47,18 +47,18 @@ public class BaseTrait implements Serializable {
           return false;
       }
     BaseTrait baseTrait = (BaseTrait) o;
-    return value == baseTrait.value && startValue == baseTrait.startValue && groupValue == baseTrait.groupValue
+    return currentValue == baseTrait.currentValue && startValue == baseTrait.startValue && groupValue == baseTrait.groupValue
         && id.equals(baseTrait.id) && traitName.equals(baseTrait.traitName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, traitName, value, startValue, groupValue);
+    return Objects.hash(id, traitName, currentValue, startValue, groupValue);
   }
 
   @Override
   public String toString() {
-    return "BaseTrait{" + "id=" + id + ", traitName='" + traitName + '\'' + ", value=" + value + ", startValue="
+    return "BaseTrait{" + "id=" + id + ", traitName='" + traitName + '\'' + ", value=" + currentValue + ", startValue="
         + startValue + ", groupValue=" + groupValue + '}';
   }
 }

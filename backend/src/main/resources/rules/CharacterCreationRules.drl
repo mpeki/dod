@@ -89,7 +89,7 @@ end;
 
 rule "Set Group Value 0"
     when
-        baseTrait : BaseTraitDTO( value != -1 && value >= 0 && value <= 3);
+        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 0 && currentValue <= 3);
     then
         baseTrait.setGroupValue(0);
         update(baseTrait)
@@ -97,7 +97,7 @@ end;
 
 rule "Set Group Value 1"
     when
-        baseTrait : BaseTraitDTO( value != -1 && value >= 4 && value <= 8);
+        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 4 && currentValue <= 8);
     then
         baseTrait.setGroupValue(1);
         update(baseTrait)
@@ -105,7 +105,7 @@ end;
 
 rule "Set Group Value 2"
     when
-        baseTrait : BaseTraitDTO( value != -1 && value >= 9 && value <= 12);
+        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 9 && currentValue <= 12);
     then
         baseTrait.setGroupValue(2);
         update(baseTrait)
@@ -113,7 +113,7 @@ end;
 
 rule "Set Group Value 3"
     when
-        baseTrait : BaseTraitDTO( value != -1 && value >= 13 && value <= 16);
+        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 13 && currentValue <= 16);
     then
         baseTrait.setGroupValue(3);
         update(baseTrait)
@@ -121,7 +121,7 @@ end;
 
 rule "Set Group Value 4"
     when
-        baseTrait : BaseTraitDTO( value != -1 && value >= 17 && value <= 20);
+        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 17 && currentValue <= 20);
     then
         baseTrait.setGroupValue(4);
         update(baseTrait)
@@ -129,7 +129,7 @@ end;
 
 rule "Set Group Value 5"
     when
-        baseTrait : BaseTraitDTO( value != -1 && value >= 21 && value <= 25);
+        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 21 && currentValue <= 25);
     then
         baseTrait.setGroupValue(5);
         update(baseTrait)

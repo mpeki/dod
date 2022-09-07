@@ -51,3 +51,23 @@ databaseChangeLog:
             quotchar:  ''''
             separator:  ;
             tableName: dodcharacter
+  - changeSet:
+      id: load-configuration-data-05
+      author: msp
+      changes:
+        - loadData:
+            encoding: UTF-8
+            file: db/data/dodcore_base_trait.csv
+            quotchar:  ''''
+            separator:  ;
+            tableName: base_trait
+  - changeSet:
+      id: load-configuration-data-06
+      author: msp
+      changes:
+        - loadData:
+            encoding: UTF-8
+            file: db/data/dodcore_character_trait_mapping.csv
+            quotchar:  ''''
+            separator:  ;
+            tableName: character_trait_mapping
