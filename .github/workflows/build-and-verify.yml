@@ -1,6 +1,10 @@
 name: build and verify
 on:
   push:
+    branches-ignore:
+      - 'main'
+      - 'alpha'
+      - 'beta'
   pull_request:
     branches:
       - 'main'
