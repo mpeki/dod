@@ -18,6 +18,7 @@ import dk.pekilidi.dod.character.model.body.BodyPart
 import dk.pekilidi.dod.character.data.BodyPartDTO
 import dk.pekilidi.dod.character.model.body.BodyPartName
 import dk.pekilidi.dod.character.FavoriteHand
+import dk.pekilidi.dod.character.SocialStatus
 
 function boolean isBetween(int x, int lower, int upper) {
   return lower <= x && x <= upper;
@@ -246,9 +247,24 @@ rule "Determine favorite hand"
     }  else {
       character.setFavoriteHand(FavoriteHand.AMBIDEXTROUS);
     }
-
-
 end;
+
+rule "Determine social status"
+  when
+    character : CharacterDTO ( socialStatus == null)
+  then
+    int eyes = Dice.roll("1t20");
+    if(isBetween(eyes,1,2)){
+      character.setSocialStatus(SocialStatus.NOBLE);
+    } else if(isBetween(eyes, 3, 6)){
+      character.setSocialStatus(SocialStatus.CITIZEN);
+    } else if(isBetween(eyes, 7, 10)) {
+      character.setSocialStatus(SocialStatus.PEASANT);
+    }  else {
+      character.setSocialStatus(SocialStatus.DISPOSSESSED);
+    }
+end;
+
 
 rule "Check character completion"
   when
