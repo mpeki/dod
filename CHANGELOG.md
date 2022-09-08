@@ -1,3 +1,10 @@
+# [1.0.0-alpha.9](https://github.com/mpeki/dod/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2022-09-08)
+
+
+### Features
+
+* **DOD-55:** Implemented social status ([d072b9a](https://github.com/mpeki/dod/commit/d072b9a9361bfe8d880eb35e2cfdb11a56b4030a))
+
 # [1.0.0-alpha.8](https://github.com/mpeki/dod/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2022-09-08)
 
 
