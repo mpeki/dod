@@ -6,6 +6,7 @@ import dk.pekilidi.dod.character.AgeGroup;
 import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.dod.character.CharacterState;
 import dk.pekilidi.dod.character.FavoriteHand;
+import dk.pekilidi.dod.character.SocialStatus;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
 import java.io.Serializable;
 import java.util.EnumMap;
@@ -43,6 +44,7 @@ public class CharacterDTO implements DODFact, Serializable {
   @Default
   private String damageBonus = "NA";
   private FavoriteHand favoriteHand;
+  private SocialStatus socialStatus;
 
   public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
     if (baseTraits.containsKey(baseTraitName)) {

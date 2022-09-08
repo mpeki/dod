@@ -48,7 +48,7 @@ class CharacterCreationRulesTest {
   }
 
   @Test
-  @TestRules(expected = {"Determine favorite hand"})
+  @TestRules(expected = {"Determine favorite hand","Determine social status"})
   void characterCreationDefaultCharacter() {
     CharacterDTO character = CharacterDTO.builder().build();
     drools.insert(character);
@@ -57,7 +57,7 @@ class CharacterCreationRulesTest {
   }
 
   @Test
-  @TestRules(expected = {"Initialize base traits and hero points", "Determine favorite hand"},
+  @TestRules(expected = {"Initialize base traits and hero points","Determine social status","Determine favorite hand"},
       ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRace() {
     CharacterDTO character = CharacterDTO
@@ -81,7 +81,7 @@ class CharacterCreationRulesTest {
       "Initialize base traits and hero points",
       "Initialize body - total HP",
       "Initialize body - body parts HP - humanoid", "Determine favorite hand",
-      "Check character completion",
+      "Check character completion", "Determine social status",
       "Initialize damage bonus"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRaceAndAbleToCalculateTotalHP() {
     drools.insert(validNonHero);
@@ -116,7 +116,7 @@ class CharacterCreationRulesTest {
       "120, '+10t6'"
   })
   @TestRules(expected = {
-      "Check character completion", "Determine favorite hand",
+      "Check character completion", "Determine favorite hand", "Determine social status",
       "Initialize damage bonus"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterTestDamageBonusLimits(int averageVal, String damageBonus ) {
     validNonHero.getBaseTraits().put(BaseTraitName.STRENGTH, new BaseTraitDTO(BaseTraitName.STRENGTH, averageVal, 1, -1));
