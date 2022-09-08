@@ -1,3 +1,10 @@
+# [1.0.0-alpha.8](https://github.com/mpeki/dod/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2022-09-08)
+
+
+### Features
+
+* **DOD-54:** Add a favorite hand ([470c873](https://github.com/mpeki/dod/commit/470c8737d0d351a1ecee5e55f0e16376358c0007))
+
 # [1.0.0-alpha.7](https://github.com/mpeki/dod/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2022-09-07)
 
 
