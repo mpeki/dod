@@ -6,6 +6,7 @@ import static dk.pekilidi.dod.character.CharacterState.NEW;
 import dk.pekilidi.dod.character.AgeGroup;
 import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.dod.character.CharacterState;
+import dk.pekilidi.dod.character.FavoriteHand;
 import dk.pekilidi.dod.character.model.body.BaseBody;
 import java.io.Serializable;
 import java.util.Map;
@@ -85,6 +86,8 @@ public class DODCharacter implements Serializable {
 
   @Column(columnDefinition = "varchar(32) default 'NA'")
   private String damageBonus = "NA";
+
+  private FavoriteHand favoriteHand;
 
   @Override
   public boolean equals(Object o) {

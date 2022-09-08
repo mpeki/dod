@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dk.pekilidi.dod.character.FavoriteHand;
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class BeingTest {
     Race race = firstObject.getRace();
 
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter(id, name, null, race, null, null, -1, -1, null, false, "");
+      new DODCharacter(id, name, null, race, null, null, -1, -1, null, false, "", FavoriteHand.RIGHT);
     });
     HumanoidBody humanoidBody = new HumanoidBody();
     assertThrows(NullPointerException.class, () -> {
@@ -53,7 +54,7 @@ class BeingTest {
     assertNotEquals(firstObject, secondObject);
     DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(), firstObject.getBaseTraits(),
         firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
-        firstObject.getHeroPoints(), firstObject.getBody(), false, "");
+        firstObject.getHeroPoints(), firstObject.getBody(), false, "", FavoriteHand.RIGHT);
     assertEquals(firstObject, copied);
     copied.setName("abe");
     assertNotEquals(firstObject, copied);
@@ -78,7 +79,7 @@ class BeingTest {
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
     DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(), firstObject.getBaseTraits(),
         firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
-        firstObject.getHeroPoints(), firstObject.getBody(), false, "");
+        firstObject.getHeroPoints(), firstObject.getBody(), false, "", FavoriteHand.RIGHT);
     assertEquals(firstObject.hashCode(), copied.hashCode());
     copied.setName("Heman");
     assertNotEquals(firstObject.hashCode(), copied.hashCode());
