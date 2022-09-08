@@ -17,6 +17,7 @@ import dk.pekilidi.dod.character.model.body.HumanoidBody
 import dk.pekilidi.dod.character.model.body.BodyPart
 import dk.pekilidi.dod.character.data.BodyPartDTO
 import dk.pekilidi.dod.character.model.body.BodyPartName
+import dk.pekilidi.dod.character.FavoriteHand
 
 function boolean isBetween(int x, int lower, int upper) {
   return lower <= x && x <= upper;
@@ -83,14 +84,6 @@ rule "Initialize body - body parts HP - humanoid"
     update(character)
 end;
 
-rule "Check character completion"
-  when
-    character : dk.pekilidi.dod.character.data.CharacterDTO( state == CharacterState.DAMAGE_BONUS_SET)
-  then
-    character.setState(CharacterState.INIT_COMPLETE);
-    update(character)
-end;
-
 rule "Set Group Value 0"
     when
         baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 0 && currentValue <= 3);
@@ -138,6 +131,8 @@ rule "Set Group Value 5"
         baseTrait.setGroupValue(5);
         update(baseTrait)
 end;
+
+// ----------- Damage Bonus ---------------------------
 
 rule "Initialize damage bonus"
   when
@@ -237,23 +232,28 @@ rule "Apply modifiers for age group OLD"
         update(character)
 end;
 
-/*
-rule "Set body and body parts - humanoid"
-    when
-        characterTemplate : dk.pekilidi.dod.character.data.CharacterTemplateDTO( bodyTypeClass == null );
-    then
-        for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
-            int eyes = Dice.roll(character.isHero() ? rule.getBaseTraitHeroDieRoll() : rule.getBaseTraitDieRoll());
-            BaseTraitDTO baseTrait = new BaseTraitDTO(rule.getBaseTraitName(),eyes,eyes,-1);
-            insert(baseTrait);
-            character.addBaseTrait(baseTrait);
-        }
-        if (character.isHero()){
-          character.setHeroPoints(0);
-        } else {
-          character.setHeroPoints(-1);
-        }
-        character.setState(CharacterState.BASE_TRAITS_SET);
-        update(character)
+rule "Determine favorite hand"
+  when
+    character : CharacterDTO ( favoriteHand == null)
+  then
+    int eyes = Dice.roll("2t10");
+    if(isBetween(eyes,2,14)){
+      character.setFavoriteHand(FavoriteHand.RIGHT);
+    } else if(isBetween(eyes, 15, 18)){
+      character.setFavoriteHand(FavoriteHand.LEFT);    
+    } else if(eyes == 19) {
+      character.setFavoriteHand(FavoriteHand.DOUBLE);
+    }  else {
+      character.setFavoriteHand(FavoriteHand.AMBIDEXTROUS);
+    }
+
+
 end;
-*/
+
+rule "Check character completion"
+  when
+    character : dk.pekilidi.dod.character.data.CharacterDTO( state == CharacterState.DAMAGE_BONUS_SET)
+  then
+    character.setState(CharacterState.INIT_COMPLETE);
+    update(character)
+end;
