@@ -1,3 +1,10 @@
+# [1.0.0-alpha.10](https://github.com/mpeki/dod/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2022-09-09)
+
+
+### Features
+
+* **DOD-53:** adding skills to the datamodel ([6c6044a](https://github.com/mpeki/dod/commit/6c6044ae2886c8473e35ea1cadc72c3f6d4d65ef))
+
 # [1.0.0-alpha.9](https://github.com/mpeki/dod/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2022-09-08)
 
 
