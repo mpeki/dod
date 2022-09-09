@@ -1,7 +1,6 @@
 package dk.pekilidi.dod.character.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dk.pekilidi.dod.character.BaseTraitName;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -40,15 +39,15 @@ public class BaseTrait implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-      if (this == o) {
-          return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-          return false;
-      }
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     BaseTrait baseTrait = (BaseTrait) o;
-    return currentValue == baseTrait.currentValue && startValue == baseTrait.startValue && groupValue == baseTrait.groupValue
-        && id.equals(baseTrait.id) && traitName.equals(baseTrait.traitName);
+    return currentValue == baseTrait.currentValue && startValue == baseTrait.startValue
+        && groupValue == baseTrait.groupValue && id.equals(baseTrait.id) && traitName.equals(baseTrait.traitName);
   }
 
   @Override

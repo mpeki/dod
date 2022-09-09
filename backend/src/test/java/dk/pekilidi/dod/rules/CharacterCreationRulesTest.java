@@ -1,21 +1,22 @@
 package dk.pekilidi.dod.rules;
 
-import static dk.pekilidi.dod.character.CharacterState.BODY_PART_HP_SET;
+import static dk.pekilidi.dod.character.model.CharacterState.BODY_PART_HP_SET;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import dk.pekilidi.dod.character.BaseTraitName;
-import dk.pekilidi.dod.character.CharacterState;
-import dk.pekilidi.dod.character.data.BaseTraitDTO;
-import dk.pekilidi.dod.character.data.BaseTraitRuleDTO;
-import dk.pekilidi.dod.character.data.CharacterDTO;
-import dk.pekilidi.dod.character.data.CharacterTemplateDTO;
-import dk.pekilidi.dod.character.data.RaceDTO;
+import dk.pekilidi.dod.character.model.BaseTraitName;
+import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
+import dk.pekilidi.dod.data.BaseTraitDTO;
+import dk.pekilidi.dod.data.BaseTraitRuleDTO;
+import dk.pekilidi.dod.data.CharacterDTO;
+import dk.pekilidi.dod.data.CharacterTemplateDTO;
+import dk.pekilidi.dod.data.RaceDTO;
 import java.util.List;
 import org.droolsassert.DroolsAssert;
 import org.droolsassert.DroolsSession;
 import org.droolsassert.TestRules;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,6 +25,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DroolsSession(resources = {"classpath:/rules/CharacterCreationRules.drl"},
     ignoreRules = {"before", "after"},
     logResources = true)
+@Tag("regression")
 class CharacterCreationRulesTest {
 
   @RegisterExtension
@@ -48,7 +50,7 @@ class CharacterCreationRulesTest {
   }
 
   @Test
-  @TestRules(expected = {"Determine favorite hand","Determine social status"})
+  @TestRules(expected = {"Determine favorite hand", "Determine social status"})
   void characterCreationDefaultCharacter() {
     CharacterDTO character = CharacterDTO.builder().build();
     drools.insert(character);
@@ -57,7 +59,8 @@ class CharacterCreationRulesTest {
   }
 
   @Test
-  @TestRules(expected = {"Initialize base traits and hero points","Determine social status","Determine favorite hand"},
+  @TestRules(expected = {
+      "Initialize base traits and hero points", "Determine social status", "Determine favorite hand"},
       ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRace() {
     CharacterDTO character = CharacterDTO
@@ -80,8 +83,10 @@ class CharacterCreationRulesTest {
   @TestRules(expected = {
       "Initialize base traits and hero points",
       "Initialize body - total HP",
-      "Initialize body - body parts HP - humanoid", "Determine favorite hand",
-      "Check character completion", "Determine social status",
+      "Initialize body - body parts HP - humanoid",
+      "Determine favorite hand",
+      "Check character completion",
+      "Determine social status",
       "Initialize damage bonus"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRaceAndAbleToCalculateTotalHP() {
     drools.insert(validNonHero);
@@ -93,7 +98,6 @@ class CharacterCreationRulesTest {
     CharacterDTO characterDTO = drools.getObject(CharacterDTO.class);
     assertEquals(CharacterState.INIT_COMPLETE, characterDTO.getState());
   }
-
 
   @ParameterizedTest
   @CsvSource({
@@ -113,13 +117,14 @@ class CharacterCreationRulesTest {
       "101, '+9t6'",
       "104, '+9t6'",
       "110, '+9t6'",
-      "120, '+10t6'"
-  })
+      "120, '+10t6'"})
   @TestRules(expected = {
-      "Check character completion", "Determine favorite hand", "Determine social status",
-      "Initialize damage bonus"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
-  void characterCreationCharacterTestDamageBonusLimits(int averageVal, String damageBonus ) {
-    validNonHero.getBaseTraits().put(BaseTraitName.STRENGTH, new BaseTraitDTO(BaseTraitName.STRENGTH, averageVal, 1, -1));
+      "Check character completion", "Determine favorite hand", "Determine social status", "Initialize damage bonus"},
+      ignore = {"Set Group Value *", "Apply modifiers for age group *"})
+  void characterCreationCharacterTestDamageBonusLimits(int averageVal, String damageBonus) {
+    validNonHero
+        .getBaseTraits()
+        .put(BaseTraitName.STRENGTH, new BaseTraitDTO(BaseTraitName.STRENGTH, averageVal, 1, -1));
     validNonHero.getBaseTraits().put(BaseTraitName.SIZE, new BaseTraitDTO(BaseTraitName.SIZE, averageVal, 1, -1));
     validNonHero.setState(BODY_PART_HP_SET);
     drools.insert(validNonHero);

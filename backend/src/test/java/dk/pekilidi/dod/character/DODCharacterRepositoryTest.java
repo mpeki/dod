@@ -1,16 +1,18 @@
 package dk.pekilidi.dod.character;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.character.model.Race;
 import java.util.Optional;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 @DataJpaTest
+@Tag("regression")
 class DODCharacterRepositoryTest {
 
   @Autowired
@@ -22,7 +24,7 @@ class DODCharacterRepositoryTest {
   @Test
   void getCharacterReturnsChar() throws Exception {
 
-    Race race = entityManager.persist(new Race(null,"tiefling",null));
+    Race race = entityManager.persist(new Race(null, "tiefling", null));
     DODCharacter testBeing = new DODCharacter();
     testBeing.setName("kyron");
     testBeing.setRace(race);
@@ -55,8 +57,5 @@ class DODCharacterRepositoryTest {
     assertThat(characterOptional).isPresent();
     dodCharacter = characterOptional.get();
     assertThat(dodCharacter.getName()).isEqualTo("Paul");
-
   }
-
-
 }

@@ -2,13 +2,14 @@ package dk.pekilidi.dod.character.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("regression")
 class RaceTest {
 
   RandomObjectFiller rof = new RandomObjectFiller();
@@ -18,7 +19,7 @@ class RaceTest {
   CharacterTemplate characterTemplate;
 
   @BeforeEach
-  void setup(){
+  void setup() {
     firstObject = new Race();
     id = firstObject.getId();
     name = firstObject.getName();
@@ -29,7 +30,7 @@ class RaceTest {
   void testConstructors() throws Exception {
 
     assertThrows(NullPointerException.class, () -> {
-      new Race(id,null,characterTemplate);
+      new Race(id, null, characterTemplate);
     });
   }
 
@@ -40,31 +41,28 @@ class RaceTest {
     });
   }
 
-
-
   @Test
   void testEquals() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
     Race secondObject = rof.createAndFill(Race.class);
-    assertNotEquals(firstObject,secondObject);
+    assertNotEquals(firstObject, secondObject);
     Race copied = firstObject.toBuilder().build();
-    assertEquals(firstObject,copied);
+    assertEquals(firstObject, copied);
     copied.setId(0L);
-    assertNotEquals(firstObject,copied);
+    assertNotEquals(firstObject, copied);
   }
 
   @Test
   void testEqualsSame() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
-    assertEquals(firstObject,firstObject);
+    assertEquals(firstObject, firstObject);
   }
 
   @Test
   void testEqualsNull() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
-    assertNotEquals(null,firstObject);
+    assertNotEquals(null, firstObject);
   }
-
 
   @Test
   void testHashCode() throws Exception {

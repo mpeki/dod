@@ -6,7 +6,11 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
 }
 
-test { useJUnitPlatform() }
+test {
+    useJUnitPlatform {
+        excludeTags "integration"
+    }
+}
 
 tasks.named('jacocoTestReport').configure {
     dependsOn tasks.named('check')

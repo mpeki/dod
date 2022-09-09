@@ -9,6 +9,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.retry:spring-retry:1.2.5.RELEASE'
+    implementation 'org.springframework:spring-aspects:5.2.22.RELEASE'
+    implementation 'org.springframework:spring-core:5.3.23'
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.drools:drools-core:7.73.0.Final'
     implementation 'org.kie:kie-spring:7.73.0.Final'
@@ -22,9 +25,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.reflections:reflections:0.10.2'
     testImplementation 'org.droolsassert:droolsassert:3.0.10'
+
+    testImplementation "org.testcontainers:testcontainers:1.17.3"
+    testImplementation "org.testcontainers:junit-jupiter:1.17.3"
 }
 
 dependencyManagement {
@@ -35,10 +40,18 @@ dependencyManagement {
 }
 
 test {
-    environment 'SPRING_PROFILES_ACTIVE','test'
+    String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : 'regression';
+    String etags = System.getProperty("excludeTests") ? System.getProperty("excludeTests") : 'integration';
+
+    environment 'SPRING_PROFILES_ACTIVE', 'test'
     outputs.dir snippetsDir
-    useJUnitPlatform()
-    jacoco{
+
+
+    useJUnitPlatform {
+        includeTags itags
+        excludeTags etags
+    }
+    jacoco {
         excludes = ['org.drools.*']
     }
     finalizedBy jacocoTestReport

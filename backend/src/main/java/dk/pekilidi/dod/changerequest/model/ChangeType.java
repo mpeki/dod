@@ -1,5 +1,4 @@
-package dk.pekilidi.dod.rules.changes;
-
+package dk.pekilidi.dod.changerequest.model;
 
 public enum ChangeType {
 

@@ -1,21 +1,13 @@
 package dk.pekilidi.dod;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dk.pekilidi.dod.character.data.CharacterDTO;
-import dk.pekilidi.dod.character.model.DODCharacter;
-
-import dk.pekilidi.dod.util.objects.CharacterMapper;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import dk.pekilidi.dod.data.CharacterDTO;
 import org.h2.tools.Server;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
+@Tag("integration")
 class DodApplicationIntegrationTest {
 
   @Autowired
@@ -49,7 +42,8 @@ class DodApplicationIntegrationTest {
 
     //arrange
     //act
-    ResponseEntity<CharacterDTO[]> response = restTemplate.getForEntity("/char/name/{name}", CharacterDTO[].class, "vokan fagerhård");
+    ResponseEntity<CharacterDTO[]> response = restTemplate.getForEntity(
+        "/char/name/{name}", CharacterDTO[].class, "vokan fagerhård");
     CharacterDTO[] responseBody = response.getBody();
     //assert
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -58,12 +52,12 @@ class DodApplicationIntegrationTest {
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//    List result = Arrays.stream(responseBody)
-//        .map(object -> mapper.convertValue(object, CharacterDTO.class))
-//        .collect(Collectors.toList());
-//    assert result.size() != 0;
-//    CharacterDTO character = (CharacterDTO)result.get(0);
-//    assertThat(character.getName()).isEqualTo("vokan fagerhård");
-//    assertThat(character.getRace().getName()).isEqualTo("human");
+    //    List result = Arrays.stream(responseBody)
+    //        .map(object -> mapper.convertValue(object, CharacterDTO.class))
+    //        .collect(Collectors.toList());
+    //    assert result.size() != 0;
+    //    CharacterDTO character = (CharacterDTO)result.get(0);
+    //    assertThat(character.getName()).isEqualTo("vokan fagerhård");
+    //    assertThat(character.getRace().getName()).isEqualTo("human");
   }
 }

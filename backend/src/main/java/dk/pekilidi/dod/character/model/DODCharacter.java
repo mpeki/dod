@@ -1,13 +1,8 @@
 package dk.pekilidi.dod.character.model;
 
-import static dk.pekilidi.dod.character.AgeGroup.MATURE;
-import static dk.pekilidi.dod.character.CharacterState.NEW;
+import static dk.pekilidi.dod.character.model.AgeGroup.MATURE;
+import static dk.pekilidi.dod.character.model.CharacterState.NEW;
 
-import dk.pekilidi.dod.character.AgeGroup;
-import dk.pekilidi.dod.character.BaseTraitName;
-import dk.pekilidi.dod.character.CharacterState;
-import dk.pekilidi.dod.character.FavoriteHand;
-import dk.pekilidi.dod.character.SocialStatus;
 import dk.pekilidi.dod.character.model.body.BaseBody;
 import java.io.Serializable;
 import java.util.Map;
@@ -26,7 +21,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -82,7 +76,6 @@ public class DODCharacter implements Serializable {
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private BaseBody body;
 
-  @Transient
   private boolean hero;
 
   @Column(columnDefinition = "varchar(32) default 'NA'")

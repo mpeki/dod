@@ -1,2 +1,2 @@
-name;race_id;body_id
-vokan fagerhård;1;1
+name;race_id;body_id;hero
+vokan fagerhård;1;1;true

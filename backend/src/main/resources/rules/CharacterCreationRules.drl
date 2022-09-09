@@ -1,24 +1,31 @@
-import  dk.pekilidi.dod.character.data.CharacterTemplateDTO
-import  dk.pekilidi.dod.character.data.CharacterDTO
+import  dk.pekilidi.dod.data.CharacterTemplateDTO
+import  dk.pekilidi.dod.data.CharacterDTO
 import java.util.Arrays;
 import dk.pekilidi.dod.util.Dice
-import dk.pekilidi.dod.character.data.BaseTraitRuleDTO
-import dk.pekilidi.dod.character.data.BaseTraitDTO
+import dk.pekilidi.dod.data.BaseTraitRuleDTO
+import dk.pekilidi.dod.data.BaseTraitDTO
 import java.util.List
 import java.util.Collections
 import java.util.ArrayList
-import dk.pekilidi.dod.character.CharacterState;
-import dk.pekilidi.dod.character.AgeGroup
-import dk.pekilidi.dod.character.BaseTraitName
+import dk.pekilidi.dod.character.model.CharacterState;
+import dk.pekilidi.dod.character.model.AgeGroup
+import dk.pekilidi.dod.character.model.BaseTraitName
 import com.google.common.math.IntMath
 import java.math.RoundingMode
 import java.lang.reflect.Field;
 import dk.pekilidi.dod.character.model.body.HumanoidBody
 import dk.pekilidi.dod.character.model.body.BodyPart
-import dk.pekilidi.dod.character.data.BodyPartDTO
+import dk.pekilidi.dod.data.BodyPartDTO
 import dk.pekilidi.dod.character.model.body.BodyPartName
-import dk.pekilidi.dod.character.FavoriteHand
-import dk.pekilidi.dod.character.SocialStatus
+import dk.pekilidi.dod.character.model.FavoriteHand
+import dk.pekilidi.dod.character.model.SocialStatus
+import dk.pekilidi.dod.character.model.BaseTraitName
+import dk.pekilidi.dod.character.model.FavoriteHand
+import dk.pekilidi.dod.character.model.CharacterState
+import dk.pekilidi.dod.character.model.SocialStatus
+import dk.pekilidi.dod.data.BaseTraitDTO
+import dk.pekilidi.dod.data.BaseTraitRuleDTO
+import dk.pekilidi.dod.data.BodyPartDTO
 
 function boolean isBetween(int x, int lower, int upper) {
   return lower <= x && x <= upper;
@@ -26,7 +33,7 @@ function boolean isBetween(int x, int lower, int upper) {
 
 rule "Initialize base traits and hero points"
     when
-        character : dk.pekilidi.dod.character.data.CharacterDTO( baseTraits.size == 0 && race != null );
+        character : CharacterDTO( baseTraits.size == 0 && race != null );
         characterTemplate : CharacterTemplateDTO() from character.race.characterTemplate
     then
         for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
@@ -137,7 +144,7 @@ end;
 
 rule "Initialize damage bonus"
   when
-    character : dk.pekilidi.dod.character.data.CharacterDTO( state == CharacterState.BODY_PART_HP_SET )
+    character : CharacterDTO( state == CharacterState.BODY_PART_HP_SET )
   then
     Integer strength =  character.getBaseTraitValue(BaseTraitName.STRENGTH);
     Integer size = character.getBaseTraitValue(BaseTraitName.SIZE);
@@ -268,7 +275,7 @@ end;
 
 rule "Check character completion"
   when
-    character : dk.pekilidi.dod.character.data.CharacterDTO( state == CharacterState.DAMAGE_BONUS_SET)
+    character : CharacterDTO( state == CharacterState.DAMAGE_BONUS_SET)
   then
     character.setState(CharacterState.INIT_COMPLETE);
     update(character)

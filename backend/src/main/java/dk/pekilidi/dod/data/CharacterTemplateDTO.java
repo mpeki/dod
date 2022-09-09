@@ -1,4 +1,4 @@
-package dk.pekilidi.dod.character.data;
+package dk.pekilidi.dod.data;
 
 import java.io.Serializable;
 import java.util.List;

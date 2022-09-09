@@ -1,6 +1,5 @@
 package dk.pekilidi.dod.character.model;
 
-import dk.pekilidi.dod.character.BaseTraitName;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
