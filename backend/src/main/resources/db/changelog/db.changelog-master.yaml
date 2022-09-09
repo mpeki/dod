@@ -3,3 +3,5 @@ databaseChangeLog:
       file: "db/changelog/01-create-schema.yaml"
   - include:
       file: "db/changelog/02-configuration-data.yaml"
+  - include:
+      file: "db/changelog/03-test-data.yaml"

@@ -5,19 +5,19 @@ databaseChangeLog:
       changes:
         - loadData:
             encoding: UTF-8
-            file: db/data/dodcore_base_trait_rule.csv
+            file: db/data/config/dodcore_base_trait_rule.csv
             quotchar:  ''''
             separator:  ;
             tableName: base_trait_rule
         - loadData:
             encoding: UTF-8
-            file: db/data/dodcore_character_template.csv
+            file: db/data/config/dodcore_character_template.csv
             quotchar:  ''''
             separator:  ;
             tableName: character_template
         - loadData:
             encoding: UTF-8
-            file: db/data/dodcore_character_template_base_trait_rules.csv
+            file: db/data/config/dodcore_character_template_base_trait_rules.csv
             quotchar:  ''''
             separator:  ;
             tableName: character_template_base_trait_rules
@@ -27,7 +27,7 @@ databaseChangeLog:
         changes:
           - loadData:
               encoding: UTF-8
-              file: db/data/dodcore_race.csv
+              file: db/data/config/dodcore_race.csv
               quotchar:  ''''
               separator:  ;
               tableName: race
@@ -37,37 +37,7 @@ databaseChangeLog:
       changes:
         - loadData:
             encoding: UTF-8
-            file: db/data/dodcore_base_body.csv
+            file: db/data/config/dodcore_skill.csv
             quotchar:  ''''
             separator:  ;
-            tableName: base_body
-  - changeSet:
-      id: load-configuration-data-04
-      author: msp
-      changes:
-        - loadData:
-            encoding: UTF-8
-            file: db/data/dodcore_character.csv
-            quotchar:  ''''
-            separator:  ;
-            tableName: dodcharacter
-  - changeSet:
-      id: load-configuration-data-05
-      author: msp
-      changes:
-        - loadData:
-            encoding: UTF-8
-            file: db/data/dodcore_base_trait.csv
-            quotchar:  ''''
-            separator:  ;
-            tableName: base_trait
-  - changeSet:
-      id: load-configuration-data-06
-      author: msp
-      changes:
-        - loadData:
-            encoding: UTF-8
-            file: db/data/dodcore_character_trait_mapping.csv
-            quotchar:  ''''
-            separator:  ;
-            tableName: character_trait_mapping
+            tableName: skill

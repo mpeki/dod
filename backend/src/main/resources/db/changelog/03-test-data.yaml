@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: load-test-data-01
+      author: msp
+      changes:
+        - loadData:
+            encoding: UTF-8
+            file: db/data/test/dodcore_base_body.csv
+            quotchar:  ''''
+            separator:  ;
+            tableName: base_body
+  - changeSet:
+      id: load-test-data-02
+      author: msp
+      changes:
+        - loadData:
+            encoding: UTF-8
+            file: db/data/test/dodcore_character.csv
+            quotchar:  ''''
+            separator:  ;
+            tableName: dodcharacter
+  - changeSet:
+      id: load-test-data-03
+      author: msp
+      changes:
+        - loadData:
+            encoding: UTF-8
+            file: db/data/test/dodcore_base_trait.csv
+            quotchar:  ''''
+            separator:  ;
+            tableName: base_trait
+  - changeSet:
+      id: load-test-data-04
+      author: msp
+      changes:
+        - loadData:
+            encoding: UTF-8
+            file: db/data/test/dodcore_character_trait_mapping.csv
+            quotchar:  ''''
+            separator:  ;
+            tableName: character_trait_mapping
