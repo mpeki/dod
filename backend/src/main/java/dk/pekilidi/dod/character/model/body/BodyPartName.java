@@ -1,6 +1,6 @@
 package dk.pekilidi.dod.character.model.body;
 
-import dk.pekilidi.dod.rules.changes.ChangeKey;
+import dk.pekilidi.dod.changerequest.model.ChangeKey;
 import java.io.Serializable;
 
 public enum BodyPartName implements ChangeKey, Serializable {

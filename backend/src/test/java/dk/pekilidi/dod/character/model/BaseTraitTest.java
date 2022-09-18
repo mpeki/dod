@@ -5,10 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import dk.pekilidi.dod.character.BaseTraitName;
 import dk.pekilidi.utils.RandomObjectFiller;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("regression")
 class BaseTraitTest {
 
   RandomObjectFiller rof = new RandomObjectFiller();
@@ -40,15 +41,14 @@ class BaseTraitTest {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
     BaseTrait secondObject = rof.createAndFill(BaseTrait.class);
     assertNotEquals(firstObject, secondObject);
-    BaseTrait copied = new BaseTrait(
-        firstObject.getId(), firstObject.getTraitName(), firstObject.getCurrentValue(), firstObject.getStartValue(),
-        firstObject.getGroupValue());
+    BaseTrait copied = new BaseTrait(firstObject.getId(), firstObject.getTraitName(), firstObject.getCurrentValue(),
+        firstObject.getStartValue(), firstObject.getGroupValue());
     assertEquals(firstObject, copied);
     copied.setCurrentValue(12);
     assertNotEquals(firstObject, copied);
     copied.setCurrentValue(firstObject.getCurrentValue());
     assertEquals(firstObject, copied);
-    if(copied.getTraitName().equals(BaseTraitName.CONSTITUTION)){
+    if (copied.getTraitName().equals(BaseTraitName.CONSTITUTION)) {
       copied.setTraitName(BaseTraitName.STRENGTH);
     } else {
       copied.setTraitName(BaseTraitName.CONSTITUTION);
@@ -59,7 +59,7 @@ class BaseTraitTest {
   @Test
   void testEqualsSame() throws Exception {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
-    assertEquals(firstObject,firstObject);
+    assertEquals(firstObject, firstObject);
   }
 
   @Test
@@ -74,26 +74,23 @@ class BaseTraitTest {
     assertNotEquals("HAT", firstObject);
   }
 
-
   @Test
   void testHashCode() throws Exception {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
     firstObject.setTraitName(BaseTraitName.SIZE);
     BaseTrait secondObject = rof.createAndFill(BaseTrait.class);
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
-    BaseTrait copied = new BaseTrait(
-        firstObject.getId(), firstObject.getTraitName(), firstObject.getCurrentValue(), firstObject.getStartValue(),
-        firstObject.getGroupValue());
+    BaseTrait copied = new BaseTrait(firstObject.getId(), firstObject.getTraitName(), firstObject.getCurrentValue(),
+        firstObject.getStartValue(), firstObject.getGroupValue());
     assertEquals(firstObject.hashCode(), copied.hashCode());
     copied.setTraitName(BaseTraitName.STRENGTH);
     assertNotEquals(firstObject.hashCode(), copied.hashCode());
   }
 
   @Test
-  void testToString() throws Exception{
+  void testToString() throws Exception {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
     assertTrue(firstObject.toString().contains("id="));
     assertTrue(firstObject.toString().contains("traitName="));
   }
-
 }

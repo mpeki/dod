@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import dk.pekilidi.dod.character.FavoriteHand;
-import dk.pekilidi.dod.character.SocialStatus;
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
 import dk.pekilidi.utils.RandomObjectFiller;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("regression")
 class BeingTest {
 
   RandomObjectFiller rof = new RandomObjectFiller();
@@ -25,11 +25,12 @@ class BeingTest {
     Race race = firstObject.getRace();
 
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter(id, name, null, race, null, null, -1, -1, null, false, "", FavoriteHand.RIGHT, SocialStatus.DISPOSSESSED);
+      new DODCharacter(
+          id, name, null, race, null, null, -1, -1, null, false, "", FavoriteHand.RIGHT, SocialStatus.DISPOSSESSED);
     });
     HumanoidBody humanoidBody = new HumanoidBody();
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter("test", null, humanoidBody );
+      new DODCharacter("test", null, humanoidBody);
     });
   }
 

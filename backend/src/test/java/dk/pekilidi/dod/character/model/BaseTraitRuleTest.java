@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import dk.pekilidi.utils.RandomObjectFiller;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("regression")
 class BaseTraitRuleTest {
 
   RandomObjectFiller rof = new RandomObjectFiller();

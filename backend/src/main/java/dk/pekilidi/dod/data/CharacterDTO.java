@@ -1,12 +1,12 @@
-package dk.pekilidi.dod.character.data;
+package dk.pekilidi.dod.data;
 
-import static dk.pekilidi.dod.character.AgeGroup.MATURE;
+import static dk.pekilidi.dod.character.model.AgeGroup.MATURE;
 
-import dk.pekilidi.dod.character.AgeGroup;
-import dk.pekilidi.dod.character.BaseTraitName;
-import dk.pekilidi.dod.character.CharacterState;
-import dk.pekilidi.dod.character.FavoriteHand;
-import dk.pekilidi.dod.character.SocialStatus;
+import dk.pekilidi.dod.character.model.AgeGroup;
+import dk.pekilidi.dod.character.model.BaseTraitName;
+import dk.pekilidi.dod.character.model.CharacterState;
+import dk.pekilidi.dod.character.model.FavoriteHand;
+import dk.pekilidi.dod.character.model.SocialStatus;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
 import java.io.Serializable;
 import java.util.EnumMap;
@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -30,8 +31,10 @@ public class CharacterDTO implements DODFact, Serializable {
   private String name = "NONAME";
   private RaceDTO race;
   @Default
+  @EqualsAndHashCode.Exclude
   private Map<BaseTraitName, BaseTraitDTO> baseTraits = new EnumMap<>(BaseTraitName.class);
   @Default
+  @EqualsAndHashCode.Exclude
   private Map<BodyPartName, BodyPartDTO> bodyParts = new EnumMap<>(BodyPartName.class);
   @Default
   private AgeGroup ageGroup = MATURE;

@@ -1,6 +1,6 @@
-package dk.pekilidi.dod.rules.changes;
+package dk.pekilidi.dod.changerequest.model;
 
-import dk.pekilidi.dod.character.data.DODFact;
+import dk.pekilidi.dod.data.DODFact;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.With;
 
-@Builder(toBuilder=true)
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -28,7 +28,6 @@ public class ChangeRequest implements DODFact {
   private Object objectAfterChange;
   private Object modifier;
   @Default
-  private ChangeStatus status = ChangeStatus.REJECTED;
+  private ChangeStatus status = ChangeStatus.PENDING;
   private ChangeStatusLabel statusLabel;
-
 }

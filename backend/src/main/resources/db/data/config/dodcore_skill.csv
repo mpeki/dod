@@ -1,4 +1,4 @@
-base_chance;category;description;group;name;price;trait_name
+base_chance;category;description_key;group;name;price;trait_name
 0;1;skill.description.acrobatics;3;acrobatics;8;3
 3;0;skill.description.grabling.hook;3;grabling hook;1;3
 

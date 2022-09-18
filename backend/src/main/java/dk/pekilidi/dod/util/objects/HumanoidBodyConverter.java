@@ -9,10 +9,10 @@ import static dk.pekilidi.dod.character.model.body.BodyPartName.RIGHT_LEG;
 import static dk.pekilidi.dod.character.model.body.BodyPartName.STOMACH;
 import static dk.pekilidi.dod.character.model.body.BodyPartName.TOTAL;
 
-import dk.pekilidi.dod.character.data.BodyPartDTO;
 import dk.pekilidi.dod.character.model.body.BodyPart;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
+import dk.pekilidi.dod.data.BodyPartDTO;
 import java.util.EnumMap;
 import java.util.Map;
 import org.modelmapper.Converter;
@@ -26,14 +26,14 @@ public class HumanoidBodyConverter {
     Map<BodyPartName, BodyPartDTO> source = context.getSource();
     return source == null || source.size() == 0 ? new HumanoidBody() : HumanoidBody
         .builder()
-        .total(createBodyPartEntityFromSourceDTO(TOTAL,source))
-        .head(createBodyPartEntityFromSourceDTO(HEAD,source))
-        .chest(createBodyPartEntityFromSourceDTO(CHEST,source))
-        .stomach(createBodyPartEntityFromSourceDTO(STOMACH,source))
-        .rightArm(createBodyPartEntityFromSourceDTO(RIGHT_ARM,source))
-        .leftArm(createBodyPartEntityFromSourceDTO(LEFT_ARM,source))
-        .rightLeg(createBodyPartEntityFromSourceDTO(LEFT_ARM,source))
-        .leftLeg(createBodyPartEntityFromSourceDTO(LEFT_LEG,source))
+        .total(createBodyPartEntityFromSourceDTO(TOTAL, source))
+        .head(createBodyPartEntityFromSourceDTO(HEAD, source))
+        .chest(createBodyPartEntityFromSourceDTO(CHEST, source))
+        .stomach(createBodyPartEntityFromSourceDTO(STOMACH, source))
+        .rightArm(createBodyPartEntityFromSourceDTO(RIGHT_ARM, source))
+        .leftArm(createBodyPartEntityFromSourceDTO(LEFT_ARM, source))
+        .rightLeg(createBodyPartEntityFromSourceDTO(LEFT_ARM, source))
+        .leftLeg(createBodyPartEntityFromSourceDTO(LEFT_LEG, source))
         .build();
   };
 

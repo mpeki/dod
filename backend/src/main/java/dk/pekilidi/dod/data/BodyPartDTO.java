@@ -1,4 +1,4 @@
-package dk.pekilidi.dod.character.data;
+package dk.pekilidi.dod.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.pekilidi.dod.character.model.body.BodyPartName;

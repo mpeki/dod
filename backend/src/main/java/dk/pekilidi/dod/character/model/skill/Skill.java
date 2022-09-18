@@ -1,6 +1,6 @@
 package dk.pekilidi.dod.character.model.skill;
 
-import dk.pekilidi.dod.character.BaseTraitName;
+import dk.pekilidi.dod.character.model.BaseTraitName;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -32,7 +32,7 @@ public class Skill implements Serializable {
   private Group group;
   private Integer price;
   private BaseTraitName baseChance;
-  private String descriptionTextKey;
+  private String descriptionKey;
 
   @Override
   public boolean equals(Object o) {

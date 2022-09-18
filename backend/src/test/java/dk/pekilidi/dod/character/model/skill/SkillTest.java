@@ -6,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dk.pekilidi.utils.RandomObjectFiller;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("regression")
 class SkillTest {
 
   static private RandomObjectFiller rof = new RandomObjectFiller();
@@ -19,7 +21,7 @@ class SkillTest {
     assertNotEquals(firstObject, secondObject);
     Skill copied = new Skill(firstObject.getId(), firstObject.getName(), firstObject.getTraitName(),
         firstObject.getCategory(), firstObject.getGroup(), firstObject.getPrice(), firstObject.getBaseChance(),
-        firstObject.getDescriptionTextKey());
+        firstObject.getDescriptionKey());
     assertEquals(firstObject, copied);
     copied.setName("abe");
     assertNotEquals(firstObject, copied);
@@ -44,7 +46,7 @@ class SkillTest {
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
     Skill copied = new Skill(firstObject.getId(), firstObject.getName(), firstObject.getTraitName(),
         firstObject.getCategory(), firstObject.getGroup(), firstObject.getPrice(), firstObject.getBaseChance(),
-        firstObject.getDescriptionTextKey());
+        firstObject.getDescriptionKey());
     copied.setName("Heman");
     assertNotEquals(firstObject.hashCode(), copied.hashCode());
   }
