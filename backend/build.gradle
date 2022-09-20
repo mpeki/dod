@@ -10,7 +10,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.retry:spring-retry:1.2.5.RELEASE'
-    implementation 'org.springframework:spring-aspects:5.2.22.RELEASE'
+    implementation 'org.springframework:spring-aspects:5.3.23'
     implementation 'org.springframework:spring-core:5.3.23'
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.drools:drools-core:7.73.0.Final'
