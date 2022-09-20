@@ -1,3 +1,10 @@
+# [1.0.0-alpha.11](https://github.com/mpeki/dod/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2022-09-20)
+
+
+### Features
+
+* **DOD-61:** added thieving skills ([0481053](https://github.com/mpeki/dod/commit/0481053914e2eb1e58eb237c936ec511882d6da1))
+
 # [1.0.0-alpha.10](https://github.com/mpeki/dod/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2022-09-09)
 
 
