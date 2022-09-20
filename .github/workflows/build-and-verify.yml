@@ -32,14 +32,14 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Build and verify
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.actor != 'dependabot-bot'
         run: ./gradlew test jacocoTestCoverageVerification sonarqube --info -DincludeTests="any()" -DexcludeTests"none()"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
       - name: Report
         uses: dorny/test-reporter@v1
-        if: always()
+        if: github.actor != 'dependabot-bot'
         with:
           name: Unit Tests
           path: backend/build/test-results/test/*.xml
