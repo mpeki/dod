@@ -1,6 +1,6 @@
 key;base_chance;category;group;price;trait_name
 
-#Thieving skills
+# Thieving skills
 
 acrobatics;0;1;3;8;4
 city.knowledge;0;0;3;1;5
@@ -16,3 +16,12 @@ sneak;4;0;3;2;4
 jump;4;0;3;1;4
 steal;0;0;3;3;4
 underworld;0;0;3;1;5
+
+# Combat skills
+
+judo;0;0;1;2;4
+karate;0;0;1;3;4
+tactics;0;0;1;3;5
+fast.draw;4;0;1;2;4
+primary.weapon;0;0;1;2;4
+secondary.weapon;0;0;1;5;4
