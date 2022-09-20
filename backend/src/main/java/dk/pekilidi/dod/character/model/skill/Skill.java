@@ -26,13 +26,12 @@ public class Skill implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String name;
+  private String key;
   private BaseTraitName traitName;
   private Category category;
   private Group group;
   private Integer price;
   private BaseTraitName baseChance;
-  private String descriptionKey;
 
   @Override
   public boolean equals(Object o) {
@@ -43,16 +42,16 @@ public class Skill implements Serializable {
       return false;
     }
     Skill that = (Skill) o;
-    return Objects.equals(id, that.id) && Objects.equals(name, that.name);
+    return Objects.equals(id, that.id) && Objects.equals(key, that.key);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(id, key);
   }
 
   @Override
   public String toString() {
-    return "Skill{" + "id=" + id + ", name='" + name + '\'' + '}';
+    return "Skill{" + "id=" + id + ", name='" + key + '\'' + '}';
   }
 }
