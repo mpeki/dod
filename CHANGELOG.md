@@ -1,3 +1,10 @@
+# [1.0.0-alpha.12](https://github.com/mpeki/dod/compare/v1.0.0-alpha.11...v1.0.0-alpha.12) (2022-09-20)
+
+
+### Features
+
+* **DOD-68:** added config for combat skills ([caa26da](https://github.com/mpeki/dod/commit/caa26dab890097f7515da329c63bca24140462f2))
+
 # [1.0.0-alpha.11](https://github.com/mpeki/dod/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2022-09-20)
 
 
