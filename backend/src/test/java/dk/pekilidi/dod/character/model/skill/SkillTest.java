@@ -19,11 +19,10 @@ class SkillTest {
     Skill firstObject = rof.createAndFill(Skill.class);
     Skill secondObject = rof.createAndFill(Skill.class);
     assertNotEquals(firstObject, secondObject);
-    Skill copied = new Skill(firstObject.getId(), firstObject.getName(), firstObject.getTraitName(),
-        firstObject.getCategory(), firstObject.getGroup(), firstObject.getPrice(), firstObject.getBaseChance(),
-        firstObject.getDescriptionKey());
+    Skill copied = new Skill(firstObject.getId(), firstObject.getKey(), firstObject.getTraitName(),
+        firstObject.getCategory(), firstObject.getGroup(), firstObject.getPrice(), firstObject.getBaseChance());
     assertEquals(firstObject, copied);
-    copied.setName("abe");
+    copied.setKey("abe");
     assertNotEquals(firstObject, copied);
   }
 
@@ -44,10 +43,9 @@ class SkillTest {
     Skill firstObject = rof.createAndFill(Skill.class);
     Skill secondObject = rof.createAndFill(Skill.class);
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
-    Skill copied = new Skill(firstObject.getId(), firstObject.getName(), firstObject.getTraitName(),
-        firstObject.getCategory(), firstObject.getGroup(), firstObject.getPrice(), firstObject.getBaseChance(),
-        firstObject.getDescriptionKey());
-    copied.setName("Heman");
+    Skill copied = new Skill(firstObject.getId(), firstObject.getKey(), firstObject.getTraitName(),
+        firstObject.getCategory(), firstObject.getGroup(), firstObject.getPrice(), firstObject.getBaseChance());
+    copied.setKey("Heman");
     assertNotEquals(firstObject.hashCode(), copied.hashCode());
   }
 

@@ -1,4 +1,18 @@
-base_chance;category;description_key;group;name;price;trait_name
-0;1;skill.description.acrobatics;3;acrobatics;8;3
-3;0;skill.description.grabling.hook;3;grabling hook;1;3
+key;base_chance;category;group;price;trait_name
 
+#Thieving skills
+
+acrobatics;0;1;3;8;4
+city.knowledge;0;0;3;1;5
+pick.locks;0;0;3;3;4
+grabling.hook;4;0;3;1;4
+disguise;0;0;3;2;5
+gambling;0;0;3;2;5
+handle.traps;0;0;3;4;4
+climbing;4;0;3;1;4
+hiding;5;0;3;2;5
+shadow;0;0;3;2;5
+sneak;4;0;3;2;4
+jump;4;0;3;1;4
+steal;0;0;3;3;4
+underworld;0;0;3;1;5
