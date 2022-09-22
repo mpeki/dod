@@ -6,11 +6,7 @@ on:
       - 'main'
       - 'alpha'
       - 'beta'
-  workflow_dispatch:
-permissions:
-  pull-requests: write
-  issues: write
-  repository-projects: write  
+  workflow_dispatch:  
 jobs:
   build-test-verify:
     runs-on: ubuntu-latest
@@ -29,19 +25,20 @@ jobs:
         if: github.event_name != 'pull_request'
         run: ./gradlew test
       - name: Cache SonarCloud packages
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request'  && github.actor != 'dependabot[bot]'
         uses: actions/cache@v1
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Build and verify
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
         run: ./gradlew test jacocoTestCoverageVerification sonarqube --info -DincludeTests="any()" -DexcludeTests"none()"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
       - name: Report
+        if: github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v1
         with:
           name: Unit Tests
