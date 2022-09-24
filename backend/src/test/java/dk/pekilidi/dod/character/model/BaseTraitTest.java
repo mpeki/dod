@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.character.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -65,12 +66,13 @@ class BaseTraitTest {
   @Test
   void testEqualsNull() throws Exception {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
-    assertNotEquals(null, firstObject);
+    assertFalse(firstObject.equals(null));
   }
 
   @Test
   void testEqualsAnotherClass() throws Exception {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
+    assertFalse("HAT".equals(firstObject));
     assertNotEquals("HAT", firstObject);
   }
 

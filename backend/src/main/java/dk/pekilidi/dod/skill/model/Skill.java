@@ -1,4 +1,4 @@
-package dk.pekilidi.dod.character.model.skill;
+package dk.pekilidi.dod.skill.model;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import java.io.Serializable;
@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import org.hibernate.Hibernate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 public class Skill implements Serializable {
 

@@ -71,6 +71,7 @@ jacocoTestReport {
 jacocoTestCoverageVerification {
     violationRules {
         rule {
+            excludes = ['dk.pekilidi.dod.character.model.*']
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
