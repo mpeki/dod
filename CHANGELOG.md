@@ -1,3 +1,10 @@
+# [1.0.0-alpha.13](https://github.com/mpeki/dod/compare/v1.0.0-alpha.12...v1.0.0-alpha.13) (2022-09-26)
+
+
+### Features
+
+* **DOD-62:** Skill resource created ([1fccf66](https://github.com/mpeki/dod/commit/1fccf6681e96490a571c68faae5b8a8c50ab4104))
+
 # [1.0.0-alpha.12](https://github.com/mpeki/dod/compare/v1.0.0-alpha.11...v1.0.0-alpha.12) (2022-09-20)
 
 
