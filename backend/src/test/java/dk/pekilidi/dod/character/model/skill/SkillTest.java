@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dk.pekilidi.dod.skill.model.Skill;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
