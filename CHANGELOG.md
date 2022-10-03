@@ -1,3 +1,10 @@
+# [1.0.0-alpha.14](https://github.com/mpeki/dod/compare/v1.0.0-alpha.13...v1.0.0-alpha.14) (2022-10-03)
+
+
+### Features
+
+* **DOD-71:** Characters can now buy skills ([f281ed4](https://github.com/mpeki/dod/commit/f281ed4d99760dec2ae41ef95cb767348070040f))
+
 # [1.0.0-alpha.13](https://github.com/mpeki/dod/compare/v1.0.0-alpha.12...v1.0.0-alpha.13) (2022-09-26)
 
 
