@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.dod.skill.model.Skill;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Tag;
@@ -23,7 +24,7 @@ class SkillTest {
     Skill copied = new Skill(firstObject.getId(), firstObject.getKey(), firstObject.getTraitName(),
         firstObject.getCategory(), firstObject.getGroup(), firstObject.getPrice(), firstObject.getBaseChance());
     assertEquals(firstObject, copied);
-    copied.setKey("abe");
+    copied.setKey(SkillKey.builder().value("abe").build());
     assertNotEquals(firstObject, copied);
   }
 
@@ -46,7 +47,7 @@ class SkillTest {
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
     Skill copied = new Skill(firstObject.getId(), firstObject.getKey(), firstObject.getTraitName(),
         firstObject.getCategory(), firstObject.getGroup(), firstObject.getPrice(), firstObject.getBaseChance());
-    copied.setKey("Heman");
+    copied.setKey(SkillKey.builder().value("Heman").build());
     assertNotEquals(firstObject.hashCode(), copied.hashCode());
   }
 

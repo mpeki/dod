@@ -1,8 +1,13 @@
 package dk.pekilidi.dod.skill.model;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
+import dk.pekilidi.dod.skill.SkillKey;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,15 +27,18 @@ import org.hibernate.Hibernate;
 @Entity
 public class Skill implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = -8970529247843958342L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  private String key;
+  @Embedded
+  @AttributeOverride(name = "value", column = @Column(name = "skill_key"))
+  private SkillKey key;
   private BaseTraitName traitName;
   private Category category;
+  @Column(name = "skill_group")
   private Group group;
   private Integer price;
   private BaseTraitName baseChance;

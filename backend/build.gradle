@@ -3,7 +3,7 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
 
 group 'dk.pekilidi'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

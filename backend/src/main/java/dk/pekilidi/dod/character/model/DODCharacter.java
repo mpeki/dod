@@ -83,6 +83,8 @@ public class DODCharacter implements Serializable {
 
   private FavoriteHand favoriteHand;
   private SocialStatus socialStatus;
+  @OneToMany(cascade = CascadeType.ALL)
+  private Map<String, CharacterSkill> skills;
 
   @Override
   public boolean equals(Object o) {

@@ -7,9 +7,12 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SkillRepository extends CrudRepository<Skill, Long> {
+
   List<Skill> findByGroup(Group group);
 
   List<Skill> findByBaseChance(BaseTraitName baseChance);
 
   List<Skill> findByGroupAndBaseChance(Group group, BaseTraitName baseChance);
+
+  Skill findByKey(SkillKey key);
 }

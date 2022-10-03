@@ -21,7 +21,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'adopt'
           cache: gradle
       - name: Build and test
@@ -34,9 +34,11 @@ jobs:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - name: Build and verify
+      - name: Build
+        run: ./gradlew :b:build :b:jDB -x test
+      - name: Verify
         if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
-        run: ./gradlew test jacocoTestCoverageVerification sonarqube --info -DincludeTests="any()" -DexcludeTests"none()"
+        run: ./gradlew :b:test jacocoTestCoverageVerification sonarqube --info -DincludeTests="any()" -DexcludeTests="none()"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}

@@ -1,5 +1,7 @@
 package dk.pekilidi.dod.character;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.util.objects.CharacterMapper;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +40,7 @@ public class CharacterController {
     return characterService.findCharacterById(id);
   }
 
-  @PostMapping("/char")
+  @PostMapping(value = "/char", consumes = MediaType.APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
   CharacterDTO postCharacter(@RequestBody CharacterDTO newCharacter) {
     return characterService.createCharacter(newCharacter);
   }
@@ -45,4 +48,8 @@ public class CharacterController {
   @ExceptionHandler
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public void characterNotFoundHandler(CharacterNotFoundException ex) { /* Just need the HttpStatus.NOT_FOUND */ }
+
+  @ExceptionHandler
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public void raceNotFoundHandler(RaceNotFoundException ex) {/* Just need the HttpStatus.NOT_FOUND */}
 }

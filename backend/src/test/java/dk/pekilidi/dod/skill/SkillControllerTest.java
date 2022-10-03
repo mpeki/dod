@@ -60,7 +60,6 @@ class SkillControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].key", is(testSkill1.getKey())))
         .andExpect(jsonPath("$[0].group", is(testSkill1.getGroup().toString())))
         .andExpect(jsonPath("$[0].category", is(testSkill1.getCategory().toString())))
         .andExpect(jsonPath("$[0].traitName", is(testSkill1.getTraitName().toString())))
@@ -82,7 +81,6 @@ class SkillControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].key", is(testSkill2.getKey())))
         .andExpect(jsonPath("$[0].group", is(testSkill2.getGroup().toString())))
         .andExpect(jsonPath("$[0].category", is(testSkill2.getCategory().toString())))
         .andExpect(jsonPath("$[0].traitName", is(testSkill2.getTraitName().toString())))
@@ -104,14 +102,12 @@ class SkillControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].key", is(testSkill2.getKey())))
         .andExpect(jsonPath("$[0].group", is(testSkill2.getGroup().toString())))
         .andExpect(jsonPath("$[0].category", is(testSkill2.getCategory().toString())))
         .andExpect(jsonPath("$[0].traitName", is(testSkill2.getTraitName().toString())))
         .andExpect(jsonPath("$[0].baseChance", is(testSkill2.getBaseChance().toString())))
         .andExpect(jsonPath("$[0].price", is(testSkill2.getPrice())));
   }
-
 
   @Test
   void findSkills() throws Exception {
@@ -130,7 +126,6 @@ class SkillControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$", hasSize(3)))
-        .andExpect(jsonPath("$[1].key", is(testSkill2.getKey())))
         .andExpect(jsonPath("$[1].group", is(testSkill2.getGroup().toString())))
         .andExpect(jsonPath("$[1].category", is(testSkill2.getCategory().toString())))
         .andExpect(jsonPath("$[1].traitName", is(testSkill2.getTraitName().toString())))
@@ -146,13 +141,10 @@ class SkillControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$", hasSize(3)))
-        .andExpect(jsonPath("$[1].key", is(testSkill2.getKey())))
         .andExpect(jsonPath("$[1].group", is(testSkill2.getGroup().toString())))
         .andExpect(jsonPath("$[1].category", is(testSkill2.getCategory().toString())))
         .andExpect(jsonPath("$[1].traitName", is(testSkill2.getTraitName().toString())))
         .andExpect(jsonPath("$[1].baseChance", is(testSkill2.getBaseChance().toString())))
         .andExpect(jsonPath("$[1].price", is(testSkill2.getPrice())));
-
   }
-
 }

@@ -19,6 +19,7 @@ public class DroolsConfiguration {
     KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
     kieFileSystem.write(ResourceFactory.newClassPathResource("rules/CharacterCreationRules.drl"));
     kieFileSystem.write(ResourceFactory.newClassPathResource("rules/CharacterChangeRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/BuyNewSkillRules.drl"));
     KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
     kb.buildAll();
     KieModule kieModule = kb.getKieModule();
