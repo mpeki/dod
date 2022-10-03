@@ -1,3 +1,3 @@
 package dk.pekilidi.dod.skill;
 
-public class SkillNotFoundException extends RuntimeException{}
+public class SkillNotFoundException extends RuntimeException {}

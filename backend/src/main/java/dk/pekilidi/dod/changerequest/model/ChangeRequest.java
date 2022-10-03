@@ -29,5 +29,6 @@ public class ChangeRequest implements DODFact {
   private Object modifier;
   @Default
   private ChangeStatus status = ChangeStatus.PENDING;
-  private ChangeStatusLabel statusLabel;
+  @Default
+  private ChangeStatusLabel statusLabel = ChangeStatusLabel.CHANGE_REQUEST_PENDING;
 }

@@ -35,7 +35,5 @@ class OptionalCheckTest {
     assertThrows(SkillNotFoundException.class, () -> {
       OptionalCheck.forSkill(skillOptional);
     });
-
   }
-
 }

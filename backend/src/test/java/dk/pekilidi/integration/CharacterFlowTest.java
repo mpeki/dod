@@ -13,6 +13,8 @@ import dk.pekilidi.dod.character.model.AgeGroup;
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
+import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.skill.SkillService;
 import java.io.File;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.BeforeAll;
@@ -35,6 +37,8 @@ public class CharacterFlowTest {
   private static String createCharacterUrl;
   private static String getCharacterUrl;
   private static String changeCharUrl;
+
+  private static String fetchSkillsUrl;
   private static final Integer BACKEND_PORT = 8090;
   private static final Integer DATABASE_PORT = 3306;
 
@@ -55,6 +59,7 @@ public class CharacterFlowTest {
     serviceUrl = "http://" + compose.getServiceHost("backend_1", BACKEND_PORT) + ":" + compose.getServicePort(
         "backend_1", BACKEND_PORT);
     createCharacterUrl = serviceUrl + "/char";
+    fetchSkillsUrl = serviceUrl + "/skill";
   }
 
   @Test
@@ -80,7 +85,7 @@ public class CharacterFlowTest {
     CharacterDTO createdChar = createdResponse.getBody();
     assertNotNull(createdChar.getId());
 
-    //
+    //Fetch the character created
     getCharacterUrl = serviceUrl + "/char/" + createdChar.getId();
 
     ResponseEntity<CharacterDTO> getResponse = restTemplate.getForEntity(getCharacterUrl, CharacterDTO.class);
@@ -88,6 +93,7 @@ public class CharacterFlowTest {
     CharacterDTO fetchedChar = getResponse.getBody();
     assertEquals(createdChar, fetchedChar);
 
+    //update the character - increase number of hero points
     changeCharUrl = serviceUrl + "/change/char/" + createdChar.getId();
 
     ChangeRequest increaseHeroPoints = ChangeRequest
@@ -110,6 +116,7 @@ public class CharacterFlowTest {
     assertNotEquals(createdChar, fetchedChar);
     assertEquals(4, fetchedChar.getHeroPoints());
 
+    //Modify the character - buy more strength
     ChangeRequest increaseBaseTrait = ChangeRequest
         .builder()
         .changeDescription("Increase base trait STRENGTH")
@@ -120,16 +127,52 @@ public class CharacterFlowTest {
 
     changeRequest = new HttpEntity<>(increaseBaseTrait, headers);
     changeResponse = restTemplate.postForEntity(changeCharUrl, changeRequest, ChangeRequest.class);
-    assertEquals(changeResponse.getStatusCode(), HttpStatus.OK);
+    assertEquals(HttpStatus.OK, changeResponse.getStatusCode());
     assertEquals(ChangeStatus.APPROVED, changeResponse.getBody().getStatus());
     assertEquals(ChangeStatusLabel.OK_BASE_TRAIT_MODIFICATION, changeResponse.getBody().getStatusLabel());
 
     getResponse = restTemplate.getForEntity(getCharacterUrl, CharacterDTO.class);
-    assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
+    assertEquals(HttpStatus.OK, getResponse.getStatusCode());
     fetchedChar = getResponse.getBody();
     assertNotEquals(createdChar, fetchedChar);
     assertEquals(2, fetchedChar.getHeroPoints());
     assertEquals(createdChar.getBaseTraitValue(STRENGTH) + 1, fetchedChar.getBaseTraitValue(STRENGTH));
+
+    //Fetch available skills
+    ResponseEntity<SkillDTO[]> skillsResponse = restTemplate.getForEntity(fetchSkillsUrl, SkillDTO[].class);
+    SkillDTO[] skills = skillsResponse.getBody();
+    for (SkillDTO skill : skills) {
+
+      getResponse = restTemplate.getForEntity(getCharacterUrl, CharacterDTO.class);
+      assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+      fetchedChar = getResponse.getBody();
+      assertNotEquals(createdChar, fetchedChar);
+
+      ChangeRequest buySkillRequest = ChangeRequest
+          .builder()
+          .changeDescription("Buy primary weapon")
+          .changeType(ChangeType.NEW_SKILL)
+          .modifier(15)
+          .changeKey(skill.getKey())
+          .build();
+      //Buy skills
+
+      ResponseEntity<ChangeRequest> buySkillResponse = restTemplate.postForEntity(
+          changeCharUrl, buySkillRequest, ChangeRequest.class);
+
+      assertEquals(HttpStatus.OK, buySkillResponse.getStatusCode());
+      if (SkillService.calculateNewSkillPrice(fetchedChar, skill, 15) > fetchedChar.getBaseSkillPoints()) {
+        assertEquals(ChangeStatus.REJECTED, buySkillResponse.getBody().getStatus());
+        assertEquals(ChangeStatusLabel.INSUFFICIENT_SKILL_POINTS, buySkillResponse.getBody().getStatusLabel());
+        break;
+      } else {
+        assertEquals(ChangeStatus.APPROVED, buySkillResponse.getBody().getStatus());
+        assertEquals(ChangeStatusLabel.OK_SKILL_BOUGHT, buySkillResponse.getBody().getStatusLabel());
+      }
+    }
+    //    SkillDTO skill = SkillDTO.builder().group(Group.BATTLE).key(SkillKey.builder().value("primary.weapon")
+    //    .build()).build();
+
     System.out.println(fetchedChar);
   }
 }

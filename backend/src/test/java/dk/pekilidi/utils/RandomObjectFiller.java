@@ -12,10 +12,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
-import org.junit.jupiter.api.Tag;
 import org.reflections.Reflections;
 
-@Tag("regression")
 public class RandomObjectFiller {
 
   private final Random random = new Random();
