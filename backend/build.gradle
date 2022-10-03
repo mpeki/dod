@@ -28,7 +28,7 @@ dependencies {
     testImplementation 'org.reflections:reflections:0.10.2'
     testImplementation 'org.droolsassert:droolsassert:3.0.10'
 
-    testImplementation "org.testcontainers:testcontainers:1.17.3"
+    testImplementation "org.testcontainers:testcontainers:1.17.4"
     testImplementation "org.testcontainers:junit-jupiter:1.17.4"
 }
 
