@@ -25,3 +25,37 @@ tactics;0;0;1;3;5
 fast.draw;4;0;1;2;4
 primary.weapon;0;0;1;2;4
 secondary.weapon;0;0;1;5;4
+
+# Perception skills
+
+fst;5;0;4;2;5
+listen;5;0;4;2;5
+sense.danger;6;0;4;4;6
+test.taste;0;0;4;3;5
+
+# Knowledge skills
+
+administration.law;0;0;0;4;5
+astrology;0;0;0;4;5
+botany;0;0;0;2;5
+drug.knowledge;0;0;0;5;5
+first.aid;5;0;0;1;5
+geography;0;0;0;5;5
+geology;0;0;0;2;5
+poisons;0;0;0;3;5
+heraldry;0;0;0;1;5
+history;0;0;0;3;5
+crafts;0;1;0;8;5
+specific.cultural.knowledge;0;0;0;1;5
+general.cultural.knowledge;0;0;0;5;5
+kom;0;0;0;10;5
+medical.knowledge;0;0;0;3;5
+read.write.forn;0;1;0;8;5
+speak.forn;0;1;0;4;5
+area.knowledge;0;0;0;2;5
+mathematics;0;1;0;4;5
+chess.boardgames;0;0;0;1;5
+language.skills;0;0;0;2;5
+appraise.specific;0;0;0;1;5
+appraise.general;0;0;0;5;5
+zoology;0;0;0;3;5
