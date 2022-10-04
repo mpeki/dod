@@ -1,3 +1,10 @@
+# [1.0.0-alpha.15](https://github.com/mpeki/dod/compare/v1.0.0-alpha.14...v1.0.0-alpha.15) (2022-10-04)
+
+
+### Features
+
+* **DOD-92:** Added perception and knowledge skills ([2fc0013](https://github.com/mpeki/dod/commit/2fc00136b5916667bbdb3f228b8abb4480a90d63))
+
 # [1.0.0-alpha.14](https://github.com/mpeki/dod/compare/v1.0.0-alpha.13...v1.0.0-alpha.14) (2022-10-03)
 
 
