@@ -9,6 +9,7 @@ import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.skill.model.Skill;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,7 @@ class SkillServiceTest {
     testSkill = SkillDTO
         .builder()
         .key(skillKey)
+        .category(Category.A)
         .price(2)
         .baseChance(BaseTraitName.NONE)
         .traitName(BaseTraitName.INTELLIGENCE)
@@ -72,6 +74,16 @@ class SkillServiceTest {
   @CsvFileSource(resources = "/cost2-nohero-data.csv", numLinesToSkip = 1)
   void getNewSkillPriceRange_cost2_grp1_nohero(int fv, int cost) {
     testChar.setHero(false);
+    List<Integer> range = SkillService.getNewSkillPriceRange(testChar, testSkill);
+    assertEquals(cost, range.get(fv));
+  }
+
+  @ParameterizedTest
+  @CsvFileSource(resources = "/B_skill_cost8-nohero-data.csv", numLinesToSkip = 1)
+  void getNewSkillPriceRange_CATB_cost8_grp1_nohero(int fv, int cost) {
+    testChar.setHero(false);
+    testSkill.setPrice(8);
+    testSkill.setCategory(Category.B);
     List<Integer> range = SkillService.getNewSkillPriceRange(testChar, testSkill);
     assertEquals(cost, range.get(fv));
   }

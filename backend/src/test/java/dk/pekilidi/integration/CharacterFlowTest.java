@@ -15,6 +15,7 @@ import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.SkillService;
+import dk.pekilidi.dod.skill.model.Category;
 import java.io.File;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.BeforeAll;
@@ -142,7 +143,7 @@ public class CharacterFlowTest {
     ResponseEntity<SkillDTO[]> skillsResponse = restTemplate.getForEntity(fetchSkillsUrl, SkillDTO[].class);
     SkillDTO[] skills = skillsResponse.getBody();
     for (SkillDTO skill : skills) {
-
+      int fvToBuy = skill.getCategory() == Category.A ? 15 : 3;
       getResponse = restTemplate.getForEntity(getCharacterUrl, CharacterDTO.class);
       assertEquals(HttpStatus.OK, getResponse.getStatusCode());
       fetchedChar = getResponse.getBody();
@@ -152,7 +153,7 @@ public class CharacterFlowTest {
           .builder()
           .changeDescription("Buy primary weapon")
           .changeType(ChangeType.NEW_SKILL)
-          .modifier(15)
+          .modifier(fvToBuy)
           .changeKey(skill.getKey())
           .build();
       //Buy skills
@@ -161,7 +162,7 @@ public class CharacterFlowTest {
           changeCharUrl, buySkillRequest, ChangeRequest.class);
 
       assertEquals(HttpStatus.OK, buySkillResponse.getStatusCode());
-      if (SkillService.calculateNewSkillPrice(fetchedChar, skill, 15) > fetchedChar.getBaseSkillPoints()) {
+      if (SkillService.calculateNewSkillPrice(fetchedChar, skill, fvToBuy) > fetchedChar.getBaseSkillPoints()) {
         assertEquals(ChangeStatus.REJECTED, buySkillResponse.getBody().getStatus());
         assertEquals(ChangeStatusLabel.INSUFFICIENT_SKILL_POINTS, buySkillResponse.getBody().getStatusLabel());
         break;
