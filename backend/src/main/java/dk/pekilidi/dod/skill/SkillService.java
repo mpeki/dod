@@ -3,6 +3,7 @@ package dk.pekilidi.dod.skill;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.skill.model.Group;
 import dk.pekilidi.dod.skill.model.Skill;
 import java.util.ArrayList;
@@ -28,15 +29,41 @@ public class SkillService {
   public static Integer calculateNewSkillPrice(CharacterDTO characterDTO, SkillDTO skill, Integer fvToBuy) {
     int result = -1;
     Integer freePoints = 0;
-    if (characterDTO.isHero()) {
+    if (skill.getCategory() == Category.A && characterDTO.isHero()) {
       freePoints = characterDTO.getBaseTraits().get(skill.getTraitName()).getGroupValue();
     }
     int pointsToBuy = fvToBuy - freePoints;
     if (pointsToBuy < 1) {
       return 0;
-    } else if (fvToBuy > 20) {
-      throw new IllegalArgumentException("New skills can't start above 20 fv");
+    } else if (skill.getCategory() == Category.B && fvToBuy > 5) {
+      throw new IllegalArgumentException("Category B skills can't start above 5 fv");
+    } else if (skill.getCategory() == Category.A && fvToBuy > 20) {
+      throw new IllegalArgumentException("Category A skills can't start above 20 fv");
     }
+    if (skill.getCategory() == Category.A) {
+      return calculateCatASkillCost(skill, pointsToBuy);
+    } else {
+      return calculateCatBSkillCost(skill, pointsToBuy);
+    }
+  }
+
+  private static int calculateCatBSkillCost(SkillDTO skill, int pointsToBuy) {
+    int result = -1;
+    int skillPrice = skill.getPrice();
+    int tier1Price = skillPrice * 2;
+    int tier2Price = tier1Price + (skillPrice * 4);
+    int tier3Price = tier2Price + (skillPrice * 3);
+    switch (pointsToBuy) {
+      case 1, 2 -> result = skillPrice * pointsToBuy;
+      case 3, 4 -> result = tier1Price + ((pointsToBuy - 2) * skillPrice * 2);
+      case 5 -> result = tier2Price + ((pointsToBuy - 4) * skillPrice * 3);
+      default -> throw new IllegalStateException("WTF!");
+    }
+    return result;
+  }
+
+  private static int calculateCatASkillCost(SkillDTO skill, int pointsToBuy) {
+    int result = -1;
     int skillPrice = skill.getPrice();
     int tier1Price = skillPrice * 10;
     int tier2Price = tier1Price + (skillPrice * 8);
@@ -52,9 +79,9 @@ public class SkillService {
   }
 
   public static List<Integer> getNewSkillPriceRange(CharacterDTO characterDTO, SkillDTO skill) {
-    int cap = 20;
+    int cap = skill.getCategory() == Category.A ? 20 : 5;
     List<Integer> result = new ArrayList<>(cap);
-    for (int i = 0; i < 21; i++) {
+    for (int i = 0; i < cap + 1; i++) {
       result.add(calculateNewSkillPrice(characterDTO, skill, i));
     }
     return result;
