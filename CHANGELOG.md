@@ -1,3 +1,10 @@
+# [1.0.0-alpha.16](https://github.com/mpeki/dod/compare/v1.0.0-alpha.15...v1.0.0-alpha.16) (2022-10-05)
+
+
+### Features
+
+* **DOD-83:** implement different cost for A and B category skills ([06f185f](https://github.com/mpeki/dod/commit/06f185f710a6aa2add53931afe7d6839f06df5a8))
+
 # [1.0.0-alpha.15](https://github.com/mpeki/dod/compare/v1.0.0-alpha.14...v1.0.0-alpha.15) (2022-10-04)
 
 
