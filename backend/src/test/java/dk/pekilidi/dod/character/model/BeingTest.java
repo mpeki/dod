@@ -26,7 +26,7 @@ class BeingTest {
 
     assertThrows(NullPointerException.class, () -> {
       new DODCharacter(id, name, null, race, null, null, -1, -1, null, false, "", FavoriteHand.RIGHT,
-          SocialStatus.DISPOSSESSED, null);
+          SocialStatus.DISPOSSESSED, null, null);
     });
     HumanoidBody humanoidBody = new HumanoidBody();
     assertThrows(NullPointerException.class, () -> {
@@ -57,7 +57,7 @@ class BeingTest {
     DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(), firstObject.getBaseTraits(),
         firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
         firstObject.getHeroPoints(), firstObject.getBody(), false, "", FavoriteHand.RIGHT, SocialStatus.DISPOSSESSED,
-        null);
+        null, null);
     assertEquals(firstObject, copied);
     copied.setName("abe");
     assertNotEquals(firstObject, copied);
@@ -83,7 +83,7 @@ class BeingTest {
     DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(), firstObject.getBaseTraits(),
         firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
         firstObject.getHeroPoints(), firstObject.getBody(), false, "", FavoriteHand.RIGHT, SocialStatus.DISPOSSESSED,
-        null);
+        null, null);
     assertEquals(firstObject.hashCode(), copied.hashCode());
     copied.setName("Heman");
     assertNotEquals(firstObject.hashCode(), copied.hashCode());

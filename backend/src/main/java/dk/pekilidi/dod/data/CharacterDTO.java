@@ -8,6 +8,7 @@ import dk.pekilidi.dod.character.model.AgeGroup;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.character.model.FavoriteHand;
+import dk.pekilidi.dod.character.model.Looks;
 import dk.pekilidi.dod.character.model.SocialStatus;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.skill.SkillKey;
@@ -60,8 +61,8 @@ public class CharacterDTO implements DODFact, Serializable {
   @Default
   @EqualsAndHashCode.Exclude
   @JsonInclude(Include.NON_EMPTY)
-  //  private List<SkillDTO> skills = new ArrayList<>();
   private Map<SkillKey, SkillDTO> skills = new HashMap<>();
+  private Looks looks;
 
   public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
     if (baseTraits.containsKey(baseTraitName)) {
