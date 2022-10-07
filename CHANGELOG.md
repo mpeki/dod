@@ -1,3 +1,10 @@
+# [1.0.0-alpha.17](https://github.com/mpeki/dod/compare/v1.0.0-alpha.16...v1.0.0-alpha.17) (2022-10-07)
+
+
+### Features
+
+* **DOD-56:** Implemented looks ([48309d0](https://github.com/mpeki/dod/commit/48309d0005611b2243f9c2bd00aa6a1ffff3fd56))
+
 # [1.0.0-alpha.16](https://github.com/mpeki/dod/compare/v1.0.0-alpha.15...v1.0.0-alpha.16) (2022-10-05)
 
 
