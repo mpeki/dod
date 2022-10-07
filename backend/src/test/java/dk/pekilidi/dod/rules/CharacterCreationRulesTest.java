@@ -50,7 +50,7 @@ class CharacterCreationRulesTest {
   }
 
   @Test
-  @TestRules(expected = {"Determine favorite hand", "Determine social status"})
+  @TestRules(expected = {"Determine favorite hand", "Determine social status", "Set Looks"})
   void characterCreationDefaultCharacter() {
     CharacterDTO character = CharacterDTO.builder().build();
     drools.insert(character);
@@ -60,7 +60,7 @@ class CharacterCreationRulesTest {
 
   @Test
   @TestRules(expected = {
-      "Initialize base traits and hero points", "Determine social status", "Determine favorite hand"},
+      "Initialize base traits and hero points", "Determine social status", "Determine favorite hand", "Set Looks"},
       ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRace() {
     CharacterDTO character = CharacterDTO
@@ -87,7 +87,8 @@ class CharacterCreationRulesTest {
       "Determine favorite hand",
       "Check character completion",
       "Determine social status",
-      "Initialize damage bonus"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
+      "Initialize damage bonus",
+      "Set Looks"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRaceAndAbleToCalculateTotalHP() {
     drools.insert(validNonHero);
     drools.fireAllRules();
@@ -119,7 +120,7 @@ class CharacterCreationRulesTest {
       "110, '+9t6'",
       "120, '+10t6'"})
   @TestRules(expected = {
-      "Check character completion", "Determine favorite hand", "Determine social status", "Initialize damage bonus"},
+      "Check character completion", "Determine favorite hand", "Determine social status", "Initialize damage bonus", "Set Looks"},
       ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterTestDamageBonusLimits(int averageVal, String damageBonus) {
     validNonHero

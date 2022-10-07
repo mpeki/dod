@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -85,6 +86,8 @@ public class DODCharacter implements Serializable {
   private SocialStatus socialStatus;
   @OneToMany(cascade = CascadeType.ALL)
   private Map<String, CharacterSkill> skills;
+  @Embedded
+  private Looks looks;
 
   @Override
   public boolean equals(Object o) {
