@@ -1,3 +1,10 @@
+# [1.0.0-alpha.18](https://github.com/mpeki/dod/compare/v1.0.0-alpha.17...v1.0.0-alpha.18) (2022-10-12)
+
+
+### Features
+
+* **DOD-60:** setup initial restdoc ([597d879](https://github.com/mpeki/dod/commit/597d87948610694cd658201eff5d970193081af0))
+
 # [1.0.0-alpha.17](https://github.com/mpeki/dod/compare/v1.0.0-alpha.16...v1.0.0-alpha.17) (2022-10-07)
 
 
