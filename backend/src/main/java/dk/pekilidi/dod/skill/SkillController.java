@@ -3,10 +3,10 @@ package dk.pekilidi.dod.skill;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Group;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +20,7 @@ public class SkillController {
   public List<SkillDTO> findSkills(@RequestParam(required = false) String group,
       @RequestParam(required = false) String baseChance) {
 
-    List<SkillDTO> result = new ArrayList<>();
+    List<SkillDTO> result;
     if (group != null && !group.equals("") && baseChance != null && !baseChance.equals("")) {
       result = skillService.getSkillsByGroupAndBaseChance(Group.valueOf(group), BaseTraitName.valueOf(baseChance));
     } else if (group != null && !group.equals("")) {
@@ -31,5 +31,10 @@ public class SkillController {
       result = skillService.getSkills();
     }
     return result;
+  }
+
+  @GetMapping("skill/key/{key}")
+  public SkillDTO getSkillByKey(@PathVariable String key) {
+    return skillService.findSkillByKey(key);
   }
 }

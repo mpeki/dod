@@ -120,8 +120,11 @@ class CharacterCreationRulesTest {
       "110, '+9t6'",
       "120, '+10t6'"})
   @TestRules(expected = {
-      "Check character completion", "Determine favorite hand", "Determine social status", "Initialize damage bonus", "Set Looks"},
-      ignore = {"Set Group Value *", "Apply modifiers for age group *"})
+      "Check character completion",
+      "Determine favorite hand",
+      "Determine social status",
+      "Initialize damage bonus",
+      "Set Looks"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterTestDamageBonusLimits(int averageVal, String damageBonus) {
     validNonHero
         .getBaseTraits()
