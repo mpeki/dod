@@ -1,11 +1,22 @@
 apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
+apply plugin: 'org.asciidoctor.jvm.convert'
 
 group 'dk.pekilidi'
 sourceCompatibility = '17'
 
+configurations {
+    asciidoctorExt
+}
+
+//ext['spring-restdocs.version'] = '2.0.6.BUILD-SNAPSHOT'
+
 dependencies {
+
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -18,12 +29,17 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.30'
     implementation 'org.modelmapper:modelmapper:3.1.0'
     implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     compileOnly 'org.projectlombok:lombok'
-//     implementation "org.springdoc:springdoc-openapi-ui:1.6.9"
-//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit;'
+    }
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.reflections:reflections:0.10.2'
     testImplementation 'org.droolsassert:droolsassert:3.0.10'
@@ -39,7 +55,9 @@ dependencyManagement {
     }
 }
 
+
 test {
+
     String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : 'regression';
     String etags = System.getProperty("excludeTests") ? System.getProperty("excludeTests") : 'integration';
 
@@ -55,6 +73,19 @@ test {
         excludes = ['org.drools.*']
     }
     finalizedBy jacocoTestReport
+}
+
+asciidoctor {
+    configurations "asciidoctorExt"
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}") {
+        into 'src/main/resources/static'
+    }
 }
 
 jacoco {

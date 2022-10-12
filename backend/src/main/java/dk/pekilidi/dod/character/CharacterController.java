@@ -25,6 +25,11 @@ public class CharacterController {
 
   private CharacterService characterService;
 
+  @GetMapping("/char/{id}")
+  public CharacterDTO getCharacter(@PathVariable Long id) {
+    return characterService.findCharacterById(id);
+  }
+
   @GetMapping("/char/name/{name}")
   public List<DODCharacter> getCharacters(@PathVariable String name) {
     List<DODCharacter> entities = characterService.getCharactersByName(name);
@@ -32,12 +37,7 @@ public class CharacterController {
     return Arrays
         .stream(entities.toArray())
         .map(object -> mapper.map(object, DODCharacter.class))
-        .collect(Collectors.toList());
-  }
-
-  @GetMapping("/char/{id}")
-  public CharacterDTO getCharacter(@PathVariable Long id) {
-    return characterService.findCharacterById(id);
+        .toList();
   }
 
   @PostMapping(value = "/char", consumes = MediaType.APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
