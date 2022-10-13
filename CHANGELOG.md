@@ -1,3 +1,10 @@
+# [1.0.0-alpha.19](https://github.com/mpeki/dod/compare/v1.0.0-alpha.18...v1.0.0-alpha.19) (2022-10-13)
+
+
+### Features
+
+* changing base image to alpine ([973f684](https://github.com/mpeki/dod/commit/973f6842185ea910653c2fec86711c219d3b5b84))
+
 # [1.0.0-alpha.18](https://github.com/mpeki/dod/compare/v1.0.0-alpha.17...v1.0.0-alpha.18) (2022-10-12)
 
 
