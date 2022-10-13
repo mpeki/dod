@@ -7,7 +7,6 @@ import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.util.objects.CharacterMapper;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,13 +30,10 @@ public class CharacterController {
   }
 
   @GetMapping("/char/name/{name}")
-  public List<DODCharacter> getCharacters(@PathVariable String name) {
+  public List<CharacterDTO> getCharacters(@PathVariable String name) {
     List<DODCharacter> entities = characterService.getCharactersByName(name);
     CharacterMapper mapper = new CharacterMapper();
-    return Arrays
-        .stream(entities.toArray())
-        .map(object -> mapper.map(object, DODCharacter.class))
-        .toList();
+    return Arrays.stream(entities.toArray()).map(object -> mapper.map(object, CharacterDTO.class)).toList();
   }
 
   @PostMapping(value = "/char", consumes = MediaType.APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
