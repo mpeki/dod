@@ -59,3 +59,15 @@ language.skills;0;0;0;2;5
 appraise.specific;0;0;0;1;5
 appraise.general;0;0;0;5;5
 zoology;0;0;0;3;5
+
+# Communication skills
+# skill_key;base_chance;category;skill_group;price;trait_name
+
+bribery;0;0;2;2;7
+bluff;7;0;2;2;7
+interrogate;0;0;2;3;5
+bargain;0;0;2;3;7
+upper.class.style;0;0;2;2;5
+persuade;7;0;2;2;7
+sing.and.play;0;1;2;8;7
+sign.language;0;1;2;8;5
