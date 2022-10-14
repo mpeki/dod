@@ -1,3 +1,10 @@
+# [1.0.0-alpha.20](https://github.com/mpeki/dod/compare/v1.0.0-alpha.19...v1.0.0-alpha.20) (2022-10-14)
+
+
+### Features
+
+* **DOD-91:** added communication skills ([79dfc9e](https://github.com/mpeki/dod/commit/79dfc9ef241ef72aaca327eef76f410463ad28b1))
+
 # [1.0.0-alpha.19](https://github.com/mpeki/dod/compare/v1.0.0-alpha.18...v1.0.0-alpha.19) (2022-10-13)
 
 
