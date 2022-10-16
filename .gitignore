@@ -19,9 +19,6 @@ target/
 *.iml
 *.ipr
 
-##Gradle
-.gradle/
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -35,9 +32,3 @@ build/
 ### VS Code ###
 .vscode/
 /.jpb/
-/derby.log
-/backend/derby.log
-/frontend/.eslintcache
-/frontend/package-lock.json
-/frontend/node_modules/
-/node_modules/

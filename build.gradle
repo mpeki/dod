@@ -1,57 +1,83 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.4' apply false
+	id 'org.springframework.boot' version '2.6.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.asciidoctor.convert' version '1.5.8'
+	id 'java'
 	id 'jacoco'
-	id 'org.sonarqube' version '3.4.0.2513'
-	id 'io.spring.dependency-management' version '1.0.14.RELEASE' apply false
-	id 'com.google.cloud.tools.jib' version '3.3.0' apply false
-	id "com.gorylenko.gradle-git-properties" version "2.4.1"
-	id 'org.siouan.frontend-jdk11' version '6.0.0' apply false
-	id "org.asciidoctor.jvm.convert" version "3.3.2" apply false
 }
 
 group = 'dk.pekilidi'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
 
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
 	set('testcontainersVersion', "1.16.2")
 }
 
-allprojects {
-	repositories { mavenCentral() }
-}
-subprojects {
-	if (project != project(':frontend')) {
-//		apply from: "$rootDir/gradle/java.gradle"
-		apply from: "$rootDir/gradle/test.gradle"
-		apply from: "$rootDir/gradle/liquibase.gradle"
-		apply from: "$rootDir/gradle/publish.gradle"
-	}
-
-	ext {
-		mavenBom = org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-	}
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.liquibase:liquibase-core'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'com.h2database:h2'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'org.testcontainers:junit-jupiter'
 }
 
-gitProperties {
-	extProperty = "gitProps" // git properties will be put in a map at project.ext.gitProps
-}
-generateGitProperties.outputs.upToDateWhen { false }
-
-task printGitProperties(dependsOn: 'generateGitProperties') {
-	doLast {
-		println "git.commit.id.abbrev=" + project.ext.gitProps['git.commit.id.abbrev']
+dependencyManagement {
+	imports {
+		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
 	}
 }
 
-//asciidoctor {
-//	inputs.dir snippetsDir
-//	dependsOn test
-//}
+test {
+	environment 'SPRING_PROFILES_ACTIVE','test'
+	outputs.dir snippetsDir
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
 
-sonarqube {
-	properties {
-		property "sonar.projectKey", "mpeki_dod"
-		property "sonar.organization", "mpeki"
-		property "sonar.host.url", "https://sonarcloud.io"
+jacocoTestReport {
+	dependsOn test
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.8
+			}
+		}
+		rule {
+			element = 'CLASS'
+			excludes = ['dk.pekilidi.dod.character.model.*']
+			limit {
+				counter = 'BRANCH'
+				value = 'COVEREDRATIO'
+				minimum = 0.8
+			}
+		}
 	}
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	dependsOn test
 }
