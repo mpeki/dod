@@ -1,4 +1,4 @@
-package dk.pekilidi.dod.util.objects;
+package dk.pekilidi.dod.util.character;
 
 import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.data.CharacterDTO;

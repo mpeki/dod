@@ -1,4 +1,4 @@
-package dk.pekilidi.dod.util.objects;
+package dk.pekilidi.dod.util.character;
 
 import static dk.pekilidi.dod.character.model.body.BodyPartName.CHEST;
 import static dk.pekilidi.dod.character.model.body.BodyPartName.HEAD;

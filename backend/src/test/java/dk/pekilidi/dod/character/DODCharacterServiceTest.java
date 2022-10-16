@@ -12,7 +12,7 @@ import dk.pekilidi.dod.character.model.Race;
 import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
-import dk.pekilidi.dod.util.objects.CharacterMapper;
+import dk.pekilidi.dod.util.character.CharacterMapper;
 import dk.pekilidi.utils.RandomObjectFiller;
 import java.util.List;
 import java.util.Optional;
@@ -52,9 +52,9 @@ class DODCharacterServiceTest {
   @Test
   void addDuplicateBaseTrait() {
     CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human")).build();
-    testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY, 0, 0, 0));
+    testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY, 0, 0));
     assertThat(testChar.getBaseTraits()).hasSize(1);
-    testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY, 0, 0, 0));
+    testChar.addBaseTrait(new BaseTraitDTO(BaseTraitName.DEXTERITY, 0, 0));
     assertThat(testChar.getBaseTraits()).hasSize(1);
   }
 
@@ -62,7 +62,7 @@ class DODCharacterServiceTest {
   void addNullNamedBaseTrait() {
     CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human")).build();
     assertThrows(NullPointerException.class, () -> {
-      testChar.addBaseTrait(new BaseTraitDTO(null, 0, 0, 0));
+      testChar.addBaseTrait(new BaseTraitDTO(null, 0, 0));
     });
   }
 

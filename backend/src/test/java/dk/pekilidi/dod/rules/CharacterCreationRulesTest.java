@@ -128,8 +128,8 @@ class CharacterCreationRulesTest {
   void characterCreationCharacterTestDamageBonusLimits(int averageVal, String damageBonus) {
     validNonHero
         .getBaseTraits()
-        .put(BaseTraitName.STRENGTH, new BaseTraitDTO(BaseTraitName.STRENGTH, averageVal, 1, -1));
-    validNonHero.getBaseTraits().put(BaseTraitName.SIZE, new BaseTraitDTO(BaseTraitName.SIZE, averageVal, 1, -1));
+        .put(BaseTraitName.STRENGTH, new BaseTraitDTO(BaseTraitName.STRENGTH, averageVal, 1));
+    validNonHero.getBaseTraits().put(BaseTraitName.SIZE, new BaseTraitDTO(BaseTraitName.SIZE, averageVal, 1));
     validNonHero.setState(BODY_PART_HP_SET);
     drools.insert(validNonHero);
     drools.fireAllRules();

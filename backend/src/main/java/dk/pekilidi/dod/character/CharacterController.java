@@ -4,7 +4,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.data.CharacterDTO;
-import dk.pekilidi.dod.util.objects.CharacterMapper;
+import dk.pekilidi.dod.util.character.CharacterMapper;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;

@@ -12,6 +12,7 @@ import dk.pekilidi.dod.character.model.Looks;
 import dk.pekilidi.dod.character.model.SocialStatus;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.skill.SkillKey;
+import dk.pekilidi.dod.util.rules.RulesUtil;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.EnumMap;
@@ -71,6 +72,13 @@ public class CharacterDTO implements DODFact, Serializable {
     return -1;
   }
 
+  public Integer getBaseTraitGroupValue(BaseTraitName baseTraitName) {
+    if (baseTraits.containsKey(baseTraitName)) {
+      return baseTraits.get(baseTraitName).getGroupValue();
+    }
+    return -1;
+  }
+
   public void addSkill(SkillDTO skillDTO) {
     skills.putIfAbsent(skillDTO.getKey(), skillDTO);
   }
@@ -85,14 +93,18 @@ public class CharacterDTO implements DODFact, Serializable {
 
   public void incrementTrait(BaseTraitName traitName, int by) {
     baseTraits.computeIfPresent(traitName, (k, v) -> {
-      v.setCurrentValue(v.getCurrentValue() + by);
+      int newValue = v.getCurrentValue() + by;
+      v.setCurrentValue(newValue);
+      v.setGroupValue(RulesUtil.calculateGroupValue(newValue));
       return v;
     });
   }
 
   public void decrementTrait(BaseTraitName traitName, int by) {
     baseTraits.computeIfPresent(traitName, (k, v) -> {
-      v.setCurrentValue(v.getCurrentValue() - by);
+      int newValue = v.getCurrentValue() - by;
+      v.setCurrentValue(newValue);
+      v.setGroupValue(RulesUtil.calculateGroupValue(newValue));
       return v;
     });
   }
@@ -100,6 +112,7 @@ public class CharacterDTO implements DODFact, Serializable {
   public void updateBaseTrait(BaseTraitName traitName, int newValue) {
     baseTraits.computeIfPresent(traitName, (k, v) -> {
       v.setCurrentValue(newValue);
+      v.setGroupValue(RulesUtil.calculateGroupValue(newValue));
       return v;
     });
   }
