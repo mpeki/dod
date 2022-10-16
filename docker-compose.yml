@@ -1,6 +1,26 @@
 version: "3.9"
-
 services:
+
+#  frontend:
+#    image: "macp/dod-ui:latest"
+#    build:
+#      context: ./frontend
+#    ports:
+#      - "8081:80"
+#    depends_on:
+#      - backend
+
+  backend:
+    image: "macp/dod:latest"
+    ports:
+      - "8090:8090"
+      - "5005:5005"
+    depends_on:
+      - db
+    healthcheck:
+      test: "wget --quiet --tries=1 --spider http://localhost:8090/actuator/health || exit 1"
+      start_period: "30s"
+
   db:
     image: "mysql:8.0"
     volumes:
@@ -14,11 +34,9 @@ services:
       MYSQL_PASSWORD: example
     ports:
       - "3306:3306"
+    healthcheck:
+      test: "mysqladmin ping -hlocalhost -usa -pexample  | grep -i 'mysqld is alive' || exit 1"
+      start_period: "20s"
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
 volumes:
   db_data: {}

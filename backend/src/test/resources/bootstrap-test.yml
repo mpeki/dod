@@ -1,0 +1,45 @@
+logging:
+  level:
+    root: DEBUG
+spring:
+  h2:
+    console:
+      enabled: true
+  application:
+    name: dod
+  profiles:
+    active: ${ACTIVE_PROFILES}
+  cloud:
+    config:
+      enabled: false
+  cache:
+    type: simple
+  liquibase:
+    contexts: test
+    drop-first: true
+
+  ###
+  #   Database Settings
+  ###
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=value
+    #    url: jdbc:h2:file:/home/msp/Dev/github/dod/backend/build/data/testdb
+    platform: h2
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
+    open-in-view: true
