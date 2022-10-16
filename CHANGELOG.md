@@ -1,3 +1,10 @@
+# [1.0.0-alpha.23](https://github.com/mpeki/dod/compare/v1.0.0-alpha.22...v1.0.0-alpha.23) (2022-10-16)
+
+
+### Features
+
+* **DOD-89:** added wilderness skills ([7d48593](https://github.com/mpeki/dod/commit/7d48593207127bd7c7f291b6f4f7506d2e9051df))
+
 # [1.0.0-alpha.22](https://github.com/mpeki/dod/compare/v1.0.0-alpha.21...v1.0.0-alpha.22) (2022-10-16)
 
 
