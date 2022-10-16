@@ -1,3 +1,10 @@
+# [1.0.0-alpha.21](https://github.com/mpeki/dod/compare/v1.0.0-alpha.20...v1.0.0-alpha.21) (2022-10-16)
+
+
+### Bug Fixes
+
+* **DOD-98:** basetrait group now follows current value ([bd96da8](https://github.com/mpeki/dod/commit/bd96da81ed23392635c9a79b4dc014a4b98f2974))
+
 # [1.0.0-alpha.20](https://github.com/mpeki/dod/compare/v1.0.0-alpha.19...v1.0.0-alpha.20) (2022-10-14)
 
 
