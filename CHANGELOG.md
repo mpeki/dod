@@ -1,3 +1,10 @@
+# [1.0.0-alpha.22](https://github.com/mpeki/dod/compare/v1.0.0-alpha.21...v1.0.0-alpha.22) (2022-10-16)
+
+
+### Bug Fixes
+
+* frontend/Dockerfile to reduce vulnerabilities ([b5753cb](https://github.com/mpeki/dod/commit/b5753cbc749034746c5c90908131640557c8d891))
+
 # [1.0.0-alpha.21](https://github.com/mpeki/dod/compare/v1.0.0-alpha.20...v1.0.0-alpha.21) (2022-10-16)
 
 
