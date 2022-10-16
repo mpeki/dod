@@ -1,0 +1,52 @@
+name: build and verify
+on:
+  push:
+  pull_request:
+    branches:
+      - 'main'
+      - 'alpha'
+      - 'beta'
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build-test-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: gradle
+      - name: Build and test
+        if: github.event_name != 'pull_request'
+        run: ./gradlew test
+      - name: Cache SonarCloud packages
+        if: github.event_name == 'pull_request'  && github.actor != 'dependabot[bot]'
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Build
+        run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
+      - name: Verify
+        if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+        run: ./gradlew :b:test jacocoTestCoverageVerification sonarqube --info -DincludeTests="any()" -DexcludeTests="none()"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
+      - name: Report
+        if: github.actor != 'dependabot[bot]'
+        uses: dorny/test-reporter@v1
+        with:
+          name: Unit Tests
+          path: backend/build/test-results/test/*.xml
+          reporter: java-junit
+          fail-on-error: false

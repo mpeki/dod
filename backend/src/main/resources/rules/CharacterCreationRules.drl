@@ -1,0 +1,292 @@
+import dk.pekilidi.dod.data.CharacterTemplateDTO
+import dk.pekilidi.dod.data.CharacterDTO
+import java.util.Arrays;
+import dk.pekilidi.dod.util.Dice
+import dk.pekilidi.dod.data.BaseTraitRuleDTO
+import dk.pekilidi.dod.data.BaseTraitDTO
+import java.util.List
+import java.util.Collections
+import java.util.ArrayList
+import dk.pekilidi.dod.character.model.CharacterState;
+import dk.pekilidi.dod.character.model.AgeGroup
+import dk.pekilidi.dod.character.model.BaseTraitName
+import com.google.common.math.IntMath
+import java.math.RoundingMode
+import java.lang.reflect.Field;
+import dk.pekilidi.dod.character.model.body.HumanoidBody
+import dk.pekilidi.dod.character.model.body.BodyPart
+import dk.pekilidi.dod.data.BodyPartDTO
+import dk.pekilidi.dod.character.model.body.BodyPartName
+import dk.pekilidi.dod.character.model.FavoriteHand
+import dk.pekilidi.dod.character.model.SocialStatus
+import dk.pekilidi.dod.character.model.BaseTraitName
+import dk.pekilidi.dod.character.model.FavoriteHand
+import dk.pekilidi.dod.character.model.CharacterState
+import dk.pekilidi.dod.character.model.SocialStatus
+import dk.pekilidi.dod.data.BaseTraitDTO
+import dk.pekilidi.dod.data.BaseTraitRuleDTO
+import dk.pekilidi.dod.data.BodyPartDTO
+import dk.pekilidi.dod.character.model.Looks
+import dk.pekilidi.dod.character.model.Looks.EyeColor
+import dk.pekilidi.dod.character.model.Looks.Voice
+import dk.pekilidi.dod.character.model.Looks.HairColor
+import dk.pekilidi.dod.character.model.Looks.HairLength
+import dk.pekilidi.dod.character.model.Looks.BeardLength
+
+function boolean isBetween(int x, int lower, int upper) {
+  return lower <= x && x <= upper;
+}
+
+rule "Initialize base traits and hero points"
+    when
+        character : CharacterDTO( baseTraits.size == 0 && race != null );
+        characterTemplate : CharacterTemplateDTO() from character.race.characterTemplate
+    then
+        for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
+            int eyes = Dice.roll(character.isHero() ? rule.getBaseTraitHeroDieRoll() : rule.getBaseTraitDieRoll());
+            BaseTraitDTO baseTrait = new BaseTraitDTO(rule.getBaseTraitName(),eyes,eyes);
+            insert(baseTrait);
+            character.addBaseTrait(baseTrait);
+        }
+        if (character.isHero()){
+          character.setHeroPoints(0);
+        } else {
+          character.setHeroPoints(-1);
+        }
+        character.setState(CharacterState.BASE_TRAITS_SET);
+        update(character)
+end;
+
+rule "Initialize body - total HP"
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.AGE_GROUP_SET &&
+                               getBaseTraitValue(BaseTraitName.SIZE) != -1 &&
+                               getBaseTraitValue(BaseTraitName.CONSTITUTION) != -1 )
+  then
+    Integer size = character.getBaseTraitValue(BaseTraitName.SIZE);
+    Integer constitution =  character.getBaseTraitValue(BaseTraitName.CONSTITUTION);
+    Integer totalHP = IntMath.divide(size + constitution, 2, RoundingMode.CEILING);
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.TOTAL).maxHP(totalHP).currentHP(totalHP).build());
+    character.setState(CharacterState.TOTAL_HP_SET);
+    update(character)
+end;
+
+
+rule "Initialize body - body parts HP - humanoid"
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.TOTAL_HP_SET)
+    characterTemplate : CharacterTemplateDTO( bodyTypeClass == HumanoidBody.class ) from character.race.characterTemplate
+  then
+    Integer totalHp = character.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP();
+    Integer headHP = IntMath.divide(totalHp,4,RoundingMode.CEILING);
+    Integer chestHP = IntMath.divide(totalHp,2,RoundingMode.CEILING);
+    Integer stomachHP = IntMath.divide(totalHp,3,RoundingMode.CEILING);
+    Integer armsHP = IntMath.divide(totalHp,5,RoundingMode.CEILING);
+    Integer legsHP = IntMath.divide(totalHp,3,RoundingMode.CEILING);
+
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.HEAD).maxHP(headHP).currentHP(headHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.CHEST).maxHP(chestHP).currentHP(chestHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.STOMACH).maxHP(stomachHP).currentHP(stomachHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.LEFT_ARM).maxHP(armsHP).currentHP(armsHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.RIGHT_ARM).maxHP(armsHP).currentHP(armsHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.LEFT_LEG).maxHP(legsHP).currentHP(legsHP).build());
+    character.addBodyPart(BodyPartDTO.builder().name(BodyPartName.RIGHT_LEG).maxHP(legsHP).currentHP(legsHP).build());
+
+    character.setState(CharacterState.BODY_PART_HP_SET);
+    update(character)
+end;
+
+// ----------- Set Looks ------------------------------
+
+rule "Set Looks"
+  when
+    character : CharacterDTO( looks == null )
+  then
+    Looks looks = new Looks();
+    int eyeColorRoll = Dice.roll("1t20");
+    if (isBetween(eyeColorRoll,1,4)) { looks.setEyeColor(EyeColor.BLUE); }
+    else if( isBetween(eyeColorRoll, 5, 6) ) { looks.setEyeColor(EyeColor.CHESSNUT_BROWN); }
+    else if( isBetween(eyeColorRoll, 7, 12) ) { looks.setEyeColor(EyeColor.BROWN); }
+    else if( isBetween(eyeColorRoll, 13, 15) ) { looks.setEyeColor(EyeColor.BLUE_GRAY); }
+    else if( isBetween(eyeColorRoll, 16, 17) ) { looks.setEyeColor(EyeColor.STEEL_GRAY); }
+    else if( isBetween(eyeColorRoll, 18, 18) ) { looks.setEyeColor(EyeColor.SILVER); }
+    else if( isBetween(eyeColorRoll, 19, 19) ) { looks.setEyeColor(EyeColor.GOLDEN); }
+    else if( isBetween(eyeColorRoll, 20, 20) ) { looks.setEyeColor(EyeColor.GREEN); }
+
+    int voiceRoll = Dice.roll("1t20");
+    if (isBetween(voiceRoll,1,3)) { looks.setVoice(Voice.SOFT); }
+    else if( isBetween(voiceRoll, 4, 6) ) { looks.setVoice(Voice.LOUD); }
+    else if( isBetween(voiceRoll, 7, 9) ) { looks.setVoice(Voice.SHARP); }
+    else if( isBetween(voiceRoll, 10, 12) ) { looks.setVoice(Voice.NORMAL); }
+    else if( isBetween(voiceRoll, 13, 15) ) { looks.setVoice(Voice.HOARSE); }
+    else if( isBetween(voiceRoll, 16, 18) ) { looks.setVoice(Voice.BOOMING); }
+    else if( isBetween(voiceRoll, 19, 20) ) { looks.setVoice(Voice.HISSING); }
+
+    int hairColorRoll = Dice.roll("1t20");
+    if (isBetween(hairColorRoll,1,4)) { looks.setHairColor(HairColor.BLACK); }
+    else if( isBetween(hairColorRoll, 5, 10) ) { looks.setHairColor(HairColor.BROWN); }
+    else if( isBetween(hairColorRoll, 11, 14) ) { looks.setHairColor(HairColor.BLOND); }
+    else if( isBetween(hairColorRoll, 15, 17) ) { looks.setHairColor(HairColor.RED); }
+    else if( isBetween(hairColorRoll, 18, 19) ) { looks.setHairColor(HairColor.WHITE); }
+    else if( isBetween(hairColorRoll, 20, 20) ) { looks.setHairColor(HairColor.STEELGRAY); }
+
+    int hairLengthRoll = Dice.roll("1t20");
+    if (isBetween(hairLengthRoll,1,1)) { looks.setHairLength(HairLength.BALD); }
+    else if( isBetween(hairLengthRoll, 2, 3) ) { looks.setHairLength(HairLength.HALF_BALD); }
+    else if( isBetween(hairLengthRoll, 4, 7) ) { looks.setHairLength(HairLength.SHORT); }
+    else if( isBetween(hairLengthRoll, 8, 15) ) { looks.setHairLength(HairLength.NECK_LONG); }
+    else if( isBetween(hairLengthRoll, 16, 19) ) { looks.setHairLength(HairLength.SHOULDER_LONG); }
+    else if( isBetween(hairLengthRoll, 20, 20) ) { looks.setHairLength(HairLength.BACK_LONG); }
+
+    int facialHairRoll = Dice.roll("1t20");
+    if (isBetween(facialHairRoll,1,5)) { looks.setBeardLength(BeardLength.NONE); }
+    else if( isBetween(facialHairRoll, 6, 10) ) { looks.setBeardLength(BeardLength.MOUSTACHE); }
+    else if( isBetween(facialHairRoll, 11, 15) ) { looks.setBeardLength(BeardLength.BEARD); }
+    else if( isBetween(facialHairRoll, 16, 20) ) { looks.setBeardLength(BeardLength.BEARD_AND_MOUSTACHE); }
+
+
+    character.setLooks(looks);
+end;
+
+// ----------- Damage Bonus ---------------------------
+
+rule "Initialize damage bonus"
+  when
+    character : CharacterDTO( state == CharacterState.BODY_PART_HP_SET )
+  then
+    Integer strength =  character.getBaseTraitValue(BaseTraitName.STRENGTH);
+    Integer size = character.getBaseTraitValue(BaseTraitName.SIZE);
+    Integer avgVal = IntMath.divide(size + strength, 2, RoundingMode.CEILING);
+    if(isBetween(avgVal,1,4)){
+      character.setDamageBonus("-1t2");
+    } else if(isBetween(avgVal, 5, 8)) {
+      character.setDamageBonus("-1");
+    } else if(isBetween(avgVal, 9, 13)) {
+      character.setDamageBonus("none");
+    } else if(isBetween(avgVal, 14, 15)) {
+      character.setDamageBonus("+1");
+    } else if(isBetween(avgVal, 16, 17)) {
+      character.setDamageBonus("+1t2");
+    } else if(isBetween(avgVal, 18, 20)) {
+      character.setDamageBonus("+1t4");
+    } else if(isBetween(avgVal, 21, 23)) {
+      character.setDamageBonus("+1t6");
+    } else if(isBetween(avgVal, 24, 26)) {
+      character.setDamageBonus("+1t8");
+    } else if(isBetween(avgVal, 27, 30)) {
+      character.setDamageBonus("+1t10");
+    } else if(isBetween(avgVal, 31, 35)) {
+      character.setDamageBonus("+2t6");
+    } else if(isBetween(avgVal, 36, 40)) {
+      character.setDamageBonus("+2t8");
+    } else if(isBetween(avgVal, 41, 45)) {
+      character.setDamageBonus("+3t6");
+    } else if(isBetween(avgVal, 46, 50)) {
+      character.setDamageBonus("+3t8");
+    } else if(isBetween(avgVal, 51, 60)) {
+      character.setDamageBonus("+4t6");
+    } else {
+      int i = avgVal % 10 == 0 ? IntMath.divide(avgVal, 10, RoundingMode.DOWN) - 2 : IntMath.divide(avgVal, 11, RoundingMode.DOWN);
+      character.setDamageBonus("+"+i+"t6");
+    }
+    character.setState(CharacterState.DAMAGE_BONUS_SET);
+    update(character)
+end;
+
+// ----------------------- Age Modifiers ----------------------------------------
+rule "Apply modifiers for age group YOUNG"
+    no-loop
+    when
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.YOUNG);
+    then
+        character.incrementTrait(BaseTraitName.DEXTERITY, 1);
+        character.setBaseSkillPoints(260);
+        character.setState(CharacterState.AGE_GROUP_SET);
+        update(character)
+end;
+
+rule "Apply modifiers for age group MATURE"
+    no-loop
+    when
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.MATURE);
+    then
+        character.incrementTrait(BaseTraitName.PSYCHE, 1);
+        character.setBaseSkillPoints(320);
+        character.setState(CharacterState.AGE_GROUP_SET);
+        update(character)
+end;
+
+rule "Apply modifiers for age group MIDDLE_AGED"
+    no-loop
+    when
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.MIDDLE_AGED);
+    then
+        character.decrementTrait(BaseTraitName.STRENGTH, 2);
+        character.decrementTrait(BaseTraitName.CONSTITUTION, 1);
+        character.decrementTrait(BaseTraitName.DEXTERITY, 1);
+        character.incrementTrait(BaseTraitName.INTELLIGENCE, 1);
+        character.incrementTrait(BaseTraitName.PSYCHE, 1);
+        character.incrementTrait(BaseTraitName.CHARISMA, 1);
+        character.setState(CharacterState.AGE_GROUP_SET);
+        character.setBaseSkillPoints(380);
+        update(character)
+end;
+
+rule "Apply modifiers for age group OLD"
+    no-loop
+    when
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.OLD);
+    then
+        character.decrementTrait(BaseTraitName.STRENGTH, 5);
+        character.decrementTrait(BaseTraitName.CONSTITUTION, 3);
+        character.decrementTrait(BaseTraitName.DEXTERITY, 3);
+        character.incrementTrait(BaseTraitName.INTELLIGENCE, 1);
+        character.incrementTrait(BaseTraitName.PSYCHE, 3);
+        character.incrementTrait(BaseTraitName.CHARISMA, 1);
+        character.setState(CharacterState.AGE_GROUP_SET);
+        character.setBaseSkillPoints(440);
+        update(character)
+end;
+
+rule "Determine favorite hand"
+  when
+    character : CharacterDTO ( favoriteHand == null)
+  then
+    int eyes = Dice.roll("2t10");
+    if(isBetween(eyes,2,14)){
+      character.setFavoriteHand(FavoriteHand.RIGHT);
+    } else if(isBetween(eyes, 15, 18)){
+      character.setFavoriteHand(FavoriteHand.LEFT);    
+    } else if(eyes == 19) {
+      character.setFavoriteHand(FavoriteHand.DOUBLE);
+    }  else {
+      character.setFavoriteHand(FavoriteHand.AMBIDEXTROUS);
+    }
+end;
+
+rule "Determine social status"
+  when
+    character : CharacterDTO ( socialStatus == null)
+  then
+    int eyes = Dice.roll("1t20");
+    if(isBetween(eyes,1,2)){
+      character.setSocialStatus(SocialStatus.NOBLE);
+    } else if(isBetween(eyes, 3, 6)){
+      character.setSocialStatus(SocialStatus.CITIZEN);
+    } else if(isBetween(eyes, 7, 10)) {
+      character.setSocialStatus(SocialStatus.PEASANT);
+    }  else {
+      character.setSocialStatus(SocialStatus.DISPOSSESSED);
+    }
+end;
+
+
+rule "Check character completion"
+  when
+    character : CharacterDTO( state == CharacterState.DAMAGE_BONUS_SET)
+  then
+    character.setState(CharacterState.INIT_COMPLETE);
+    update(character)
+end;
