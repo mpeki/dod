@@ -7,7 +7,7 @@ import dk.pekilidi.dod.character.model.Race;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.rules.DroolsService;
-import dk.pekilidi.dod.util.objects.CharacterMapper;
+import dk.pekilidi.dod.util.character.CharacterMapper;
 import dk.pekilidi.dod.util.repo.OptionalCheck;
 import java.util.List;
 import java.util.Map;

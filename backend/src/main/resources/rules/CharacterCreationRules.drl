@@ -44,7 +44,7 @@ rule "Initialize base traits and hero points"
     then
         for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
             int eyes = Dice.roll(character.isHero() ? rule.getBaseTraitHeroDieRoll() : rule.getBaseTraitDieRoll());
-            BaseTraitDTO baseTrait = new BaseTraitDTO(rule.getBaseTraitName(),eyes,eyes,-1);
+            BaseTraitDTO baseTrait = new BaseTraitDTO(rule.getBaseTraitName(),eyes,eyes);
             insert(baseTrait);
             character.addBaseTrait(baseTrait);
         }
@@ -96,54 +96,6 @@ rule "Initialize body - body parts HP - humanoid"
 
     character.setState(CharacterState.BODY_PART_HP_SET);
     update(character)
-end;
-
-rule "Set Group Value 0"
-    when
-        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 0 && currentValue <= 3);
-    then
-        baseTrait.setGroupValue(0);
-        update(baseTrait)
-end;
-
-rule "Set Group Value 1"
-    when
-        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 4 && currentValue <= 8);
-    then
-        baseTrait.setGroupValue(1);
-        update(baseTrait)
-end;
-
-rule "Set Group Value 2"
-    when
-        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 9 && currentValue <= 12);
-    then
-        baseTrait.setGroupValue(2);
-        update(baseTrait)
-end;
-
-rule "Set Group Value 3"
-    when
-        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 13 && currentValue <= 16);
-    then
-        baseTrait.setGroupValue(3);
-        update(baseTrait)
-end;
-
-rule "Set Group Value 4"
-    when
-        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 17 && currentValue <= 20);
-    then
-        baseTrait.setGroupValue(4);
-        update(baseTrait)
-end;
-
-rule "Set Group Value 5"
-    when
-        baseTrait : BaseTraitDTO( currentValue != -1 && currentValue >= 21 && currentValue <= 25);
-    then
-        baseTrait.setGroupValue(5);
-        update(baseTrait)
 end;
 
 // ----------- Set Looks ------------------------------

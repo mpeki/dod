@@ -9,6 +9,7 @@ import dk.pekilidi.dod.character.model.body.BodyPart;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
 import dk.pekilidi.dod.data.CharacterDTO;
+import dk.pekilidi.dod.util.character.CharacterMapper;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 

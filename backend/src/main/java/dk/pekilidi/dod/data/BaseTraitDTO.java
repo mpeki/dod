@@ -2,6 +2,7 @@ package dk.pekilidi.dod.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.pekilidi.dod.character.model.BaseTraitName;
+import dk.pekilidi.dod.util.rules.RulesUtil;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,11 +22,11 @@ public class BaseTraitDTO implements Serializable {
 
   private static final long serialVersionUID = -2330840748162459050L;
 
-  public BaseTraitDTO(@NonNull BaseTraitName traitName, int currentValue, int startValue, int groupValue) {
+  public BaseTraitDTO(@NonNull BaseTraitName traitName, int currentValue, int startValue) {
     this.traitName = traitName;
     this.currentValue = currentValue;
     this.startValue = startValue;
-    this.groupValue = groupValue;
+    this.groupValue = RulesUtil.calculateGroupValue(currentValue);
   }
 
   @JsonIgnore
