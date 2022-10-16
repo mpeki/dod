@@ -71,3 +71,24 @@ upper.class.style;0;0;2;2;5
 persuade;7;0;2;2;7
 sing.and.play;0;1;2;8;7
 sign.language;0;1;2;8;5
+
+# Wilderness skills
+camouflage;0;0;5;2;5
+animal.training;0;0;5;3;5
+fishing;5;0;5;1;5
+spelunking.spec;5;0;5;3;5
+spelunking.other;0;0;5;5;5
+fast.march;3;0;5;2;3
+hunting;0;0;5;2;5
+canoeing;4;0;5;2;4
+drive.horse.car;4;0;5;2;4
+navigation;0;0;5;3;5
+orienteering;5;0;5;2;5
+survival.specific;0;0;5;2;5
+survival.general;0;0;5;5;5
+horseback.riding;4;0;5;2;4
+skiing;4;0;5;2;4
+ice.skates;0;0;5;2;4
+tracking;0;0;5;2;5
+swimming;0;1;5;6;4
+seamanship;0;0;5;2;5
