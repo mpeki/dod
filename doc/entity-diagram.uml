@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.SCHEMA:dodcore</OriginalElement>
+  <nodes>
+    <node x="-103.0" y="813.0">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.character_trait_mapping</node>
+    <node x="32.0" y="464.0">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.dodcharacter</node>
+    <node x="-187.0" y="940.0">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.DATABASECHANGELOGLOCK</node>
+    <node x="138.5" y="127.0">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.race</node>
+    <node x="-69.5" y="-53.0">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.base_body</node>
+    <node x="-187.0" y="536.0">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.base_trait</node>
+    <node x="816.5" y="-234.0">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.DATABASECHANGELOG</node>
+    <node x="398.5" y="139.5">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.character_template_base_trait_rules</node>
+    <node x="204.875" y="-222.0">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.character_template</node>
+    <node x="463.875" y="-234.0">1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.base_trait_rule</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.dodcharacter" target="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.race" relationship="REFERENCES">
+      <point x="54.75" y="-149.5" />
+      <point x="196.25" y="439.0" />
+      <point x="258.5" y="439.0" />
+      <point x="0.0" y="53.5" />
+    </edge>
+    <edge source="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.character_trait_mapping" target="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.dodcharacter" relationship="REFERENCES">
+      <point x="65.0" y="-41.0" />
+      <point x="92.0" y="788.0" />
+      <point x="141.5" y="788.0" />
+      <point x="0.0" y="149.5" />
+    </edge>
+    <edge source="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.character_trait_mapping" target="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.base_trait" relationship="REFERENCES">
+      <point x="-65.0" y="-41.0" />
+      <point x="-38.0" y="788.0" />
+      <point x="-87.5" y="788.0" />
+      <point x="0.0" y="77.5" />
+    </edge>
+    <edge source="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.dodcharacter" target="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.base_body" relationship="REFERENCES">
+      <point x="-54.75" y="-149.5" />
+      <point x="86.75" y="439.0" />
+      <point x="24.5" y="439.0" />
+      <point x="0.0" y="233.5" />
+    </edge>
+    <edge source="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.character_template_base_trait_rules" target="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.base_trait_rule" relationship="REFERENCES">
+      <point x="93.25" y="-41.0" />
+      <point x="678.25" y="-78.0" />
+      <point x="612.375" y="-78.0" />
+      <point x="0.0" y="65.5" />
+    </edge>
+    <edge source="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.character_template_base_trait_rules" target="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.character_template" relationship="REFERENCES">
+      <point x="-93.25" y="-41.0" />
+      <point x="491.75" y="-78.0" />
+      <point x="324.375" y="-78.0" />
+      <point x="0.0" y="53.5" />
+    </edge>
+    <edge source="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.race" target="1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.character_template" relationship="REFERENCES">
+      <point x="0.0" y="-53.5" />
+      <point x="258.5" y="-78.0" />
+      <point x="324.375" y="-78.0" />
+      <point x="0.0" y="53.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="196.0" y="501.5" />
+  <SelectedNodes>
+    <node>1cb30cd9-992a-4c7f-befc-bf8b1a569c1b.TABLE:dodcore.dodcharacter</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

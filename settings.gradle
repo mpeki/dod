@@ -1,1 +1,11 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'dod'
+include ':backend'
+include ':frontend'
+

@@ -1,0 +1,159 @@
+= DoD API
+mpeki;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+
+RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its use of HTTP verbs.
+
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+| `PATCH`
+| Used to update an existing resource, including partial updates
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[resources]]
+= Resources
+
+////
+[[resources-index]]
+== Index
+
+The index provides the entry point into the service.
+
+[[resources-index-access]]
+=== Accessing the index
+
+A `GET` request is used to access the index
+
+==== Request structure
+
+include::{snippets}/skill-resource-api-doc/index/http-request.adoc[]
+
+==== Example response
+
+include::{snippets}/skill-resource-api-doc/index/http-response.adoc[]
+
+==== CURL request
+
+include::{snippets}/skill-resource-api-doc/index/curl-request.adoc[]
+
+[[resources-index-links]]
+==== Links
+
+include::{snippets}/skill-resource-api-doc/index/links.adoc[]
+////
+
+
+[[resources-CHARACTER]]
+== Character Resource
+
+=== `GET` /char/{id}
+
+==== Request structure
+
+include::{snippets}/character-resource-api-doc-test/get-character-by-id/http-request.adoc[]
+
+==== Example response
+
+include::{snippets}/character-resource-api-doc-test/get-character-by-id/http-response.adoc[]
+
+.Response Details
+[%collapsible]
+====
+include::{snippets}/character-resource-api-doc-test/get-character-by-id/response-fields.adoc[]
+====
+
+.Curl Request
+[%collapsible]
+====
+include::{snippets}/character-resource-api-doc-test/get-character-by-id/curl-request.adoc[]
+====
+
+=== `GET` /char/name/{name}
+
+=== `POST` /char
+
+[[resources-CHANGE_REQUEST]]
+== Change Resource
+
+=== `POST` /change/char/{id}
+
+[[resources-SKILL]]
+== Skill Resource
+
+The skill resource is used to fetch skills available to character creation.
+In general we don't create, update, or delete skills.
+
+[[resources-skill-get]]
+=== `GET` /skill
+
+Get a list of skills.
+
+==== Request structure
+
+include::{snippets}/skill-resource-api-doc-test/get-skills/http-request.adoc[]
+
+.Query Parameters Details
+[%collapsible]
+====
+.Parameters used to filter skill result
+include::{snippets}/skill-resource-api-doc-test/get-skills/request-parameters.adoc[]
+====
+
+==== Example response
+
+include::{snippets}/skill-resource-api-doc-test/get-skills/http-response.adoc[]
+
+.Response Details
+[%collapsible]
+====
+include::{snippets}/skill-resource-api-doc-test/get-skills/response-fields.adoc[]
+====
+
+.Curl Request
+[%collapsible]
+====
+include::{snippets}/skill-resource-api-doc-test/get-skills/curl-request.adoc[]
+====
+
+=== `GET` /skill/key/{skill-key}
+
+Get as specific skill, by providing its key.
+
+include::{snippets}/skill-resource-api-doc-test/get-skill-by-key/http-request.adoc[]
+
+==== Example response
+
+include::{snippets}/skill-resource-api-doc-test/get-skill-by-key/http-response.adoc[]
+
+.Response Details
+[%collapsible]
+====
+include::{snippets}/skill-resource-api-doc-test/get-skill-by-key/response-fields.adoc[]
+====
+
+.Curl Request
+[%collapsible]
+====
+include::{snippets}/skill-resource-api-doc-test/get-skill-by-key/curl-request.adoc[]
+====
