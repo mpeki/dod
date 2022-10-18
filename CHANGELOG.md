@@ -14,8 +14,6 @@
 * **DOD-17:** Added Drools Support ([4542033](https://github.com/mpeki/dod/commit/454203310c3a3e8e4999165d33212518cba3b8b8))
 * **DOD-19:** Age based modifiers implemented ([edda466](https://github.com/mpeki/dod/commit/edda46619406e9966e3c875fccbd181fdb709813))
 * **DOD-24:** Adding a frontend ([a4ddbae](https://github.com/mpeki/dod/commit/a4ddbae0ccd93aec5d32f7ab2ab6c7c3f4861bad))
-* **DOD-24:** Adding a frontend ([ef68aa6](https://github.com/mpeki/dod/commit/ef68aa605c7e4d7ceded03e0b568174e293e9e63))
-* **DOD-24:** Adding a frontend ([aa0c015](https://github.com/mpeki/dod/commit/aa0c015ce015c1b20b6013c0307341e2cf142bbd))
 * **DOD-29:** Implemented hero flag ([12e4469](https://github.com/mpeki/dod/commit/12e4469ef0a3607b322c5f7f26ffe60bcd7655d3))
 * **DOD-30:** Implement first version of change requests ([1844c30](https://github.com/mpeki/dod/commit/1844c307b66ebe96fd48d245faf975c31a00261f))
 * **DOD-33:** give char a body ([048a158](https://github.com/mpeki/dod/commit/048a158ebae5caac79fcdae6fa190d969cbb2a42))
