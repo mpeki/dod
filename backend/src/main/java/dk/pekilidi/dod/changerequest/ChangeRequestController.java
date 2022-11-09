@@ -2,7 +2,7 @@ package dk.pekilidi.dod.changerequest;
 
 import dk.pekilidi.dod.changerequest.model.ChangeRequest;
 import dk.pekilidi.dod.character.CharacterNotFoundException;
-import dk.pekilidi.dod.character.RaceNotFoundException;
+import dk.pekilidi.dod.race.RaceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

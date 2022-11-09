@@ -4,6 +4,7 @@ import static dk.pekilidi.dod.character.model.AgeGroup.MATURE;
 import static dk.pekilidi.dod.character.model.CharacterState.NEW;
 
 import dk.pekilidi.dod.character.model.body.BaseBody;
+import dk.pekilidi.dod.race.model.Race;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
@@ -56,7 +57,7 @@ public class DODCharacter implements Serializable {
   private Map<BaseTraitName, BaseTrait> baseTraits;
 
   @NonNull
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.DETACH)
   private Race race;
 
   @Column(length = 32, columnDefinition = "varchar(32) default 'MATURE'")

@@ -3,17 +3,22 @@ package dk.pekilidi.dod.character;
 import dk.pekilidi.dod.character.model.BaseTrait;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.DODCharacter;
-import dk.pekilidi.dod.character.model.Race;
+import dk.pekilidi.dod.race.RaceNotFoundException;
+import dk.pekilidi.dod.race.RaceRepository;
+import dk.pekilidi.dod.race.RaceService;
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.rules.DroolsService;
 import dk.pekilidi.dod.util.character.CharacterMapper;
 import dk.pekilidi.dod.util.repo.OptionalCheck;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import lombok.NonNull;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,22 +40,14 @@ public class CharacterService {
 
   @Cacheable("characters")
   public List<DODCharacter> getCharactersByName(String name) {
-    List<DODCharacter> chars = characterRepository.findByName(name);
+    List<DODCharacter> chars = characterRepository.findAllByName(name);
     if (chars.isEmpty()) {
       throw new CharacterNotFoundException();
     }
     return chars;
   }
 
-  @Cacheable("races")
-  public Race getRaceByName(String name) {
-    Race race = raceRepository.findByName(name);
-    if (race == null) {
-      throw new RaceNotFoundException();
-    }
-    return race;
-  }
-
+  @CacheEvict(value = "characters")
   @Transactional
   public CharacterDTO createCharacter(@NonNull CharacterDTO newCharacter) {
     Race race = getRaceByName(newCharacter.getRace().getName());
@@ -58,10 +55,15 @@ public class CharacterService {
     ruleService.executeRulesFor(newCharacter);
     DODCharacter characterEntity = modelMapper.map(newCharacter, DODCharacter.class);
     characterEntity.setRace(race);
-    //    characterEntity.setBaseTraits(characterEntity.getBaseTraits());
     characterEntity = characterRepository.save(characterEntity);
     newCharacter.setId(characterEntity.getId());
     return newCharacter;
+  }
+
+  @CacheEvict(value = "characters")
+  @Transactional
+  public void deleteCharacterById(Long characterId){
+    characterRepository.deleteById(characterId);
   }
 
   @Cacheable("characters")
@@ -77,5 +79,18 @@ public class CharacterService {
         modelMapper.map(charUpdate.getBaseTraits(), new TypeToken<Map<BaseTraitName, BaseTrait>>() {}.getType()));
     characterRepository.save(characterEntity);
     return modelMapper.map(characterEntity, CharacterDTO.class);
+  }
+
+  public List<CharacterDTO> fetchAllCharacters() {
+    List<DODCharacter> entities = characterRepository.findAll();
+    return Arrays.stream(entities.toArray()).map(object -> modelMapper.map(object, CharacterDTO.class)).toList();
+  }
+
+  private Race getRaceByName(String name) {
+    Race race = raceRepository.findByName(name);
+    if (race == null) {
+      throw new RaceNotFoundException();
+    }
+    return race;
   }
 }

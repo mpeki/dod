@@ -3,7 +3,7 @@ package dk.pekilidi.dod.character;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dk.pekilidi.dod.character.model.DODCharacter;
-import dk.pekilidi.dod.character.model.Race;
+import dk.pekilidi.dod.race.model.Race;
 import java.util.Optional;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

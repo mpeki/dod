@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import dk.pekilidi.dod.character.model.DODCharacter;
-import dk.pekilidi.dod.character.model.Race;
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.character.model.body.BodyPart;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
