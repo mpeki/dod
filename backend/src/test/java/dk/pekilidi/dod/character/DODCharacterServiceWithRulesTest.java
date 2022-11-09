@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import dk.pekilidi.dod.DodApplication;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
+import dk.pekilidi.dod.race.RaceNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

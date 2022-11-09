@@ -4,6 +4,7 @@ import static dk.pekilidi.dod.character.model.AgeGroup.MATURE;
 import static dk.pekilidi.dod.character.model.CharacterState.NEW;
 
 import dk.pekilidi.dod.character.model.body.BaseBody;
+import dk.pekilidi.dod.race.model.Race;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;

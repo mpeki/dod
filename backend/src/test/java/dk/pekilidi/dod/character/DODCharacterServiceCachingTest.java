@@ -6,7 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import dk.pekilidi.dod.character.model.DODCharacter;
-import dk.pekilidi.dod.character.model.Race;
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.utils.RandomObjectFiller;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +35,9 @@ class DODCharacterServiceCachingTest {
     testBeing.setName("kyron");
     testBeing.setRace(new Race(null, "tiefling", null));
     chars.add(testBeing);
-    given(charRepo.findByName(anyString())).willReturn(chars);
+    given(charRepo.findAllByName(anyString())).willReturn(chars);
     service.getCharactersByName("kyron");
     service.getCharactersByName("kyron");
-    verify(charRepo, times(1)).findByName("kyron");
+    verify(charRepo, times(1)).findAllByName("kyron");
   }
 }
