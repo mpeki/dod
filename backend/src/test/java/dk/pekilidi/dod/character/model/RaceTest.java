@@ -1,9 +1,11 @@
 package dk.pekilidi.dod.character.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -61,7 +63,7 @@ class RaceTest {
   @Test
   void testEqualsNull() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
-    assertNotEquals(null, firstObject);
+    assertFalse(firstObject.equals(null));
   }
 
   @Test

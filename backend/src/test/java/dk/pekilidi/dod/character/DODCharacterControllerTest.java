@@ -10,7 +10,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.pekilidi.dod.character.model.AgeGroup;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
+import dk.pekilidi.dod.race.RaceNotFoundException;
 import dk.pekilidi.utils.RandomObjectFiller;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -63,6 +66,17 @@ class DODCharacterControllerTest {
   }
 
   @Test
+  void fetchAllCharactersShouldFetchList() throws Exception {
+    List<CharacterDTO> resultList = Arrays.asList(testBeing);
+    given(characterService.fetchAllCharacters()).willReturn(resultList);
+    mockMvc
+        .perform(MockMvcRequestBuilders.get("/char"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].name").value("hans"))
+        .andExpect(jsonPath("$[0].race.name").value("tiefling"));
+  }
+
+  @Test
   void getCharacterNotFound() throws Exception {
     given(characterService.getCharactersByName(anyString())).willThrow(new CharacterNotFoundException());
     mockMvc.perform(MockMvcRequestBuilders.get("/char/name/kyron")).andExpect(status().isNotFound());
@@ -83,4 +97,21 @@ class DODCharacterControllerTest {
         .andExpect(jsonPath("ageGroup").value("MATURE"))
         .andExpect(jsonPath("race.name").value("tiefling"));
   }
+
+  @Test
+  void postCharacterWithNonRace() throws Exception {
+
+    testBeing.setRace(RaceDTO.builder().name("Bogorm").build());
+    given(characterService.createCharacter(testBeing)).willThrow(new RaceNotFoundException());
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .post("/char")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(jacksonObjectMapper.writeValueAsString(testBeing)))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(status().isNotFound());
+
+  }
+
+
 }

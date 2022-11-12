@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.DODCharacter;
-import dk.pekilidi.dod.character.model.Race;
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
@@ -32,7 +32,7 @@ class DODCharacterServiceTest {
   void setMockOutput() {
     charRepo = mock(CharacterRepository.class);
     charService = new CharacterService(charRepo);
-    when(charRepo.findByName("NONAME")).thenReturn(List.of());
+    when(charRepo.findAllByName("NONAME")).thenReturn(List.of());
   }
 
   @Test
@@ -41,7 +41,7 @@ class DODCharacterServiceTest {
     testChar.setRace(new Race(null, "tiefling", null));
     testChar.setName("kyron");
     List<DODCharacter> testChars = List.of(testChar);
-    given(charRepo.findByName("kyron")).willReturn(testChars);
+    given(charRepo.findAllByName("kyron")).willReturn(testChars);
     List<DODCharacter> chars = charService.getCharactersByName("kyron");
     assertThat(chars.size()).isEqualTo(1);
     DODCharacter being = chars.get(0);
