@@ -66,6 +66,13 @@ class DODCharacterControllerTest {
   }
 
   @Test
+  void deletedCharacterShouldNotBeFound() throws Exception {
+    mockMvc
+        .perform(MockMvcRequestBuilders.delete("/char/1"))
+        .andExpect(status().isOk());
+  }
+
+  @Test
   void fetchAllCharactersShouldFetchList() throws Exception {
     List<CharacterDTO> resultList = Arrays.asList(testBeing);
     given(characterService.fetchAllCharacters()).willReturn(resultList);

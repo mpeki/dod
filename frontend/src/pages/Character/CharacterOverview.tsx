@@ -37,7 +37,7 @@ export const CharacterOverview = (): JSX.Element => {
       <Button onClick={showCharacterHandler}/>
       {showCreateCharacter && <AddCharacter fetchCharactersHandler={fetchCharsHandler} onConfirm={showCharacterHandler} />}
       <ul>
-        {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} />)}
+        {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} fetchCharactersHandler={fetchCharsHandler}/>)}
       </ul>
     </>
   );

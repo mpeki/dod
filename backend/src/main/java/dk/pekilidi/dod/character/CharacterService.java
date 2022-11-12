@@ -60,6 +60,12 @@ public class CharacterService {
     return newCharacter;
   }
 
+  @CacheEvict(value = "characters")
+  @Transactional
+  public void deleteCharacterById(Long characterId){
+    characterRepository.deleteById(characterId);
+  }
+
   @Cacheable("characters")
   @Transactional
   public CharacterDTO findCharacterById(Long charId) {

@@ -1,11 +1,10 @@
 package dk.pekilidi.dod.race;
 
-import dk.pekilidi.dod.character.CharacterRepository;
 import dk.pekilidi.dod.data.RaceDTO;
-import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.race.model.Race;
-import dk.pekilidi.dod.util.character.CharacterMapper;
 import java.util.List;
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,13 @@ public class RaceService {
   }
 
   @Cacheable("races")
+  @Transactional
   public List<RaceDTO> fetchRaces() {
     return modelMapper.map(raceRepository.findAll(), new TypeToken<List<RaceDTO>>() {}.getType());
   }
 
   @Cacheable("races")
+  @Transactional
   public RaceDTO getRaceByName(String name) {
     Race race = raceRepository.findByName(name);
     if (race == null) {
@@ -36,5 +37,4 @@ public class RaceService {
     }
     return modelMapper.map(race, RaceDTO.class);
   }
-
 }

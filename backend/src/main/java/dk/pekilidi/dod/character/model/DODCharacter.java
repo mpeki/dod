@@ -57,7 +57,7 @@ public class DODCharacter implements Serializable {
   private Map<BaseTraitName, BaseTrait> baseTraits;
 
   @NonNull
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.DETACH)
   private Race race;
 
   @Column(length = 32, columnDefinition = "varchar(32) default 'MATURE'")

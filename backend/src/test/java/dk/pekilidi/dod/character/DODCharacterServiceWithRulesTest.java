@@ -7,6 +7,8 @@ import dk.pekilidi.dod.DodApplication;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.race.RaceNotFoundException;
+import dk.pekilidi.dod.race.RaceService;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,8 @@ class DODCharacterServiceWithRulesTest {
 
   @Autowired
   private CharacterService charService;
+  @Autowired
+  private RaceService raceService;
 
   @Test
   void createCharacterReturnChar() {
@@ -60,10 +64,21 @@ class DODCharacterServiceWithRulesTest {
   }
 
   @Test
+  void deletedCharacterIsGone() {
+    CharacterDTO testChar = CharacterDTO.builder().name("nomore").hero(true).race(new RaceDTO("human")).build();
+    CharacterDTO newBeing = charService.createCharacter(testChar);
+    newBeing = charService.findCharacterById(newBeing.getId());
+    assertThat(newBeing.getBodyParts()).isNotEmpty();
+    charService.deleteCharacterById(newBeing.getId());
+    Assertions.assertDoesNotThrow(() -> raceService.getRaceByName("human"));
+    assertThat(raceService.fetchRaces().size() > 0);
+  }
+
+  @Test
   void getCharacterNonExistingRaceThrowsException() {
     CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("hobbit")).build();
-    RaceNotFoundException thrown = Assertions.assertThrows(RaceNotFoundException.class, () -> {
-      CharacterDTO newBeing = charService.createCharacter(testChar);
+    Assertions.assertThrows(RaceNotFoundException.class, () -> {
+      charService.createCharacter(testChar);
     });
   }
 }

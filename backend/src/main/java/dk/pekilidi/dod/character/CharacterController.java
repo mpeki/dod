@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,12 @@ public class CharacterController {
   @CrossOrigin(origins = "http://localhost:3000")
   public CharacterDTO getCharacter(@PathVariable Long id) {
     return characterService.findCharacterById(id);
+  }
+
+  @DeleteMapping("/char/{id}")
+  @CrossOrigin(origins = "http://localhost:3000")
+  public void deleteCharacter(@PathVariable Long id) {
+    characterService.deleteCharacterById(id);
   }
 
   @GetMapping("/char")
