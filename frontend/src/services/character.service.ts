@@ -69,6 +69,4 @@ export const CharacterService = {
       }, Math.random() * 100);
     });
   }
-
-
 };
