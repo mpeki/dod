@@ -50,10 +50,10 @@ class SkillControllerTest {
   void findSkillsByGroup() throws Exception {
     List<SkillDTO> resultList = new ArrayList<>();
     resultList.add(testSkill1);
-    given(skillService.getSkillsByGroup(Group.BATTLE)).willReturn(resultList);
+    given(skillService.getSkillsByGroup(Group.COMBAT)).willReturn(resultList);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/skill?group=BATTLE")
+            .get("/skill?group=COMBAT")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(resultList)))
         .andDo(MockMvcResultHandlers.print())
@@ -92,10 +92,10 @@ class SkillControllerTest {
   void findSkillsByGroupAndBaseChance() throws Exception {
     List<SkillDTO> resultList = new ArrayList<>();
     resultList.add(testSkill2);
-    given(skillService.getSkillsByGroupAndBaseChance(Group.BATTLE, BaseTraitName.INTELLIGENCE)).willReturn(resultList);
+    given(skillService.getSkillsByGroupAndBaseChance(Group.COMBAT, BaseTraitName.INTELLIGENCE)).willReturn(resultList);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/skill?group=BATTLE&baseChance=INTELLIGENCE")
+            .get("/skill?group=COMBAT&baseChance=INTELLIGENCE")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(resultList)))
         .andDo(MockMvcResultHandlers.print())
@@ -116,7 +116,7 @@ class SkillControllerTest {
     resultList.add(testSkill2);
     resultList.add(testSkill3);
     given(skillService.getSkills()).willReturn(resultList);
-    given(skillService.getSkillsByGroupAndBaseChance(Group.BATTLE, BaseTraitName.INTELLIGENCE)).willReturn(resultList);
+    given(skillService.getSkillsByGroupAndBaseChance(Group.COMBAT, BaseTraitName.INTELLIGENCE)).willReturn(resultList);
     mockMvc
         .perform(MockMvcRequestBuilders
             .get("/skill?group=&baseChance=")

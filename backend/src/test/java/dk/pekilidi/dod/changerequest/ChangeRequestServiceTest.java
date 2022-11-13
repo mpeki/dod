@@ -106,7 +106,7 @@ class ChangeRequestServiceTest {
 
     SkillDTO skill = SkillDTO
         .builder()
-        .group(Group.BATTLE)
+        .group(Group.COMBAT)
         .key(SkillKey.builder().value("primary.weapon").build())
         .build();
 
