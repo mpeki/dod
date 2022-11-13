@@ -29,6 +29,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Check branch
+        run: git rev-parse --abbrev-ref HEAD
       - name: Prepare semantic-release
         run: npm install
       - name: Do semantic-release
