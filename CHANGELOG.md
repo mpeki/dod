@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/mpeki/dod/compare/v1.0.1...v1.0.2) (2022-11-13)
+
+
+### Bug Fixes
+
+* publish release from corret branch ([ffc52a3](https://github.com/mpeki/dod/commit/ffc52a33d3a5cd4c7716722d6327a142dba1db35))
+
 ## [1.0.1](https://github.com/mpeki/dod/compare/v1.0.0...v1.0.1) (2022-11-13)
 
 
