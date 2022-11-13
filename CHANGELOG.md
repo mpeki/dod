@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/mpeki/dod/compare/v1.0.0...v1.0.1) (2022-11-13)
+
+
+### Bug Fixes
+
+* updated semrel versions and some dependencies ([c7762ba](https://github.com/mpeki/dod/commit/c7762ba072095836d41a9290548f50047163499f))
+
 # 1.0.0 (2022-10-18)
 
 
