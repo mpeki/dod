@@ -30,6 +30,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Check branch
+        run: git checkout ${{ github.event.workflow_run.head_branch }}
+      - name: Check branch
         run: git rev-parse --abbrev-ref HEAD
       - name: Prepare semantic-release
         run: npm install
