@@ -1,3 +1,18 @@
+# [1.1.0](https://github.com/mpeki/dod/compare/v1.0.2...v1.1.0) (2022-11-14)
+
+
+### Bug Fixes
+
+* publish release from corret branch ([83d8e8b](https://github.com/mpeki/dod/commit/83d8e8bdf0d603091866a408d0929775796b734a))
+* renamed BATTLE skill group to COMBAT ([eb1f0b4](https://github.com/mpeki/dod/commit/eb1f0b49f808d2a00e3b50f44aec56cbc4cbab5d))
+* updated semrel versions and some dependencies ([93922e9](https://github.com/mpeki/dod/commit/93922e9b51d8a13291d2aca797f62a700ac441ab))
+
+
+### Features
+
+* **DOD-123:** create/view character (UI) ([9247597](https://github.com/mpeki/dod/commit/92475975fb887f2e653991f085a5eaab92db5222))
+* **DOD-123:** create/view character (UI) ([dd9c267](https://github.com/mpeki/dod/commit/dd9c267f8a4295b965d5658223136c0b6fd7b13c))
+
 ## [1.0.2](https://github.com/mpeki/dod/compare/v1.0.1...v1.0.2) (2022-11-13)
 
 
