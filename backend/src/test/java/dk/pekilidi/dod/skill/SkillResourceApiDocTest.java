@@ -68,7 +68,7 @@ class SkillResourceApiDocTest {
         .key(SkillKey.builder().value("primary.weapon").build())
         .traitName(BaseTraitName.DEXTERITY)
         .baseChance(BaseTraitName.DEXTERITY)
-        .group(Group.BATTLE)
+        .group(Group.COMBAT)
         .category(Category.A)
         .build();
     testListResult.add(testSkill);
@@ -91,10 +91,10 @@ class SkillResourceApiDocTest {
   void getSkills() throws Exception {
     ConstraintDescriptions desc = new ConstraintDescriptions(SkillDTO.class);
 
-    when(skillService.getSkillsByGroupAndBaseChance(Group.BATTLE, BaseTraitName.DEXTERITY)).thenReturn(testListResult);
+    when(skillService.getSkillsByGroupAndBaseChance(Group.COMBAT, BaseTraitName.DEXTERITY)).thenReturn(testListResult);
 
     mockMvc
-        .perform(get("/skill?group=BATTLE&baseChance=DEXTERITY").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/skill?group=COMBAT&baseChance=DEXTERITY").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint()),
             requestParameters(enumParam("group", Group.values()).optional(),

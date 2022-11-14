@@ -18,6 +18,7 @@ import dk.pekilidi.dod.skill.SkillService;
 import dk.pekilidi.dod.skill.model.Category;
 import java.io.File;
 import org.junit.ClassRule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
@@ -171,9 +173,14 @@ public class CharacterFlowTest {
         assertEquals(ChangeStatusLabel.OK_SKILL_BOUGHT, buySkillResponse.getBody().getStatusLabel());
       }
     }
-    //    SkillDTO skill = SkillDTO.builder().group(Group.BATTLE).key(SkillKey.builder().value("primary.weapon")
-    //    .build()).build();
+    
+    //Delete the character
+    String deleteCharacterUrl = serviceUrl + "/char/" + fetchedChar.getId();
+    restTemplate.delete(deleteCharacterUrl);
 
-    System.out.println(fetchedChar);
+    //Make sure it is gone!
+    HttpClientErrorException thrown = Assertions.assertThrows(HttpClientErrorException.class, () -> restTemplate.getForObject(getCharacterUrl, Void.class));
+    assertEquals(thrown.getStatusCode(), HttpStatus.NOT_FOUND);
+
   }
 }
