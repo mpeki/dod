@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Checkout branch
-        run: git checkout ${{ github.event.workflow_run.head_branch }}
+        run: git checkout ${{ github.event.workflow_run.head_branch }}; git pull
       - name: Check branch
         run: git rev-parse --abbrev-ref HEAD
       - name: Prepare semantic-release
