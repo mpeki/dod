@@ -111,6 +111,7 @@ public class SkillService {
     return modelMapper.map(entities, new TypeToken<List<SkillDTO>>() {}.getType());
   }
 
+  @Cacheable("skills")
   public SkillDTO findSkillByKey(String skillKey) {
     return findSkillByKey(SkillKey.builder().value(skillKey).build());
   }
@@ -118,6 +119,9 @@ public class SkillService {
   @Cacheable("skills")
   public SkillDTO findSkillByKey(SkillKey key) {
     Skill skill = skillRepository.findByKey(key);
+    if (skill == null) {
+      throw new SkillNotFoundException("Skill for key: " + key.getValue() + " not found!");
+    }
     return modelMapper.map(skill, SkillDTO.class);
   }
 }
