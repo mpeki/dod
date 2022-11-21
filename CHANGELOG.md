@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/mpeki/dod/compare/v1.2.0...v1.2.1) (2022-11-21)
+
+
+### Bug Fixes
+
+* **DOD-156:** cannot fetch all characters after skill is bought ([bb6ac83](https://github.com/mpeki/dod/commit/bb6ac83c7b2ef7a9044135940b2b25aff450f5bb))
+
 # [1.2.0](https://github.com/mpeki/dod/compare/v1.1.0...v1.2.0) (2022-11-21)
 
 
