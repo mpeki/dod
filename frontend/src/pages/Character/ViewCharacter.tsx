@@ -17,7 +17,6 @@ export const ViewCharacter = () => {
     .catch((e) => alert("Error fetching character: " + e));
   }, [charId]);
 
-    console.log(JSON.stringify(character?.bodyParts))
     return (
       <>
         <h1>

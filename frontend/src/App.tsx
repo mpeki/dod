@@ -5,6 +5,7 @@ import { Home } from "./pages/Home";
 import { CharacterOverview } from "./pages/Character/CharacterOverview";
 import { Layout } from "./pages/Layout";
 import { ViewCharacter } from "./pages/Character/ViewCharacter";
+import { ViewSkills } from "./pages/Skill/ViewSkills";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/characters" element={<CharacterOverview />}  />
+          <Route path="/skills" element={<ViewSkills/> }  />
           <Route path="/characters/:charId" element={<ViewCharacter/>} />
         </Route>
       </Routes>

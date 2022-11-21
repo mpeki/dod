@@ -15,6 +15,9 @@ export const Layout: FC = () => {
           <li>
             <Link to="/characters">My Characters</Link>
           </li>
+          <li>
+            <Link to="/skills">Skills</Link>
+          </li>
         </ul>
       </nav>
 
