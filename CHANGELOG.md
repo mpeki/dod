@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/mpeki/dod/compare/v1.1.0...v1.2.0) (2022-11-21)
+
+
+### Features
+
+* **DOD-154:** Added info endpoint to actuator ([ee7f45f](https://github.com/mpeki/dod/commit/ee7f45fc86e3b4ad44e09c9922373cd7d6399d2a))
+
 # [1.1.0](https://github.com/mpeki/dod/compare/v1.0.2...v1.1.0) (2022-11-14)
 
 
