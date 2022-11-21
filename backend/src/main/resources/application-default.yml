@@ -45,3 +45,8 @@ spring:
         cache:
           use_second_level_cache: false
     open-in-view: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
