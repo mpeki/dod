@@ -5,6 +5,7 @@ import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Group;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ public class SkillController {
 
   private SkillService skillService;
 
+  @CrossOrigin(origins = "http://localhost:3000")
   @GetMapping("/skill")
   public List<SkillDTO> findSkills(@RequestParam(required = false) String group,
       @RequestParam(required = false) String baseChance) {
