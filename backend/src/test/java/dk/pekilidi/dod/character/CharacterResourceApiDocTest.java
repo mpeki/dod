@@ -74,10 +74,10 @@ class CharacterResourceApiDocTest {
   @Test
   void getCharacterById() throws Exception {
 
-    when(service.findCharacterById(1L)).thenReturn(testCharacter);
+    when(service.findCharacterById("123")).thenReturn(testCharacter);
 
     mockMvc
-        .perform(get("/char/{id}", 1L).accept(MediaType.APPLICATION_JSON))
+        .perform(get("/char/{id}", "123").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint()),
             pathParameters(parameterWithName("id").description("The character id")),
@@ -98,7 +98,7 @@ class CharacterResourceApiDocTest {
   @Test
   void deleteCharacterById() throws Exception {
 
-    when(service.findCharacterById(1L)).thenReturn(testCharacter);
+    when(service.findCharacterById("123")).thenReturn(testCharacter);
 
     mockMvc
         .perform(delete("/char/{id}", 1L).accept(MediaType.APPLICATION_JSON))

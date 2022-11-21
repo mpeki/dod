@@ -64,7 +64,7 @@ class SkillResourceApiDocTest {
 
     testSkill = SkillDTO
         .builder()
-        .skillId(1L)
+        .skillId("123")
         .key(SkillKey.builder().value("primary.weapon").build())
         .traitName(BaseTraitName.DEXTERITY)
         .baseChance(BaseTraitName.DEXTERITY)

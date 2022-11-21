@@ -15,7 +15,6 @@ import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.SkillService;
 import dk.pekilidi.dod.skill.model.Category;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,23 +25,22 @@ import org.springframework.web.client.RestTemplate;
 
 public class FlowTestHelper {
 
+  private final String serviceUrl;
+  private final HttpHeaders headers;
+  private final RestTemplate restTemplate = new RestTemplate();
   public FlowTestHelper(String serviceUrl, HttpHeaders headers) {
     this.serviceUrl = serviceUrl;
     this.headers = headers;
   }
 
-  private final String serviceUrl;
-
-  private final HttpHeaders headers;
-  private final RestTemplate restTemplate = new RestTemplate();
-
-  void assertDeleted(Long charId){
+  void assertDeleted(String charId) {
     String getCharacterUrl = serviceUrl + "/char/" + charId;
-    HttpClientErrorException thrown = Assertions.assertThrows(HttpClientErrorException.class, () -> restTemplate.getForObject(getCharacterUrl, Void.class));
-    assertEquals(thrown.getStatusCode(), HttpStatus.NOT_FOUND);
+    HttpClientErrorException thrown = Assertions.assertThrows(
+        HttpClientErrorException.class, () -> restTemplate.getForObject(getCharacterUrl, Void.class));
+    assertEquals(HttpStatus.NOT_FOUND, thrown.getStatusCode());
   }
 
-  CharacterDTO createNewCharacter(String name, boolean isHero){
+  CharacterDTO createNewCharacter(String name, boolean isHero) {
     String createCharacterUrl = serviceUrl + "/char";
     CharacterDTO character = CharacterDTO
         .builder()
@@ -55,22 +53,22 @@ public class FlowTestHelper {
     HttpEntity<CharacterDTO> request = new HttpEntity<>(character, headers);
     ResponseEntity<CharacterDTO> createdResponse = restTemplate.postForEntity(
         createCharacterUrl, request, CharacterDTO.class);
-    assertEquals(createdResponse.getStatusCode(), HttpStatus.OK);
+    assertEquals(HttpStatus.OK, createdResponse.getStatusCode());
     assertNotNull(createdResponse.getBody());
     assertEquals(CharacterState.INIT_COMPLETE, createdResponse.getBody().getState());
 
     return createdResponse.getBody();
   }
 
-  CharacterDTO getCharById(Long charId){
+  CharacterDTO getCharById(String charId) {
     String getCharacterUrl = serviceUrl + "/char/" + charId;
 
     ResponseEntity<CharacterDTO> getResponse = restTemplate.getForEntity(getCharacterUrl, CharacterDTO.class);
-    assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
+    assertEquals(HttpStatus.OK, getResponse.getStatusCode());
     return getResponse.getBody();
   }
 
-  CharacterDTO buyHeroPoints(Long charId, int amountToBuy){
+  CharacterDTO buyHeroPoints(String charId, int amountToBuy) {
     String changeCharUrl = serviceUrl + "/change/char/" + charId;
 
     ChangeRequest increaseHeroPoints = ChangeRequest
@@ -83,14 +81,14 @@ public class FlowTestHelper {
     HttpEntity<ChangeRequest> changeRequest = new HttpEntity<>(increaseHeroPoints, headers);
     ResponseEntity<ChangeRequest> changeResponse = restTemplate.postForEntity(
         changeCharUrl, changeRequest, ChangeRequest.class);
-    assertEquals(changeResponse.getStatusCode(), HttpStatus.OK);
+    assertEquals(HttpStatus.OK, changeResponse.getStatusCode());
     assertNotNull(changeResponse.getBody());
     assertEquals(ChangeStatus.APPROVED, changeResponse.getBody().getStatus());
     assertEquals(ChangeStatusLabel.OK_HERO_POINTS_INCREASE, changeResponse.getBody().getStatusLabel());
     return getCharById(charId);
   }
 
-  CharacterDTO buyBaseTraitIncrease(Long charId, BaseTraitName baseTrait, int pointToBuy){
+  CharacterDTO buyBaseTraitIncrease(String charId, BaseTraitName baseTrait, int pointToBuy) {
     String changeCharUrl = serviceUrl + "/change/char/" + charId;
     ChangeRequest increaseBaseTrait = ChangeRequest
         .builder()
@@ -101,7 +99,8 @@ public class FlowTestHelper {
         .build();
 
     HttpEntity<ChangeRequest> changeRequest = new HttpEntity<>(increaseBaseTrait, headers);
-    ResponseEntity<ChangeRequest> changeResponse = restTemplate.postForEntity(changeCharUrl, changeRequest, ChangeRequest.class);
+    ResponseEntity<ChangeRequest> changeResponse = restTemplate.postForEntity(
+        changeCharUrl, changeRequest, ChangeRequest.class);
     assertEquals(HttpStatus.OK, changeResponse.getStatusCode());
     assertNotNull(changeResponse.getBody());
     assertEquals(ChangeStatus.APPROVED, changeResponse.getBody().getStatus());
@@ -109,8 +108,10 @@ public class FlowTestHelper {
     return getCharById(charId);
   }
 
-  void buySkills(Long charId){
+  int buySkills(String charId) throws InterruptedException {
+    int numSkillsBought = 0;
     for (SkillDTO skill : fetchAvailableSkills()) {
+
       int fvToBuy = skill.getCategory() == Category.A ? 15 : 3;
       CharacterDTO fetchedChar = getCharById(charId);
       ResponseEntity<ChangeRequest> buySkillResponse = buySkill(charId, skill, fvToBuy);
@@ -122,12 +123,13 @@ public class FlowTestHelper {
       } else {
         assertEquals(ChangeStatus.APPROVED, buySkillResponse.getBody().getStatus());
         assertEquals(ChangeStatusLabel.OK_SKILL_BOUGHT, buySkillResponse.getBody().getStatusLabel());
+        numSkillsBought++;
       }
     }
-
+    return numSkillsBought;
   }
 
-  ResponseEntity<ChangeRequest> buySkill(Long charId, SkillDTO skill, int fvToBuy){
+  ResponseEntity<ChangeRequest> buySkill(String charId, SkillDTO skill, int fvToBuy) {
     String changeCharUrl = serviceUrl + "/change/char/" + charId;
 
     ChangeRequest buySkillRequest = ChangeRequest
@@ -138,7 +140,6 @@ public class FlowTestHelper {
         .changeKey(skill.getKey())
         .build();
     //Buy skills
-
     ResponseEntity<ChangeRequest> buySkillResponse = restTemplate.postForEntity(
         changeCharUrl, buySkillRequest, ChangeRequest.class);
 
@@ -146,13 +147,13 @@ public class FlowTestHelper {
     return buySkillResponse;
   }
 
-  SkillDTO[] fetchAvailableSkills(){
+  SkillDTO[] fetchAvailableSkills() {
     String fetchSkillsUrl = serviceUrl + "/skill";
     ResponseEntity<SkillDTO[]> skillsResponse = restTemplate.getForEntity(fetchSkillsUrl, SkillDTO[].class);
     return skillsResponse.getBody();
   }
 
-  void deleteCharacter(Long charId){
+  void deleteCharacter(String charId) {
     String deleteCharacterUrl = serviceUrl + "/char/" + charId;
     restTemplate.delete(deleteCharacterUrl);
     //Make sure it is gone!
@@ -161,7 +162,8 @@ public class FlowTestHelper {
 
   public CharacterDTO[] fetchAllCharacters() {
     String fetchAllCharactersUrl = serviceUrl + "/char";
-    ResponseEntity<CharacterDTO[]> skillsResponse = restTemplate.getForEntity(fetchAllCharactersUrl, CharacterDTO[].class);
+    ResponseEntity<CharacterDTO[]> skillsResponse = restTemplate.getForEntity(
+        fetchAllCharactersUrl, CharacterDTO[].class);
     return skillsResponse.getBody();
   }
 }

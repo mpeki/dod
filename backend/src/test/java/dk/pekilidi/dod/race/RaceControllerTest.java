@@ -10,6 +10,7 @@ import dk.pekilidi.dod.character.CharacterNotFoundException;
 import dk.pekilidi.dod.character.CharacterService;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
+import java.util.Arrays;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ class RaceControllerTest {
   void getCharacterNotFound() throws Exception {
     given(raceService.getRaceByName(anyString())).willThrow(new RaceNotFoundException());
     mockMvc.perform(MockMvcRequestBuilders.get("/race/name/bogorm")).andExpect(status().isNotFound());
+  }
+
+  @Test
+  void getFetchRaces() throws Exception {
+    given(raceService.fetchRaces()).willReturn(Arrays.asList(RaceDTO.builder().name("human").build()));
+    mockMvc.perform(MockMvcRequestBuilders.get("/race")).andExpect(status().isOk());
   }
 
 

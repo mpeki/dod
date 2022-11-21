@@ -34,4 +34,20 @@ class BaseTraitRuleTest {
     BaseTraitRule firstObject = rof.createAndFill(BaseTraitRule.class);
     assertNotEquals(null, firstObject);
   }
+  @Test
+  void testEqualsOtherObject() throws Exception {
+    BaseTraitRule firstObject = rof.createAndFill(BaseTraitRule.class);
+    assertNotEquals(firstObject, new Object());
+  }
+
+  @Test
+  void testHashCode() throws Exception {
+    BaseTraitRule firstObject = rof.createAndFill(BaseTraitRule.class);
+    BaseTraitRule secondObject = rof.createAndFill(BaseTraitRule.class);
+    assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
+    BaseTraitRule copied = firstObject.toBuilder().build();
+    assertEquals(firstObject.hashCode(), copied.hashCode());
+    copied.setId(0L);
+    assertNotEquals(firstObject.hashCode(), copied.hashCode());
+  }
 }

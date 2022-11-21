@@ -14,7 +14,11 @@ import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.SkillKey;
+import dk.pekilidi.dod.skill.SkillService;
+import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.skill.model.Group;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,6 +34,8 @@ class ChangeRequestServiceTest {
   private CharacterService charService;
   @Autowired
   private ChangeRequestService changeRequestService;
+  @Autowired
+  private SkillService skillService;
 
   @Test
   void buyBasetraitIncrease() {
@@ -109,11 +115,7 @@ class ChangeRequestServiceTest {
     CharacterDTO newChar = charService.createCharacter(
         CharacterDTO.builder().name(charName).hero(true).race(new RaceDTO("human")).build());
 
-    SkillDTO skill = SkillDTO
-        .builder()
-        .group(Group.COMBAT)
-        .key(SkillKey.builder().value(skillName).build())
-        .build();
+    SkillDTO skill = SkillDTO.builder().group(Group.COMBAT).key(SkillKey.builder().value(skillName).build()).build();
 
     ChangeRequest change = ChangeRequest
         .builder()
@@ -124,7 +126,7 @@ class ChangeRequestServiceTest {
 
     ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
 
-    if(skillName.equals("skill.that.does.not.exist")){
+    if (skillName.equals("skill.that.does.not.exist")) {
       assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
       assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.SKILL_DOES_NOT_EXIST);
       assertThat(changeRequest.getObjectAfterChange()).isNull();
@@ -163,5 +165,73 @@ class ChangeRequestServiceTest {
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.SKILL_ALREADY_BOUGHT);
   }
 
+  @Test
+  void testBuyingMultipleSkills() {
+    CharacterDTO newChar = charService.createCharacter(
+        CharacterDTO.builder().name("test-char-all").hero(true).race(new RaceDTO("human")).build());
+    for (SkillDTO skill : skillService.getSkills()) {
+      ChangeRequest change = ChangeRequest
+            .builder()
+            .changeType(ChangeType.NEW_SKILL)
+            .changeKey(skill.getKey())
+            .modifier(skill.getCategory() == Category.A ? 6 : 1)
+            .build();
+
+      ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+      assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.APPROVED);
+      assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_SKILL_BOUGHT);
+      assertThat(changeRequest.getObjectAfterChange()).isNotNull();
+      CharacterDTO character = charService.findCharacterById(newChar.getId());
+      System.out.println("Num char skills: " + character.getSkills().size() + " skill points left: " + character.getBaseSkillPoints());
+      if(character.getBaseSkillPoints() < 15) {
+        break;
+      }
+    }
+  }
+
+  @Test
+  void testMultipleCharsBuyingMultipleSkills() {
+    CharacterDTO newChar1 = charService.createCharacter(
+        CharacterDTO.builder().name("test-char-1").hero(true).race(new RaceDTO("human")).build());
+    CharacterDTO newChar2 = charService.createCharacter(
+        CharacterDTO.builder().name("test-char-2").hero(true).race(new RaceDTO("human")).build());
+
+    for (SkillDTO skill : skillService.getSkills()) {
+      ChangeRequest change1 = ChangeRequest
+          .builder()
+          .changeType(ChangeType.NEW_SKILL)
+          .changeKey(skill.getKey())
+          .modifier(skill.getCategory() == Category.A ? 6 : 1)
+          .build();
+      ChangeRequest change2 = ChangeRequest
+          .builder()
+          .changeType(ChangeType.NEW_SKILL)
+          .changeKey(skill.getKey())
+          .modifier(skill.getCategory() == Category.A ? 6 : 1)
+          .build();
+
+      ChangeRequest changeRequest1 = changeRequestService.submitChangeRequest(newChar1.getId(), change1);
+      if(changeRequest1.getStatus() == ChangeStatus.APPROVED) {
+        assertThat(changeRequest1.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_SKILL_BOUGHT);
+        assertThat(changeRequest1.getObjectAfterChange()).isNotNull();
+        CharacterDTO character1 = charService.findCharacterById(newChar1.getId());
+        assertThat(character1.getSkills()).containsKey(skill.getKey().getKeyValue());
+      } else {
+        assertThat(changeRequest1.getStatusLabel()).isEqualTo(ChangeStatusLabel.INSUFFICIENT_SKILL_POINTS);
+        break;
+      }
+
+      ChangeRequest changeRequest2 = changeRequestService.submitChangeRequest(newChar2.getId(), change2);
+      if(changeRequest2.getStatus() == ChangeStatus.APPROVED) {
+        assertThat(changeRequest2.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_SKILL_BOUGHT);
+        assertThat(changeRequest2.getObjectAfterChange()).isNotNull();
+        CharacterDTO character2 = charService.findCharacterById(newChar2.getId());
+        assertThat(character2.getSkills()).containsKey(skill.getKey().getKeyValue());
+      } else {
+        assertThat(changeRequest2.getStatusLabel()).isEqualTo(ChangeStatusLabel.INSUFFICIENT_SKILL_POINTS);
+        break;
+      }
+    }
+  }
 
 }

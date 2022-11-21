@@ -20,7 +20,7 @@ public class ChangeRequestService {
   private DroolsService ruleService;
 
   @Transactional
-  public ChangeRequest submitChangeRequest(Long characterId, ChangeRequest change) {
+  public ChangeRequest submitChangeRequest(String characterId, ChangeRequest change) {
     CharacterDTO character = characterService.findCharacterById(characterId);
     change = change.withObjectBeforeChange(character);
     ruleService.executeGroupFlowRulesFor(List.of(character, change), change.getChangeType().changeRuleSet);

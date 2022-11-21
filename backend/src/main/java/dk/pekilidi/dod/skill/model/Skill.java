@@ -34,7 +34,7 @@ public class Skill implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @Embedded
-  @AttributeOverride(name = "value", column = @Column(name = "skill_key"))
+  @AttributeOverride(name = "key", column = @Column(name = "skill_key"))
   private SkillKey key;
   private BaseTraitName traitName;
   private Category category;

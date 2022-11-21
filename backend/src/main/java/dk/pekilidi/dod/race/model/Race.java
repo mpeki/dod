@@ -27,7 +27,7 @@ import org.hibernate.Hibernate;
 @With
 @Setter
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "character_template_id"}))

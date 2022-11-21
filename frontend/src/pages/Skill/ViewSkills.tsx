@@ -34,28 +34,10 @@ export const ViewSkills = () => {
     }
   };
 
-  const fetchSkillsHandler = useCallback(async () => {
-    let skillJSON = localStorage.getItem("skills");
-    if(skillJSON === null){
-      await SkillService.getAllSkills()
-      .then((skills) => {
-        skillJSON = JSON.stringify(skills)
-        localStorage.setItem("skills", skillJSON);
-        setSkills(skills);
-      })
-      .catch((e) => alert("Error fetching skills: " + e));
-    }
-    setSkills(skillJSON === null ? null : JSON.parse(skillJSON));
-  }, []);
-
-  useEffect(() => {
-    fetchSkillsHandler().then();
-  }, [fetchSkillsHandler]);
-
   return (
     <>
       <EnumSelect selectType={Group} onChange={handleGroupSelect}/>
       <EnumSelect selectType={BaseChance} onChange={handleBaseChanceSelect}/>
-      <SkillList  skills={shownSkills} fetchSkillsHandler={fetchSkillsHandler} />
+      {/*<SkillList skills={shownSkills} selectSkillHandler={selectSkillHandler} />*/}
     </>)
 }

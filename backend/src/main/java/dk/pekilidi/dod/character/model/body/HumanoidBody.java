@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Entity
 @DiscriminatorValue("HUMANOID")
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class HumanoidBody extends BaseBody implements Serializable {
 
   private static final long serialVersionUID = -7287994998222456079L;

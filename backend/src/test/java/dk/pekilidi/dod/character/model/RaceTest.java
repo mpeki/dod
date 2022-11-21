@@ -1,7 +1,6 @@
 package dk.pekilidi.dod.character.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -55,15 +54,26 @@ class RaceTest {
   }
 
   @Test
-  void testEqualsSame() throws Exception {
+  void testEqualsOtherObject() {
+    assertNotEquals(firstObject, new Object());
+  }
+
+  @Test
+  void testEqualsCloned() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
+    Race secondObject = firstObject.toBuilder().build();
+    assertEquals(firstObject, secondObject);
+  }
+
+  @Test
+  void testEqualsSameObject(){
     assertEquals(firstObject, firstObject);
   }
 
   @Test
   void testEqualsNull() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
-    assertFalse(firstObject.equals(null));
+    assertNotEquals(null, firstObject);
   }
 
   @Test

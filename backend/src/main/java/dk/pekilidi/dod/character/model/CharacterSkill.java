@@ -1,14 +1,17 @@
 package dk.pekilidi.dod.character.model;
 
-import dk.pekilidi.dod.skill.model.Skill;
-import java.io.Serializable;
-import jakarta.persistence.CascadeType;
+import dk.pekilidi.dod.skill.SkillKey;
+import io.hypersistence.utils.hibernate.id.Tsid;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,14 +26,36 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CharacterSkill implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 3712820377469917115L;
-
+  @Column(name = "skill_key")
+  @Embedded
+  public SkillKey skillKey;
   @Id
+  @Tsid
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  @OneToOne(cascade = CascadeType.DETACH)
-  @JoinColumn(name = "skill_id", referencedColumnName = "id")
-  private Skill skillId;
+  private String id;
   private int fv;
   private int experience;
+
+  @Transient
+  public String getValue() {
+    return skillKey.getKeyValue();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof CharacterSkill that)) {
+      return false;
+    }
+    return fv == that.fv && experience == that.experience && Objects.equals(id, that.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, fv, experience);
+  }
 }

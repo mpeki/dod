@@ -1,3 +1,8 @@
 package dk.pekilidi.dod.character;
 
-public class CharacterNotFoundException extends RuntimeException {}
+import java.io.Serial;
+
+public class CharacterNotFoundException extends RuntimeException {
+  @Serial
+  private static final long serialVersionUID = -5419947287632868356L;
+}

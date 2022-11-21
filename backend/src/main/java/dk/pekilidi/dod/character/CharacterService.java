@@ -11,6 +11,7 @@ import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.rules.DroolsService;
 import dk.pekilidi.dod.util.character.CharacterMapper;
 import dk.pekilidi.dod.util.repo.OptionalCheck;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -60,13 +61,13 @@ public class CharacterService {
 
   @CacheEvict(value = "characters", allEntries = true)
   @Transactional
-  public void deleteCharacterById(Long characterId) {
+  public void deleteCharacterById(String characterId) {
     characterRepository.deleteById(characterId);
   }
 
   @Cacheable("characters")
   @Transactional
-  public CharacterDTO findCharacterById(Long charId) {
+  public CharacterDTO findCharacterById(String charId) {
     DODCharacter result = OptionalCheck.forDODCharacter(characterRepository.findById(charId));
     return modelMapper.map(result, CharacterDTO.class);
   }
@@ -94,5 +95,31 @@ public class CharacterService {
       throw new RaceNotFoundException();
     }
     return race;
+  }
+
+  @Transactional
+  public List<String> createCharacters(int bulkSize, String raceName) {
+    //create a list of bulkSize CharacterDTOs
+    List<String> result = new ArrayList<>();
+    for (int i = 0; i < bulkSize; i++) {
+      result.add(createRandomCharacter(raceName));
+    }
+    return result;
+  }
+
+
+  private String createRandomCharacter(String raceName){
+    Race race = getRaceByName(raceName);
+
+    CharacterDTO newCharacter = new CharacterDTO();
+    newCharacter.setRace(modelMapper.map(race, RaceDTO.class));
+    newCharacter = createCharacter(newCharacter);
+
+    ruleService.executeRulesFor(newCharacter);
+
+    DODCharacter characterEntity = modelMapper.map(newCharacter, DODCharacter.class);
+    characterEntity = characterRepository.save(characterEntity);
+
+    return characterEntity.getId();
   }
 }

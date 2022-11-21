@@ -1,4 +1,5 @@
 import { Race } from "./race";
+import { Skill } from "./skill";
 
 export interface BaseTraitValue {
   currentValue: number;
@@ -12,11 +13,12 @@ export interface BodyPartValue {
 }
 
 export interface Character {
-  id?: string;
+  id?: number;
   name: string;
   ageGroup: string;
   race: Race;
   hero: boolean;
   baseTraits?: Map<string,BaseTraitValue>;
   bodyParts?: Map<string,BodyPartValue>;
+  skills?: Map<string,Skill>
 }

@@ -18,7 +18,7 @@ import org.hibernate.Hibernate;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity

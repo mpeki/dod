@@ -58,7 +58,7 @@ public class CharacterFlowTest {
   }
 
   @Test
-  void simpleCharacterFlow() {
+  void simpleCharacterFlow() throws InterruptedException {
 
     //Fetch and count characters
     int initalCharCount = flowHelper.fetchAllCharacters().length;
@@ -92,10 +92,15 @@ public class CharacterFlowTest {
     assertEquals(createdChar.getBaseTraitValue(STRENGTH) + 1, fetchedChar.getBaseTraitValue(STRENGTH));
 
     //Fetch available skills - and buy some
-    flowHelper.buySkills(createdChar.getId());
-    CharacterDTO[] characters = flowHelper.fetchAllCharacters();
+    int numSkillsBought = flowHelper.buySkills(createdChar.getId());
 
-    newCharCount = flowHelper.fetchAllCharacters().length;
+    //Check skills of fetched character
+    fetchedChar = flowHelper.getCharById(createdChar.getId());
+    assertEquals(numSkillsBought, fetchedChar.getSkills().size());
+
+    //Check number of characters
+    CharacterDTO[] characters = flowHelper.fetchAllCharacters();
+    newCharCount = characters.length;
     assertNotEquals(initalCharCount, newCharCount);
     assertEquals(initalCharCount+1, newCharCount);
 
@@ -106,6 +111,24 @@ public class CharacterFlowTest {
     newCharCount = flowHelper.fetchAllCharacters().length;
     assertEquals(initalCharCount, newCharCount);
 
+  }
+
+  @Test
+  void characterCreationMulti() throws InterruptedException {
+    int initalCharCount = flowHelper.fetchAllCharacters().length;
+    int numChars = 20;
+    for (int i = 0; i < numChars; i++) {
+      CharacterDTO createdChar = flowHelper.createNewCharacter("tester_"+i, true);
+      assertNotNull(createdChar.getId());
+      //Fetch available skills - and buy some
+      int numSkillsBought = flowHelper.buySkills(createdChar.getId());
+      //Check skills of fetched character
+      CharacterDTO fetchedChar = flowHelper.getCharById(createdChar.getId());
+      assertEquals(numSkillsBought, fetchedChar.getSkills().size());
+    }
+    int newCharCount = flowHelper.fetchAllCharacters().length;
+    assertNotEquals(initalCharCount, newCharCount);
+    assertEquals(initalCharCount+numChars, newCharCount);
   }
 
 }
