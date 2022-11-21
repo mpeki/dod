@@ -85,8 +85,14 @@ public class DODCharacter implements Serializable {
 
   private FavoriteHand favoriteHand;
   private SocialStatus socialStatus;
-  @OneToMany(cascade = CascadeType.ALL)
+
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinTable(name = "character_skill_mapping",
+      joinColumns = {@JoinColumn(name = "character_id", referencedColumnName = "id")},
+      inverseJoinColumns = {@JoinColumn(name = "skill_id", referencedColumnName = "id")})
+  @ToString.Exclude
   private Map<String, CharacterSkill> skills;
+
   @Embedded
   private Looks looks;
 

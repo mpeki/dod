@@ -2,6 +2,7 @@ package dk.pekilidi.dod.changerequest.model;
 
 public enum ChangeStatusLabel {
 
+  SKILL_DOES_NOT_EXIST("skill.does.not.exist"),
   SKILL_ALREADY_BOUGHT("skill.already.bought"),
   OK_SKILL_BOUGHT("ok.skill.bought"),
   NOT_IMPLEMENTED("change.type.not.implemented"),
