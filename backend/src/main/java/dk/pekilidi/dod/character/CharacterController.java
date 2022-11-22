@@ -23,30 +23,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 public class CharacterController {
 
   private CharacterService characterService;
 
   @GetMapping("/char/{id}")
-  @CrossOrigin(origins = "http://localhost:3000")
   public CharacterDTO getCharacter(@PathVariable Long id) {
     return characterService.findCharacterById(id);
   }
 
   @DeleteMapping("/char/{id}")
-  @CrossOrigin(origins = "http://localhost:3000")
   public void deleteCharacter(@PathVariable Long id) {
     characterService.deleteCharacterById(id);
   }
 
   @GetMapping("/char")
-  @CrossOrigin(origins = "http://localhost:3000")
   public List<CharacterDTO> fetchCharacters(){
     return characterService.fetchAllCharacters();
   }
 
   @GetMapping("/char/name/{name}")
-  @CrossOrigin(origins = "http://localhost:3000")
   public List<CharacterDTO> findCharactersByName(@PathVariable String name) {
     List<DODCharacter> entities = characterService.getCharactersByName(name);
     CharacterMapper mapper = new CharacterMapper();
@@ -54,7 +51,6 @@ public class CharacterController {
   }
 
   @PostMapping(value = "/char", consumes = MediaType.APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-  @CrossOrigin(origins = "http://localhost:3000")
   CharacterDTO postCharacter(@RequestBody CharacterDTO newCharacter) {
     return characterService.createCharacter(newCharacter);
   }

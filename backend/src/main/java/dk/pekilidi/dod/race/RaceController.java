@@ -13,18 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 public class RaceController {
 
   private RaceService raceService;
 
   @GetMapping("/race")
-  @CrossOrigin(origins = "http://localhost:3000")
   public List<RaceDTO> fetchRaces() {
     return raceService.fetchRaces();
   }
 
   @GetMapping("/race/name/{name}")
-  @CrossOrigin(origins = "http://localhost:3000")
   public RaceDTO findRaceByName(@PathVariable String name) {
     return raceService.getRaceByName(name);
   }
