@@ -45,3 +45,15 @@ spring:
         cache:
           use_second_level_cache: false
     open-in-view: true
+security:
+  cors:
+    allowedHeaders: '*'
+    allowedCredentials: true
+    allowedOrigins: '*'
+    allowedMethods: '*'
+    exposedHeaders: 'ETag, Content-Disposition'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

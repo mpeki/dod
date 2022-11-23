@@ -28,14 +28,9 @@ public class CharacterSkill implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.DETACH)
   @JoinColumn(name = "skill_id", referencedColumnName = "id")
   private Skill skillId;
-  /*
-    @Embedded
-    @AttributeOverride( name = "value", column = @Column(name = "skill_key"))
-    private SkillKey key;
-  */
   private int fv;
   private int experience;
 }

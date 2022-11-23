@@ -3,12 +3,11 @@ package dk.pekilidi.dod.character;
 import dk.pekilidi.dod.character.model.BaseTrait;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.DODCharacter;
-import dk.pekilidi.dod.race.RaceNotFoundException;
-import dk.pekilidi.dod.race.RaceRepository;
-import dk.pekilidi.dod.race.RaceService;
-import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
+import dk.pekilidi.dod.race.RaceNotFoundException;
+import dk.pekilidi.dod.race.RaceRepository;
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.rules.DroolsService;
 import dk.pekilidi.dod.util.character.CharacterMapper;
 import dk.pekilidi.dod.util.repo.OptionalCheck;
@@ -47,22 +46,21 @@ public class CharacterService {
     return chars;
   }
 
-  @CacheEvict(value = "characters")
+  @CacheEvict(value = "characters", allEntries = true)
   @Transactional
   public CharacterDTO createCharacter(@NonNull CharacterDTO newCharacter) {
     Race race = getRaceByName(newCharacter.getRace().getName());
     newCharacter.setRace(modelMapper.map(race, RaceDTO.class));
     ruleService.executeRulesFor(newCharacter);
     DODCharacter characterEntity = modelMapper.map(newCharacter, DODCharacter.class);
-    characterEntity.setRace(race);
     characterEntity = characterRepository.save(characterEntity);
     newCharacter.setId(characterEntity.getId());
     return newCharacter;
   }
 
-  @CacheEvict(value = "characters")
+  @CacheEvict(value = "characters", allEntries = true)
   @Transactional
-  public void deleteCharacterById(Long characterId){
+  public void deleteCharacterById(Long characterId) {
     characterRepository.deleteById(characterId);
   }
 
@@ -73,6 +71,8 @@ public class CharacterService {
     return modelMapper.map(result, CharacterDTO.class);
   }
 
+  @CacheEvict(value = "characters", allEntries = true)
+  @Transactional
   public CharacterDTO save(CharacterDTO charUpdate) {
     DODCharacter characterEntity = modelMapper.map(charUpdate, DODCharacter.class);
     characterEntity.setBaseTraits(
@@ -81,6 +81,8 @@ public class CharacterService {
     return modelMapper.map(characterEntity, CharacterDTO.class);
   }
 
+  @Transactional
+  @Cacheable("characters")
   public List<CharacterDTO> fetchAllCharacters() {
     List<DODCharacter> entities = characterRepository.findAll();
     return Arrays.stream(entities.toArray()).map(object -> modelMapper.map(object, CharacterDTO.class)).toList();

@@ -10,6 +10,7 @@ import dk.pekilidi.dod.changerequest.model.ChangeStatus;
 import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel;
 import dk.pekilidi.dod.changerequest.model.ChangeType;
 import dk.pekilidi.dod.character.model.AgeGroup;
+import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
@@ -34,16 +35,9 @@ import org.testcontainers.containers.wait.strategy.Wait;
 
 @Tag("integration")
 public class CharacterFlowTest {
-
-  private static HttpHeaders headers;
-  private static String serviceUrl;
-  private static String createCharacterUrl;
-  private static String getCharacterUrl;
-  private static String changeCharUrl;
-
-  private static String fetchSkillsUrl;
   private static final Integer BACKEND_PORT = 8090;
   private static final Integer DATABASE_PORT = 3306;
+  static FlowTestHelper flowHelper;
 
   @ClassRule
   public static DockerComposeContainer compose = new DockerComposeContainer(new File("../docker-compose.yml"))
@@ -56,131 +50,62 @@ public class CharacterFlowTest {
   public static void startup() {
     compose.start();
 
-    headers = new HttpHeaders();
+    HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
-
-    serviceUrl = "http://" + compose.getServiceHost("backend_1", BACKEND_PORT) + ":" + compose.getServicePort(
+    String serviceUrl = "http://" + compose.getServiceHost("backend_1", BACKEND_PORT) + ":" + compose.getServicePort(
         "backend_1", BACKEND_PORT);
-    createCharacterUrl = serviceUrl + "/char";
-    fetchSkillsUrl = serviceUrl + "/skill";
+    flowHelper = new FlowTestHelper(serviceUrl, headers);
   }
 
   @Test
   void simpleCharacterFlow() {
 
+    //Fetch and count characters
+    int initalCharCount = flowHelper.fetchAllCharacters().length;
+
     //Create a character
-    CharacterDTO character = CharacterDTO
-        .builder()
-        .name("Hendrik")
-        .race(RaceDTO.builder().name("human").build())
-        .ageGroup(AgeGroup.MATURE)
-        .hero(true)
-        .build();
-
-    RestTemplate restTemplate = new RestTemplate();
-
-    HttpEntity<CharacterDTO> request = new HttpEntity<>(character, headers);
-    ResponseEntity<CharacterDTO> createdResponse = restTemplate.postForEntity(
-        createCharacterUrl, request, CharacterDTO.class);
-    assertEquals(createdResponse.getStatusCode(), HttpStatus.OK);
-    assertEquals(CharacterState.INIT_COMPLETE, createdResponse.getBody().getState());
-
-    CharacterDTO createdChar = createdResponse.getBody();
+    CharacterDTO createdChar = flowHelper.createNewCharacter("Dendrik", true);
     assertNotNull(createdChar.getId());
 
-    //Fetch the character created
-    getCharacterUrl = serviceUrl + "/char/" + createdChar.getId();
+    //Fetch and count characters
+    int newCharCount = flowHelper.fetchAllCharacters().length;
+    assertNotEquals(initalCharCount, newCharCount);
+    assertEquals(initalCharCount+1, newCharCount);
 
-    ResponseEntity<CharacterDTO> getResponse = restTemplate.getForEntity(getCharacterUrl, CharacterDTO.class);
-    assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
-    CharacterDTO fetchedChar = getResponse.getBody();
+    //Fetch the character created
+    CharacterDTO fetchedChar = flowHelper.getCharById(createdChar.getId());
     assertEquals(createdChar, fetchedChar);
 
     //update the character - increase number of hero points
-    changeCharUrl = serviceUrl + "/change/char/" + createdChar.getId();
-
-    ChangeRequest increaseHeroPoints = ChangeRequest
-        .builder()
-        .changeDescription("Increase hero points")
-        .changeType(ChangeType.HERO_POINTS)
-        .modifier(4)
-        .build();
-
-    HttpEntity<ChangeRequest> changeRequest = new HttpEntity<>(increaseHeroPoints, headers);
-    ResponseEntity<ChangeRequest> changeResponse = restTemplate.postForEntity(
-        changeCharUrl, changeRequest, ChangeRequest.class);
-    assertEquals(changeResponse.getStatusCode(), HttpStatus.OK);
-    assertEquals(ChangeStatus.APPROVED, changeResponse.getBody().getStatus());
-    assertEquals(ChangeStatusLabel.OK_HERO_POINTS_INCREASE, changeResponse.getBody().getStatusLabel());
-
-    getResponse = restTemplate.getForEntity(getCharacterUrl, CharacterDTO.class);
-    assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
-    fetchedChar = getResponse.getBody();
+    CharacterDTO changedChar = flowHelper.buyHeroPoints(createdChar.getId(), 4);
+    fetchedChar = flowHelper.getCharById(createdChar.getId());
+    assertEquals(changedChar, fetchedChar);
     assertNotEquals(createdChar, fetchedChar);
     assertEquals(4, fetchedChar.getHeroPoints());
 
     //Modify the character - buy more strength
-    ChangeRequest increaseBaseTrait = ChangeRequest
-        .builder()
-        .changeDescription("Increase base trait STRENGTH")
-        .changeType(ChangeType.BASE_TRAIT)
-        .modifier(1)
-        .changeKey(STRENGTH)
-        .build();
-
-    changeRequest = new HttpEntity<>(increaseBaseTrait, headers);
-    changeResponse = restTemplate.postForEntity(changeCharUrl, changeRequest, ChangeRequest.class);
-    assertEquals(HttpStatus.OK, changeResponse.getStatusCode());
-    assertEquals(ChangeStatus.APPROVED, changeResponse.getBody().getStatus());
-    assertEquals(ChangeStatusLabel.OK_BASE_TRAIT_MODIFICATION, changeResponse.getBody().getStatusLabel());
-
-    getResponse = restTemplate.getForEntity(getCharacterUrl, CharacterDTO.class);
-    assertEquals(HttpStatus.OK, getResponse.getStatusCode());
-    fetchedChar = getResponse.getBody();
+    changedChar = flowHelper.buyBaseTraitIncrease(createdChar.getId(), STRENGTH, 1);
+    fetchedChar = flowHelper.getCharById(createdChar.getId());
+    assertEquals(changedChar, fetchedChar);
     assertNotEquals(createdChar, fetchedChar);
     assertEquals(2, fetchedChar.getHeroPoints());
     assertEquals(createdChar.getBaseTraitValue(STRENGTH) + 1, fetchedChar.getBaseTraitValue(STRENGTH));
 
-    //Fetch available skills
-    ResponseEntity<SkillDTO[]> skillsResponse = restTemplate.getForEntity(fetchSkillsUrl, SkillDTO[].class);
-    SkillDTO[] skills = skillsResponse.getBody();
-    for (SkillDTO skill : skills) {
-      int fvToBuy = skill.getCategory() == Category.A ? 15 : 3;
-      getResponse = restTemplate.getForEntity(getCharacterUrl, CharacterDTO.class);
-      assertEquals(HttpStatus.OK, getResponse.getStatusCode());
-      fetchedChar = getResponse.getBody();
-      assertNotEquals(createdChar, fetchedChar);
+    //Fetch available skills - and buy some
+    flowHelper.buySkills(createdChar.getId());
+    CharacterDTO[] characters = flowHelper.fetchAllCharacters();
 
-      ChangeRequest buySkillRequest = ChangeRequest
-          .builder()
-          .changeDescription("Buy primary weapon")
-          .changeType(ChangeType.NEW_SKILL)
-          .modifier(fvToBuy)
-          .changeKey(skill.getKey())
-          .build();
-      //Buy skills
+    newCharCount = flowHelper.fetchAllCharacters().length;
+    assertNotEquals(initalCharCount, newCharCount);
+    assertEquals(initalCharCount+1, newCharCount);
 
-      ResponseEntity<ChangeRequest> buySkillResponse = restTemplate.postForEntity(
-          changeCharUrl, buySkillRequest, ChangeRequest.class);
 
-      assertEquals(HttpStatus.OK, buySkillResponse.getStatusCode());
-      if (SkillService.calculateNewSkillPrice(fetchedChar, skill, fvToBuy) > fetchedChar.getBaseSkillPoints()) {
-        assertEquals(ChangeStatus.REJECTED, buySkillResponse.getBody().getStatus());
-        assertEquals(ChangeStatusLabel.INSUFFICIENT_SKILL_POINTS, buySkillResponse.getBody().getStatusLabel());
-        break;
-      } else {
-        assertEquals(ChangeStatus.APPROVED, buySkillResponse.getBody().getStatus());
-        assertEquals(ChangeStatusLabel.OK_SKILL_BOUGHT, buySkillResponse.getBody().getStatusLabel());
-      }
-    }
-    
-    //Delete the character
-    String deleteCharacterUrl = serviceUrl + "/char/" + fetchedChar.getId();
-    restTemplate.delete(deleteCharacterUrl);
+    //Delete the character - and assert it was deleted
+    flowHelper.deleteCharacter(fetchedChar.getId());
 
-    //Make sure it is gone!
-    HttpClientErrorException thrown = Assertions.assertThrows(HttpClientErrorException.class, () -> restTemplate.getForObject(getCharacterUrl, Void.class));
-    assertEquals(thrown.getStatusCode(), HttpStatus.NOT_FOUND);
+    newCharCount = flowHelper.fetchAllCharacters().length;
+    assertEquals(initalCharCount, newCharCount);
 
   }
+
 }
