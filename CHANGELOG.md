@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/mpeki/dod/compare/v1.2.1...v1.3.0) (2022-11-23)
+
+
+### Features
+
+* **DOD-139:** List skills ([4cfbfc7](https://github.com/mpeki/dod/commit/4cfbfc7cf09cf81e3f197d434c33dcd76328ded9))
+* **DOD-159:** allow project to run in GitHub Codespace ([136bc2e](https://github.com/mpeki/dod/commit/136bc2e3ce9833457cc51f1293b876c705e098b9))
+
 ## [1.2.1](https://github.com/mpeki/dod/compare/v1.2.0...v1.2.1) (2022-11-21)
 
 
