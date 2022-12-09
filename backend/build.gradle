@@ -26,7 +26,7 @@ dependencies {
     implementation 'org.springframework:spring-aspects:5.3.23'
     implementation 'org.springframework:spring-core:5.3.23'
     implementation 'org.liquibase:liquibase-core'
-    implementation 'org.drools:drools-core:7.73.0.Final'
+    implementation 'org.drools:drools-core:8.31.1.Final'
     implementation 'org.kie:kie-spring:7.73.0.Final'
     implementation 'mysql:mysql-connector-java:8.0.31'
     implementation 'org.modelmapper:modelmapper:3.1.1'
