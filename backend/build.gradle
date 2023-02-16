@@ -23,7 +23,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.retry:spring-retry:2.0.0'
-    implementation 'org.springframework:spring-aspects:6.0.4'
+    implementation 'org.springframework:spring-aspects:6.0.5'
     implementation 'org.springframework:spring-core:5.3.23'
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.drools:drools-core:7.73.0.Final'
