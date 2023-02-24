@@ -12,6 +12,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-test-verify:
+    env:
+      USERNAME: ${{ secrets.USERNAME }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
