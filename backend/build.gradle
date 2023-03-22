@@ -27,7 +27,7 @@ dependencies {
 //    implementation 'org.springframework:spring-aspects:6.0.4'
 //    implementation 'org.springframework:spring-core:5.3.23'
 
-    implementation 'org.drools:drools-core:8.34.0.Final'
+    implementation 'org.drools:drools-core:8.35.0.Final'
     implementation 'org.drools:drools-compiler:8.34.0.Final'
     implementation 'org.drools:drools-mvel:8.34.0.Final'
 //    implementation 'org.kie:kie-spring:7.73.0.Final'
