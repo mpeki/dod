@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import dk.pekilidi.dod.changerequest.model.ChangeKey;
 import java.io.Serial;
 import java.io.Serializable;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -3,7 +3,7 @@ package dk.pekilidi.dod.race;
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.race.model.Race;
 import java.util.List;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

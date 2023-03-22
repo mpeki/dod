@@ -5,9 +5,11 @@ configurations {
 }
 
 dependencies {
-    implementation 'mysql:mysql-connector-java:8.0.30'
-    implementation 'org.liquibase.ext:liquibase-hibernate5:4.15.0'
-    implementation 'org.liquibase:liquibase-core:4.15.0'
+    implementation 'mysql:mysql-connector-java:8.0.32'
+    //https://github.com/liquibase/liquibase-hibernate
+    implementation 'org.liquibase.ext:liquibase-hibernate6:4.19.0'
+    implementation 'org.liquibase:liquibase-core:4.19.0'
+    //https://github.com/liquibase/liquibase-gradle-plugin
     implementation 'org.liquibase:liquibase-gradle-plugin:2.1.1'
     implementation 'org.springframework.data:spring-data-jpa'
 }

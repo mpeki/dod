@@ -22,12 +22,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'org.springframework.retry:spring-retry:2.0.0'
-    implementation 'org.springframework:spring-aspects:6.0.4'
-    implementation 'org.springframework:spring-core:5.3.23'
     implementation 'org.liquibase:liquibase-core'
-    implementation 'org.drools:drools-core:7.73.0.Final'
-    implementation 'org.kie:kie-spring:7.73.0.Final'
+//    implementation 'org.springframework.retry:spring-retry:2.0.0'
+//    implementation 'org.springframework:spring-aspects:6.0.4'
+//    implementation 'org.springframework:spring-core:5.3.23'
+
+    implementation 'org.drools:drools-core:8.34.0.Final'
+    implementation 'org.drools:drools-compiler:8.34.0.Final'
+    implementation 'org.drools:drools-mvel:8.34.0.Final'
+//    implementation 'org.kie:kie-spring:7.73.0.Final'
+    implementation 'org.kie:kie-api:8.34.0.Final'
+
     implementation 'mysql:mysql-connector-java:8.0.32'
     implementation 'org.modelmapper:modelmapper:3.1.1'
     implementation 'com.google.guava:guava:31.1-jre'
@@ -43,7 +48,8 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.reflections:reflections:0.10.2'
-    testImplementation 'org.droolsassert:droolsassert:3.0.10'
+    testImplementation 'org.droolsassert:droolsassert:3.0.11-drools8'
+//    testImplementation(files('/home/msp/Dev/github/droolsassert/droolsassert/target/droolsassert-3.0.8-MSP-SNAPSHOT.jar','/home/msp/Dev/github/droolsassert/da-utils/target/da-utils-3.0.8-MSP-SNAPSHOT.jar'))
 
     testImplementation "org.testcontainers:testcontainers:1.17.6"
     testImplementation "org.testcontainers:junit-jupiter:1.17.6"
