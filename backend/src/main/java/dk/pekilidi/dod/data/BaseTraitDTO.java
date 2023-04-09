@@ -30,7 +30,7 @@ public class BaseTraitDTO implements Serializable {
   }
 
   @JsonIgnore
-  private Long id;
+  private String id;
   @JsonIgnore
   @NonNull
   private BaseTraitName traitName;

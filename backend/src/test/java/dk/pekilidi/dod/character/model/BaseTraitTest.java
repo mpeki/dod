@@ -18,7 +18,7 @@ class BaseTraitTest {
   @Test
   void testConstructors() throws Exception {
     BaseTrait firstObject = new BaseTrait();
-    Long id = firstObject.getId();
+    String id = firstObject.getId();
     BaseTraitName traitName = firstObject.getTraitName();
 
     assertThrows(NullPointerException.class, () -> {
@@ -72,7 +72,7 @@ class BaseTraitTest {
   @Test
   void testEqualsAnotherClass() throws Exception {
     BaseTrait firstObject = rof.createAndFill(BaseTrait.class);
-    assertNotEquals("HAT", firstObject.getTraitName().name());
+    assertNotEquals(firstObject, new Object());
   }
 
   @Test
