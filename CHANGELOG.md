@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/mpeki/dod/compare/v1.4.0...v1.5.0) (2023-04-09)
+
+
+### Features
+
+* **199:** Use @Tsid on all entities ([44ad2e2](https://github.com/mpeki/dod/commit/44ad2e283d12490ab96911c87cfee09a18321651))
+
 # [1.4.0](https://github.com/mpeki/dod/compare/v1.3.0...v1.4.0) (2023-04-09)
 
 
