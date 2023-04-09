@@ -3,6 +3,7 @@ package dk.pekilidi.dod.character.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.testcontainers.utility.Base58.randomString;
 
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Tag;
@@ -20,7 +21,7 @@ class CharacterTemplateTest {
     assertNotEquals(firstObject, secondObject);
     CharacterTemplate copied = firstObject.toBuilder().build();
     assertEquals(firstObject, copied);
-    copied.setId(0L);
+    copied.setId(randomString(10));
     assertNotEquals(firstObject, copied);
   }
 
@@ -43,7 +44,7 @@ class CharacterTemplateTest {
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
     CharacterTemplate copied = firstObject.toBuilder().build();
     assertEquals(firstObject.hashCode(), copied.hashCode());
-    copied.setId(0L);
+    copied.setId(randomString(10));
     assertNotEquals(firstObject.hashCode(), copied.hashCode());
   }
 }

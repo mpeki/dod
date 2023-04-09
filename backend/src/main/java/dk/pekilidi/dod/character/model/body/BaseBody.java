@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.character.model.body;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -29,10 +30,10 @@ public abstract class BaseBody implements Serializable {
 
   private static final long serialVersionUID = -4047526321333706702L;
 
-  @Id
+  @Id @Tsid
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonIgnore
-  private Long id;
+  private String id;
 
   @Embedded
   @AttributeOverride(name = "currentHP", column = @Column(name = "total_hp"))

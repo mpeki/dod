@@ -2,6 +2,7 @@ package dk.pekilidi.dod.character.model.body;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.testcontainers.utility.Base58.randomString;
 
 import dk.pekilidi.dod.character.model.CharacterTemplate;
 import dk.pekilidi.dod.race.model.Race;
@@ -18,27 +19,41 @@ class HumanoidBodyTest {
   @Test
   void testEquals() throws Exception {
     HumanoidBody testObject = rof.createAndFill(HumanoidBody.class);
-    testObject.setId(1L);
+    testObject.setId(randomString(10));
     HumanoidBody secondObject = rof.createAndFill(HumanoidBody.class);
-    secondObject.setId(2L);
+    secondObject.setId(randomString(10));
     assertNotEquals(testObject, secondObject);
     HumanoidBody copied = testObject.toBuilder().build();
     assertEquals(testObject, copied);
-    copied.setId(0L);
+    copied.setId(randomString(10));
     assertNotEquals(testObject, copied);
   }
 
   @Test
   void testHashCode() throws Exception {
     HumanoidBody firstObject = rof.createAndFill(HumanoidBody.class);
-    firstObject.setId(1L);
+    firstObject.setId(randomString(10));
     HumanoidBody secondObject = rof.createAndFill(HumanoidBody.class);
-    secondObject.setId(2L);
+    secondObject.setId(randomString(10));
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
     HumanoidBody copied = firstObject.toBuilder().build();
     assertEquals(firstObject.hashCode(), copied.hashCode());
-    copied.setId(0L);
+    copied.setId(randomString(10));
     copied.setChest(BodyPart.builder().currentHP(12).maxHP(12).build());
     assertNotEquals(firstObject.hashCode(), copied.hashCode());
+  }
+
+  @Test
+  void testEqualsSameObject() throws Exception {
+    HumanoidBody testObject = rof.createAndFill(HumanoidBody.class);
+    testObject.setId(randomString(10));
+    assertEquals(testObject, testObject);
+  }
+
+  @Test
+  void testEqualsOtherType() throws Exception {
+    HumanoidBody testObject = rof.createAndFill(HumanoidBody.class);
+    testObject.setId(randomString(10));
+    assertNotEquals(testObject, new CharacterTemplate());
   }
 }

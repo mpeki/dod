@@ -5,6 +5,5 @@ import java.io.Serializable;
 
 public enum BodyPartName implements ChangeKey, Serializable {
   TOTAL, HEAD, CHEST, STOMACH, LEFT_ARM, RIGHT_ARM, LEFT_LEG, RIGHT_LEG;
-
   private static final long serialVersionUID = -4787939824473814511L;
 }

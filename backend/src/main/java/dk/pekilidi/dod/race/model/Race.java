@@ -2,6 +2,7 @@ package dk.pekilidi.dod.race.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.pekilidi.dod.character.model.CharacterTemplate;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import java.io.Serializable;
 import java.util.Objects;
 import jakarta.persistence.CascadeType;
@@ -35,9 +36,9 @@ public class Race implements Serializable {
 
   private static final long serialVersionUID = -8860486223584199305L;
 
-  @Id
+  @Id @Tsid
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
   @NonNull
   @Column(name = "name", unique = true)
