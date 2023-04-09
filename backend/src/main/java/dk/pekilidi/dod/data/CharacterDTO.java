@@ -11,7 +11,6 @@ import dk.pekilidi.dod.character.model.FavoriteHand;
 import dk.pekilidi.dod.character.model.Looks;
 import dk.pekilidi.dod.character.model.SocialStatus;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
-import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.dod.util.rules.RulesUtil;
 import java.io.Serial;
 import java.io.Serializable;
@@ -35,7 +34,7 @@ public class CharacterDTO implements DODFact, Serializable {
   @Serial
   private static final long serialVersionUID = -4787939824473814563L;
 
-  private Long id;
+  private String id;
   @Default
   private String name = "NONAME";
   private RaceDTO race;
@@ -62,7 +61,7 @@ public class CharacterDTO implements DODFact, Serializable {
   @Default
   @EqualsAndHashCode.Exclude
   @JsonInclude(Include.NON_EMPTY)
-  private Map<SkillKey, SkillDTO> skills = new HashMap<>();
+  private Map<String, SkillDTO> skills = new HashMap<>();
   private Looks looks;
 
   public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
@@ -80,7 +79,7 @@ public class CharacterDTO implements DODFact, Serializable {
   }
 
   public void addSkill(SkillDTO skillDTO) {
-    skills.putIfAbsent(skillDTO.getKey(), skillDTO);
+    skills.putIfAbsent(skillDTO.getKey().getKeyValue(), skillDTO);
   }
 
   public void addBaseTrait(BaseTraitDTO baseTrait) {

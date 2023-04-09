@@ -2,26 +2,29 @@ package dk.pekilidi.dod.character.model;
 
 import static dk.pekilidi.dod.character.model.AgeGroup.MATURE;
 import static dk.pekilidi.dod.character.model.CharacterState.NEW;
+import static org.hibernate.annotations.CascadeType.ALL;
 
 import dk.pekilidi.dod.character.model.body.BaseBody;
+import dk.pekilidi.dod.race.model.Race;
+import io.hypersistence.utils.hibernate.id.Tsid;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.MapKey;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.MapKey;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,20 +32,22 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Entity
 public class DODCharacter implements Serializable {
 
   private static final long serialVersionUID = 5434025811976973643L;
 
-  @Id
+  @Id @Tsid
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
   @NonNull
   private String name;
@@ -56,25 +61,22 @@ public class DODCharacter implements Serializable {
   private Map<BaseTraitName, BaseTrait> baseTraits;
 
   @NonNull
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.DETACH)
   private Race race;
-
   @Column(length = 32, columnDefinition = "varchar(32) default 'MATURE'")
   @Enumerated(EnumType.STRING)
   private AgeGroup ageGroup = MATURE;
-
   @Column(length = 32, columnDefinition = "varchar(32) default 'NEW'")
   @Enumerated(EnumType.STRING)
   private CharacterState state = NEW;
-
   @Column(columnDefinition = "int default -1")
   private int baseSkillPoints = -1;
-
   @Column(columnDefinition = "int default -1")
   private int heroPoints = -1;
 
   @NonNull
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @Cascade(ALL)
+  @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
   private BaseBody body;
 
   private boolean hero;
@@ -83,9 +85,18 @@ public class DODCharacter implements Serializable {
   private String damageBonus = "NA";
 
   private FavoriteHand favoriteHand;
+
   private SocialStatus socialStatus;
-  @OneToMany(cascade = CascadeType.ALL)
+
+  @MapKey(name = "skillKey.value")
+  @Cascade(ALL)
+  @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+  @JoinTable(name = "character_skill_mapping",
+      joinColumns = {@JoinColumn(name = "character_id", referencedColumnName = "id")},
+      inverseJoinColumns = {@JoinColumn(name = "skill_id", referencedColumnName = "id")})
+  @ToString.Exclude
   private Map<String, CharacterSkill> skills;
+
   @Embedded
   private Looks looks;
 

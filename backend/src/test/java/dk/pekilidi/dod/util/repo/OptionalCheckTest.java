@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.util.repo;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dk.pekilidi.dod.skill.SkillNotFoundException;
@@ -13,20 +14,10 @@ import org.modelmapper.internal.util.Assert;
 @Tag("regression")
 class OptionalCheckTest {
 
-  @BeforeEach
-  void setUp() {
-
-  }
-
-  @Test
-  void forDODCharacter() {
-
-  }
-
   @Test
   void forSkillPresent() {
     Optional<Skill> skillOptional = Optional.of(new Skill());
-    Assert.notNull(OptionalCheck.forSkill(skillOptional));
+    assertNotNull(OptionalCheck.forSkill(skillOptional));
   }
 
   @Test

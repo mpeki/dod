@@ -12,14 +12,17 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-test-verify:
+    env:
+      USERNAME: ${{ secrets.USERNAME }}
+      GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}      
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.1.0
         with:
           fetch-depth: '0'
       - name: Set up JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '17'
           distribution: 'adopt'
@@ -29,7 +32,7 @@ jobs:
         run: ./gradlew test
       - name: Cache SonarCloud packages
         if: github.event_name == 'pull_request'  && github.actor != 'dependabot[bot]'
-        uses: actions/cache@v1
+        uses: actions/cache@v3.0.11
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
@@ -41,10 +44,9 @@ jobs:
         run: ./gradlew :b:test jacocoTestCoverageVerification sonarqube --info -DincludeTests="any()" -DexcludeTests="none()"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
       - name: Report
         if: github.actor != 'dependabot[bot]'
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v1.6.0
         with:
           name: Unit Tests
           path: backend/build/test-results/test/*.xml

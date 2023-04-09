@@ -3,6 +3,7 @@ package dk.pekilidi.dod.character;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -73,10 +74,10 @@ class CharacterResourceApiDocTest {
   @Test
   void getCharacterById() throws Exception {
 
-    when(service.findCharacterById(1L)).thenReturn(testCharacter);
+    when(service.findCharacterById("123")).thenReturn(testCharacter);
 
     mockMvc
-        .perform(get("/char/{id}", 1L).accept(MediaType.APPLICATION_JSON))
+        .perform(get("/char/{id}", "123").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint()),
             pathParameters(parameterWithName("id").description("The character id")),
@@ -92,6 +93,18 @@ class CharacterResourceApiDocTest {
                 enumField("ageGroup", AgeGroup.class.getSimpleName(), AgeGroup.values()),
                 enumField("favoriteHand", FavoriteHand.class.getSimpleName(), FavoriteHand.values()),
                 enumField("state", CharacterState.class.getSimpleName(), CharacterState.values()))));
+  }
+
+  @Test
+  void deleteCharacterById() throws Exception {
+
+    when(service.findCharacterById("123")).thenReturn(testCharacter);
+
+    mockMvc
+        .perform(delete("/char/{id}", 1L).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint()),
+            pathParameters(parameterWithName("id").description("The character id"))));
   }
 
 /*

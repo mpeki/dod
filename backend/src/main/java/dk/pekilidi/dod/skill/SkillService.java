@@ -27,7 +27,6 @@ public class SkillService {
   private SkillRepository skillRepository;
 
   public static Integer calculateNewSkillPrice(CharacterDTO characterDTO, SkillDTO skill, Integer fvToBuy) {
-    int result = -1;
     Integer freePoints = 0;
     if (skill.getCategory() == Category.A && characterDTO.isHero()) {
       freePoints = characterDTO.getBaseTraits().get(skill.getTraitName()).getGroupValue();
@@ -52,7 +51,6 @@ public class SkillService {
     int skillPrice = skill.getPrice();
     int tier1Price = skillPrice * 2;
     int tier2Price = tier1Price + (skillPrice * 4);
-    int tier3Price = tier2Price + (skillPrice * 3);
     switch (pointsToBuy) {
       case 1, 2 -> result = skillPrice * pointsToBuy;
       case 3, 4 -> result = tier1Price + ((pointsToBuy - 2) * skillPrice * 2);
@@ -111,6 +109,7 @@ public class SkillService {
     return modelMapper.map(entities, new TypeToken<List<SkillDTO>>() {}.getType());
   }
 
+  @Cacheable("skills")
   public SkillDTO findSkillByKey(String skillKey) {
     return findSkillByKey(SkillKey.builder().value(skillKey).build());
   }
@@ -118,6 +117,9 @@ public class SkillService {
   @Cacheable("skills")
   public SkillDTO findSkillByKey(SkillKey key) {
     Skill skill = skillRepository.findByKey(key);
+    if (skill == null) {
+      throw new SkillNotFoundException("Skill for key: " + key.getValue() + " not found!");
+    }
     return modelMapper.map(skill, SkillDTO.class);
   }
 }

@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
-@EnableCaching
+//@EnableLoadTimeWeaving
+@EnableCaching //(mode = AdviceMode.ASPECTJ)
 public class DodApplication {
 
   public static void main(String[] args) {

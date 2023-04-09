@@ -3,7 +3,7 @@ package dk.pekilidi.dod.character;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dk.pekilidi.dod.character.model.DODCharacter;
-import dk.pekilidi.dod.character.model.Race;
+import dk.pekilidi.dod.race.model.Race;
 import java.util.Optional;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -28,8 +28,8 @@ class DODCharacterRepositoryTest {
     DODCharacter testBeing = new DODCharacter();
     testBeing.setName("kyron");
     testBeing.setRace(race);
-    entityManager.persistFlushFind(testBeing);
-    DODCharacter dodCharacter = repository.findById(2L).get();
+    DODCharacter character = entityManager.persistFlushFind(testBeing);
+    DODCharacter dodCharacter = repository.findById(character.getId()).get();
     assertThat(dodCharacter.getName()).isEqualTo("kyron");
     assertThat(dodCharacter.getRace().getName()).isEqualTo("tiefling");
   }
@@ -44,17 +44,16 @@ class DODCharacterRepositoryTest {
   @Test
   void saveCharacterReturnsPaul() throws Exception {
 
-    Optional<DODCharacter> characterOptional = repository.findById(1L);
-    assertThat(characterOptional).isNotEmpty();
-    assertThat(characterOptional).isPresent();
+    Optional<DODCharacter> characterOptional = repository.findById("123");
+    assertThat(characterOptional).isNotEmpty().isPresent();
+
     DODCharacter dodCharacter = characterOptional.get();
     assertThat(dodCharacter.getName()).isEqualTo("vokan fagerhård");
     assertThat(dodCharacter.getRace().getName()).isEqualTo("human");
     dodCharacter.setName("Paul");
     repository.save(dodCharacter);
-    characterOptional = repository.findById(1L);
-    assertThat(characterOptional).isNotEmpty();
-    assertThat(characterOptional).isPresent();
+    characterOptional = repository.findById("123");
+    assertThat(characterOptional).isNotEmpty().isPresent();
     dodCharacter = characterOptional.get();
     assertThat(dodCharacter.getName()).isEqualTo("Paul");
   }

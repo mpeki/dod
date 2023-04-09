@@ -3,6 +3,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
 apply plugin: 'org.asciidoctor.jvm.convert'
+apply plugin: "com.gorylenko.gradle-git-properties"
 
 group 'dk.pekilidi'
 sourceCompatibility = '17'
@@ -19,22 +20,32 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.retry:spring-retry:1.3.3'
-    implementation 'org.springframework:spring-aspects:5.3.23'
-    implementation 'org.springframework:spring-core:5.3.23'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.liquibase:liquibase-core'
-    implementation 'org.drools:drools-core:7.73.0.Final'
-    implementation 'org.kie:kie-spring:7.73.0.Final'
-    implementation 'mysql:mysql-connector-java:8.0.30'
-    implementation 'org.modelmapper:modelmapper:3.1.0'
+//    implementation 'org.springframework.retry:spring-retry:2.0.0'
+    //https://mvnrepository.com/artifact/org.springframework/spring-aspects
+//    implementation 'org.springframework:spring-aspects:6.0.7'
+//    implementation 'org.springframework:spring-core:5.3.23'
+
+    implementation 'org.drools:drools-core:8.34.0.Final'
+    implementation 'org.drools:drools-compiler:8.34.0.Final'
+    implementation 'org.drools:drools-mvel:8.34.0.Final'
+//    implementation 'org.kie:kie-spring:7.73.0.Final'
+    implementation 'org.kie:kie-api:8.34.0.Final'
+
+    implementation 'mysql:mysql-connector-java:8.0.32'
+    implementation 'org.modelmapper:modelmapper:3.1.1'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     compileOnly 'org.projectlombok:lombok'
-    testImplementation 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
-//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testImplementation 'com.h2database:h2'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit', module: 'junit;'
     }
@@ -42,10 +53,10 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.reflections:reflections:0.10.2'
-    testImplementation 'org.droolsassert:droolsassert:3.0.10'
+    testImplementation 'org.droolsassert:droolsassert:3.0.11-drools8'
 
-    testImplementation "org.testcontainers:testcontainers:1.17.5"
-    testImplementation "org.testcontainers:junit-jupiter:1.17.5"
+    testImplementation "org.testcontainers:testcontainers:1.17.6"
+    testImplementation "org.testcontainers:junit-jupiter:1.17.6"
 }
 
 dependencyManagement {
@@ -55,6 +66,9 @@ dependencyManagement {
     }
 }
 
+springBoot {
+    buildInfo()
+}
 
 test {
 

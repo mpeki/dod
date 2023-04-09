@@ -1,542 +1,522 @@
 databaseChangeLog:
-  - changeSet:
-      id: 1664996934467-1
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  constraints:
-                    nullable: false
-                  name: body_type
-                  type: VARCHAR(31)
-              - column:
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: base_bodyPK
-                  name: id
-                  type: BIGINT
-              - column:
-                  name: total_hp
-                  type: INT
-              - column:
-                  name: total_max_hp
-                  type: INT
-              - column:
-                  name: chest_hp
-                  type: INT
-              - column:
-                  name: chest_max_hp
-                  type: INT
-              - column:
-                  name: head_hp
-                  type: INT
-              - column:
-                  name: head_max_hp
-                  type: INT
-              - column:
-                  name: left_arm_hp
-                  type: INT
-              - column:
-                  name: left_arm_max_hp
-                  type: INT
-              - column:
-                  name: left_leg_hp
-                  type: INT
-              - column:
-                  name: left_leg_max_hp
-                  type: INT
-              - column:
-                  name: right_arm_hp
-                  type: INT
-              - column:
-                  name: right_arm_max_hp
-                  type: INT
-              - column:
-                  name: right_leg_hp
-                  type: INT
-              - column:
-                  name: right_leg_max_hp
-                  type: INT
-              - column:
-                  name: stomach_hp
-                  type: INT
-              - column:
-                  name: stomach_max_hp
-                  type: INT
-            tableName: base_body
-  - changeSet:
-      id: 1664996934467-2
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: base_traitPK
-                  name: id
-                  type: BIGINT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: current_value
-                  type: INT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: group_value
-                  type: INT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: start_value
-                  type: INT
-              - column:
-                  name: trait_name
-                  type: VARCHAR(255)
-            tableName: base_trait
-  - changeSet:
-      id: 1664996934467-3
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: base_trait_rulePK
-                  name: id
-                  type: BIGINT
-              - column:
-                  name: base_trait_die_roll
-                  type: VARCHAR(255)
-              - column:
-                  name: base_trait_hero_die_roll
-                  type: VARCHAR(255)
-              - column:
-                  name: base_trait_name
-                  type: VARCHAR(255)
-            tableName: base_trait_rule
-  - changeSet:
-      id: 1664996934467-4
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: character_skillPK
-                  name: id
-                  type: BIGINT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: experience
-                  type: INT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: fv
-                  type: INT
-              - column:
-                  name: skill_id
-                  type: BIGINT
-            tableName: character_skill
-  - changeSet:
-      id: 1664996934467-5
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: character_templatePK
-                  name: id
-                  type: BIGINT
-              - column:
-                  name: body_type_class
-                  type: VARCHAR(255)
-              - column:
-                  name: name
-                  type: VARCHAR(255)
-            tableName: character_template
-  - changeSet:
-      id: 1664996934467-6
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  constraints:
-                    nullable: false
-                  name: character_template_id
-                  type: BIGINT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: base_trait_rules_id
-                  type: BIGINT
-            tableName: character_template_base_trait_rules
-  - changeSet:
-      id: 1664996934467-7
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: character_trait_mappingPK
-                  name: character_id
-                  type: BIGINT
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: character_trait_mappingPK
-                  name: base_trait_id
-                  type: BIGINT
-            tableName: character_trait_mapping
-  - changeSet:
-      id: 1664996934467-8
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: dodcharacterPK
-                  name: id
-                  type: BIGINT
-              - column:
-                  defaultValue: MATURE
-                  name: age_group
-                  type: VARCHAR(32)
-              - column:
-                  defaultValueNumeric: -1
-                  name: base_skill_points
-                  type: INT
-              - column:
-                  defaultValue: NA
-                  name: damage_bonus
-                  type: VARCHAR(32)
-              - column:
-                  name: favorite_hand
-                  type: INT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: hero
-                  type: BOOLEAN
-              - column:
-                  defaultValueNumeric: -1
-                  name: hero_points
-                  type: INT
-              - column:
-                  name: beard_length
-                  type: INT
-              - column:
-                  name: eye_color
-                  type: INT
-              - column:
-                  name: hair_color
-                  type: INT
-              - column:
-                  name: hair_length
-                  type: INT
-              - column:
-                  name: voice
-                  type: INT
-              - column:
-                  name: name
-                  type: VARCHAR(255)
-              - column:
-                  name: social_status
-                  type: INT
-              - column:
-                  defaultValue: NEW
-                  name: state
-                  type: VARCHAR(32)
-              - column:
-                  name: body_id
-                  type: BIGINT
-              - column:
-                  name: race_id
-                  type: BIGINT
-            tableName: dodcharacter
-  - changeSet:
-      id: 1664996934467-9
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: dodcharacter_skillsPK
-                  name: dodcharacter_id
-                  type: BIGINT
-              - column:
-                  constraints:
-                    nullable: false
-                  name: skills_id
-                  type: BIGINT
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: dodcharacter_skillsPK
-                  name: skills_key
-                  type: VARCHAR(255)
-            tableName: dodcharacter_skills
-  - changeSet:
-      id: 1664996934467-10
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: racePK
-                  name: id
-                  type: BIGINT
-              - column:
-                  name: name
-                  type: VARCHAR(255)
-              - column:
-                  name: character_template_id
-                  type: BIGINT
-            tableName: race
-  - changeSet:
-      id: 1664996934467-11
-      author: msp (generated)
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: skillPK
-                  name: id
-                  type: BIGINT
-              - column:
-                  name: base_chance
-                  type: INT
-              - column:
-                  name: category
-                  type: INT
-              - column:
-                  name: skill_group
-                  type: INT
-              - column:
-                  name: skill_key
-                  type: VARCHAR(255)
-              - column:
-                  name: price
-                  type: INT
-              - column:
-                  name: trait_name
-                  type: INT
-            tableName: skill
-  - changeSet:
-      id: 1664996934467-12
-      author: msp (generated)
-      changes:
-        - addUniqueConstraint:
-            columnNames: name
-            constraintName: UC_CHARACTER_TEMPLATENAME_COL
-            tableName: character_template
-  - changeSet:
-      id: 1664996934467-13
-      author: msp (generated)
-      changes:
-        - addUniqueConstraint:
-            columnNames: name
-            constraintName: UC_RACENAME_COL
-            tableName: race
-  - changeSet:
-      id: 1664996934467-14
-      author: msp (generated)
-      changes:
-        - addUniqueConstraint:
-            columnNames: base_trait_rules_id
-            constraintName: UK_2cg9j8vhevl570acpju84ec8j
-            tableName: character_template_base_trait_rules
-  - changeSet:
-      id: 1664996934467-15
-      author: msp (generated)
-      changes:
-        - addUniqueConstraint:
-            columnNames: base_trait_id
-            constraintName: UK_k6vtk0pkbejph04e1m2r77img
-            tableName: character_trait_mapping
-  - changeSet:
-      id: 1664996934467-16
-      author: msp (generated)
-      changes:
-        - addUniqueConstraint:
-            columnNames: skills_id
-            constraintName: UK_meh1ss9m0rpqfqxby9ngi3am8
-            tableName: dodcharacter_skills
-  - changeSet:
-      id: 1664996934467-17
-      author: msp (generated)
-      changes:
-        - addUniqueConstraint:
-            columnNames: name, character_template_id
-            constraintName: UKldfll8p1ac14slnmwagx1brla
-            tableName: race
-  - changeSet:
-      id: 1664996934467-18
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: character_template_id
-            baseTableName: race
-            constraintName: FK1g4iy6xybufe8yrj3a8reee1g
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: character_template
-            validate: true
-  - changeSet:
-      id: 1664996934467-19
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: character_template_id
-            baseTableName: character_template_base_trait_rules
-            constraintName: FK29raow2vrmuv1f609uo6je4xm
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: character_template
-            validate: true
-  - changeSet:
-      id: 1664996934467-20
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: body_id
-            baseTableName: dodcharacter
-            constraintName: FK497jwow832358i0sfmenpueuo
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: base_body
-            validate: true
-  - changeSet:
-      id: 1664996934467-21
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: skills_id
-            baseTableName: dodcharacter_skills
-            constraintName: FK858gkyjocrnyo5i76llau4lw6
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: character_skill
-            validate: true
-  - changeSet:
-      id: 1664996934467-22
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: character_id
-            baseTableName: character_trait_mapping
-            constraintName: FKa96aw90cbl3twyiikf905d7w
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: dodcharacter
-            validate: true
-  - changeSet:
-      id: 1664996934467-23
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: skill_id
-            baseTableName: character_skill
-            constraintName: FKabu9xeixjyfy5x8b091c5asy5
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: skill
-            validate: true
-  - changeSet:
-      id: 1664996934467-24
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: race_id
-            baseTableName: dodcharacter
-            constraintName: FKhf6u3xrd7c5anh2tojkns76sg
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: race
-            validate: true
-  - changeSet:
-      id: 1664996934467-25
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: dodcharacter_id
-            baseTableName: dodcharacter_skills
-            constraintName: FKidtwxst9x91cx2fotbxlitis3
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: dodcharacter
-            validate: true
-  - changeSet:
-      id: 1664996934467-26
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: base_trait_rules_id
-            baseTableName: character_template_base_trait_rules
-            constraintName: FKleoj6fbe3tyud1x5hquao13ms
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: base_trait_rule
-            validate: true
-  - changeSet:
-      id: 1664996934467-27
-      author: msp (generated)
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: base_trait_id
-            baseTableName: character_trait_mapping
-            constraintName: FKwfrp2obir6t7n3d5v3c54v17
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: base_trait
-            validate: true
+- changeSet:
+    id: 1680731259164-1
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: body_type
+            type: VARCHAR(31)
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: base_bodyPK
+            name: id
+            type: BIGINT
+        - column:
+            name: total_hp
+            type: INT
+        - column:
+            name: total_max_hp
+            type: INT
+        - column:
+            name: chest_hp
+            type: INT
+        - column:
+            name: chest_max_hp
+            type: INT
+        - column:
+            name: head_hp
+            type: INT
+        - column:
+            name: head_max_hp
+            type: INT
+        - column:
+            name: left_arm_hp
+            type: INT
+        - column:
+            name: left_arm_max_hp
+            type: INT
+        - column:
+            name: left_leg_hp
+            type: INT
+        - column:
+            name: left_leg_max_hp
+            type: INT
+        - column:
+            name: right_arm_hp
+            type: INT
+        - column:
+            name: right_arm_max_hp
+            type: INT
+        - column:
+            name: right_leg_hp
+            type: INT
+        - column:
+            name: right_leg_max_hp
+            type: INT
+        - column:
+            name: stomach_hp
+            type: INT
+        - column:
+            name: stomach_max_hp
+            type: INT
+        tableName: base_body
+- changeSet:
+    id: 1680731259164-2
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: base_traitPK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: current_value
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: group_value
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: start_value
+            type: INT
+        - column:
+            name: trait_name
+            type: VARCHAR(255)
+        tableName: base_trait
+- changeSet:
+    id: 1680731259164-3
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: base_trait_rulePK
+            name: id
+            type: BIGINT
+        - column:
+            name: base_trait_die_roll
+            type: VARCHAR(255)
+        - column:
+            name: base_trait_hero_die_roll
+            type: VARCHAR(255)
+        - column:
+            name: base_trait_name
+            type: VARCHAR(255)
+        tableName: base_trait_rule
+- changeSet:
+    id: 1680731259164-4
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: character_skillPK
+            name: id
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: experience
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: fv
+            type: INT
+        - column:
+            name: skill_key
+            type: VARCHAR(255)
+        tableName: character_skill
+- changeSet:
+    id: 1680731259164-5
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: character_skill_mappingPK
+            name: character_id
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: character_skill_mappingPK
+            name: skill_id
+            type: VARCHAR(255)
+        tableName: character_skill_mapping
+- changeSet:
+    id: 1680731259164-6
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: character_templatePK
+            name: id
+            type: BIGINT
+        - column:
+            name: body_type_class
+            type: VARCHAR(255)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: character_template
+- changeSet:
+    id: 1680731259164-7
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: character_template_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: base_trait_rules_id
+            type: BIGINT
+        tableName: character_template_base_trait_rules
+- changeSet:
+    id: 1680731259164-8
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: character_trait_mappingPK
+            name: character_id
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: character_trait_mappingPK
+            name: base_trait_id
+            type: BIGINT
+        tableName: character_trait_mapping
+- changeSet:
+    id: 1680731259164-9
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: dodcharacterPK
+            name: id
+            type: VARCHAR(255)
+        - column:
+            defaultValue: MATURE
+            name: age_group
+            type: VARCHAR(32)
+        - column:
+            defaultValueNumeric: -1
+            name: base_skill_points
+            type: INT
+        - column:
+            defaultValue: NA
+            name: damage_bonus
+            type: VARCHAR(32)
+        - column:
+            name: favorite_hand
+            type: SMALLINT
+        - column:
+            constraints:
+              nullable: false
+            name: hero
+            type: BOOLEAN
+        - column:
+            defaultValueNumeric: -1
+            name: hero_points
+            type: INT
+        - column:
+            name: beard_length
+            type: SMALLINT
+        - column:
+            name: eye_color
+            type: SMALLINT
+        - column:
+            name: hair_color
+            type: SMALLINT
+        - column:
+            name: hair_length
+            type: SMALLINT
+        - column:
+            name: voice
+            type: SMALLINT
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: social_status
+            type: SMALLINT
+        - column:
+            defaultValue: NEW
+            name: state
+            type: VARCHAR(32)
+        - column:
+            name: body_id
+            type: BIGINT
+        - column:
+            name: race_id
+            type: BIGINT
+        tableName: dodcharacter
+- changeSet:
+    id: 1680731259164-10
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: racePK
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: character_template_id
+            type: BIGINT
+        tableName: race
+- changeSet:
+    id: 1680731259164-11
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: skillPK
+            name: id
+            type: BIGINT
+        - column:
+            name: base_chance
+            type: SMALLINT
+        - column:
+            name: category
+            type: SMALLINT
+        - column:
+            name: skill_group
+            type: SMALLINT
+        - column:
+            name: skill_key
+            type: VARCHAR(255)
+        - column:
+            name: price
+            type: INT
+        - column:
+            name: trait_name
+            type: SMALLINT
+        tableName: skill
+- changeSet:
+    id: 1680731259164-12
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_CHARACTER_TEMPLATENAME_COL
+        tableName: character_template
+- changeSet:
+    id: 1680731259164-13
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_RACENAME_COL
+        tableName: race
+- changeSet:
+    id: 1680731259164-14
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: base_trait_rules_id
+        constraintName: UK_2cg9j8vhevl570acpju84ec8j
+        tableName: character_template_base_trait_rules
+- changeSet:
+    id: 1680731259164-15
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: skill_id
+        constraintName: UK_45psubq54lgj19xkobhca7u55
+        tableName: character_skill_mapping
+- changeSet:
+    id: 1680731259164-16
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: base_trait_id
+        constraintName: UK_k6vtk0pkbejph04e1m2r77img
+        tableName: character_trait_mapping
+- changeSet:
+    id: 1680731259164-17
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name, character_template_id
+        constraintName: UKldfll8p1ac14slnmwagx1brla
+        tableName: race
+- changeSet:
+    id: 1680731259164-18
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: character_template_id
+        baseTableName: race
+        constraintName: FK1g4iy6xybufe8yrj3a8reee1g
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: character_template
+        validate: true
+- changeSet:
+    id: 1680731259164-19
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: character_template_id
+        baseTableName: character_template_base_trait_rules
+        constraintName: FK29raow2vrmuv1f609uo6je4xm
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: character_template
+        validate: true
+- changeSet:
+    id: 1680731259164-20
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: body_id
+        baseTableName: dodcharacter
+        constraintName: FK497jwow832358i0sfmenpueuo
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: base_body
+        validate: true
+- changeSet:
+    id: 1680731259164-21
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: skill_id
+        baseTableName: character_skill_mapping
+        constraintName: FK6keti0y21w4omjwmwojatwc17
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: character_skill
+        validate: true
+- changeSet:
+    id: 1680731259164-22
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: character_id
+        baseTableName: character_skill_mapping
+        constraintName: FK6yldjd7c4cos4b7c07odax7oj
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: dodcharacter
+        validate: true
+- changeSet:
+    id: 1680731259164-23
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: character_id
+        baseTableName: character_trait_mapping
+        constraintName: FKa96aw90cbl3twyiikf905d7w
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: dodcharacter
+        validate: true
+- changeSet:
+    id: 1680731259164-24
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: race_id
+        baseTableName: dodcharacter
+        constraintName: FKhf6u3xrd7c5anh2tojkns76sg
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: race
+        validate: true
+- changeSet:
+    id: 1680731259164-25
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: base_trait_rules_id
+        baseTableName: character_template_base_trait_rules
+        constraintName: FKleoj6fbe3tyud1x5hquao13ms
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: base_trait_rule
+        validate: true
+- changeSet:
+    id: 1680731259164-26
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: base_trait_id
+        baseTableName: character_trait_mapping
+        constraintName: FKwfrp2obir6t7n3d5v3c54v17
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: base_trait
+        validate: true
 

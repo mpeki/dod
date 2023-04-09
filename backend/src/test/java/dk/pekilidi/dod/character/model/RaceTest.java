@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -53,8 +54,19 @@ class RaceTest {
   }
 
   @Test
-  void testEqualsSame() throws Exception {
+  void testEqualsOtherObject() {
+    assertNotEquals(firstObject, new Object());
+  }
+
+  @Test
+  void testEqualsCloned() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
+    Race secondObject = firstObject.toBuilder().build();
+    assertEquals(firstObject, secondObject);
+  }
+
+  @Test
+  void testEqualsSameObject(){
     assertEquals(firstObject, firstObject);
   }
 

@@ -1,12 +1,20 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.4' apply false
+	//https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
+	id 'org.springframework.boot' version '3.0.5' apply false
 	id 'jacoco'
-	id 'org.sonarqube' version '3.4.0.2513'
-	id 'io.spring.dependency-management' version '1.0.14.RELEASE' apply false
-	id 'com.google.cloud.tools.jib' version '3.3.0' apply false
+	//https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
+	id 'org.sonarqube' version '4.0.0.2929'
+	//https://plugins.gradle.org/plugin/io.spring.dependency-management
+	id 'io.spring.dependency-management' version '1.1.0' apply false
+	//https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
+	id 'com.google.cloud.tools.jib' version '3.3.1' apply false
+	//https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
 	id "com.gorylenko.gradle-git-properties" version "2.4.1"
+	//https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
 	id 'org.siouan.frontend-jdk11' version '6.0.0' apply false
+	//https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
 	id "org.asciidoctor.jvm.convert" version "3.3.2" apply false
+
 }
 
 group = 'dk.pekilidi'
@@ -17,7 +25,18 @@ ext {
 }
 
 allprojects {
-	repositories { mavenCentral() }
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven {
+			name = "GitHubPackages"
+			url = uri("https://maven.pkg.github.com/mpeki/droolsassert")
+			credentials {
+				username = "${System.env.USERNAME}"
+				password = "${System.env.GITHUB_TOKEN}"
+			}
+		}
+	}
 }
 subprojects {
 	if (project != project(':frontend')) {

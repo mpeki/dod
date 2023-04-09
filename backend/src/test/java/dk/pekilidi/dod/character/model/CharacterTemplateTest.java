@@ -35,4 +35,15 @@ class CharacterTemplateTest {
     CharacterTemplate firstObject = rof.createAndFill(CharacterTemplate.class);
     assertFalse(firstObject.equals(null)); //NOSONAR
   }
+
+  @Test
+  void testHashCode() throws Exception {
+    CharacterTemplate firstObject = rof.createAndFill(CharacterTemplate.class);
+    CharacterTemplate secondObject = rof.createAndFill(CharacterTemplate.class);
+    assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
+    CharacterTemplate copied = firstObject.toBuilder().build();
+    assertEquals(firstObject.hashCode(), copied.hashCode());
+    copied.setId(0L);
+    assertNotEquals(firstObject.hashCode(), copied.hashCode());
+  }
 }

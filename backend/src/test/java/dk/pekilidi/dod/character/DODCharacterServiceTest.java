@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.DODCharacter;
-import dk.pekilidi.dod.character.model.Race;
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
@@ -32,7 +32,7 @@ class DODCharacterServiceTest {
   void setMockOutput() {
     charRepo = mock(CharacterRepository.class);
     charService = new CharacterService(charRepo);
-    when(charRepo.findByName("NONAME")).thenReturn(List.of());
+    when(charRepo.findAllByName("NONAME")).thenReturn(List.of());
   }
 
   @Test
@@ -41,9 +41,9 @@ class DODCharacterServiceTest {
     testChar.setRace(new Race(null, "tiefling", null));
     testChar.setName("kyron");
     List<DODCharacter> testChars = List.of(testChar);
-    given(charRepo.findByName("kyron")).willReturn(testChars);
+    given(charRepo.findAllByName("kyron")).willReturn(testChars);
     List<DODCharacter> chars = charService.getCharactersByName("kyron");
-    assertThat(chars.size()).isEqualTo(1);
+    assertThat(chars).hasSize(1);
     DODCharacter being = chars.get(0);
     assertThat(being.getName()).isEqualTo("kyron");
     assertThat(being.getRace().getName()).isEqualTo("tiefling");
@@ -61,9 +61,7 @@ class DODCharacterServiceTest {
   @Test
   void addNullNamedBaseTrait() {
     CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human")).build();
-    assertThrows(NullPointerException.class, () -> {
-      testChar.addBaseTrait(new BaseTraitDTO(null, 0, 0));
-    });
+    assertThrows(NullPointerException.class, () -> testChar.addBaseTrait(new BaseTraitDTO(null, 0, 0)));
   }
 
   @Test
@@ -75,15 +73,15 @@ class DODCharacterServiceTest {
     testChar.setRace(testRace);
     testChar.setName("kyron");
     CharacterDTO testCharDTO = modelMapper.map(testChar, CharacterDTO.class);
-    given(charRepo.findById(1L)).willReturn(Optional.of(testChar));
-    CharacterDTO being = charService.findCharacterById(1L);
+    given(charRepo.findById("123")).willReturn(Optional.of(testChar));
+    CharacterDTO being = charService.findCharacterById("123");
     assertThat(being).isEqualTo(testCharDTO).hasToString(testCharDTO.toString());
   }
 
   @Test
   void getCharacterByIdReturnCharNotFound() throws Exception {
     assertThrows(CharacterNotFoundException.class, () -> {
-      charService.findCharacterById(18401L);
+      charService.findCharacterById("18401L");
     });
   }
 

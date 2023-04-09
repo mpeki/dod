@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class BeingTest {
   @Test
   void testConstructors() throws Exception {
     DODCharacter firstObject = new DODCharacter();
-    Long id = firstObject.getId();
+    String id = firstObject.getId();
     String name = firstObject.getName();
     Race race = firstObject.getRace();
 

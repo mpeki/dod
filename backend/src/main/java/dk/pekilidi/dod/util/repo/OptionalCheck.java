@@ -8,6 +8,9 @@ import java.util.Optional;
 
 public class OptionalCheck {
 
+  private OptionalCheck() {
+  }
+
   public static DODCharacter forDODCharacter(Optional<DODCharacter> optional) {
     if (optional.isPresent()) {
       return optional.get();

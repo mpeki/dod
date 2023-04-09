@@ -22,6 +22,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+
 @DroolsSession(resources = {"classpath:/rules/CharacterCreationRules.drl"},
     ignoreRules = {"before", "after"},
     logResources = true)
