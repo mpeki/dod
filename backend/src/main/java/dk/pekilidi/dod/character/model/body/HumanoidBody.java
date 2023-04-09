@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.character.model.body;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import jakarta.persistence.AttributeOverride;
@@ -22,6 +23,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class HumanoidBody extends BaseBody implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = -7287994998222456079L;
 
   @Embedded

@@ -1,6 +1,8 @@
 package dk.pekilidi.dod.character.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.hypersistence.utils.hibernate.id.Tsid;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import jakarta.persistence.Entity;
@@ -17,17 +19,18 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Entity
 public class BaseTrait implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 2277570107538234893L;
 
-  @Id
+  @Id @Tsid
   @JsonIgnore
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
   @NonNull
   @Enumerated(EnumType.STRING)

@@ -1,6 +1,8 @@
 package dk.pekilidi.dod.character.model;
 
 import dk.pekilidi.dod.character.model.body.BaseBody;
+import io.hypersistence.utils.hibernate.id.Tsid;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -23,16 +25,17 @@ import org.hibernate.Hibernate;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Entity
 public class CharacterTemplate implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 4121021561881935955L;
 
-  @Id
+  @Id @Tsid
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
   @NonNull
   @Column(unique = true)

@@ -13,6 +13,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.testcontainers.utility.Base58.randomString;
 
 import dk.pekilidi.dod.character.model.AgeGroup;
 import dk.pekilidi.dod.character.model.CharacterState;
@@ -63,7 +64,7 @@ class CharacterResourceApiDocTest {
         .builder()
         .name("Borgan den Blå")
         .ageGroup(AgeGroup.MATURE)
-        .race(RaceDTO.builder().id(1L).name("Human").build())
+        .race(RaceDTO.builder().id(randomString(10)).name("Human").build())
         .baseSkillPoints(123)
         .favoriteHand(FavoriteHand.RIGHT)
         .hero(true)

@@ -82,7 +82,7 @@ class DODCharacterServiceWithRulesTest {
     assertThat(newBeing.getBodyParts()).isNotEmpty();
     charService.deleteCharacterById(newBeing.getId());
     Assertions.assertDoesNotThrow(() -> raceService.getRaceByName("human"));
-    assertThat(raceService.fetchRaces().size()).isPositive();
+    assertThat(raceService.fetchRaces()).isNotEmpty();
   }
 
   @Test
