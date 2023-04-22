@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+  <!-- This is a minimal kmodule.xml. Ref Drools documentation, see https://docs.drools.org/8.37.0.Final/drools-docs/docs-website/drools/KIE/index.html#_thekmodulexmlfile -->
+</kmodule>

@@ -15,7 +15,7 @@ class RulesUtilTest {
 
   @Test
   void testConstructorPrivate() {
-    Assertions.assertThrows(IllegalAccessException.class, RulesUtil.class::newInstance);
+    Assertions.assertThrows(IllegalAccessException.class, () -> RulesUtil.class.getDeclaredConstructor().newInstance());
   }
 
   @Test
