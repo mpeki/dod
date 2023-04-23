@@ -1,15 +1,17 @@
 package dk.pekilidi.dod.character.model;
 
 import dk.pekilidi.dod.character.model.body.BaseBody;
+import io.hypersistence.utils.hibernate.id.Tsid;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,16 +25,17 @@ import org.hibernate.Hibernate;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Entity
 public class CharacterTemplate implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 4121021561881935955L;
 
-  @Id
+  @Id @Tsid
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
   @NonNull
   @Column(unique = true)

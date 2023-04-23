@@ -22,8 +22,7 @@ spring:
   #   Database Settings
   ###
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=value
-    #    url: jdbc:h2:file:/home/msp/Dev/github/dod/backend/build/data/testdb
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
     platform: h2
     username: sa
     password:
@@ -35,6 +34,8 @@ spring:
       use-new-id-generator-mappings: false
     properties:
       hibernate:
+        globally_quoted_identifiers: true
+        auto_quote_keyword: true
         enable_lazy_load_no_trans: true
         show_sql: true
         use_sql_comments: true

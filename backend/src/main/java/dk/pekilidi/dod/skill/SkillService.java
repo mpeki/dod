@@ -27,7 +27,6 @@ public class SkillService {
   private SkillRepository skillRepository;
 
   public static Integer calculateNewSkillPrice(CharacterDTO characterDTO, SkillDTO skill, Integer fvToBuy) {
-    int result = -1;
     Integer freePoints = 0;
     if (skill.getCategory() == Category.A && characterDTO.isHero()) {
       freePoints = characterDTO.getBaseTraits().get(skill.getTraitName()).getGroupValue();
@@ -52,7 +51,6 @@ public class SkillService {
     int skillPrice = skill.getPrice();
     int tier1Price = skillPrice * 2;
     int tier2Price = tier1Price + (skillPrice * 4);
-    int tier3Price = tier2Price + (skillPrice * 3);
     switch (pointsToBuy) {
       case 1, 2 -> result = skillPrice * pointsToBuy;
       case 3, 4 -> result = tier1Price + ((pointsToBuy - 2) * skillPrice * 2);

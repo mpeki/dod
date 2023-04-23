@@ -34,7 +34,7 @@ public class CharacterDTO implements DODFact, Serializable {
   @Serial
   private static final long serialVersionUID = -4787939824473814563L;
 
-  private Long id;
+  private String id;
   @Default
   private String name = "NONAME";
   private RaceDTO race;
@@ -79,7 +79,7 @@ public class CharacterDTO implements DODFact, Serializable {
   }
 
   public void addSkill(SkillDTO skillDTO) {
-    skills.putIfAbsent(skillDTO.getKey().getValue(), skillDTO);
+    skills.putIfAbsent(skillDTO.getKey().getKeyValue(), skillDTO);
   }
 
   public void addBaseTrait(BaseTraitDTO baseTrait) {

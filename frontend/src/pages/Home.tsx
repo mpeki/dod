@@ -1,4 +1,6 @@
 export const Home = (): JSX.Element =>
-  <h1>
-    This is the Home page!
-  </h1>
+  <div>
+    <h1>
+      This is the Home page!
+    </h1>
+  </div>

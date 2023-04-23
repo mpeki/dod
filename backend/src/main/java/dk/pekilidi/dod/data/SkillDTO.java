@@ -25,7 +25,7 @@ public class SkillDTO implements Serializable {
   private static final long serialVersionUID = -5785515732736578828L;
 
   @JsonIgnore
-  private Long skillId;
+  private String skillId;
   //
   //  @JsonIgnore
   private SkillKey key;

@@ -38,7 +38,7 @@ public class RandomObjectFiller {
       } else {
         value = getRandomValueForField(field);
       }
-      if (field.getName() != "serialVersionUID") {
+      if (!field.getName().equals("serialVersionUID")) {
         field.set(instance, value);
       }
     }

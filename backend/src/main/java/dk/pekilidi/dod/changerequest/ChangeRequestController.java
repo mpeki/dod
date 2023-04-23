@@ -5,6 +5,7 @@ import dk.pekilidi.dod.character.CharacterNotFoundException;
 import dk.pekilidi.dod.race.RaceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 public class ChangeRequestController {
 
   private ChangeRequestService service;
@@ -22,7 +24,7 @@ public class ChangeRequestController {
   @PostMapping("/change/char/{id}")
   @ResponseBody
   public ChangeRequest buyBasetraitIncrease(@PathVariable String id, @RequestBody ChangeRequest change) {
-    return service.submitChangeRequest(Long.parseLong(id), change);
+    return service.submitChangeRequest(id, change);
   }
 
   @ExceptionHandler

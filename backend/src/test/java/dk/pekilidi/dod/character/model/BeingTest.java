@@ -21,7 +21,7 @@ class BeingTest {
   @Test
   void testConstructors() throws Exception {
     DODCharacter firstObject = new DODCharacter();
-    Long id = firstObject.getId();
+    String id = firstObject.getId();
     String name = firstObject.getName();
     Race race = firstObject.getRace();
 

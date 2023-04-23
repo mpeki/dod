@@ -10,7 +10,9 @@ import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Category;
+import dk.pekilidi.dod.skill.model.Group;
 import dk.pekilidi.dod.skill.model.Skill;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -93,5 +95,32 @@ class SkillServiceTest {
     given(skillRepo.findByKey(skillKey)).willReturn(modelMapper.map(testSkill, Skill.class));
     SkillDTO skillFound = skillService.findSkillByKey(skillKey);
     assertEquals(testSkill, skillFound);
+  }
+  @Test
+  void getSkillByBaseChance() {
+    given(skillRepo.findByBaseChance(BaseTraitName.CHARISMA)).willReturn(Arrays.asList(modelMapper.map(testSkill, Skill.class)));
+    List<SkillDTO> skillsFound = skillService.getSkillsByBaseChance(BaseTraitName.CHARISMA);
+    assertEquals(testSkill, skillsFound.get(0));
+  }
+  @Test
+  void getSkillByGroup() {
+    given(skillRepo.findByGroup(Group.COMBAT)).willReturn(Arrays.asList(modelMapper.map(testSkill, Skill.class)));
+    List<SkillDTO> skillsFound = skillService.getSkillsByGroup(Group.COMBAT);
+    assertEquals(testSkill, skillsFound.get(0));
+  }
+
+  @Test
+  void getSkillsByGroupAndBaseChance() {
+    given(skillRepo.findByGroupAndBaseChance(Group.COMBAT, BaseTraitName.CHARISMA)).willReturn(Arrays.asList(modelMapper.map(testSkill, Skill.class)));
+    List<SkillDTO> skillsFound = skillService.getSkillsByGroupAndBaseChance(Group.COMBAT, BaseTraitName.CHARISMA);
+    assertEquals(testSkill, skillsFound.get(0));
+  }
+
+  @Test
+  void testCalculateNewSkillPriceIllegalCatBPurchase(){
+    testSkill.setCategory(Category.B);
+    testSkill.setPrice(8);
+    testChar.setHero(false);
+    assertThrows(IllegalArgumentException.class, () -> SkillService.calculateNewSkillPrice(testChar, testSkill, 6));
   }
 }

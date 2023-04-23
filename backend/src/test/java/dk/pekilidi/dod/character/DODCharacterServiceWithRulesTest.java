@@ -82,7 +82,7 @@ class DODCharacterServiceWithRulesTest {
     assertThat(newBeing.getBodyParts()).isNotEmpty();
     charService.deleteCharacterById(newBeing.getId());
     Assertions.assertDoesNotThrow(() -> raceService.getRaceByName("human"));
-    assertThat(raceService.fetchRaces().size() > 0);
+    assertThat(raceService.fetchRaces()).isNotEmpty();
   }
 
   @Test
@@ -122,6 +122,20 @@ class DODCharacterServiceWithRulesTest {
     changeService.submitChangeRequest(newBeing.getId(), change);
 
     charService.fetchAllCharacters();
+  }
 
+  @Test
+  void createManyCharacters(){
+    List<String> characterIds = charService.createCharacters(10, "human");
+    for (String id : characterIds) {
+      CharacterDTO charById = charService.findCharacterById(id);
+      assertThat(charById).isNotNull();
+      assertThat(charById.getRace().getName()).isEqualTo("human");
+      assertThat(charById.getBaseTraits()).isNotEmpty();
+      assertThat(charById.getBaseTraits().get(STRENGTH).getCurrentValue()).isGreaterThanOrEqualTo(3);
+      assertThat(charById.getBaseTraits().get(STRENGTH).getCurrentValue()).isLessThanOrEqualTo(18);
+      assertThat(charById.getHeroPoints()).isEqualTo(-1);
+      assertThat(charById.getId()).isEqualTo(id);
+    }
   }
 }

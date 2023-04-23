@@ -2,18 +2,19 @@ package dk.pekilidi.dod.race.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.pekilidi.dod.character.model.CharacterTemplate;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +28,7 @@ import org.hibernate.Hibernate;
 @With
 @Setter
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "character_template_id"}))
@@ -35,9 +36,9 @@ public class Race implements Serializable {
 
   private static final long serialVersionUID = -8860486223584199305L;
 
-  @Id
+  @Id @Tsid
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
   @NonNull
   @Column(name = "name", unique = true)

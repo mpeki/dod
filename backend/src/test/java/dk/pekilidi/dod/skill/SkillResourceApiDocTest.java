@@ -11,7 +11,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+//import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
@@ -64,7 +64,7 @@ class SkillResourceApiDocTest {
 
     testSkill = SkillDTO
         .builder()
-        .skillId(1L)
+        .skillId("123")
         .key(SkillKey.builder().value("primary.weapon").build())
         .traitName(BaseTraitName.DEXTERITY)
         .baseChance(BaseTraitName.DEXTERITY)
@@ -97,7 +97,7 @@ class SkillResourceApiDocTest {
         .perform(get("/skill?group=COMBAT&baseChance=DEXTERITY").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint()),
-            requestParameters(enumParam("group", Group.values()).optional(),
+            pathParameters(enumParam("group", Group.values()).optional(),
                 enumParam("baseChance", BaseTraitName.values()).optional()),
             responseFields(fieldWithPath("[].key").type(SkillKey.class.getSimpleName()).description("The skill key"),
                 enumField("[].group", Group.class.getSimpleName(), Group.values()),

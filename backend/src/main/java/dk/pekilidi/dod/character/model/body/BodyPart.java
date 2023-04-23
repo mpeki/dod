@@ -1,7 +1,8 @@
 package dk.pekilidi.dod.character.model.body;
 
+import java.io.Serial;
 import java.io.Serializable;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BodyPart implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = -8205287635113078391L;
 
   private Integer maxHP;

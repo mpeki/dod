@@ -20,7 +20,7 @@ rule "Validate change request"
     changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
     character : CharacterDTO();
   then
-    String skillKey = ((SkillKey) changeRequest.getChangeKey()).getValue();
+    String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
     try {
       skill = skillService.findSkillByKey(skillKey);
     } catch (SkillNotFoundException e) {

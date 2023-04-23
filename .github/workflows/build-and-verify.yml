@@ -12,6 +12,9 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-test-verify:
+    env:
+      USERNAME: ${{ secrets.USERNAME }}
+      GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}      
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,9 +44,8 @@ jobs:
         run: ./gradlew :b:test jacocoTestCoverageVerification sonarqube --info -DincludeTests="any()" -DexcludeTests="none()"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
       - name: Report
-        if: github.actor != 'dependabot[bot]'
+        if: success() || failure() && github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v1.6.0
         with:
           name: Unit Tests

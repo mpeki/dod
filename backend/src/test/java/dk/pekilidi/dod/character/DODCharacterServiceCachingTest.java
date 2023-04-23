@@ -48,7 +48,7 @@ class DODCharacterServiceCachingTest {
     testCharacter.setName("kyron");
     testCharacter.setAgeGroup(AgeGroup.MATURE);
     testCharacter.setRace(new Race(null, "human", null));
-    testCharacter.setId(12L);
+    testCharacter.setId("1234");
     testCharacterDTO = modelMapper.map(testCharacter, CharacterDTO.class);
 
     List<DODCharacter> chars = new ArrayList<>(1);

@@ -5,11 +5,15 @@ configurations {
 }
 
 dependencies {
-    implementation 'mysql:mysql-connector-java:8.0.30'
-    implementation 'org.liquibase.ext:liquibase-hibernate5:4.15.0'
-    implementation 'org.liquibase:liquibase-core:4.15.0'
-    implementation 'org.liquibase:liquibase-gradle-plugin:2.1.1'
+    implementation 'mysql:mysql-connector-java:8.0.32'
+    //https://github.com/liquibase/liquibase-hibernate/blob/master/README.md
+    implementation 'org.liquibase.ext:liquibase-hibernate6:4.20.0'
+    implementation 'org.liquibase:liquibase-core:4.20.0'
+    //https://github.com/liquibase/liquibase-gradle-plugin
+    implementation 'org.liquibase:liquibase-gradle-plugin:2.2.0'
     implementation 'org.springframework.data:spring-data-jpa'
+
+    runtimeOnly 'com.h2database:h2'
 }
 
 //loading properties file.

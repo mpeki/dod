@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @Tag("regression")
 @SpringBootTest(classes = DodApplication.class)
-public class SkillServiceApplicationTest {
+class SkillServiceApplicationTest {
 
   @Autowired
   private SkillService service;
@@ -28,12 +28,9 @@ public class SkillServiceApplicationTest {
       "'primary.weapon'"})
   void findSkill(String skillKey){
     if(skillKey.equals("skill.that.does.not.exist")){
-      assertThrows(SkillNotFoundException.class, () -> {
-        service.findSkillByKey(skillKey);
-      });
-      assertThrows(SkillNotFoundException.class, () -> {
-        service.findSkillByKey(SkillKey.builder().value(skillKey).build());
-      });
+      assertThrows(SkillNotFoundException.class, () -> service.findSkillByKey(skillKey));
+      SkillKey key = SkillKey.builder().value(skillKey).build();
+      assertThrows(SkillNotFoundException.class, () -> service.findSkillByKey(key));
     } else {
       service.findSkillByKey(skillKey);
       service.findSkillByKey(SkillKey.builder().value(skillKey).build());

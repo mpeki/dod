@@ -29,12 +29,12 @@ public class CharacterController {
   private CharacterService characterService;
 
   @GetMapping("/char/{id}")
-  public CharacterDTO getCharacter(@PathVariable Long id) {
+  public CharacterDTO getCharacter(@PathVariable String id) {
     return characterService.findCharacterById(id);
   }
 
   @DeleteMapping("/char/{id}")
-  public void deleteCharacter(@PathVariable Long id) {
+  public void deleteCharacter(@PathVariable String id) {
     characterService.deleteCharacterById(id);
   }
 
@@ -54,6 +54,12 @@ public class CharacterController {
   CharacterDTO postCharacter(@RequestBody CharacterDTO newCharacter) {
     return characterService.createCharacter(newCharacter);
   }
+
+  @PostMapping(value = "/char/bulk/create/{bulkSize}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+  List<String> postCharacter(@PathVariable int bulkSize) {
+    return characterService.createCharacters(bulkSize, "human");
+  }
+
 
   @ExceptionHandler
   @ResponseStatus(HttpStatus.NOT_FOUND)

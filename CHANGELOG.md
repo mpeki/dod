@@ -1,3 +1,25 @@
+# [1.5.0](https://github.com/mpeki/dod/compare/v1.4.0...v1.5.0) (2023-04-09)
+
+
+### Features
+
+* **199:** Use @Tsid on all entities ([44ad2e2](https://github.com/mpeki/dod/commit/44ad2e283d12490ab96911c87cfee09a18321651))
+
+# [1.4.0](https://github.com/mpeki/dod/compare/v1.3.0...v1.4.0) (2023-04-09)
+
+
+### Features
+
+* **DOD-140:** Buy skills UI ([4fabcbd](https://github.com/mpeki/dod/commit/4fabcbd9abf8311176f3635a1e767d422fb7a12b))
+
+# [1.3.0](https://github.com/mpeki/dod/compare/v1.2.1...v1.3.0) (2022-11-23)
+
+
+### Features
+
+* **DOD-139:** List skills ([4cfbfc7](https://github.com/mpeki/dod/commit/4cfbfc7cf09cf81e3f197d434c33dcd76328ded9))
+* **DOD-159:** allow project to run in GitHub Codespace ([136bc2e](https://github.com/mpeki/dod/commit/136bc2e3ce9833457cc51f1293b876c705e098b9))
+
 ## [1.2.1](https://github.com/mpeki/dod/compare/v1.2.0...v1.2.1) (2022-11-21)
 
 

@@ -13,29 +13,45 @@ configurations {
 }
 
 //ext['spring-restdocs.version'] = '2.0.6.BUILD-SNAPSHOT'
-
 dependencies {
 
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'org.springframework.retry:spring-retry:2.0.0'
-    implementation 'org.springframework:spring-aspects:5.3.23'
-    implementation 'org.springframework:spring-core:5.3.23'
     implementation 'org.liquibase:liquibase-core'
-    implementation 'org.drools:drools-core:7.73.0.Final'
-    implementation 'org.kie:kie-spring:7.73.0.Final'
-    implementation 'mysql:mysql-connector-java:8.0.31'
-    implementation 'org.modelmapper:modelmapper:3.1.0'
+//    implementation 'org.springframework.retry:spring-retry:2.0.0'
+    //https://mvnrepository.com/artifact/org.springframework/spring-aspects
+//    implementation 'org.springframework:spring-aspects:6.0.7'
+//    implementation 'org.springframework:spring-core:5.3.23'
+
+//    implementation 'org.drools:drools-core:8.36.0.Final'
+    implementation "org.drools:drools-engine:${droolsVersion}"
+    implementation "org.drools:drools-mvel:${droolsVersion}"
+//    implementation 'org.drools:drools-model-compiler:8.37.0.Final'
+//    implementation 'org.drools:drools-mvel:8.29.0.Final'
+//    implementation 'org.kie:kie-spring:7.73.0.Final'
+//    implementation 'org.kie:kie-api:8.36.0.Final'
+
+    implementation 'mysql:mysql-connector-java:8.0.32'
+    implementation 'org.modelmapper:modelmapper:3.1.1'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'ch.qos.logback:logback-classic:1.4.7'
+
     compileOnly 'org.projectlombok:lombok'
-    testImplementation 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'com.h2database:h2'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit', module: 'junit;'
     }
@@ -43,11 +59,14 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.reflections:reflections:0.10.2'
-    testImplementation 'org.droolsassert:droolsassert:3.0.10'
+    testImplementation 'org.droolsassert:droolsassert:3.0.11-drools8'
 
-    testImplementation "org.testcontainers:testcontainers:1.17.6"
-    testImplementation "org.testcontainers:junit-jupiter:1.17.5"
+    testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
+    testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
+
+
 }
+
 
 dependencyManagement {
     imports {

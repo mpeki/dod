@@ -1,9 +1,9 @@
 package dk.pekilidi.dod.character.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.testcontainers.utility.Base58.randomString;
 
 import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.utils.RandomObjectFiller;
@@ -16,7 +16,7 @@ class RaceTest {
 
   RandomObjectFiller rof = new RandomObjectFiller();
   Race firstObject;
-  Long id;
+  String id;
   String name;
   CharacterTemplate characterTemplate;
 
@@ -50,20 +50,31 @@ class RaceTest {
     assertNotEquals(firstObject, secondObject);
     Race copied = firstObject.toBuilder().build();
     assertEquals(firstObject, copied);
-    copied.setId(0L);
+    copied.setId(randomString(10));
     assertNotEquals(firstObject, copied);
   }
 
   @Test
-  void testEqualsSame() throws Exception {
+  void testEqualsOtherObject() {
+    assertNotEquals(firstObject, new Object());
+  }
+
+  @Test
+  void testEqualsCloned() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
+    Race secondObject = firstObject.toBuilder().build();
+    assertEquals(firstObject, secondObject);
+  }
+
+  @Test
+  void testEqualsSameObject(){
     assertEquals(firstObject, firstObject);
   }
 
   @Test
   void testEqualsNull() throws Exception {
     Race firstObject = rof.createAndFill(Race.class);
-    assertFalse(firstObject.equals(null));
+    assertNotEquals(null, firstObject);
   }
 
   @Test

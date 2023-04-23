@@ -3,6 +3,10 @@ package dk.pekilidi.dod.rules;
 import dk.pekilidi.dod.data.DODFact;
 import dk.pekilidi.dod.skill.SkillService;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.kie.api.KieBase;
+import org.kie.api.definition.KiePackage;
+import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.AgendaFilter;
@@ -10,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class DroolsService {
 
   @Autowired
@@ -23,6 +28,12 @@ public class DroolsService {
   }
 
   public int executeGroupFlowRulesFor(List<DODFact> dodFacts, String ruleFlowGroup) {
+    KieBase kieBase = kieContainer.getKieBase();
+    for ( KiePackage kp : kieBase.getKiePackages() ) {
+      for (Rule rule : kp.getRules()) {
+        log.debug("kp " + kp + " rule " + rule.getName());
+      }
+    }
     KieSession kieSession = kieContainer.newKieSession();
     kieSession.setGlobal("skillService", skillService);
     kieSession.getAgenda().getAgendaGroup(ruleFlowGroup).setFocus();

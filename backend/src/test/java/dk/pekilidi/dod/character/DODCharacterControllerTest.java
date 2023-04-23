@@ -57,7 +57,7 @@ class DODCharacterControllerTest {
 
   @Test
   void getCharacterShouldReturnChar() throws Exception {
-    given(characterService.findCharacterById(anyLong())).willReturn(testBeing);
+    given(characterService.findCharacterById(anyString())).willReturn(testBeing);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/char/1"))
         .andExpect(status().isOk())
@@ -120,5 +120,18 @@ class DODCharacterControllerTest {
 
   }
 
+  @Test
+  void postBulkCreateShouldReturnArrayOfIDs() throws Exception {
+    given(characterService.createCharacters(3, "human")).willReturn(Arrays.asList("123","124","125"));
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .post("/char/bulk/create/3")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0]").value("123"))
+        .andExpect(jsonPath("$[1]").value("124"))
+        .andExpect(jsonPath("$[2]").value("125"));
+  }
 
 }
