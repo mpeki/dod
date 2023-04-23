@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/mpeki/dod/compare/v1.5.0...v1.6.0) (2023-04-23)
+
+
+### Features
+
+* **DOD-211:** Character creation and details improved ([3dc1d11](https://github.com/mpeki/dod/commit/3dc1d111adbcb8c319e80514120aae0ebd881a62))
+
 # [1.5.0](https://github.com/mpeki/dod/compare/v1.4.0...v1.5.0) (2023-04-09)
 
 
