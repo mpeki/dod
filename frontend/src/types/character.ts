@@ -13,12 +13,17 @@ export interface BodyPartValue {
 }
 
 export interface Character {
-  id?: number;
+  id?: string;
   name: string;
   ageGroup: string;
   race: Race;
+  looks?: Record<string,string>; //Array<String>;
+  favoriteHand?: string;
+  socialStatus?: string;
   hero: boolean;
+  heroPoints?: number;
   baseTraits?: Map<string,BaseTraitValue>;
   bodyParts?: Map<string,BodyPartValue>;
+  baseSkillPoints?: number;
   skills?: Map<string,Skill>
 }
