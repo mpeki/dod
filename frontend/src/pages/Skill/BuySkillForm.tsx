@@ -7,7 +7,7 @@ import { SkillSelector } from "../../components/SkillSelector";
 import { Skill } from "../../types/skill";
 
 interface IProps {
-  charId: number;
+  charId: string;
   buySkillHandler: any;
   onConfirm: any;
 }

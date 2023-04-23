@@ -1,8 +1,12 @@
 import { CharacterService } from "../../services/character.service";
 import { useForm } from "react-hook-form";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Character } from "../../types/character";
 import classes from "./AddCharacter.module.css";
+import { RaceService } from "../../services/race.service";
+import { Race } from "../../types/race";
+import { SkillService } from "../../services/skill.service";
+import { Skill } from "../../types/skill";
 
 interface IProps {
   fetchCharactersHandler: any;
@@ -20,13 +24,31 @@ interface FormData {
 export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProps) => {
 
   const { getValues, register, formState: { errors }, handleSubmit, reset } = useForm<FormData>();
-
+  const [races, setRaces] = useState<Race[]>([]);
   const [charData, setCharData] = useState<Character>({
     name: "",
     ageGroup: "MATURE",
     race: { name: "human" },
     hero: false
   });
+
+  const fetchRacesHandler = useCallback(async () => {
+    let raceJSON = localStorage.getItem("races");
+    if (raceJSON === null) {
+      await RaceService.getRaces()
+      .then((races) => {
+        raceJSON = JSON.stringify(races);
+        localStorage.setItem("races", raceJSON);
+        setRaces(races);
+      })
+      .catch((e) => alert("Error fetching skills: " + e));
+    }
+    setRaces(raceJSON === null ? null : JSON.parse(raceJSON));
+  }, []);
+
+  useEffect(() => {
+    fetchRacesHandler().then();
+  }, [fetchRacesHandler]);
 
   const submitHandler = useCallback(async () => {
     const charPostData: Character = {
@@ -65,7 +87,11 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
       </div>
       <div>
         <label htmlFor="raceName">Race Name:</label>
-        <input {...register("raceName", { required: true } )} />{errors.raceName?.type === 'required' && "Pick a race, any race!"}
+        <select {...register("raceName")}>
+          <option value="0"> -- Select a race -- </option>
+          {races.map((race) => <option value={race.id}>{race.name}</option>)}
+        </select>
+        {/*<input {...register("raceName", { required: true } )} />{errors.raceName?.type === 'required' && "Pick a race, any race!"}*/}
       </div>
       <footer className={classes.actions}>
         <button type='submit'>Create</button>

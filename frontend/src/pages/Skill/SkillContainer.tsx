@@ -4,12 +4,13 @@ import { BuySkill } from "./BuySkill";
 import { CharacterSkillList } from "./CharacterSkillList";
 
 interface IProps {
-  charId: number;
+  charId: string;
+  baseSkillPoints: number | undefined
   skills: Map<string, Skill> | undefined;
   fetchCharHandler: () => void;
 }
 
-export const SkillContainer = ({ charId, skills, fetchCharHandler }: IProps): JSX.Element => {
+export const SkillContainer = ({ charId, baseSkillPoints, skills, fetchCharHandler }: IProps): JSX.Element => {
 
   const [showBuySkill, setShowBuySkill] = useState<boolean>()
 
@@ -25,6 +26,7 @@ export const SkillContainer = ({ charId, skills, fetchCharHandler }: IProps): JS
   return (
     <>
       <h2>Skills</h2>
+      <p>Base Skill Points: {baseSkillPoints}</p>
       <button onClick={showBuySkillHandler}>New Skill</button>
       {showBuySkill && <BuySkill charId={charId} onConfirm={showBuySkillHandler} buySkillHandler={fetchCharHandler}/>}
       <CharacterSkillList skills={skills} />

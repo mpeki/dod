@@ -81,8 +81,8 @@ springBoot {
 
 test {
 
-    String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : 'regression';
-    String etags = System.getProperty("excludeTests") ? System.getProperty("excludeTests") : 'integration';
+    String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : 'regression'
+    String etags = System.getProperty("excludeTests") ? System.getProperty("excludeTests") : 'integration'
 
     environment 'SPRING_PROFILES_ACTIVE', 'test'
     outputs.dir snippetsDir

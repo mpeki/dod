@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 export const ChangeService = {
-  buySkill: async function(charId: number, change: Change): Promise<Change> {
+  buySkill: async function(charId: string, change: Change): Promise<Change> {
 
     return new Promise((resolve) => {
 

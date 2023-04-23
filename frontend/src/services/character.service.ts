@@ -57,7 +57,7 @@ export const CharacterService = {
     });
   },
 
-  deleteCharacter: async function(charId: number): Promise<Character> {
+  deleteCharacter: async function(charId: string): Promise<Character> {
     return new Promise((resolve) => {
       const charApiUri = `http://localhost:8090/char/${charId}`;
       setTimeout(() => {
