@@ -1,6 +1,6 @@
 plugins {
 	//https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
-	id 'org.springframework.boot' version '3.0.5' apply false
+	id 'org.springframework.boot' version '3.0.6' apply false
 	id 'jacoco'
 	//https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
 	id 'org.sonarqube' version '4.0.0.2929'
