@@ -37,7 +37,7 @@ dependencies {
 //    implementation 'org.kie:kie-spring:7.73.0.Final'
 //    implementation 'org.kie:kie-api:8.36.0.Final'
 
-    implementation 'mysql:mysql-connector-java:8.0.32'
+    implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'org.modelmapper:modelmapper:3.1.1'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
