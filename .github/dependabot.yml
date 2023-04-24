@@ -11,15 +11,8 @@ updates:
       interval: "daily"
     assignees:
       - "mpeki"
-  - package-ecosystem: "gradle"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    open-pull-requests-limit: 10
     reviewers:
       - "dependabot[bot]"
-    reviewers-ignore:
-      - "octocat"
     registry-url: "https://maven.pkg.github.com/"
     access-token:
       type: "repository"
