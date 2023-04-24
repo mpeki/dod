@@ -1,4 +1,3 @@
-import { CharacterService } from "./character.service";
 import { Change } from "../types/change";
 import { ChangeService } from "./change.service";
 
@@ -12,7 +11,7 @@ const changeData: Change = {
 
 describe( 'Change Service', () => {
   it('buy new skill',async () => {
-    await ChangeService.buySkill(2, changeData).then((data) => {
+    await ChangeService.buySkill("2", changeData).then((data) => {
       expect(data).toBeTruthy();
     });
   });

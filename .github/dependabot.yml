@@ -4,10 +4,20 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+registries:
+  github-packages:
+    type: maven-repository
+    url: https://maven.pkg.github.com/mpeki/droolsassert
+    username: mpeki
+    password: ${{secrets.GH_TOKEN}}
 updates:
   - package-ecosystem: "gradle" # See documentation for possible values
     directory: "/" # Location of package manifests
+    registries:
+      - github-packages
     schedule:
       interval: "daily"
     assignees:
       - "mpeki"
+    reviewers:
+      - "dependabot[bot]"

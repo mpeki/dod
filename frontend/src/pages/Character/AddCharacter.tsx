@@ -14,7 +14,7 @@ export const AddCharacter = ({ onConfirm, fetchCharactersHandler }: IProps) => {
         <h2>Create New Character</h2>
       </header>
       <div className={classes.content}>
-        <CreateCharacterForm fetchCharactersHandler={fetchCharactersHandler} onConfirm={onConfirm}/> //
+        <CreateCharacterForm fetchCharactersHandler={fetchCharactersHandler} onConfirm={onConfirm}/>
       </div>
       <footer className={classes.actions}>
       </footer>

@@ -2,7 +2,7 @@ import classes from "./BuySkill.module.css";
 import { BuySkillForm } from "./BuySkillForm";
 
 interface IProps {
-  charId: number;
+  charId: string;
   onConfirm: any;
   buySkillHandler: any;
 }
