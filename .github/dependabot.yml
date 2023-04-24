@@ -11,7 +11,7 @@ updates:
       interval: "daily"
     assignees:
       - "mpeki"
-  - package-ecosystem: "github"
+  - package-ecosystem: "gradle"
     directory: "/"
     schedule:
       interval: "daily"
