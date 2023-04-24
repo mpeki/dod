@@ -19,7 +19,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.2'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -81,8 +81,8 @@ springBoot {
 
 test {
 
-    String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : 'regression';
-    String etags = System.getProperty("excludeTests") ? System.getProperty("excludeTests") : 'integration';
+    String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : 'regression'
+    String etags = System.getProperty("excludeTests") ? System.getProperty("excludeTests") : 'integration'
 
     environment 'SPRING_PROFILES_ACTIVE', 'test'
     outputs.dir snippetsDir

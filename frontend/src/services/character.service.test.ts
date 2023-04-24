@@ -4,7 +4,7 @@ import { Race } from "../types/race";
 
 
 const raceData: Race = {
-  id: 1,
+  id: "1",
   name: 'human'
 }
 const charPostData: Character = {
@@ -38,7 +38,7 @@ describe( 'Character Service', () => {
   it('create new character',async () => {
     await CharacterService.createCharacter(charPostData).then((data) => {
       expect(data).toBeTruthy();
-      expect(data.id).toBeGreaterThan(1);
+      expect(data.id).toBe("1");
       expect(data.name).toBe("Børge Blåtand");
       expect(data.hero).toBe(true);
     });

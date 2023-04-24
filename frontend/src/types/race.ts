@@ -1,4 +1,4 @@
 export interface Race {
-  id?: number;
+  id?: string;
   name: string;
 }
