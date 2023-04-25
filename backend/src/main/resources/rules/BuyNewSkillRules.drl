@@ -2,6 +2,7 @@ import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
 import dk.pekilidi.dod.changerequest.model.ChangeStatus
 import dk.pekilidi.dod.changerequest.model.ChangeRequest
 import dk.pekilidi.dod.changerequest.model.ChangeType
+import dk.pekilidi.dod.character.model.CharacterState
 import dk.pekilidi.dod.data.CharacterDTO
 import dk.pekilidi.dod.skill.SkillService
 import dk.pekilidi.dod.data.SkillDTO
@@ -12,13 +13,26 @@ global SkillService skillService;
 global SkillDTO skill;
 global Integer skillCost;
 
+rule "Validate character state"
+  ruleflow-group "new-skill"
+  salience 100
+  no-loop
+  when
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
+    character : CharacterDTO( state != CharacterState.INIT_COMPLETE)
+  then
+    changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
+    changeRequest.setStatus(ChangeStatus.REJECTED);
+    update(changeRequest)
+end;
+
 rule "Validate change request"
   ruleflow-group "new-skill"
   salience 100
   no-loop
   when
     changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
-    character : CharacterDTO();
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
   then
     String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
     try {
@@ -39,7 +53,6 @@ rule "Validate change request"
         changeRequest.setStatusLabel(ChangeStatusLabel.SKILL_ALREADY_BOUGHT);
         changeRequest.setStatus(ChangeStatus.REJECTED);
       }
-
     }
     update(changeRequest)
 end;
@@ -50,7 +63,7 @@ rule "Add skill"
   ruleflow-group "new-skill"
   no-loop
   when
-    character : CharacterDTO();
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE );
     changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
   then
     skillCost = (Integer) drools.getKieRuntime().getGlobal("skillCost");

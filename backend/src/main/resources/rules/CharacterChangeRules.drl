@@ -82,3 +82,37 @@ rule "Character change - modify hero points"
     changeRequest.setStatusLabel(ChangeStatusLabel.OK_HERO_POINTS_INCREASE);
     character.setHeroPoints(character.getHeroPoints() + change);
 end;
+
+rule "Character change - make character ready for play - wrong state"
+  no-loop
+  ruleflow-group "character-state-change"
+  when
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY );
+    character : CharacterDTO( state != CharacterState.INIT_COMPLETE );
+  then
+    changeRequest.setStatus(ChangeStatus.REJECTED);
+    changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
+end;
+
+rule "Character change - make character ready for play - to many BSPs"
+  no-loop
+  ruleflow-group "character-state-change"
+  when
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY );
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints > 5);
+  then
+    changeRequest.setStatus(ChangeStatus.REJECTED);
+    changeRequest.setStatusLabel(ChangeStatusLabel.TOO_MANY_SKILLS_POINTS);
+end;
+
+rule "Character change - make character ready for play"
+  no-loop
+  ruleflow-group "character-state-change"
+  when
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY );
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints <= 5);
+  then
+    changeRequest.setStatus(ChangeStatus.APPROVED);
+    changeRequest.setStatusLabel(ChangeStatusLabel.OK_READY_FOR_PLAY);
+    character.setState(CharacterState.READY_TO_PLAY);
+end;
