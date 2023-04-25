@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/mpeki/dod/compare/v1.6.0...v1.7.0) (2023-04-25)
+
+
+### Features
+
+* **DOD-223:** Buy skill form - display current BSPs and BSP cost ([71c387a](https://github.com/mpeki/dod/commit/71c387a36140b9a1eb646b2c50cc5c2aed9236d0))
+
 # [1.6.0](https://github.com/mpeki/dod/compare/v1.5.0...v1.6.0) (2023-04-23)
 
 
