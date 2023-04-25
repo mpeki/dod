@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BuySkill } from "./BuySkill";
 import { CharacterSkillList } from "./CharacterSkillList";
 import { Character } from "../../types/character";
+import { CharacterState } from "../../types/character-state";
 
 interface IProps {
   character: Character;
@@ -22,12 +23,15 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
     }
   }
 
+  let canBuySkill = character.state === CharacterState.INIT_COMPLETE;
+  console.log("canBuySkill: " + canBuySkill)
+
 
   return (
     <>
       <h2>Skills</h2>
       <p>Base Skill Points: {character.baseSkillPoints}</p>
-      <button onClick={showBuySkillHandler}>New Skill</button>
+      <button onClick={showBuySkillHandler} disabled={!canBuySkill} >New Skill</button>
       {showBuySkill && <BuySkill character={character} onConfirm={showBuySkillHandler} buySkillHandler={fetchCharHandler}/>}
       <CharacterSkillList skills={skills} />
     </>

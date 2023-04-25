@@ -44,7 +44,7 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
       };
       console.log("changePostData: " + JSON.stringify(changePostData));
       if (character.id != null) {
-        await ChangeService.buySkill(character.id, changePostData);
+        await ChangeService.doChange(character.id, changePostData);
       }
       setChangeData({ changeKey: "", modifier: 0, changeType: "NEW_SKILL", changeDescription: "Buy new skill"});
       buySkillHandler();
