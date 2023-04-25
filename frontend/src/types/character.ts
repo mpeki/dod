@@ -1,5 +1,6 @@
 import { Race } from "./race";
 import { Skill } from "./skill";
+import { CharacterState } from "./character-state";
 
 export interface BaseTraitValue {
   currentValue: number;
@@ -16,6 +17,7 @@ export interface Character {
   id?: string;
   name: string;
   ageGroup: string;
+  state?: CharacterState;
   race: Race;
   looks?: Record<string,string>; //Array<String>;
   favoriteHand?: string;
