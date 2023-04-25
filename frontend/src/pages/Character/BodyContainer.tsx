@@ -2,7 +2,7 @@ import { BodyPartValue } from "../../types/character";
 import { BodyPartItem } from "./BodyPart";
 
 interface IProps {
-  parts: Map<string, BodyPartValue> | undefined;
+  parts: Record<string, BodyPartValue> | undefined;
 }
 
 export const BodyContainer = ({ parts }: IProps): JSX.Element => {

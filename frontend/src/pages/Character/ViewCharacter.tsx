@@ -44,7 +44,7 @@ export const ViewCharacter = () => {
         <p><u>Social Status: </u>{character?.socialStatus}</p>
         <BaseTraitList baseTraits={character?.baseTraits} />
         <BodyContainer parts={character?.bodyParts} />
-        <SkillContainer charId={character.id} baseSkillPoints={character?.baseSkillPoints} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
+        <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
       </>
     );
   }

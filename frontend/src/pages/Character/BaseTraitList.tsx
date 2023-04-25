@@ -2,7 +2,7 @@ import { BaseTraitValue } from "../../types/character";
 import { BaseTraitItem } from "./BaseTraitItem";
 
 interface IProps {
-  baseTraits: Map<string, BaseTraitValue> | undefined;
+  baseTraits: Record<string, BaseTraitValue> | undefined;
 }
 
 export const BaseTraitList = ({ baseTraits }: IProps): JSX.Element => {
