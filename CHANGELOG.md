@@ -1,3 +1,11 @@
+# [1.8.0](https://github.com/mpeki/dod/compare/v1.7.0...v1.8.0) (2023-04-25)
+
+
+### Features
+
+* **DOD-225:** Backend changes for completing player ([dfb1e9f](https://github.com/mpeki/dod/commit/dfb1e9f70c0db96a16ccf7d885d67a2b017e93a8))
+* **DOD-226:** Frontend changes for completing a character ([f8c8b43](https://github.com/mpeki/dod/commit/f8c8b438b422d6885ef3a29e73b3ff82386392ba))
+
 # [1.7.0](https://github.com/mpeki/dod/compare/v1.6.0...v1.7.0) (2023-04-25)
 
 
