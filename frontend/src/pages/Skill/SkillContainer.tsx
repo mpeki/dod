@@ -2,15 +2,15 @@ import { Skill } from "../../types/skill";
 import { useState } from "react";
 import { BuySkill } from "./BuySkill";
 import { CharacterSkillList } from "./CharacterSkillList";
+import { Character } from "../../types/character";
 
 interface IProps {
-  charId: string;
-  baseSkillPoints: number | undefined
-  skills: Map<string, Skill> | undefined;
+  character: Character;
+  skills: Record<string, Skill> | undefined;
   fetchCharHandler: () => void;
 }
 
-export const SkillContainer = ({ charId, baseSkillPoints, skills, fetchCharHandler }: IProps): JSX.Element => {
+export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps): JSX.Element => {
 
   const [showBuySkill, setShowBuySkill] = useState<boolean>()
 
@@ -26,9 +26,9 @@ export const SkillContainer = ({ charId, baseSkillPoints, skills, fetchCharHandl
   return (
     <>
       <h2>Skills</h2>
-      <p>Base Skill Points: {baseSkillPoints}</p>
+      <p>Base Skill Points: {character.baseSkillPoints}</p>
       <button onClick={showBuySkillHandler}>New Skill</button>
-      {showBuySkill && <BuySkill charId={charId} onConfirm={showBuySkillHandler} buySkillHandler={fetchCharHandler}/>}
+      {showBuySkill && <BuySkill character={character} onConfirm={showBuySkillHandler} buySkillHandler={fetchCharHandler}/>}
       <CharacterSkillList skills={skills} />
     </>
   );

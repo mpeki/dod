@@ -1,13 +1,14 @@
 import classes from "./BuySkill.module.css";
 import { BuySkillForm } from "./BuySkillForm";
+import { Character } from "../../types/character";
 
 interface IProps {
-  charId: string;
+  character: Character;
   onConfirm: any;
   buySkillHandler: any;
 }
 
-export const BuySkill = ({ charId, buySkillHandler, onConfirm }: IProps) => {
+export const BuySkill = ({ character, buySkillHandler, onConfirm }: IProps) => {
   return <div>
     <div className={classes.backdrop} onClick={onConfirm}></div>
     <div className={classes.modal}>
@@ -15,7 +16,7 @@ export const BuySkill = ({ charId, buySkillHandler, onConfirm }: IProps) => {
         <h2>Buy Skills</h2>
       </header>
       <div className={classes.content}>
-        <BuySkillForm charId={charId} buySkillHandler={buySkillHandler} onConfirm={onConfirm}/>
+        <BuySkillForm character={character} buySkillHandler={buySkillHandler} onConfirm={onConfirm}/>
       </div>
       <footer className={classes.actions}>
       </footer>

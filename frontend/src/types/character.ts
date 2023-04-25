@@ -22,8 +22,8 @@ export interface Character {
   socialStatus?: string;
   hero: boolean;
   heroPoints?: number;
-  baseTraits?: Map<string,BaseTraitValue>;
-  bodyParts?: Map<string,BodyPartValue>;
+  baseTraits?: Record<string,BaseTraitValue>;
+  bodyParts?: Record<string,BodyPartValue>;
   baseSkillPoints?: number;
-  skills?: Map<string,Skill>
+  skills?: Record<string,Skill>
 }

@@ -1,7 +1,7 @@
 import { Skill } from "../../types/skill";
 
 interface IProps {
-  skills: Map<string, Skill> | undefined;
+  skills: Record<string, Skill> | undefined;
 }
 
 export const CharacterSkillList = ({ skills }: IProps): JSX.Element => {
