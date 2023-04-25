@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.data.CharacterDTO;
 import java.io.File;
 import lombok.extern.slf4j.Slf4j;
@@ -85,6 +86,13 @@ public class CharacterFlowTest {
     //Check skills of fetched character
     fetchedChar = flowHelper.getCharById(createdChar.getId());
     assertEquals(numSkillsBought, fetchedChar.getSkills().size());
+    log.debug("Base skill points: {}", fetchedChar.getBaseSkillPoints());
+
+    if(fetchedChar.getBaseSkillPoints() < 5) {
+      flowHelper.makeCharacterReadyToPlay(fetchedChar.getId());
+      fetchedChar = flowHelper.getCharById(createdChar.getId());
+      assertEquals(CharacterState.READY_TO_PLAY, fetchedChar.getState());
+    }
 
     //Check number of characters
     CharacterDTO[] characters = flowHelper.fetchAllCharacters();

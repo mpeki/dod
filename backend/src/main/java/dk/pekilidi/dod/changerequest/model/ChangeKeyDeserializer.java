@@ -4,17 +4,28 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import dk.pekilidi.dod.character.model.BaseTraitName;
+import dk.pekilidi.dod.character.model.CharacterState;
+import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.skill.SkillKey;
 import java.io.IOException;
 
-public class ChangeKeyDeserializer extends JsonDeserializer {
+public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
 
   @Override
-  public Object deserialize(JsonParser jp, DeserializationContext context) throws IOException {
+  public ChangeKey deserialize(JsonParser jp, DeserializationContext context) throws IOException {
     String value = jp.getText();
     try {
-      BaseTraitName.valueOf(value);
       return BaseTraitName.valueOf(value);
+    } catch (Exception e) {
+      // Ignore
+    }
+    try {
+      return BodyPartName.valueOf(value);
+    } catch (Exception e) {
+      // Ignore
+    }
+    try {
+      return CharacterState.valueOf(value);
     } catch (Exception e) {
       // Ignore
     }
