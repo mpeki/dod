@@ -3,6 +3,7 @@ package dk.pekilidi.utils;
 import static org.reflections.scanners.Scanners.SubTypes;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigInteger;
@@ -12,13 +13,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 
+@Slf4j
 public class RandomObjectFiller {
 
   private final Random random = new Random();
 
-  public <T> T createAndFill(Class<T> clazz) throws Exception {
+  public <T> T createAndFill(Class<T> clazz) {
     if (Modifier.isAbstract(clazz.getModifiers())) {
       Reflections reflections = new Reflections("dk.pekilidi.dod.character");
       Set<Class<?>> subTypes = reflections.get(SubTypes.of(clazz).asClass());
@@ -26,7 +29,13 @@ public class RandomObjectFiller {
           : null;
       return createAndFill(subTypes.stream().findAny().get().asSubclass(clazz));
     }
-    T instance = clazz.getDeclaredConstructor().newInstance();
+    T instance = null;
+    try {
+      instance = clazz.getDeclaredConstructor().newInstance();
+    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+      log.info("Could not create instance of class: " + clazz.getName());
+      return null;
+    }
     for (Field field : clazz.getDeclaredFields()) {
       field.setAccessible(true);
       Object value = null;
@@ -39,26 +48,40 @@ public class RandomObjectFiller {
         value = getRandomValueForField(field);
       }
       if (!field.getName().equals("serialVersionUID")) {
-        field.set(instance, value);
+        try {
+          field.set(instance, value);
+        } catch (IllegalAccessException e) {
+          log.info("Could not set value for field: " + field.getName() + " in class: " + clazz.getName());
+        }
       }
     }
     return instance;
   }
 
-  private <T> Object getRandomValueForField(Class<T> clazz, Field field) throws Exception {
+  private <T> Object getRandomValueForField(Class<T> clazz, Field field) {
     Class<?> type = field.getType();
     if (type.equals(List.class)) {
-      Field f = clazz.getDeclaredField(field.getName());
+      Field f = null;
+      try {
+        f = clazz.getDeclaredField(field.getName());
+      } catch (NoSuchFieldException e) {
+        log.info("Could not find field: " + field.getName() + " in class: " + clazz.getName());
+      }
+      assert f != null;
       ParameterizedType stringListType = (ParameterizedType) f.getGenericType();
       Class<?> listClass = (Class<?>) stringListType.getActualTypeArguments()[0];
-      return List.of(listClass.getDeclaredConstructor().newInstance());
+      try {
+        return List.of(listClass.getDeclaredConstructor().newInstance());
+      } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        throw new RuntimeException(e);
+      }
     } else if (type.equals(Map.class)) {
       return Collections.emptyMap();
     }
     return createAndFill(type);
   }
 
-  private Object getRandomValueForField(Field field) throws Exception {
+  private Object getRandomValueForField(Field field) {
     Class<?> type = field.getType();
 
     // Note that we must handle the different types here! This is just an

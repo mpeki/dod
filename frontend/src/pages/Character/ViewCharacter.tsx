@@ -21,7 +21,6 @@ export const ViewCharacter = () => {
   useEffect(() => {
     fetchCharHandler().then();
   }, [fetchCharHandler]);
-  console.log("character: " + JSON.stringify(character));
   if(character == null || character.id == null) {
     return <><p>Invalid character!</p></>
   } else {
