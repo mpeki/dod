@@ -39,7 +39,7 @@ export const CharacterCard = ({character, fetchCharactersHandler}: IProps): JSX.
     return <><li>Invalid Character</li></>
   }
 
-  const canActivate : boolean = (character.baseSkillPoints <= 5 && character.state === CharacterState.INIT_COMPLETE);
+  const canActivate : boolean = (character.baseSkillPoints < 10 && character.state === CharacterState.INIT_COMPLETE);
 
   return (
     <li>
