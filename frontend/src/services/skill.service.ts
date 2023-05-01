@@ -1,12 +1,13 @@
 import axios from "axios";
 import { Skill } from "../types/skill";
 import { Character } from "../types/character";
+import { Action } from "../types/action";
 
 export const SkillService = {
   trainSkill: async function (
     charId: string,
     skillKey: string
-  ): Promise<Skill> {
+  ): Promise<Action> {
     return new Promise((resolve) => {
       const charApiUri = `http://localhost:8090/action/training/char/${charId}/skill/${skillKey}`;
       setTimeout(() => {

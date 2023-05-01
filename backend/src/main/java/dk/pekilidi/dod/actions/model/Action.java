@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.actions.model;
 
+import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.DODFact;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +12,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Action implements DODFact {
-
   Type type;
   Difficulty difficulty;
+  CharacterDTO actor;
   ActionResult actionResult;
   String resultDescription;
 }

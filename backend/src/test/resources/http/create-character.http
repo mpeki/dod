@@ -341,4 +341,19 @@ POST http://localhost:8090/action/training/char/{{char_id}}/skill/fst
 
 ###
 
-#POST http://localhost:8090/action/training/char/0C6Z7XXYSR7NS/skill/stealth
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "SKILL_CHANGE",
+  "changeDescription": "Increase FV for skill",
+  "changeKey": "fst",
+  "modifier": 1
+}
+> {%
+  client.test("Activate player", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
