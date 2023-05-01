@@ -41,7 +41,7 @@ jobs:
         run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
       - name: Verify
         if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
-        run: ./gradlew :b:test jacocoTestCoverageVerification sonarqube --info -DincludeTests="any()" -DexcludeTests="none()"
+        run: ./gradlew :b:test jacocoTestCoverageVerification sonar --warn -DincludeTests="any()" -DexcludeTests="none()"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Report

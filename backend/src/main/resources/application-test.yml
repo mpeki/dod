@@ -1,4 +1,4 @@
 logging:
   level:
     root: INFO
-    dk.pekilidi: DEBUG
+    dk.pekilidi: INFO

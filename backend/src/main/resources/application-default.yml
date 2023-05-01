@@ -66,4 +66,4 @@ management:
         include: health,info
 logging:
   level:
-    root: ERROR
+    root: INFO

@@ -13,8 +13,5 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SkillTrainingAction extends Action {
-
-  private CharacterDTO actor;
   private String skillKey;
-
 }

@@ -2,6 +2,7 @@ package dk.pekilidi.dod.actions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dk.pekilidi.dod.DodApplication;
@@ -92,5 +93,14 @@ class CharacterActionServiceWithRulesTest {
       System.out.println(testSubject.getSkills().get("primary.weapon").getExperience());
     }
     System.out.println(testSubject);
+  }
+
+  @Test
+  void throwsIllegalArgumentException_whenActionIsNull() {
+    Action action = null;
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+      cut.doAction(action);
+    });
+    assertEquals("Action cannot be null", exception.getMessage());
   }
 }
