@@ -99,7 +99,7 @@ rule "Character change - make character ready for play - to many BSPs"
   ruleflow-group "character-state-change"
   when
     changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY );
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints > 5);
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints >= 10);
   then
     changeRequest.setStatus(ChangeStatus.REJECTED);
     changeRequest.setStatusLabel(ChangeStatusLabel.TOO_MANY_SKILLS_POINTS);
@@ -110,7 +110,7 @@ rule "Character change - make character ready for play"
   ruleflow-group "character-state-change"
   when
     changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY );
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints <= 5);
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints < 10);
   then
     changeRequest.setStatus(ChangeStatus.APPROVED);
     changeRequest.setStatusLabel(ChangeStatusLabel.OK_READY_FOR_PLAY);

@@ -1,0 +1,61 @@
+import dk.pekilidi.dod.data.CharacterDTO
+import dk.pekilidi.dod.character.model.CharacterState
+import dk.pekilidi.dod.util.Dice
+import dk.pekilidi.dod.actions.model.SkillTrainingAction
+import dk.pekilidi.dod.actions.model.Type
+import dk.pekilidi.dod.actions.model.ActionResult
+import dk.pekilidi.dod.skill.SkillService
+import dk.pekilidi.dod.skill.SkillNotFoundException
+import dk.pekilidi.dod.data.SkillDTO
+import dk.pekilidi.dod.changerequest.model.ChangeStatus
+import dk.pekilidi.dod.util.rules.RulesUtil
+import dk.pekilidi.dod.character.model.BaseTraitName
+import java.time.LocalDateTime
+
+global SkillService skillService;
+
+rule "Validate Action - Character is not ready to play"
+  ruleflow-group "training-action"
+  salience 100
+  when
+    ssAction : SkillTrainingAction( type == Type.SKILL_TRAINING && ssAction.actionResult == null );
+    character : CharacterDTO( state != CharacterState.READY_TO_PLAY ) from ssAction.actor;
+  then
+    ssAction.setActionResult(ActionResult.INVALID_ACTION);
+    ssAction.setResultDescription("Character is not ready to play - must be in READY_TO_PLAY state, was " + character.getState());
+    update(ssAction);
+end;
+
+rule "Get result from training action (single actor no target)"
+  ruleflow-group "training-action"
+  salience 90
+  when
+    ssAction : SkillTrainingAction( type == Type.SKILL_TRAINING && ssAction.actionResult == null );
+    character : CharacterDTO( state == CharacterState.READY_TO_PLAY ) from ssAction.actor;
+    roll : Integer() from Dice.roll("1t20");
+  then
+    String skillKey = ssAction.getSkillKey();
+    SkillDTO characterSkill = character.getSkills().get(skillKey);
+
+    if(characterSkill != null){
+      int fv = characterSkill.getFv();
+      characterSkill.setLastUsed(LocalDateTime.now());
+      ssAction.setActionResult(RulesUtil.testSkill(fv, roll, ssAction.getDifficulty()));
+      ssAction.setResultDescription("Tested known skill: " + skillKey);
+    } else {
+      try {
+        skill = skillService.findSkillByKey(skillKey);
+        if(skill.getBaseChance() == BaseTraitName.NONE) {
+          ssAction.setActionResult(RulesUtil.testSkill(-1, roll, ssAction.getDifficulty()));
+          ssAction.setResultDescription("Tested unknown skill: " + skillKey + " - with no base chance");
+        } else {
+          ssAction.setActionResult(RulesUtil.testSkill(character.getBaseTraits().get(skill.getBaseChance()).getGroupValue(), roll, ssAction.getDifficulty()));
+          ssAction.setResultDescription("Tested unknown skill: " + skillKey + " - with base chance");
+        }
+      } catch (SkillNotFoundException e) {
+        ssAction.setActionResult(ActionResult.INVALID_ACTION);
+        ssAction.setResultDescription("Skill does not exist");
+      }
+    }
+    update(ssAction);
+end;

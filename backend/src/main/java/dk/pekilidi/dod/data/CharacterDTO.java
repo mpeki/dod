@@ -4,6 +4,7 @@ import static dk.pekilidi.dod.character.model.AgeGroup.MATURE;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import dk.pekilidi.dod.actions.model.ActionContainer;
 import dk.pekilidi.dod.character.model.AgeGroup;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.CharacterState;
