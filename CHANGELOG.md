@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/mpeki/dod/compare/v1.8.0...v1.8.1) (2023-05-01)
+
+
+### Bug Fixes
+
+* **DOD-236:** Character activation possible when BSPs below 10 ([5078910](https://github.com/mpeki/dod/commit/5078910babbf003a1851ce78b268f0af186f0ac6))
+
 # [1.8.0](https://github.com/mpeki/dod/compare/v1.7.0...v1.8.0) (2023-04-25)
 
 
