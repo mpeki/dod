@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.skill;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import dk.pekilidi.dod.actions.model.ActionKey;
 import dk.pekilidi.dod.changerequest.model.ChangeKey;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Embeddable
-public class SkillKey implements ChangeKey, Serializable {
+public class SkillKey implements ChangeKey, ActionKey, Serializable {
 
   @Serial
   private static final long serialVersionUID = -4561261194340437769L;

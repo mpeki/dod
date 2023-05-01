@@ -27,7 +27,7 @@ public class DroolsService {
     return executeRulesFor(List.of(fact), null);
   }
 
-  public int executeGroupFlowRulesFor(List<DODFact> dodFacts, String ruleFlowGroup) {
+  public int executeGroupFlowRulesFor(List<DODFact> dodFacts, String... ruleFlowGroups) {
     KieBase kieBase = kieContainer.getKieBase();
     for ( KiePackage kp : kieBase.getKiePackages() ) {
       for (Rule rule : kp.getRules()) {
@@ -36,7 +36,9 @@ public class DroolsService {
     }
     KieSession kieSession = kieContainer.newKieSession();
     kieSession.setGlobal("skillService", skillService);
-    kieSession.getAgenda().getAgendaGroup(ruleFlowGroup).setFocus();
+    for (String ruleFlowGroup : ruleFlowGroups) {
+      kieSession.getAgenda().getAgendaGroup(ruleFlowGroup).setFocus();
+    }
     for (DODFact dodFact : dodFacts) {
       kieSession.insert(dodFact);
     }

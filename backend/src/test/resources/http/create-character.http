@@ -210,3 +210,135 @@ Content-Type: application/json
     client.assert(response.body.status === "APPROVED", "change status is APPROVED");
   })
 %}
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "read.write.forn",
+  "modifier": {{$random.integer(2, 3)}}
+}
+> {%
+  client.test("Buy skill: stealth", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "fishing",
+  "modifier": {{$random.integer(10, 15)}}
+}
+> {%
+  client.test("Buy skill: stealth", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "climbing",
+  "modifier": {{$random.integer(10, 15)}}
+}
+> {%
+  client.test("Buy skill: stealth", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "disguise",
+  "modifier": {{$random.integer(10, 15)}}
+}
+> {%
+  client.test("Buy skill: stealth", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "shadow",
+  "modifier": {{$random.integer(10, 15)}}
+}
+> {%
+  client.test("Buy skill: stealth", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "pick.locks",
+  "modifier": {{$random.integer(9, 13)}}
+}
+> {%
+  client.test("Buy skill: stealth", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "CHARACTER_READY_TO_PLAY",
+  "changeDescription": "Activate player",
+  "changeKey": "READY_TO_PLAY",
+  "modifier": 0
+}
+> {%
+  client.test("Activate player", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
+###
+
+POST http://localhost:8090/action/training/char/{{char_id}}/skill/fst
+
+###
+
+#POST http://localhost:8090/action/training/char/0C6Z7XXYSR7NS/skill/stealth
