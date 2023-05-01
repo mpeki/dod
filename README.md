@@ -41,12 +41,13 @@ To reset the initial schema creation yaml (01-create-schema.yaml) run: `gradle l
 
 ## References
 * Project structure: https://github.com/KengoTODA/gradle-boilerplate and https://github.com/spotbugs/spotbugs-gradle-plugin
+* Junit 5 Parameterized tests: https://www.baeldung.com/parameterized-tests-junit-5
 
 ## Project Dependencies
 * [Spring Boot](https://spring.io/projects/spring-boot)
 * [Lombok](https://projectlombok.org/)
 * [Gradle](https://gradle.org/)
-* [Jib]()
+* [Jib](https://github.com/GoogleContainerTools/jib)
 * [Semantic Release](https://semantic-release.gitbook.io/semantic-release/)
   * [A Semantic Release plugin for Gradle](https://www.npmjs.com/package/gradle-semantic-release-plugin)
-  * 
+

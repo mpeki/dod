@@ -1,7 +1,9 @@
 package dk.pekilidi.dod.actions;
 
 import dk.pekilidi.dod.actions.model.Action;
+import dk.pekilidi.dod.actions.model.SkillTrainingAction;
 import dk.pekilidi.dod.character.CharacterService;
+import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.rules.DroolsService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +18,15 @@ public class CharacterActionService {
   private DroolsService ruleService;
 
   public Action doAction(Action action) {
-    log.debug("Executing action: {}", action);
+    if(action == null) {
+      throw new IllegalArgumentException("Action cannot be null");
+    }
+    log.debug("Executing action of type: {}, and dificulty: {}, for actor: {}.", action.getType(), action.getDifficulty(), action.getActor());
     //Notice that the order of the rule flow groups is important, last one is the one that will be executed first
     int rulesExecuted = ruleService.executeGroupFlowRulesFor(List.of(action),"award-experience", action.getType().getValue());
     log.debug("Rules executed count:  {} rules", rulesExecuted);
-    log.info("Executed action: {}", action);
+    log.info("Executed action of type: {}, and dificulty: {}, for actor: {}.", action.getType(), action.getDifficulty(), action.getActor().getId());
+    log.info("Result: {} - {}", action.getActionResult(), action.getResultDescription());
     return action;
   }
 }

@@ -1,0 +1,78 @@
+import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
+import dk.pekilidi.dod.changerequest.model.ChangeStatus
+import dk.pekilidi.dod.changerequest.model.ChangeRequest
+import dk.pekilidi.dod.changerequest.model.ChangeType
+import dk.pekilidi.dod.character.model.CharacterState
+import dk.pekilidi.dod.data.CharacterDTO
+import dk.pekilidi.dod.skill.SkillService
+import dk.pekilidi.dod.data.SkillDTO
+import dk.pekilidi.dod.skill.SkillKey
+import dk.pekilidi.dod.skill.SkillNotFoundException
+
+global SkillService skillService;
+global SkillDTO skill;
+global Integer skillCost;
+
+rule "Validate character state - for skill change"
+  ruleflow-group "skill-change"
+  salience 100
+  no-loop
+  when
+    changeRequest : ChangeRequest( changeType == ChangeType.SKILL_CHANGE && status == ChangeStatus.PENDING );
+    character : CharacterDTO( state != CharacterState.READY_TO_PLAY)
+  then
+    changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
+    changeRequest.setStatus(ChangeStatus.REJECTED);
+    update(changeRequest)
+end;
+
+rule "Validate change request - for skill change"
+  ruleflow-group "skill-change"
+  salience 100
+  no-loop
+  when
+    changeRequest : ChangeRequest( changeType == ChangeType.SKILL_CHANGE && status == ChangeStatus.PENDING );
+    character : CharacterDTO( state == CharacterState.READY_TO_PLAY )
+  then
+    String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
+    skill = character.getSkills().get(skillKey);
+    if(skill == null){
+      changeRequest.setStatusLabel(ChangeStatusLabel.USER_DOES_NOT_HAVE_SKILL);
+      changeRequest.setStatus(ChangeStatus.REJECTED);
+    }
+    if(skill != null){
+      skill.setPrice(skillService.findSkillByKey(skillKey).getPrice());
+      drools.getKieRuntime().setGlobal("skill", skill);
+      skillCost = SkillService.calculatePriceForFVIncrease(character, skillKey, (Integer) changeRequest.getModifier());
+      drools.getKieRuntime().setGlobal("skillCost", skillCost);
+      if( skill.getExperience() < skillCost ){
+        changeRequest.setStatusLabel(ChangeStatusLabel.INSUFFICIENT_EXP_POINTS);
+        changeRequest.setStatus(ChangeStatus.REJECTED);
+      }
+    }
+    update(changeRequest)
+end;
+
+rule "Increase skill FV"
+  ruleflow-group "skill-change"
+  salience 50
+  no-loop
+  when
+    changeRequest : ChangeRequest( changeType == ChangeType.SKILL_CHANGE && status == ChangeStatus.PENDING );
+    character : CharacterDTO( state == CharacterState.READY_TO_PLAY )
+  then
+    skillCost = (Integer) drools.getKieRuntime().getGlobal("skillCost");
+    skill = (SkillDTO) drools.getKieRuntime().getGlobal("skill");
+    if( skill != null && skillCost != null ){
+      skill.setFv(skill.getFv() + (Integer) changeRequest.getModifier());
+      skill.setExperience(skill.getExperience() - skillCost);
+      changeRequest.setStatus(ChangeStatus.APPROVED);
+      changeRequest.setStatusLabel(ChangeStatusLabel.OK_FV_INCREASED);
+    } else {
+      changeRequest.setStatusLabel(ChangeStatusLabel.CHANGE_REJECTED_UNKNOWN_REASON);
+      changeRequest.setStatus(ChangeStatus.REJECTED);
+    }
+    drools.getKieRuntime().setGlobal("skillCost", null);
+    drools.getKieRuntime().setGlobal("skill", null);
+    update(changeRequest)
+end;

@@ -14,11 +14,13 @@ import dk.pekilidi.dod.skill.model.Group;
 import dk.pekilidi.dod.skill.model.Skill;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.runners.Parameterized.Parameter;
 import org.modelmapper.ModelMapper;
 
 @Tag("regression")
@@ -122,5 +124,15 @@ class SkillServiceTest {
     testSkill.setPrice(8);
     testChar.setHero(false);
     assertThrows(IllegalArgumentException.class, () -> SkillService.calculateNewSkillPrice(testChar, testSkill, 6));
+  }
+
+  @ParameterizedTest
+  @CsvFileSource(resources = "/fvIncreaseCost.csv", numLinesToSkip = 1)
+  void testFvIncreaseCost(int startFv, int buyFv, int cost, int expected){
+    SkillKey key = SkillKey.builder().value("primary.weapon").build();
+    CharacterDTO testChar = CharacterDTO.builder()
+        .skills(Map.of(key.getKeyValue(), SkillDTO.builder().key(key).fv(startFv).price(cost).build()))
+        .build();
+    assertEquals(expected, SkillService.calculatePriceForFVIncrease(testChar, key.getKeyValue(), buyFv));
   }
 }
