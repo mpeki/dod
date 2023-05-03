@@ -40,7 +40,7 @@ rule "Get result from training action (single actor no target)"
     if(characterSkill != null){
       int fv = characterSkill.getFv();
       characterSkill.setLastUsed(LocalDateTime.now());
-      ssAction.setActionResult(RulesUtil.testSkill(fv, roll, ssAction.getDifficulty()));
+      ssAction.setActionResult(RulesUtil.testSkill(characterSkill, roll, ssAction.getDifficulty()));
       ssAction.setResultDescription("Tested known skill: " + skillKey);
     } else {
       try {

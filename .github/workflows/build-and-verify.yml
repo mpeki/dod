@@ -1,6 +1,10 @@
 name: build and verify
 on:
   push:
+    branches:
+      - 'main'
+      - 'alpha'
+      - 'beta'
   pull_request:
     branches:
       - 'main'
@@ -14,7 +18,7 @@ jobs:
   build-test-verify:
     env:
       USERNAME: ${{ secrets.USERNAME }}
-      GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}      
+      GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
