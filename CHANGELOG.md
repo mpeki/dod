@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/mpeki/dod/compare/v1.8.1...v1.8.2) (2023-05-03)
+
+
+### Bug Fixes
+
+* **DOD-239:** This fixes CVE-2022-25881 ([8b9daa3](https://github.com/mpeki/dod/commit/8b9daa3a0e758e03af292fde92454cb83704d803))
+
 ## [1.8.1](https://github.com/mpeki/dod/compare/v1.8.0...v1.8.1) (2023-05-01)
 
 
