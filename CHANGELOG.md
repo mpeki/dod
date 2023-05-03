@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/mpeki/dod/compare/v1.8.2...v1.8.3) (2023-05-03)
+
+
+### Bug Fixes
+
+* **DOD-231:** Category B skills can now be trained ([a365122](https://github.com/mpeki/dod/commit/a3651220a44fb8725a819a62e5d83340e8bc1973))
+
 ## [1.8.2](https://github.com/mpeki/dod/compare/v1.8.1...v1.8.2) (2023-05-03)
 
 
