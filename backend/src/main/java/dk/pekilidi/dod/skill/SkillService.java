@@ -47,6 +47,11 @@ public class SkillService {
   }
 
   private static int calculateCatBSkillCost(SkillDTO skill, int pointsToBuy) {
+    return calculateCatBSkillCost(skill, pointsToBuy, 0);
+  }
+
+  private static int calculateCatBSkillCost(SkillDTO skill, int pointsToBuy, int currentFv) {
+    pointsToBuy = currentFv + pointsToBuy;
     int result = -1;
     int skillPrice = skill.getPrice();
     int tier1Price = skillPrice * 2;
@@ -87,6 +92,9 @@ public class SkillService {
 
   public static int calculatePriceForFVIncrease(CharacterDTO characterDTO, String skillKey, int fvToBuy) {
     SkillDTO skill = characterDTO.getSkills().get(skillKey);
+    if(skill.getCategory() == Category.B) {
+      return calculatePriceForFVIncreaseCatB(characterDTO, skill, fvToBuy);
+    }
     int currentFv = characterDTO.getSkills().get(skillKey).getFv();
     int newFV = currentFv + fvToBuy;
     int cost = 0;
@@ -121,6 +129,10 @@ public class SkillService {
       }
     }
     return cost;
+  }
+
+  private static int calculatePriceForFVIncreaseCatB(CharacterDTO characterDTO, SkillDTO skill, int fvToBuy) {
+    return 0;
   }
 
   @Cacheable("skills")

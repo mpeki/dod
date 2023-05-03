@@ -2,8 +2,10 @@ package dk.pekilidi.dod.util.rules;
 
 import static java.lang.Math.ceil;
 
-import dk.pekilidi.dod.actions.model.Difficulty;
 import dk.pekilidi.dod.actions.model.ActionResult;
+import dk.pekilidi.dod.actions.model.Difficulty;
+import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.util.Dice;
 
 public class RulesUtil {
@@ -35,12 +37,27 @@ public class RulesUtil {
       }
       return ActionResult.FAILURE;
     } else {
-      if (roll <= ((int) ceil((double) modifiedFv / 3))) {
-        return ActionResult.MASTERFUL;
-      } else if (roll == 1 && Dice.roll("1t20") < modifiedFv) {
+      if (roll == 1 && Dice.roll("1t20") < modifiedFv) {
         return ActionResult.PERFECT;
+      } else if (roll <= ((int) ceil((double) modifiedFv / 3))) {
+        return ActionResult.MASTERFUL;
       }
       return ActionResult.SUCCESS;
     }
+  }
+  public static ActionResult testSkill(SkillDTO skill, int roll, Difficulty difficulty) {
+    int fv = skill.getCategory() == Category.A ? skill.getFv() : getSkillCatBFV(skill.getFv());
+    return testSkill(fv, roll, difficulty);
+  }
+  private static int getSkillCatBFV(int fv) {
+    switch (fv) {
+      case 1 -> fv = 13;
+      case 2 -> fv = 15;
+      case 3 -> fv = 17;
+      case 4 -> fv = 19;
+      case 5 -> fv = 20;
+      default -> fv = 20 + (fv - 5) * 2;
+    }
+    return fv;
   }
 }
