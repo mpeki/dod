@@ -9,7 +9,7 @@ We don't need no stinking badges: https://www.youtube.com/watch?v=VqomZQMZQCQ bu
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 # GitHub
-[Issue Tracking](https://github.com/mpeki/dod/projects/1) and [Wiki](https://github.com/mpeki/dod/wiki).
+[Issue Tracking](https://github.com/users/mpeki/projects/3 and [Wiki](https://github.com/mpeki/dod/wiki).
 
 # Build & Test
 Gradle is building, verifying and publishing the project.
