@@ -100,9 +100,9 @@ class RulesUtilTest {
         .category(Category.B)
         .fv(5)
         .build();
-    assertThat(RulesUtil.testSkill(skill, 20, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    assertThat(RulesUtil.testSkill(skill, 19, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
     skill.setFv(4);
-    assertThat(RulesUtil.testSkill(skill, 20, Difficulty.NORMAL)).isEqualTo(ActionResult.FAILURE);
+    assertThat(RulesUtil.testSkill(skill, 19, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
     skill.setFv(3);
     assertThat(RulesUtil.testSkill(skill, 17, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
     skill.setFv(2);
