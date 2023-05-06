@@ -2,9 +2,15 @@ import { useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { Character } from "../../types/character";
 import { CharacterService } from "../../services/character.service";
-import { BaseTraitList } from "./BaseTraitList";
-import { BodyContainer } from "./BodyContainer";
+import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
+import { CharacterInfo } from "../../components/Character/CharacterInfo";
+import { User } from "../../types/user";
+import { Container, Paper } from "@mui/material";
+import { Masonry } from "@mui/lab";
 import { SkillContainer } from "../Skill/SkillContainer";
+import { ReputationStats } from "../../components/Character/ReputationStats";
+import { HeroStats } from "../../components/Character/HeroStats";
+import { SanityStats } from "../../components/Character/SanityStats";
 
 export const ViewCharacter = () => {
   const { charId } = useParams();
@@ -21,30 +27,41 @@ export const ViewCharacter = () => {
   useEffect(() => {
     fetchCharHandler().then();
   }, [fetchCharHandler]);
-  if(character == null || character.id == null) {
-    return <><p>Invalid character!</p></>
+  if (character == null || character.id == null) {
+    return <><p>Invalid character!</p></>;
   } else {
-    return (
-      <>
-        <h1>
-          {character?.name}
-        </h1>
-        <p><u>Race: </u>{character.race.name}</p>
-        <p><u>Hero:</u> {character.hero.toString()}</p>
-        <h3>Info: </h3>
-        <p><u>Age: </u>{character?.ageGroup}</p>
-        <p><u>Looks: </u></p>
-        <div>Eyes: {character?.looks?.eyeColor}</div>
-        <div>Voice: {character?.looks?.voice}</div>
-        <div>Hair: {character?.looks?.hairColor}, length: {character?.looks?.hairLength}</div>
-        <div>beard: {character?.looks?.beardLength}</div>
 
-        <p><u>Favorite Hand: </u>{character?.favoriteHand}</p>
-        <p><u>Social Status: </u>{character?.socialStatus}</p>
-        <BaseTraitList baseTraits={character?.baseTraits} />
-        <BodyContainer parts={character?.bodyParts} />
-        <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
-      </>
+    //Remove this when user is implemented
+    let user: User = {
+      id: 0,
+      name: "Test User"
+    };
+
+    return (
+      <Container maxWidth="lg">
+        <Masonry columns={2} spacing={1}>
+          <Paper elevation={3}>
+            <BaseTraitList baseTraits={character?.baseTraits} />
+          </Paper>
+          <Paper elevation={3}>
+            <CharacterInfo character={character} user={user} />
+          </Paper>
+          <Paper>
+            <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
+          </Paper>
+          { character.state === "READY_TO_PLAY" && (
+          <Paper>
+            <SanityStats character={character}/>
+            { character.hero && (
+              <>
+                <ReputationStats character={character}/>
+                <HeroStats character={character}/>
+              </>
+            )}
+          </Paper>
+          )}
+        </Masonry>
+      </Container>
     );
   }
 
