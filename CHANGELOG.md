@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/mpeki/dod/compare/v1.8.3...v1.9.0) (2023-05-07)
+
+
+### Features
+
+* **DOD-241:** UI Overhaul ([da59f49](https://github.com/mpeki/dod/commit/da59f49954abc89a5333cbbfae039350d5cfa2da))
+
 ## [1.8.3](https://github.com/mpeki/dod/compare/v1.8.2...v1.8.3) (2023-05-03)
 
 
