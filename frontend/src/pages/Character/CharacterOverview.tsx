@@ -4,6 +4,9 @@ import { Character } from "../../types/character";
 import { CharacterCard } from "./CharacterCard";
 import { Button } from "../../UI/Button";
 import { AddCharacter } from "./AddCharacter";
+import { Container, Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import Grid from "@mui/system/Unstable_Grid";
 
 
 export const CharacterOverview = (): JSX.Element => {
@@ -34,11 +37,16 @@ export const CharacterOverview = (): JSX.Element => {
   return (
     <>
       <h1>Character Overview</h1>
-      <Button onClick={showCharacterHandler}/>
       {showCreateCharacter && <AddCharacter fetchCharactersHandler={fetchCharsHandler} onConfirm={showCharacterHandler} />}
-      <ul>
-        {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} fetchCharactersHandler={fetchCharsHandler}/>)}
-      </ul>
+      <Container >
+        <Fab onClick={showCharacterHandler} hidden={showCreateCharacter} color="success" size="small" aria-label="add">
+          <AddIcon />
+        </Fab>
+        <Grid container spacing={2}>
+          {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} fetchCharactersHandler={fetchCharsHandler}/>)}
+        </Grid>
+      </Container>
+
     </>
   );
 };
