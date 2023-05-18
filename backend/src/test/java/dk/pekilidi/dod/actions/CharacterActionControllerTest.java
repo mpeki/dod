@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.actions;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -12,6 +13,9 @@ import dk.pekilidi.dod.character.CharacterService;
 import dk.pekilidi.dod.character.model.AgeGroup;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
+import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.skill.SkillNotFoundException;
+import dk.pekilidi.dod.skill.SkillService;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -41,6 +45,8 @@ class CharacterActionControllerTest {
   private CharacterActionService actionService;
   @MockBean
   private CharacterService characterService;
+  @MockBean
+  private SkillService skillService;
 
   @BeforeEach
   void setUp() {
@@ -63,12 +69,17 @@ class CharacterActionControllerTest {
 
   @Test
   void trainSkill() throws Exception {
+    SkillDTO skill = SkillDTO.builder().build();
+    testAction.setSkill(skill);
     SkillTrainingAction actionSuccess = testAction
         .toBuilder()
         .actionResult(ActionResult.SUCCESS)
         .resultDescription("test action success!")
+        .skillKey("primary.weapon")
+        .skill(skill)
         .build();
     //    actionSuccess.setActor(testBeing);
+    given(skillService.findSkillByKey("primary.weapon")).willReturn(skill);
     given(characterService.findCharacterById("testid")).willReturn(testBeing);
     given(actionService.doAction(testAction)).willReturn(actionSuccess);
     ResultActions resultActions = mockMvc
@@ -83,5 +94,11 @@ class CharacterActionControllerTest {
         .readValueAs(SkillTrainingAction.class);
     Assert.assertEquals(ActionResult.SUCCESS, actionSuccess.getActionResult());
     Assert.assertEquals("test action success!", actionSuccess.getResultDescription());
+  }
+
+  @Test
+  void trainNonSkill() throws Exception {
+    given(skillService.findSkillByKey(anyString())).willThrow(new SkillNotFoundException());
+    mockMvc.perform(MockMvcRequestBuilders.post("/action/training/char/1/skill/no-a-skill")).andExpect(status().isNotFound());
   }
 }

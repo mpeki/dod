@@ -168,7 +168,7 @@ public class SkillService {
   public SkillDTO findSkillByKey(SkillKey key) {
     Skill skill = skillRepository.findByKey(key);
     if (skill == null) {
-      throw new SkillNotFoundException("Skill for key: " + key.getValue() + " not found!");
+      throw new SkillNotFoundException("Skill for key: " + key.getKeyValue() + " not found!");
     }
     return modelMapper.map(skill, SkillDTO.class);
   }

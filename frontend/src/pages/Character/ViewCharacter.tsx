@@ -5,12 +5,17 @@ import { CharacterService } from "../../services/character.service";
 import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
 import { CharacterInfo } from "../../components/Character/CharacterInfo";
 import { User } from "../../types/user";
-import { Container, Paper } from "@mui/material";
+import { Container, Paper, Box } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import { SkillContainer } from "../Skill/SkillContainer";
 import { ReputationStats } from "../../components/Character/ReputationStats";
 import { HeroStats } from "../../components/Character/HeroStats";
 import { SanityStats } from "../../components/Character/SanityStats";
+import { BodyContainer } from "./BodyContainer";
+import { WeaponsContainer } from "../items/WeaponsContainer";
+import { ItemsContainer } from "../items/ItemsContainer";
+import { FundsContainer } from "../items/FundsContainer";
+
 
 export const ViewCharacter = () => {
   const { charId } = useParams();
@@ -50,7 +55,7 @@ export const ViewCharacter = () => {
             <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
           </Paper>
           { character.state === "READY_TO_PLAY" && (
-          <Paper>
+          <Paper elevation={3}>
             <SanityStats character={character}/>
             { character.hero && (
               <>
@@ -60,6 +65,19 @@ export const ViewCharacter = () => {
             )}
           </Paper>
           )}
+          <Paper elevation={3}>
+            <BodyContainer parts={character.bodyParts}/>
+          </Paper>
+          <Paper elevation={3}>
+            <WeaponsContainer />
+          </Paper>
+          <Paper elevation={3}>
+            <FundsContainer />
+          </Paper>
+          <Paper elevation={3}>
+            <ItemsContainer />
+          </Paper>
+
         </Masonry>
       </Container>
     );

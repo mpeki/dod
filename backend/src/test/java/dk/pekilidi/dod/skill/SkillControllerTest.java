@@ -2,11 +2,13 @@ package dk.pekilidi.dod.skill;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.pekilidi.dod.character.CharacterNotFoundException;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Group;
@@ -146,5 +148,11 @@ class SkillControllerTest {
         .andExpect(jsonPath("$[1].traitName", is(testSkill2.getTraitName().toString())))
         .andExpect(jsonPath("$[1].baseChance", is(testSkill2.getBaseChance().toString())))
         .andExpect(jsonPath("$[1].price", is(testSkill2.getPrice())));
+  }
+
+  @Test
+  void getSkillNotFound() throws Exception {
+    given(skillService.findSkillByKey(anyString())).willThrow(new SkillNotFoundException());
+    mockMvc.perform(MockMvcRequestBuilders.get("/skill/key/no-a-skill")).andExpect(status().isNotFound());
   }
 }
