@@ -23,6 +23,7 @@ public class DroolsConfiguration {
     kieFileSystem.write(ResourceFactory.newClassPathResource("rules/SingleSourceActionRules.drl"));
     kieFileSystem.write(ResourceFactory.newClassPathResource("rules/AwardExperienceRules.drl"));
     kieFileSystem.write(ResourceFactory.newClassPathResource("rules/BuySkillFVIncreaseRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/BuyNewItemRules.drl"));
     KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
     kb.buildAll();
     KieModule kieModule = kb.getKieModule();

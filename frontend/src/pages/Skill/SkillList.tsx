@@ -1,6 +1,5 @@
 import { Skill } from "../../types/skill";
 import Select from "react-select";
-import { useState } from "react";
 
 
 interface IProps {
@@ -25,8 +24,6 @@ export const SkillList = ({ skills, selectSkillHandler }: IProps): JSX.Element =
 
   //get the value of the selected skill and set it to the state, lift the state to the parent component
   const handleChange = (selectedOption: any) => {
-    // setSelectedSkill(selectedOption);
-    console.log(`Option selected:`, selectedOption);
     const selectedSkill : Skill | undefined = skills?.find((skill) => skill.key === selectedOption.value);
     console.log("Selected Skill: " +JSON.stringify(selectedSkill));
     if(selectedSkill){

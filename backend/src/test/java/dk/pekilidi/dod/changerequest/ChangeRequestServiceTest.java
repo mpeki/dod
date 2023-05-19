@@ -13,6 +13,7 @@ import dk.pekilidi.dod.character.CharacterService;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.items.ItemKey;
 import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.dod.skill.SkillService;
 import dk.pekilidi.dod.skill.model.Category;
@@ -232,6 +233,21 @@ class ChangeRequestServiceTest {
         break;
       }
     }
+  }
+
+  @Test
+  void testChangeWithNoMatchingRules(){
+    CharacterDTO newChar = charService.createCharacter(
+        CharacterDTO.builder().name("test-char-no-rules").hero(true).race(new RaceDTO("human")).build());
+    ChangeRequest change = ChangeRequest
+        .builder()
+        .changeType(ChangeType.HIT_POINTS)
+        .changeKey(ItemKey.toItemKey("no.rules.item"))
+        .modifier(1)
+        .build();
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+    assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
+    assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.NO_RULES_FIRED);
   }
 
 }

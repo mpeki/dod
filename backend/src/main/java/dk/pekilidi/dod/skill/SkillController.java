@@ -1,6 +1,5 @@
 package dk.pekilidi.dod.skill;
 
-import dk.pekilidi.dod.character.CharacterNotFoundException;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Group;

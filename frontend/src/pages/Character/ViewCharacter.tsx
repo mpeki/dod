@@ -12,9 +12,9 @@ import { ReputationStats } from "../../components/Character/ReputationStats";
 import { HeroStats } from "../../components/Character/HeroStats";
 import { SanityStats } from "../../components/Character/SanityStats";
 import { BodyContainer } from "./BodyContainer";
-import { WeaponsContainer } from "../items/WeaponsContainer";
-import { ItemsContainer } from "../items/ItemsContainer";
-import { FundsContainer } from "../items/FundsContainer";
+import { WeaponsContainer } from "../Items/WeaponsContainer";
+import { ItemsContainer } from "../Items/ItemsContainer";
+import { FundsContainer } from "../Items/FundsContainer";
 
 
 export const ViewCharacter = () => {
@@ -24,6 +24,7 @@ export const ViewCharacter = () => {
   const fetchCharHandler = useCallback(async () => {
     CharacterService.getCharacter("" + charId)
     .then((character) => {
+      console.log(character);
       setCharacter(character);
     })
     .catch((e) => alert("Error fetching character: " + e));
@@ -69,15 +70,16 @@ export const ViewCharacter = () => {
             <BodyContainer parts={character.bodyParts}/>
           </Paper>
           <Paper elevation={3}>
-            <WeaponsContainer />
+            <WeaponsContainer character={character}/>
           </Paper>
           <Paper elevation={3}>
-            <FundsContainer />
+            {character.items && (
+              <FundsContainer character={character} />
+            )}
           </Paper>
           <Paper elevation={3}>
             <ItemsContainer />
           </Paper>
-
         </Masonry>
       </Container>
     );

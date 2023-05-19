@@ -7,6 +7,7 @@ public enum ChangeType {
   BASE_TRAIT(ChangeType.CHARACTER_CHANGE),
   NEW_SKILL("new-skill"),
   SKILL_CHANGE(ChangeType.CHARACTER_SKILL_CHANGE),
+  NEW_ITEM("new-item"),
   BUY_FV(ChangeType.CHARACTER_SKILL_CHANGE),
   HIT_POINTS(ChangeType.CHARACTER_CHANGE),
   HERO_POINTS(ChangeType.CHARACTER_CHANGE),

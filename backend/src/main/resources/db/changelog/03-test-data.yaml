@@ -8,7 +8,7 @@ databaseChangeLog:
             file: db/data/test/dodcore_base_body.csv
             quotchar: ''''
             separator: ;
-            tableName: base_body
+            tableName: body
   - changeSet:
       id: load-test-data-02
       author: msp

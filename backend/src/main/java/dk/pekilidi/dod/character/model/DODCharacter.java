@@ -19,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MapKey;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -97,6 +98,15 @@ public class DODCharacter implements Serializable {
   @ToString.Exclude
   private Map<String, CharacterSkill> skills;
 
+  @MapKey(name = "itemName")
+  @Cascade(ALL)
+  @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+  @JoinTable(name = "character_item_mapping",
+      joinColumns = {@JoinColumn(name = "character_id", referencedColumnName = "id")},
+      inverseJoinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")})
+  @ToString.Exclude
+  private Map<String, CharacterItem> items;
+
   @Embedded
   private Looks looks;
 
@@ -120,5 +130,9 @@ public class DODCharacter implements Serializable {
   @Override
   public String toString() {
     return "DODCharacter{" + "id=" + id + ", name='" + name + '\'' + '}';
+  }
+
+  public void addSkill(CharacterSkill skill){
+    skills.putIfAbsent(skill.skillKey.getKeyValue(), skill);
   }
 }

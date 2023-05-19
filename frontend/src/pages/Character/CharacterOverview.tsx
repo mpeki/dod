@@ -36,7 +36,6 @@ export const CharacterOverview = (): JSX.Element => {
 
   return (
     <>
-      <h1>Character Overview</h1>
       {showCreateCharacter && <AddCharacter fetchCharactersHandler={fetchCharsHandler} onConfirm={showCharacterHandler} />}
       <Container >
         <Fab onClick={showCharacterHandler} hidden={showCreateCharacter} color="success" size="small" aria-label="add">

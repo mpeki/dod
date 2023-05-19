@@ -2,8 +2,10 @@ package dk.pekilidi.dod.character;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dk.pekilidi.dod.character.model.CharacterSkill;
 import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.race.model.Race;
+import dk.pekilidi.dod.skill.SkillKey;
 import java.util.Optional;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -57,4 +59,31 @@ class DODCharacterRepositoryTest {
     dodCharacter = characterOptional.get();
     assertThat(dodCharacter.getName()).isEqualTo("Paul");
   }
+
+  @Test
+  void saveCharacter_withSkills() throws Exception {
+
+    Optional<DODCharacter> characterOptional = repository.findById("123");
+    assertThat(characterOptional).isNotEmpty().isPresent();
+
+    DODCharacter dodCharacter = characterOptional.get();
+    assertThat(dodCharacter.getName()).isEqualTo("vokan fagerhård");
+    assertThat(dodCharacter.getRace().getName()).isEqualTo("human");
+
+    dodCharacter.setName("skilled char");
+    CharacterSkill skill = CharacterSkill.builder()
+        .skillKey(SkillKey.toSkillKey("primary.weapon"))
+        .fv(12)
+        .experience(0)
+        .build();
+    dodCharacter.addSkill(skill);
+    repository.save(dodCharacter);
+    characterOptional = repository.findById("123");
+    assertThat(characterOptional).isNotEmpty().isPresent();
+    dodCharacter = characterOptional.get();
+    assertThat(dodCharacter.getName()).isEqualTo("skilled char");
+    assertThat(dodCharacter.getSkills()).containsKey("primary.weapon");
+  }
+
+
 }

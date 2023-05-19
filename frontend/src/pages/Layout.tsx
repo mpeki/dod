@@ -1,4 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import { FC } from "react";
 
 export const Layout: FC = () => {
@@ -17,6 +19,9 @@ export const Layout: FC = () => {
           </li>
           <li>
             <Link to="/skills">Skills</Link>
+          </li>
+          <li>
+            <Link to="/items">The Store</Link>
           </li>
         </ul>
       </nav>

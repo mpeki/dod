@@ -39,6 +39,7 @@ task liquibaseDiffChangelog(type: JavaExec) {
     args "--password=" + liquibaseProps.getProperty('password')
     args "--url=" + liquibaseProps.getProperty('url')
     args "--driver=" + liquibaseProps.getProperty('driver')
+    args "--logLevel=info"
     args "diffChangeLog"
 }
 
