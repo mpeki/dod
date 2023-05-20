@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/mpeki/dod/compare/v1.9.0...v1.10.0) (2023-05-20)
+
+
+### Features
+
+* **DOD-243:** Added items and hit points ([847e4bb](https://github.com/mpeki/dod/commit/847e4bbc22da2500c49740724eae182feef26336))
+
 # [1.9.0](https://github.com/mpeki/dod/compare/v1.8.3...v1.9.0) (2023-05-07)
 
 
