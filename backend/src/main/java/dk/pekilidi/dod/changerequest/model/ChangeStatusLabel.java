@@ -2,6 +2,9 @@ package dk.pekilidi.dod.changerequest.model;
 
 public enum ChangeStatusLabel {
 
+  OK_ITEM_BOUGHT("ok.item.bought"),
+  INSUFFICIENT_FUNDS("not.enough.funds"),
+  ITEM_DOES_NOT_EXIST("item.does.not.exist"),
   SKILL_DOES_NOT_EXIST("skill.does.not.exist"),
   SKILL_ALREADY_BOUGHT("skill.already.bought"),
   OK_SKILL_BOUGHT("ok.skill.bought"),
@@ -18,6 +21,7 @@ public enum ChangeStatusLabel {
   CHANGE_REQUEST_PENDING("change.request.pending"),
   USER_DOES_NOT_HAVE_SKILL("user.does.not.have.skill"),
   OK_FV_INCREASED("ok.fv.increased"),
+  NO_RULES_FIRED("no.rules.fired"),
   CHANGE_REJECTED_UNKNOWN_REASON("rejected.unknow.reason");
   public final String label;
 

@@ -32,6 +32,8 @@ export const SkillContainer = ({
   };
 
   let canBuySkill = character.state === CharacterState.INIT_COMPLETE;
+  let canTransferBonusXP: boolean = (character.baseSkillPoints !== undefined && character.baseSkillPoints > 0 && character.state === CharacterState.READY_TO_PLAY);
+
 
   return (
     <>
@@ -40,12 +42,16 @@ export const SkillContainer = ({
           <StyledList>
             <ListItem dense={true}>
               <ListItemText primary={character.state === "READY_TO_PLAY" ? "Bonus Exp." : "Base Skill Points"} secondary={character.baseSkillPoints} />
+              { canTransferBonusXP && (
               <IconButton>
                 <KeyboardDoubleArrowDownIcon />
               </IconButton>
-              <IconButton onClick={showBuySkillHandler} disabled={!canBuySkill} edge="end" aria-label="delete">
-                <AddIcon />
-              </IconButton>
+              )}
+              { canBuySkill && (
+                <IconButton onClick={showBuySkillHandler} disabled={!canBuySkill} edge="end" aria-label="add skill">
+                  <AddIcon />
+                </IconButton>
+              )}
             </ListItem>
           </StyledList>
         </List>

@@ -1,3 +1,7 @@
+
+### clear caches
+DELETE http://localhost:8090/caches/clear
+
 ### Create new character
 POST http://localhost:8090/char
 Content-Type: application/json
@@ -308,7 +312,43 @@ Content-Type: application/json
   "changeType": "NEW_SKILL",
   "changeDescription": "Buy Skill",
   "changeKey": "pick.locks",
-  "modifier": {{$random.integer(9, 13)}}
+  "modifier": {{$random.integer(6, 11)}}
+}
+> {%
+  client.test("Buy skill: stealth", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "grabling.hook",
+  "modifier": {{$random.integer(3, 8)}}
+}
+> {%
+  client.test("Buy skill: stealth", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "steal",
+  "modifier": {{$random.integer(3, 8)}}
 }
 > {%
   client.test("Buy skill: stealth", function() {
@@ -357,3 +397,26 @@ Content-Type: application/json
   })
 %}
 
+###
+
+GET http://localhost:8090/char/{{char_id}}
+
+###
+
+POST http://localhost:8090/change/char/{{char_id}}
+Content-Type: application/json
+
+{
+  "changeType": "NEW_ITEM",
+  "changeDescription": "Buy Item",
+  "changeKey": "hammer",
+  "modifier": 1
+}
+> {%
+  client.test("Buy item: short.sword", function() {
+    client.assert(response.status === 200, "response status is 200");
+    client.assert(response.body.status === "APPROVED", "change status is APPROVED");
+  })
+%}
+
+###

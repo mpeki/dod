@@ -1,20 +1,10 @@
 import { BodyPartValue } from "../../types/character";
 import { BodyPartItem } from "./BodyPart";
 import { StyledTable } from "../../components/shared/Table.styled";
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from "@mui/material";
+import { Fab, List, ListItem, ListItemText, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { StyledList } from "../../components/shared/List.styled";
-import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import AddIcon from "@mui/icons-material/Add";
+import Stack from "@mui/material/Stack";
 
 interface IProps {
   parts: Record<string, BodyPartValue> | undefined;
@@ -24,21 +14,24 @@ export const BodyContainer = ({ parts }: IProps): JSX.Element => {
 
   if (parts) {
     const bodyPartMap: Map<string, BodyPartValue> = new Map(Object.entries(parts));
-    const bodyParts  = function(): any[] {
-      const items = []
-      for(let [key,value] of bodyPartMap ){
-        items.push(<BodyPartItem key={key} bodyPartName={key} bodyPartValue={value} />)
+    const bodyParts = function(): any[] {
+      const items = [];
+      for (let [key, value] of bodyPartMap) {
+        items.push(<BodyPartItem key={key} bodyPartName={key} bodyPartValue={value} />);
       }
       return items;
-    }
+    };
 
     return (
       <>
         <List dense={true}>
           <StyledList>
             <ListItem dense={true}>
-              <ListItemText primary="Total HP" secondary={parts['TOTAL'].maxHP} />
+              <ListItemText primary="Total HP" secondary={parts["TOTAL"].maxHP} />
             </ListItem>
+            <Fab color="success" size="small" aria-label="add">
+              <AddIcon />
+            </Fab>
           </StyledList>
         </List>
 
@@ -46,8 +39,8 @@ export const BodyContainer = ({ parts }: IProps): JSX.Element => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell colSpan={3} align='center'>Hit Points</TableCell>
-                <TableCell colSpan={4} align='justify'>Armor</TableCell>
+                <TableCell colSpan={3} align="center">Hit Points</TableCell>
+                <TableCell colSpan={4} align="justify">Armor</TableCell>
               </TableRow>
             </TableHead>
             <TableHead>

@@ -3,6 +3,7 @@ package dk.pekilidi.dod.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.util.rules.RulesUtil;
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Builder
 public class BaseTraitDTO implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = -2330840748162459050L;
 
   public BaseTraitDTO(@NonNull BaseTraitName traitName, int currentValue, int startValue) {

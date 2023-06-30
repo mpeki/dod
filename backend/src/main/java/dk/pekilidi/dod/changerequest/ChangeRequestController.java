@@ -23,7 +23,7 @@ public class ChangeRequestController {
 
   @PostMapping("/change/char/{id}")
   @ResponseBody
-  public ChangeRequest buyBasetraitIncrease(@PathVariable String id, @RequestBody ChangeRequest change) {
+  public ChangeRequest handleChangeRequest(@PathVariable String id, @RequestBody ChangeRequest change) {
     return service.submitChangeRequest(id, change);
   }
 

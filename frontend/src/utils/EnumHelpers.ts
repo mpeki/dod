@@ -1,6 +1,4 @@
 import { FilterType } from "../types/filter-type";
-import { Group } from "../types/group";
-import { Category } from "../types/category";
 
 export class EnumHelpers {
 

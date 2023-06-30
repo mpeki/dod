@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { SkillService } from "../../services/skill.service";
 import { Change } from "../../types/change";
 import { ChangeService } from "../../services/change.service";
-import { Snackbar, Button } from "@mui/material";
+import { Snackbar } from "@mui/material";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 interface IProps {

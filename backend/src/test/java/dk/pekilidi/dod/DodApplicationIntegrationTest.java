@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -28,6 +30,15 @@ class DodApplicationIntegrationTest {
 
   @Autowired
   private TestRestTemplate restTemplate;
+
+  @Test
+  void clearCacheEnpointShouldReturnOk() throws Exception {
+    //arrange
+    //act
+    ResponseEntity<Void> response = restTemplate.exchange("/caches/clear", HttpMethod.DELETE, HttpEntity.EMPTY, Void.class);
+    //assert
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+  }
 
   @Test
   void testCreateCharacter() throws Exception {

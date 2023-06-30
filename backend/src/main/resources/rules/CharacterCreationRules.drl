@@ -1,46 +1,57 @@
-import dk.pekilidi.dod.data.CharacterTemplateDTO
-import dk.pekilidi.dod.data.CharacterDTO
+import dk.pekilidi.dod.data.CharacterTemplateDTO;
+import dk.pekilidi.dod.data.CharacterDTO;
 import java.util.Arrays;
-import dk.pekilidi.dod.util.Dice
-import dk.pekilidi.dod.data.BaseTraitRuleDTO
-import dk.pekilidi.dod.data.BaseTraitDTO
-import java.util.List
-import java.util.Collections
-import java.util.ArrayList
+import dk.pekilidi.dod.util.Dice;
+import dk.pekilidi.dod.data.BaseTraitRuleDTO;
+import dk.pekilidi.dod.data.BaseTraitDTO;
+import java.util.List;
+import java.util.Collections;
+import java.util.ArrayList;
 import dk.pekilidi.dod.character.model.CharacterState;
-import dk.pekilidi.dod.character.model.AgeGroup
-import dk.pekilidi.dod.character.model.BaseTraitName
-import com.google.common.math.IntMath
-import java.math.RoundingMode
+import dk.pekilidi.dod.character.model.AgeGroup;
+import dk.pekilidi.dod.character.model.BaseTraitName;
+import com.google.common.math.IntMath;
+import java.math.RoundingMode;
 import java.lang.reflect.Field;
-import dk.pekilidi.dod.character.model.body.HumanoidBody
-import dk.pekilidi.dod.character.model.body.BodyPart
-import dk.pekilidi.dod.data.BodyPartDTO
-import dk.pekilidi.dod.character.model.body.BodyPartName
-import dk.pekilidi.dod.character.model.FavoriteHand
-import dk.pekilidi.dod.character.model.SocialStatus
-import dk.pekilidi.dod.character.model.BaseTraitName
-import dk.pekilidi.dod.character.model.FavoriteHand
-import dk.pekilidi.dod.character.model.CharacterState
-import dk.pekilidi.dod.character.model.SocialStatus
-import dk.pekilidi.dod.data.BaseTraitDTO
-import dk.pekilidi.dod.data.BaseTraitRuleDTO
-import dk.pekilidi.dod.data.BodyPartDTO
-import dk.pekilidi.dod.character.model.Looks
-import dk.pekilidi.dod.character.model.Looks.EyeColor
-import dk.pekilidi.dod.character.model.Looks.Voice
-import dk.pekilidi.dod.character.model.Looks.HairColor
-import dk.pekilidi.dod.character.model.Looks.HairLength
-import dk.pekilidi.dod.character.model.Looks.BeardLength
+import dk.pekilidi.dod.character.model.body.HumanoidBody;
+import dk.pekilidi.dod.character.model.body.BodyPart;
+import dk.pekilidi.dod.data.BodyPartDTO;
+import dk.pekilidi.dod.character.model.body.BodyPartName;
+import dk.pekilidi.dod.character.model.FavoriteHand;
+import dk.pekilidi.dod.character.model.SocialStatus;
+import dk.pekilidi.dod.character.model.BaseTraitName;
+import dk.pekilidi.dod.character.model.FavoriteHand;
+import dk.pekilidi.dod.character.model.CharacterState;
+import dk.pekilidi.dod.character.model.SocialStatus;
+import dk.pekilidi.dod.data.BaseTraitDTO;
+import dk.pekilidi.dod.data.BaseTraitRuleDTO;
+import dk.pekilidi.dod.data.BodyPartDTO;
+import dk.pekilidi.dod.character.model.Looks;
+import dk.pekilidi.dod.character.model.Looks.EyeColor;
+import dk.pekilidi.dod.character.model.Looks.Voice;
+import dk.pekilidi.dod.character.model.Looks.HairColor;
+import dk.pekilidi.dod.character.model.Looks.HairLength;
+import dk.pekilidi.dod.character.model.Looks.BeardLength;
+import dk.pekilidi.dod.data.ItemDTO;
+import dk.pekilidi.dod.items.model.ItemType;
+import dk.pekilidi.dod.items.ItemService;
+import dk.pekilidi.dod.items.ItemKey;
+import dk.pekilidi.dod.character.model.CharacterItem;
+import dk.pekilidi.dod.data.CharacterItemDTO;
+
+global ItemService itemService;
 
 function boolean isBetween(int x, int lower, int upper) {
   return lower <= x && x <= upper;
 }
 
+dialect "java"
+
+
 rule "Initialize base traits and hero points"
     when
         character : CharacterDTO( baseTraits.size == 0 && race != null );
-        characterTemplate : CharacterTemplateDTO() from character.race.characterTemplate
+        characterTemplate : CharacterTemplateDTO() from character.race.characterTemplate;
     then
         for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
             int eyes = Dice.roll(character.isHero() ? rule.getBaseTraitHeroDieRoll() : rule.getBaseTraitDieRoll());
@@ -54,7 +65,7 @@ rule "Initialize base traits and hero points"
           character.setHeroPoints(-1);
         }
         character.setState(CharacterState.BASE_TRAITS_SET);
-        update(character)
+        update(character);
 end;
 
 rule "Initialize body - total HP"
@@ -271,15 +282,29 @@ rule "Determine social status"
     character : CharacterDTO ( socialStatus == null)
   then
     int eyes = Dice.roll("1t20");
+    ItemDTO silver = itemService.findItemByKey("silver");
+    ItemDTO gold = itemService.findItemByKey("gold");
+    CharacterItemDTO characterItem = CharacterItemDTO.builder()
+      .itemName("silver").item(silver).build();
+    CharacterItemDTO characterGold = CharacterItemDTO.builder()
+      .itemName("gold").item(gold).build();
+
     if(isBetween(eyes,1,2)){
       character.setSocialStatus(SocialStatus.NOBLE);
+      characterItem.setQuantity(Dice.roll("4t3x150"));
+      characterGold.setQuantity(Dice.roll("1t20+20"));
+      character.addItem(characterGold);
     } else if(isBetween(eyes, 3, 6)){
       character.setSocialStatus(SocialStatus.CITIZEN);
+      characterItem.setQuantity(Dice.roll("3t3x150"));
     } else if(isBetween(eyes, 7, 10)) {
       character.setSocialStatus(SocialStatus.PEASANT);
+      characterItem.setQuantity(Dice.roll("3t3x150"));
     }  else {
       character.setSocialStatus(SocialStatus.DISPOSSESSED);
+      characterItem.setQuantity(Dice.roll("1t3x100"));
     }
+    character.addItem(characterItem);
 end;
 
 

@@ -79,6 +79,10 @@ springBoot {
     buildInfo()
 }
 
+processResources {
+    expand(version: version)
+}
+
 test {
 
     String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : 'regression'
