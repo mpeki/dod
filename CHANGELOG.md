@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/mpeki/dod/compare/v1.10.0...v1.11.0) (2023-06-30)
+
+
+### Features
+
+* **DOD-101:** Coin and items ([6c6161b](https://github.com/mpeki/dod/commit/6c6161b96e1f3a52c67f5807f4cc5de623d8fcb7))
+
 # [1.10.0](https://github.com/mpeki/dod/compare/v1.9.0...v1.10.0) (2023-05-20)
 
 
