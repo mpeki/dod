@@ -1,3 +1,7 @@
+
+### clear caches
+DELETE http://localhost:8090/caches/clear
+
 ### Create new character
 POST http://localhost:8090/char
 Content-Type: application/json
@@ -308,7 +312,7 @@ Content-Type: application/json
   "changeType": "NEW_SKILL",
   "changeDescription": "Buy Skill",
   "changeKey": "pick.locks",
-  "modifier": {{$random.integer(9, 13)}}
+  "modifier": {{$random.integer(6, 11)}}
 }
 > {%
   client.test("Buy skill: stealth", function() {
@@ -323,21 +327,17 @@ POST http://localhost:8090/change/char/{{char_id}}
 Content-Type: application/json
 
 {
-  "changeType": "CHARACTER_READY_TO_PLAY",
-  "changeDescription": "Activate player",
-  "changeKey": "READY_TO_PLAY",
-  "modifier": 0
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "grabling.hook",
+  "modifier": {{$random.integer(3, 8)}}
 }
 > {%
-  client.test("Activate player", function() {
+  client.test("Buy skill: stealth", function() {
     client.assert(response.status === 200, "response status is 200");
     client.assert(response.body.status === "APPROVED", "change status is APPROVED");
   })
 %}
-
-###
-
-POST http://localhost:8090/action/training/char/{{char_id}}/skill/fst
 
 ###
 
@@ -345,15 +345,17 @@ POST http://localhost:8090/change/char/{{char_id}}
 Content-Type: application/json
 
 {
-  "changeType": "SKILL_CHANGE",
-  "changeDescription": "Increase FV for skill",
-  "changeKey": "fst",
-  "modifier": 1
+  "changeType": "NEW_SKILL",
+  "changeDescription": "Buy Skill",
+  "changeKey": "steal",
+  "modifier": {{$random.integer(3, 8)}}
 }
 > {%
-  client.test("Activate player", function() {
+  client.test("Buy skill: stealth", function() {
     client.assert(response.status === 200, "response status is 200");
     client.assert(response.body.status === "APPROVED", "change status is APPROVED");
   })
 %}
+
+###
 

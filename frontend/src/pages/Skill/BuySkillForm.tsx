@@ -1,5 +1,5 @@
 import { Controller, useForm } from "react-hook-form";
-import { Component, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { Change } from "../../types/change";
 import { ChangeService } from "../../services/change.service";
 import classes from "../Character/AddCharacter.module.css";
@@ -28,21 +28,19 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
   const [bspLeft, setBspLeft] = useState<number>(character.baseSkillPoints || 0);
   const [bspCost, setBspCost] = useState<number>(0);
   const [changeData, setChangeData] = useState<Change>({
-    changeKey: "",
     changeType: "NEW_SKILL",
     changeDescription: "Buy new skill",
+    changeKey: "",
     modifier: 0
   });
 
   const submitHandler = useCallback(async () => {
-    console.log("selected: " + JSON.stringify(selected));
     if (selected) {
       const changePostData: Change = {
         ...changeData,
         changeKey: selected.key,
         modifier: getValues('modifier'),
       };
-      console.log("changePostData: " + JSON.stringify(changePostData));
       if (character.id != null) {
         await ChangeService.doChange(character.id, changePostData);
       }
@@ -51,7 +49,7 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
       reset();
       onConfirm();
     }
-  }, [buySkillHandler, changeData, getValues, onConfirm, reset, selected]);
+  }, [buySkillHandler, changeData, character.id, getValues, onConfirm, reset, selected]);
 
   const onSubmit = handleSubmit(submitHandler);
 

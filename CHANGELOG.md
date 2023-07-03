@@ -1,3 +1,53 @@
+# [1.11.0](https://github.com/mpeki/dod/compare/v1.10.0...v1.11.0) (2023-06-30)
+
+
+### Features
+
+* **DOD-101:** Coin and items ([6c6161b](https://github.com/mpeki/dod/commit/6c6161b96e1f3a52c67f5807f4cc5de623d8fcb7))
+
+# [1.10.0](https://github.com/mpeki/dod/compare/v1.9.0...v1.10.0) (2023-05-20)
+
+
+### Features
+
+* **DOD-243:** Added items and hit points ([847e4bb](https://github.com/mpeki/dod/commit/847e4bbc22da2500c49740724eae182feef26336))
+
+# [1.9.0](https://github.com/mpeki/dod/compare/v1.8.3...v1.9.0) (2023-05-07)
+
+
+### Features
+
+* **DOD-241:** UI Overhaul ([da59f49](https://github.com/mpeki/dod/commit/da59f49954abc89a5333cbbfae039350d5cfa2da))
+
+## [1.8.3](https://github.com/mpeki/dod/compare/v1.8.2...v1.8.3) (2023-05-03)
+
+
+### Bug Fixes
+
+* **DOD-231:** Category B skills can now be trained ([a365122](https://github.com/mpeki/dod/commit/a3651220a44fb8725a819a62e5d83340e8bc1973))
+
+## [1.8.2](https://github.com/mpeki/dod/compare/v1.8.1...v1.8.2) (2023-05-03)
+
+
+### Bug Fixes
+
+* **DOD-239:** This fixes CVE-2022-25881 ([8b9daa3](https://github.com/mpeki/dod/commit/8b9daa3a0e758e03af292fde92454cb83704d803))
+
+## [1.8.1](https://github.com/mpeki/dod/compare/v1.8.0...v1.8.1) (2023-05-01)
+
+
+### Bug Fixes
+
+* **DOD-236:** Character activation possible when BSPs below 10 ([5078910](https://github.com/mpeki/dod/commit/5078910babbf003a1851ce78b268f0af186f0ac6))
+
+# [1.8.0](https://github.com/mpeki/dod/compare/v1.7.0...v1.8.0) (2023-04-25)
+
+
+### Features
+
+* **DOD-225:** Backend changes for completing player ([dfb1e9f](https://github.com/mpeki/dod/commit/dfb1e9f70c0db96a16ccf7d885d67a2b017e93a8))
+* **DOD-226:** Frontend changes for completing a character ([f8c8b43](https://github.com/mpeki/dod/commit/f8c8b438b422d6885ef3a29e73b3ff82386392ba))
+
 # [1.7.0](https://github.com/mpeki/dod/compare/v1.6.0...v1.7.0) (2023-04-25)
 
 

@@ -79,6 +79,15 @@ springBoot {
     buildInfo()
 }
 
+processResources {
+    eachFile {
+        if (it.name.endsWith('.txt')) {
+            expand(version: version)
+        }
+
+    }
+}
+
 test {
 
     String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : 'regression'

@@ -1,11 +1,13 @@
 name: build and verify
 on:
   push:
-  pull_request:
     branches:
       - 'main'
       - 'alpha'
       - 'beta'
+  pull_request:
+    branches:
+      - '*'
   workflow_dispatch:
 concurrency:
   group: ${{ github.ref }}
@@ -14,7 +16,7 @@ jobs:
   build-test-verify:
     env:
       USERNAME: ${{ secrets.USERNAME }}
-      GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}      
+      GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

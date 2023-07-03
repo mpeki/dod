@@ -19,7 +19,7 @@ import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
-@Tag("integration")
+@Tag("regression")
 @Slf4j
 public class CharacterFlowTest {
 

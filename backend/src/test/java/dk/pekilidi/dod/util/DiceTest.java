@@ -37,6 +37,12 @@ class DiceTest {
   }
 
   @Test
+  void testDie4Rolled3timesMultipliedBy150() {
+    int result = Dice.roll("4t3x150");
+    assertTrue(result >= 600 && result <= 1800);
+  }
+
+  @Test
   void testDie6Rolled3timesPlus3times1000() {
     for (int i = 0; i < 1000; i++) {
       int result = Dice.roll("3t6+3");

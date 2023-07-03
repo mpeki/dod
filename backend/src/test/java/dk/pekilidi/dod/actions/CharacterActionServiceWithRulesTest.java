@@ -15,6 +15,7 @@ import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.SkillKey;
+import dk.pekilidi.dod.skill.SkillService;
 import dk.pekilidi.utils.RandomObjectFiller;
 import java.util.Map;
 import org.junit.jupiter.api.Tag;
@@ -28,6 +29,11 @@ class CharacterActionServiceWithRulesTest {
 
   @Autowired
   private CharacterActionService cut;
+
+  @Autowired
+  private SkillService skillService;
+
+  public static final String TEST_SKILL_KEY = "primary.weapon";
 
   @Test
   void testSingleSourceNoTargetAction_training_character_not_activated() throws Exception {
@@ -63,7 +69,7 @@ class CharacterActionServiceWithRulesTest {
   void testSingleSourceNoTargetAction_training_skill() throws Exception {
     CharacterDTO testSubject = new RandomObjectFiller().createAndFill(CharacterDTO.class);
     SkillDTO characterSkill = new RandomObjectFiller().createAndFill(SkillDTO.class);
-    SkillKey key = SkillKey.builder().value("primary.weapon").build();
+    SkillKey key = SkillKey.builder().value(TEST_SKILL_KEY).build();
     characterSkill.setKey(key);
     characterSkill.setFv(15);
     characterSkill.setExperience(0);
@@ -78,19 +84,20 @@ class CharacterActionServiceWithRulesTest {
           .actor(testSubject)
           .type(Type.SKILL_TRAINING)
           .difficulty(Difficulty.NORMAL)
-          .skillKey("primary.weapon")
+          .skillKey(TEST_SKILL_KEY)
+          .skill(skillService.findSkillByKey(TEST_SKILL_KEY))
           .build();
-      int expBefore = action.getActor().getSkills().get("primary.weapon").getExperience();
+      int expBefore = action.getActor().getSkills().get(TEST_SKILL_KEY).getExperience();
       SkillTrainingAction actionAndResult = (SkillTrainingAction) cut.doAction(action);
       testSubject = actionAndResult.getActor();
       if (actionAndResult.getActionResult() == ActionResult.MASTERFUL
           || actionAndResult.getActionResult() == ActionResult.PERFECT) {
-        int expAfter = actionAndResult.getActor().getSkills().get("primary.weapon").getExperience();
+        int expAfter = actionAndResult.getActor().getSkills().get(TEST_SKILL_KEY).getExperience();
         assertTrue(expBefore < expAfter);
       }
       assertNotEquals(ActionResult.INVALID_ACTION, action.getActionResult());
-      assertTrue(action.getResultDescription().contains("Tested "));
-      System.out.println(testSubject.getSkills().get("primary.weapon").getExperience());
+      assertTrue(action.getResultDescription().contains("Rolled ["));
+      System.out.println(testSubject.getSkills().get(TEST_SKILL_KEY).getExperience());
     }
     System.out.println(testSubject);
   }

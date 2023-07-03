@@ -10,12 +10,15 @@ export const ChangeService = {
       const changeApiUri = `http://localhost:8090/change/char/${charId}`
 
       setTimeout(() => {
-        axios.post(changeApiUri, change)
+        axios.post(changeApiUri, change, {
+          headers: {
+            'Content-Type': 'application/json'
+          }})
         .then((response) => resolve(response.data))
         .catch((err) => {
           throw new Error(`Cannot fetch data from backend: ${err?.code} ${err?.message}`);
         });
-      }, Math.random() * 100);
+      }, 0);
     });
   }
 };

@@ -2,12 +2,17 @@ package dk.pekilidi.dod.util.rules;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dk.pekilidi.dod.actions.model.ActionResult;
+import dk.pekilidi.dod.actions.model.Difficulty;
+import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.skill.model.Category;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 
 @Tag("regression")
@@ -77,5 +82,34 @@ class RulesUtilTest {
       "124,16"})
   void calculateGroupValue(int fv, int expectedGroup) {
     assertThat(RulesUtil.calculateGroupValue(fv)).isEqualTo(expectedGroup);
+  }
+
+  @ParameterizedTest()
+  @CsvFileSource(resources = "/testSkillData.csv", numLinesToSkip = 1)
+  void testCatASkill(int fv, int roll, Difficulty difficulty, ActionResult expectedResult) {
+    SkillDTO skill = SkillDTO.builder()
+        .category(Category.A)
+        .fv(fv)
+        .build();
+    assertThat(RulesUtil.testSkill(skill, roll, difficulty)).isEqualTo(expectedResult);
+  }
+
+  @Test
+  void testCatBSkill(){
+    SkillDTO skill = SkillDTO.builder()
+        .category(Category.B)
+        .fv(5)
+        .build();
+    assertThat(RulesUtil.testSkill(skill, 19, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    skill.setFv(4);
+    assertThat(RulesUtil.testSkill(skill, 19, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    skill.setFv(3);
+    assertThat(RulesUtil.testSkill(skill, 17, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    skill.setFv(2);
+    assertThat(RulesUtil.testSkill(skill, 17, Difficulty.NORMAL)).isEqualTo(ActionResult.FAILURE);
+    skill.setFv(1);
+    assertThat(RulesUtil.testSkill(skill, 13, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    skill.setFv(6);
+    assertThat(RulesUtil.testSkill(skill, 13, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
   }
 }

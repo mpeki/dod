@@ -41,3 +41,13 @@ databaseChangeLog:
             quotchar: ''''
             separator: ;
             tableName: skill
+  - changeSet:
+      id: load-configuration-data-04
+      author: msp
+      changes:
+        - loadData:
+            encoding: UTF-8
+            file: db/data/config/dodcore_item.csv
+            quotchar: ''''
+            separator: ;
+            tableName: item

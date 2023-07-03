@@ -1,10 +1,12 @@
 import { Skill } from "../../types/skill";
 import { Action } from "../../types/action";
 import classes from "./SkillDetails.module.css";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SkillService } from "../../services/skill.service";
 import { Change } from "../../types/change";
 import { ChangeService } from "../../services/change.service";
+import { Snackbar } from "@mui/material";
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 interface IProps {
   characterId: string;
@@ -12,11 +14,32 @@ interface IProps {
   onConfirm: any;
 }
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Element => {
 
   const [action , setAction] = useState<Action>();
   const [memSkill, setMemSkill] = useState<Skill>();
   const [skillInput, setSkillInput] = useState<Skill>(skill);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   useEffect(() => {
     let skillJSON = localStorage.getItem("skills");
@@ -37,6 +60,7 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
       if (action.actor.skills !== undefined) {
         setAction(action);
         setSkillInput(action.actor.skills[skill.key]);
+        handleClick();
       }
 
     })
@@ -72,7 +96,6 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
             <h2>Skill Details</h2>
           </header>
           <div className={classes.content}>
-            <div>{action?.actionResult}</div>
             <p>Name: {skillInput.key}</p>
             <p>FV: {skillInput.fv}</p>
             <p>Skill Points: {skillInput.experience}</p>
@@ -88,6 +111,11 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
             <button onClick={trainSkillHandler}>Train Skill</button>
             <button onClick={onConfirm}>Ok</button>
           </footer>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+              {action?.actionResult}
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     </>

@@ -4,6 +4,6 @@ export interface Change {
   changeType: string;
   changeDescription: string;
   changeKey: string;
-  modifier: number;
+  modifier: any;
   objectAfterChange?: Character;
 }

@@ -7,7 +7,7 @@ plugins {
 	//https://plugins.gradle.org/plugin/io.spring.dependency-management
 	id 'io.spring.dependency-management' version '1.1.0' apply false
 	//https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
-	id 'com.google.cloud.tools.jib' version '3.3.1' apply false
+	id 'com.google.cloud.tools.jib' version '3.3.2' apply false
 	//https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
 	id "com.gorylenko.gradle-git-properties" version "2.4.1"
 	//https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
@@ -41,7 +41,6 @@ allprojects {
 }
 subprojects {
 	if (project != project(':frontend')) {
-//		apply from: "$rootDir/gradle/java.gradle"
 		apply from: "$rootDir/gradle/test.gradle"
 		apply from: "$rootDir/gradle/liquibase.gradle"
 		apply from: "$rootDir/gradle/publish.gradle"
@@ -56,17 +55,6 @@ gitProperties {
 	extProperty = "gitProps" // git properties will be put in a map at project.ext.gitProps
 }
 generateGitProperties.outputs.upToDateWhen { false }
-
-task printGitProperties(dependsOn: 'generateGitProperties') {
-	doLast {
-		println "git.commit.id.abbrev=" + project.ext.gitProps['git.commit.id.abbrev']
-	}
-}
-
-//asciidoctor {
-//	inputs.dir snippetsDir
-//	dependsOn test
-//}
 
 sonarqube {
 	properties {
