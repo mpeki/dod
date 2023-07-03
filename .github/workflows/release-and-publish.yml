@@ -28,7 +28,7 @@ jobs:
           git fetch origin main
           git checkout main
           git merge origin/main
-          git checkout ${{ github.event.workflow_run.head_branch }}
+          git checkout ${GITHUB_REF#refs/heads/}
 
       - name: Set up JDK
         uses: actions/setup-java@v3
