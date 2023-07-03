@@ -80,7 +80,12 @@ springBoot {
 }
 
 processResources {
-    expand(version: version)
+    eachFile {
+        if (it.name.endsWith('.txt')) {
+            expand(version: version)
+        }
+
+    }
 }
 
 test {

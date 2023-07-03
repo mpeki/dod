@@ -10,10 +10,11 @@ import { ChangeService } from "../../services/change.service";
 
 interface IProps {
   onConfirm: any;
+  fetchCharHandler: () => void;
   character: Character;
 }
 
-export const BuyWeapon = ({ onConfirm, character }: IProps) => {
+export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) => {
 
   const orgGold = character?.items?.gold ? character.items.gold.quantity : 0;
   const orgSilver = character?.items?.silver ? character.items.silver.quantity : 0;
@@ -44,7 +45,6 @@ export const BuyWeapon = ({ onConfirm, character }: IProps) => {
   }, []);
 
   const doPaymentRequest = useCallback(async () => {
-    console.log("WE are paying up!!!");
     if (itemSelected) {
       const changePostData: Change = {
         ...changeData,
@@ -55,10 +55,11 @@ export const BuyWeapon = ({ onConfirm, character }: IProps) => {
         await ChangeService.doChange(character.id, changePostData);
       }
       setChangeData({ changeKey: "", modifier: 1, changeType: "NEW_ITEM", changeDescription: "Buy new item"});
+      fetchCharHandler();
       onConfirm();
     }
     onConfirm();
-  }, [changeData, character.id, itemSelected, onConfirm]);
+  }, [fetchItemsHandler, changeData, character.id, itemSelected, onConfirm]);
 
   const resetFunds = () => {
     setGold(orgGold);

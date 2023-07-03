@@ -18,6 +18,8 @@ import dk.pekilidi.dod.character.model.BaseTraitName
 import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
 import dk.pekilidi.dod.changerequest.model.ChangeStatus
 import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
+import java.sql.SQLOutput
+import dk.pekilidi.dod.validation.RegularExpressions
 
 rule "Character change - Change type not implemented"
   no-loop
@@ -115,4 +117,44 @@ rule "Character change - make character ready for play"
     changeRequest.setStatus(ChangeStatus.APPROVED);
     changeRequest.setStatusLabel(ChangeStatusLabel.OK_READY_FOR_PLAY);
     character.setState(CharacterState.READY_TO_PLAY);
+end;
+
+rule "Character name change - validate new Name"
+  no-loop
+  ruleflow-group "character-change"
+  when
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_NAME_CHANGE );
+    ChangeRequest( modifier not matches RegularExpressions.VALID_CHARACTER_NAME );
+  then
+    changeRequest.setStatus(ChangeStatus.REJECTED);
+    changeRequest.setStatusLabel(ChangeStatusLabel.INVALID_NAME);
+end;
+
+rule "Character change - init complete changes"
+  no-loop
+  ruleflow-group "character-change"
+  when
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_NAME_CHANGE );
+    character : CharacterDTO( state != CharacterState.INIT_COMPLETE );
+  then
+    changeRequest.setStatus(ChangeStatus.REJECTED);
+    changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
+end;
+
+rule "Character name change - ok"
+  no-loop
+  ruleflow-group "character-change"
+  when
+    ChangeRequest( modifier matches RegularExpressions.VALID_CHARACTER_NAME );
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_NAME_CHANGE );
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE );
+  then
+    if(changeRequest.getModifier() instanceof String){
+      character.setName((String)changeRequest.getModifier());
+      changeRequest.setStatus(ChangeStatus.APPROVED);
+      changeRequest.setStatusLabel(ChangeStatusLabel.OK_NAME);
+    } else {
+      changeRequest.setStatus(ChangeStatus.REJECTED);
+      changeRequest.setStatusLabel(ChangeStatusLabel.INVALID_NAME);
+    }
 end;

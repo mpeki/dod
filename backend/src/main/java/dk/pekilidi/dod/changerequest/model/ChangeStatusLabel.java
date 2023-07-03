@@ -22,7 +22,9 @@ public enum ChangeStatusLabel {
   USER_DOES_NOT_HAVE_SKILL("user.does.not.have.skill"),
   OK_FV_INCREASED("ok.fv.increased"),
   NO_RULES_FIRED("no.rules.fired"),
-  CHANGE_REJECTED_UNKNOWN_REASON("rejected.unknow.reason");
+  CHANGE_REJECTED_UNKNOWN_REASON("rejected.unknow.reason"),
+  OK_NAME("valid.name"),
+  INVALID_NAME("invalid.name");
   public final String label;
 
   ChangeStatusLabel(String label) {
