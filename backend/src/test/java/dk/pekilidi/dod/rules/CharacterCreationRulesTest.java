@@ -2,6 +2,8 @@ package dk.pekilidi.dod.rules;
 
 import static dk.pekilidi.dod.character.model.CharacterState.BODY_PART_HP_SET;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.CharacterState;
@@ -10,7 +12,12 @@ import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.BaseTraitRuleDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.CharacterTemplateDTO;
+import dk.pekilidi.dod.data.ItemDTO;
 import dk.pekilidi.dod.data.RaceDTO;
+import dk.pekilidi.dod.items.ItemKey;
+import dk.pekilidi.dod.items.ItemRepository;
+import dk.pekilidi.dod.items.ItemService;
+import dk.pekilidi.dod.items.model.BaseItem;
 import java.util.List;
 import org.droolsassert.DroolsAssert;
 import org.droolsassert.DroolsSession;
@@ -36,6 +43,10 @@ class CharacterCreationRulesTest {
 
   @BeforeEach
   void setup() {
+    ItemService itemService = mock(ItemService.class);
+    when(itemService.findItemByKey("gold")).thenReturn(ItemDTO.builder().itemKey(ItemKey.toItemKey("gold")).build());
+    when(itemService.findItemByKey("silver")).thenReturn(ItemDTO.builder().itemKey(ItemKey.toItemKey("silver")).build());
+    drools.setGlobal("itemService", itemService);
     validNonHero = CharacterDTO
         .builder()
         .race(RaceDTO

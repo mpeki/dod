@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,6 +45,7 @@ public class Skill implements Serializable {
   private Group group;
   private Integer price;
   private BaseTraitName baseChance;
+  private LocalDateTime lastUsed;
 
   @Override
   public boolean equals(Object o) {

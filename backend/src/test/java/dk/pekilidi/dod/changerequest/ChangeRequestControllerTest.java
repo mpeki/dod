@@ -29,8 +29,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 @WebMvcTest(ChangeRequestController.class)
 @Tag("regression")
 class ChangeRequestControllerTest {
-
-  CharacterDTO testBeing;
   @Autowired
   private ObjectMapper jacksonObjectMapper;
   @Autowired
@@ -38,6 +36,7 @@ class ChangeRequestControllerTest {
   @MockBean
   private ChangeRequestService changeRequestService;
   ChangeRequest change = null;
+  CharacterDTO testBeing;
   @BeforeEach
   void setup() throws Exception {
     testBeing = CharacterDTO

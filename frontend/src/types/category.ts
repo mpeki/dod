@@ -17,18 +17,16 @@ enum Values {
 
 export class Category extends FilterType {
   static readonly values = Values;
-  value: string | undefined = undefined;
+  value: string | undefined;
 
   getType(): string {
     return "Category";
   }
-
   getValues(): any {
     return Category.values
   }
-
   getValue(): string | number | undefined {
-    return undefined;
+    return this.value;
   }
 
 }

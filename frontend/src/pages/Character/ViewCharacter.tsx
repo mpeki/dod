@@ -2,13 +2,35 @@ import { useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { Character } from "../../types/character";
 import { CharacterService } from "../../services/character.service";
-import { BaseTraitList } from "./BaseTraitList";
-import { BodyContainer } from "./BodyContainer";
+import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
+import { CharacterInfo } from "../../components/Character/CharacterInfo";
+import { User } from "../../types/user";
+import { Container, Paper } from "@mui/material";
+import { Masonry } from "@mui/lab";
 import { SkillContainer } from "../Skill/SkillContainer";
+import { ReputationStats } from "../../components/Character/ReputationStats";
+import { HeroStats } from "../../components/Character/HeroStats";
+import { SanityStats } from "../../components/Character/SanityStats";
+import { BodyContainer } from "./BodyContainer";
+import { WeaponsContainer } from "../Items/WeaponsContainer";
+import { ItemsContainer } from "../Items/ItemsContainer";
+import { FundsContainer } from "../Items/FundsContainer";
+import { ChangeService } from "../../services/change.service";
+import { Change } from "../../types/change";
+
 
 export const ViewCharacter = () => {
   const { charId } = useParams();
   const [character, setCharacter] = useState<Character>();
+
+  const [changeData, setChangeData] = useState<Change>({
+    changeType: "CHARACTER_NAME_CHANGE",
+    changeDescription: "Change name",
+    changeKey: "NAME",
+    modifier: ""
+  });
+
+
 
   const fetchCharHandler = useCallback(async () => {
     CharacterService.getCharacter("" + charId)
@@ -16,36 +38,69 @@ export const ViewCharacter = () => {
       setCharacter(character);
     })
     .catch((e) => alert("Error fetching character: " + e));
-  }, []);
+  }, [charId]);
 
   useEffect(() => {
     fetchCharHandler().then();
   }, [fetchCharHandler]);
-  console.log("character: " + JSON.stringify(character));
-  if(character == null || character.id == null) {
-    return <><p>Invalid character!</p></>
-  } else {
-    return (
-      <>
-        <h1>
-          {character?.name}
-        </h1>
-        <p><u>Race: </u>{character.race.name}</p>
-        <p><u>Hero:</u> {character.hero.toString()}</p>
-        <h3>Info: </h3>
-        <p><u>Age: </u>{character?.ageGroup}</p>
-        <p><u>Looks: </u></p>
-        <div>Eyes: {character?.looks?.eyeColor}</div>
-        <div>Voice: {character?.looks?.voice}</div>
-        <div>Hair: {character?.looks?.hairColor}, length: {character?.looks?.hairLength}</div>
-        <div>beard: {character?.looks?.beardLength}</div>
 
-        <p><u>Favorite Hand: </u>{character?.favoriteHand}</p>
-        <p><u>Social Status: </u>{character?.socialStatus}</p>
-        <BaseTraitList baseTraits={character?.baseTraits} />
-        <BodyContainer parts={character?.bodyParts} />
-        <SkillContainer charId={character.id} baseSkillPoints={character?.baseSkillPoints} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
-      </>
+  const nameChangeHandler = useCallback( async (name: string) => {
+    const change: Change = {
+      ...changeData,
+      changeKey: "NAME",
+      modifier: name,
+    };
+    ChangeService.doChange("" + charId, change).then()
+  }, [changeData, charId]);
+
+  if (character == null || character.id == null) {
+    return <><p>Invalid character!</p></>;
+  } else {
+    //Remove this when user is implemented
+    let user: User = {
+      id: 0,
+      name: "Test User"
+    };
+
+    return (
+      <Container maxWidth="lg">
+        <Masonry columns={2} spacing={1}>
+          <Paper elevation={3}>
+            <BaseTraitList baseTraits={character?.baseTraits} />
+          </Paper>
+          <Paper elevation={3}>
+            <CharacterInfo character={character} user={user} nameChangeHandler={nameChangeHandler} />
+          </Paper>
+          <Paper>
+            <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
+          </Paper>
+          {character.state === "READY_TO_PLAY" && (
+            <Paper elevation={3}>
+              <SanityStats character={character} />
+              {character.hero && (
+                <>
+                  <ReputationStats character={character} />
+                  <HeroStats character={character} />
+                </>
+              )}
+            </Paper>
+          )}
+          <Paper elevation={3}>
+            <BodyContainer parts={character.bodyParts} />
+          </Paper>
+          <Paper elevation={3}>
+            <WeaponsContainer character={character} fetchCharHandler={fetchCharHandler} />
+          </Paper>
+          <Paper elevation={3}>
+            {character.items && (
+              <FundsContainer character={character} />
+            )}
+          </Paper>
+          <Paper elevation={3}>
+            <ItemsContainer />
+          </Paper>
+        </Masonry>
+      </Container>
     );
   }
 

@@ -1,6 +1,9 @@
 server:
   port: 8090
 spring:
+  output:
+    ansi:
+      enabled: DETECT
   application:
     name: dod
   cloud:
@@ -60,4 +63,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,liquibase,env
+logging:
+  level:
+    root: INFO

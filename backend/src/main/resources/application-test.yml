@@ -1,0 +1,5 @@
+logging:
+  level:
+    root: INFO
+    dk.pekilidi: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG

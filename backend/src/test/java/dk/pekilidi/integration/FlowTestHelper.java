@@ -153,6 +153,22 @@ public class FlowTestHelper {
     return skillsResponse.getBody();
   }
 
+  ResponseEntity<ChangeRequest>  makeCharacterReadyToPlay(String charId){
+    String changeCharUrl = serviceUrl + "/change/char/" + charId;
+    ChangeRequest readyForPlayRequest = ChangeRequest
+        .builder()
+        .changeDescription("Ready to play")
+        .changeType(ChangeType.CHARACTER_READY_TO_PLAY)
+        .changeKey(CharacterState.READY_TO_PLAY)
+        .build();
+
+    ResponseEntity<ChangeRequest> response = restTemplate.postForEntity(
+        changeCharUrl, readyForPlayRequest, ChangeRequest.class);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    return response;
+  }
+
   void deleteCharacter(String charId) {
     String deleteCharacterUrl = serviceUrl + "/char/" + charId;
     restTemplate.delete(deleteCharacterUrl);

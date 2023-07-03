@@ -1,6 +1,61 @@
 databaseChangeLog:
 - changeSet:
-    id: 1681035887105-1
+    id: 1688115347958-1
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: base_traitPK
+            name: id
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: current_value
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: group_value
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: start_value
+            type: INT
+        - column:
+            name: trait_name
+            type: VARCHAR(255)
+        tableName: base_trait
+- changeSet:
+    id: 1688115347958-2
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: base_trait_rulePK
+            name: id
+            type: VARCHAR(255)
+        - column:
+            name: base_trait_die_roll
+            type: VARCHAR(255)
+        - column:
+            name: base_trait_hero_die_roll
+            type: VARCHAR(255)
+        - column:
+            name: base_trait_name
+            type: VARCHAR(255)
+        tableName: base_trait_rule
+- changeSet:
+    id: 1688115347958-3
     author: msp (generated)
     changes:
     - createTable:
@@ -14,7 +69,7 @@ databaseChangeLog:
             constraints:
               nullable: false
               primaryKey: true
-              primaryKeyName: base_bodyPK
+              primaryKeyName: bodyPK
             name: id
             type: VARCHAR(255)
         - column:
@@ -65,9 +120,9 @@ databaseChangeLog:
         - column:
             name: stomach_max_hp
             type: INT
-        tableName: base_body
+        tableName: body
 - changeSet:
-    id: 1681035887105-2
+    id: 1688115347958-4
     author: msp (generated)
     changes:
     - createTable:
@@ -76,30 +131,37 @@ databaseChangeLog:
             constraints:
               nullable: false
               primaryKey: true
-              primaryKeyName: base_traitPK
+              primaryKeyName: character_itemPK
             name: id
             type: VARCHAR(255)
         - column:
             constraints:
               nullable: false
-            name: current_value
+            name: current_health
             type: INT
         - column:
-            constraints:
-              nullable: false
-            name: group_value
-            type: INT
-        - column:
-            constraints:
-              nullable: false
-            name: start_value
-            type: INT
-        - column:
-            name: trait_name
+            name: item_key
             type: VARCHAR(255)
-        tableName: base_trait
+        - column:
+            name: item_name
+            type: VARCHAR(255)
+        - column:
+            name: location
+            type: SMALLINT
+        - column:
+            constraints:
+              nullable: false
+            name: quantity
+            type: INT
+        - column:
+            name: time_acquired
+            type: TIMESTAMP
+        - column:
+            name: time_created
+            type: TIMESTAMP
+        tableName: character_item
 - changeSet:
-    id: 1681035887105-3
+    id: 1688115347958-5
     author: msp (generated)
     changes:
     - createTable:
@@ -108,21 +170,19 @@ databaseChangeLog:
             constraints:
               nullable: false
               primaryKey: true
-              primaryKeyName: base_trait_rulePK
-            name: id
+              primaryKeyName: character_item_mappingPK
+            name: character_id
             type: VARCHAR(255)
         - column:
-            name: base_trait_die_roll
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: character_item_mappingPK
+            name: item_id
             type: VARCHAR(255)
-        - column:
-            name: base_trait_hero_die_roll
-            type: VARCHAR(255)
-        - column:
-            name: base_trait_name
-            type: VARCHAR(255)
-        tableName: base_trait_rule
+        tableName: character_item_mapping
 - changeSet:
-    id: 1681035887105-4
+    id: 1688115347958-6
     author: msp (generated)
     changes:
     - createTable:
@@ -149,7 +209,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_skill
 - changeSet:
-    id: 1681035887105-5
+    id: 1688115347958-7
     author: msp (generated)
     changes:
     - createTable:
@@ -170,7 +230,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_skill_mapping
 - changeSet:
-    id: 1681035887105-6
+    id: 1688115347958-8
     author: msp (generated)
     changes:
     - createTable:
@@ -190,7 +250,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_template
 - changeSet:
-    id: 1681035887105-7
+    id: 1688115347958-9
     author: msp (generated)
     changes:
     - createTable:
@@ -207,7 +267,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_template_base_trait_rules
 - changeSet:
-    id: 1681035887105-8
+    id: 1688115347958-10
     author: msp (generated)
     changes:
     - createTable:
@@ -228,7 +288,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_trait_mapping
 - changeSet:
-    id: 1681035887105-9
+    id: 1688115347958-11
     author: msp (generated)
     changes:
     - createTable:
@@ -297,7 +357,73 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: dodcharacter
 - changeSet:
-    id: 1681035887105-10
+    id: 1688115347958-12
+    author: msp (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: item_type
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: itemPK
+            name: id
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: breakable
+            type: BOOLEAN
+        - column:
+            name: item_key
+            type: VARCHAR(255)
+        - column:
+            name: price
+            type: INT
+        - column:
+            name: weight
+            type: FLOAT(53)
+        - column:
+            name: pieces_for_price
+            type: INT
+        - column:
+            name: bp
+            type: INT
+        - column:
+            name: damage
+            type: VARCHAR(255)
+        - column:
+            name: hand_grip
+            type: SMALLINT
+        - column:
+            name: length
+            type: INT
+        - column:
+            name: strength_group
+            type: INT
+        - column:
+            name: bow_cast
+            type: INT
+        - column:
+            name: bep_storage
+            type: INT
+        - column:
+            name: max_throw_distance
+            type: INT
+        - column:
+            name: range_multiplier
+            type: INT
+        - column:
+            name: range_trait
+            type: SMALLINT
+        tableName: item
+- changeSet:
+    id: 1688115347958-13
     author: msp (generated)
     changes:
     - createTable:
@@ -317,7 +443,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: race
 - changeSet:
-    id: 1681035887105-11
+    id: 1688115347958-14
     author: msp (generated)
     changes:
     - createTable:
@@ -342,6 +468,9 @@ databaseChangeLog:
             name: skill_key
             type: VARCHAR(255)
         - column:
+            name: last_used
+            type: TIMESTAMP
+        - column:
             name: price
             type: INT
         - column:
@@ -349,7 +478,7 @@ databaseChangeLog:
             type: SMALLINT
         tableName: skill
 - changeSet:
-    id: 1681035887105-12
+    id: 1688115347958-15
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -357,7 +486,7 @@ databaseChangeLog:
         constraintName: UC_CHARACTER_TEMPLATENAME_COL
         tableName: character_template
 - changeSet:
-    id: 1681035887105-13
+    id: 1688115347958-16
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -365,7 +494,7 @@ databaseChangeLog:
         constraintName: UC_RACENAME_COL
         tableName: race
 - changeSet:
-    id: 1681035887105-14
+    id: 1688115347958-17
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -373,7 +502,7 @@ databaseChangeLog:
         constraintName: UK_2cg9j8vhevl570acpju84ec8j
         tableName: character_template_base_trait_rules
 - changeSet:
-    id: 1681035887105-15
+    id: 1688115347958-18
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -381,7 +510,7 @@ databaseChangeLog:
         constraintName: UK_45psubq54lgj19xkobhca7u55
         tableName: character_skill_mapping
 - changeSet:
-    id: 1681035887105-16
+    id: 1688115347958-19
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -389,7 +518,15 @@ databaseChangeLog:
         constraintName: UK_k6vtk0pkbejph04e1m2r77img
         tableName: character_trait_mapping
 - changeSet:
-    id: 1681035887105-17
+    id: 1688115347958-20
+    author: msp (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: item_id
+        constraintName: UK_q3lnqg2yvdmmrlt3donwumcjj
+        tableName: character_item_mapping
+- changeSet:
+    id: 1688115347958-21
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -397,7 +534,7 @@ databaseChangeLog:
         constraintName: UKldfll8p1ac14slnmwagx1brla
         tableName: race
 - changeSet:
-    id: 1681035887105-18
+    id: 1688115347958-22
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -410,7 +547,7 @@ databaseChangeLog:
         referencedTableName: character_template
         validate: true
 - changeSet:
-    id: 1681035887105-19
+    id: 1688115347958-23
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -423,20 +560,7 @@ databaseChangeLog:
         referencedTableName: character_template
         validate: true
 - changeSet:
-    id: 1681035887105-20
-    author: msp (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: body_id
-        baseTableName: dodcharacter
-        constraintName: FK497jwow832358i0sfmenpueuo
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: base_body
-        validate: true
-- changeSet:
-    id: 1681035887105-21
+    id: 1688115347958-24
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -449,7 +573,7 @@ databaseChangeLog:
         referencedTableName: character_skill
         validate: true
 - changeSet:
-    id: 1681035887105-22
+    id: 1688115347958-25
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -462,7 +586,33 @@ databaseChangeLog:
         referencedTableName: dodcharacter
         validate: true
 - changeSet:
-    id: 1681035887105-23
+    id: 1688115347958-26
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: item_id
+        baseTableName: character_item_mapping
+        constraintName: FK7dpjf97gkp6ilasyxa1p2q7h0
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: character_item
+        validate: true
+- changeSet:
+    id: 1688115347958-27
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: body_id
+        baseTableName: dodcharacter
+        constraintName: FK7mfjb38jtret4167xk2jn5dj4
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: body
+        validate: true
+- changeSet:
+    id: 1688115347958-28
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -475,7 +625,20 @@ databaseChangeLog:
         referencedTableName: dodcharacter
         validate: true
 - changeSet:
-    id: 1681035887105-24
+    id: 1688115347958-29
+    author: msp (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: character_id
+        baseTableName: character_item_mapping
+        constraintName: FKcn3l430pmdmeg4kabrqukesmh
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: dodcharacter
+        validate: true
+- changeSet:
+    id: 1688115347958-30
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -488,7 +651,7 @@ databaseChangeLog:
         referencedTableName: race
         validate: true
 - changeSet:
-    id: 1681035887105-25
+    id: 1688115347958-31
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -501,7 +664,7 @@ databaseChangeLog:
         referencedTableName: base_trait_rule
         validate: true
 - changeSet:
-    id: 1681035887105-26
+    id: 1688115347958-32
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:

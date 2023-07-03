@@ -1,25 +1,46 @@
 import { Skill } from "../../types/skill";
+import { CharacterSkill } from "./CharacterSkill";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { StyledTable } from "../../components/shared/Table.styled";
 
 interface IProps {
-  skills: Map<string, Skill> | undefined;
+  charId: string;
+  skills: Record<string, Skill>;
 }
 
-export const CharacterSkillList = ({ skills }: IProps): JSX.Element => {
+export const CharacterSkillList = ({ charId, skills }: IProps): JSX.Element => {
 
   const charSkillItems = () => {
-    const result : JSX.Element[] = []
-    if(skills){
+    const result: JSX.Element[] = [];
+    if (skills) {
       const skillMap: Map<string, Skill> = new Map(Object.entries(skills));
       skillMap.forEach((value, key) => {
-        result.push(<div key={key}>{key} - {skillMap.get(key)?.fv} - {skillMap.get(key)?.experience}</div>);
+        if (value != null) {
+          let skill = skillMap.get(key);
+          if (skill != null) {
+            result.push(<CharacterSkill key={skill.key} characterId={charId} skill={skill} />);
+          }
+        }
       });
     }
     return result;
-  }
+  };
 
 
   return (
-        <div> {charSkillItems()} </div>
-  )
-
-}
+    <StyledTable>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Skills</TableCell>
+            <TableCell>Value</TableCell>
+            <TableCell>Exp</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {charSkillItems()}
+        </TableBody>
+      </Table>
+    </StyledTable>
+  );
+};

@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.rules;
 
 import dk.pekilidi.dod.data.DODFact;
+import dk.pekilidi.dod.items.ItemService;
 import dk.pekilidi.dod.skill.SkillService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +20,17 @@ public class DroolsService {
 
   @Autowired
   private KieContainer kieContainer;
-
   @Autowired
   private SkillService skillService;
+  @Autowired
+  private ItemService itemService;
+
 
   public int executeRulesFor(DODFact fact) {
     return executeRulesFor(List.of(fact), null);
   }
 
-  public int executeGroupFlowRulesFor(List<DODFact> dodFacts, String ruleFlowGroup) {
+  public int executeGroupFlowRulesFor(List<DODFact> dodFacts, String... ruleFlowGroups) {
     KieBase kieBase = kieContainer.getKieBase();
     for ( KiePackage kp : kieBase.getKiePackages() ) {
       for (Rule rule : kp.getRules()) {
@@ -36,7 +39,11 @@ public class DroolsService {
     }
     KieSession kieSession = kieContainer.newKieSession();
     kieSession.setGlobal("skillService", skillService);
-    kieSession.getAgenda().getAgendaGroup(ruleFlowGroup).setFocus();
+    kieSession.setGlobal("itemService", itemService);
+
+    for (String ruleFlowGroup : ruleFlowGroups) {
+      kieSession.getAgenda().getAgendaGroup(ruleFlowGroup).setFocus();
+    }
     for (DODFact dodFact : dodFacts) {
       kieSession.insert(dodFact);
     }
@@ -47,6 +54,7 @@ public class DroolsService {
 
   public int executeRulesFor(List<DODFact> dodFacts, AgendaFilter filter) {
     KieSession kieSession = kieContainer.newKieSession();
+    kieSession.setGlobal("itemService", itemService);
     for (DODFact dodFact : dodFacts) {
       kieSession.insert(dodFact);
     }

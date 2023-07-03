@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Prepare semantic-release
-        run: npm install
+        run: npm clean-install
       - name: Do semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
