@@ -19,14 +19,11 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
     runs-on: ubuntu-latest
     steps:
-      - name: Branch info
-        run: |
-          echo "Branch from github.event.workflow_run.head_branch: ${{ github.event.workflow_run.head_branch }}"
-          echo "Branch from GITHUB_REF: ${GITHUB_REF#refs/heads/}"
       - name: Checkout
         uses: actions/checkout@v3.1.0
         with:
           fetch-depth: '0'
+          ref: ${GITHUB_REF#refs/heads/}
       - name: Set up JDK
         uses: actions/setup-java@v3.6.0
         with:
