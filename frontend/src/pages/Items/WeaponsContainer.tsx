@@ -10,10 +10,11 @@ import { CharacterItem, Item } from "../../types/item";
 
 interface IProps {
   character: Character;
+  fetchCharHandler: () => void;
 }
 
 
-export const WeaponsContainer = ({ character }: IProps) => {
+export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
 
 
     const [items, setItems] = useState<Map<string, Item>>(new Map());
@@ -97,7 +98,7 @@ export const WeaponsContainer = ({ character }: IProps) => {
               Buy a new Weapon or Shield
             </Typography>
             <Box>
-              <BuyWeapon onConfirm={handleClose} character={character} />
+              <BuyWeapon onConfirm={handleClose} character={character} fetchCharHandler={fetchCharHandler}/>
             </Box>
           </Paper>
         </Modal>

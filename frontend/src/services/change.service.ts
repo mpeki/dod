@@ -18,7 +18,7 @@ export const ChangeService = {
         .catch((err) => {
           throw new Error(`Cannot fetch data from backend: ${err?.code} ${err?.message}`);
         });
-      }, Math.random() * 100);
+      }, 0);
     });
   }
 };

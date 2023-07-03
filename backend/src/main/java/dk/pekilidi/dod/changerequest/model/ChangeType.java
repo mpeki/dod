@@ -12,7 +12,8 @@ public enum ChangeType {
   HIT_POINTS(ChangeType.CHARACTER_CHANGE),
   HERO_POINTS(ChangeType.CHARACTER_CHANGE),
   BASE_SKILL_POINTS(ChangeType.CHARACTER_CHANGE),
-  CHARACTER_READY_TO_PLAY("character-state-change");
+  CHARACTER_READY_TO_PLAY("character-state-change"),
+  CHARACTER_NAME_CHANGE(ChangeType.CHARACTER_CHANGE);
 
   public final String changeRuleSet;
   private static final String CHARACTER_CHANGE = "character-change";

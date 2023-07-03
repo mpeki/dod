@@ -5,7 +5,7 @@ import { CharacterService } from "../../services/character.service";
 import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
 import { CharacterInfo } from "../../components/Character/CharacterInfo";
 import { User } from "../../types/user";
-import { Container, Paper, Box } from "@mui/material";
+import { Container, Paper } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import { SkillContainer } from "../Skill/SkillContainer";
 import { ReputationStats } from "../../components/Character/ReputationStats";
@@ -15,28 +15,47 @@ import { BodyContainer } from "./BodyContainer";
 import { WeaponsContainer } from "../Items/WeaponsContainer";
 import { ItemsContainer } from "../Items/ItemsContainer";
 import { FundsContainer } from "../Items/FundsContainer";
+import { ChangeService } from "../../services/change.service";
+import { Change } from "../../types/change";
 
 
 export const ViewCharacter = () => {
   const { charId } = useParams();
   const [character, setCharacter] = useState<Character>();
 
+  const [changeData, setChangeData] = useState<Change>({
+    changeType: "CHARACTER_NAME_CHANGE",
+    changeDescription: "Change name",
+    changeKey: "NAME",
+    modifier: ""
+  });
+
+
+
   const fetchCharHandler = useCallback(async () => {
     CharacterService.getCharacter("" + charId)
     .then((character) => {
-      console.log(character);
       setCharacter(character);
     })
     .catch((e) => alert("Error fetching character: " + e));
-  }, []);
+  }, [charId]);
 
   useEffect(() => {
     fetchCharHandler().then();
   }, [fetchCharHandler]);
+
+  const nameChangeHandler = useCallback( async (name: string) => {
+    const change: Change = {
+      ...changeData,
+      changeKey: "NAME",
+      modifier: name,
+    };
+    ChangeService.doChange("" + charId, change).then()
+  }, [changeData, charId]);
+
   if (character == null || character.id == null) {
     return <><p>Invalid character!</p></>;
   } else {
-
     //Remove this when user is implemented
     let user: User = {
       id: 0,
@@ -50,27 +69,27 @@ export const ViewCharacter = () => {
             <BaseTraitList baseTraits={character?.baseTraits} />
           </Paper>
           <Paper elevation={3}>
-            <CharacterInfo character={character} user={user} />
+            <CharacterInfo character={character} user={user} nameChangeHandler={nameChangeHandler} />
           </Paper>
           <Paper>
             <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
           </Paper>
-          { character.state === "READY_TO_PLAY" && (
-          <Paper elevation={3}>
-            <SanityStats character={character}/>
-            { character.hero && (
-              <>
-                <ReputationStats character={character}/>
-                <HeroStats character={character}/>
-              </>
-            )}
-          </Paper>
+          {character.state === "READY_TO_PLAY" && (
+            <Paper elevation={3}>
+              <SanityStats character={character} />
+              {character.hero && (
+                <>
+                  <ReputationStats character={character} />
+                  <HeroStats character={character} />
+                </>
+              )}
+            </Paper>
           )}
           <Paper elevation={3}>
-            <BodyContainer parts={character.bodyParts}/>
+            <BodyContainer parts={character.bodyParts} />
           </Paper>
           <Paper elevation={3}>
-            <WeaponsContainer character={character}/>
+            <WeaponsContainer character={character} fetchCharHandler={fetchCharHandler} />
           </Paper>
           <Paper elevation={3}>
             {character.items && (

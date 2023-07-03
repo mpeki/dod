@@ -1,34 +1,23 @@
 import { Character } from "../../types/character";
 import { User } from "../../types/user";
-import { Fab, List, ListItem, ListItemText } from "@mui/material";
+import { List, ListItem, ListItemText } from "@mui/material";
 import { StyledList } from "../shared/List.styled";
-import Stack from "@mui/material/Stack";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
+import EditableListItem from "../../UI/EditableListItem";
 
 interface ICharacterProps {
   character: Character;
   user: User;
+  nameChangeHandler: (name: string) => void;
 }
 
-export const CharacterInfo = ({ character, user }: ICharacterProps) => {
+export const CharacterInfo = ({ character, user, nameChangeHandler }: ICharacterProps) => {
 
 
   return (
     <>
-      <Stack direction="row-reverse">
-        <Fab color="success" size="small" aria-label="add">
-          <AddIcon />
-        </Fab>
-        <Fab color="primary" size="small" aria-label="edit">
-          <EditIcon />
-        </Fab>
-      </Stack>
-      <StyledList>
-        <List dense={true} disablePadding={true}>
-          <ListItem>
-            <ListItemText primary="Name" secondary={character.name} />
-          </ListItem>
+      <StyledList style={{ margin: '2px', marginTop: '15px' }}>
+        <List dense={false} disablePadding={true}>
+          <EditableListItem label="Name" value={character.name} nameChangeHandler={nameChangeHandler} allowEdit={character.state === "INIT_COMPLETE"}/>
           <ListItem>
             <ListItemText primary="Player Name" secondary={user.name} />
           </ListItem>
