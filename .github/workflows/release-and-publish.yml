@@ -16,7 +16,10 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-
+      - name: Branch info
+        run: |
+          echo "Branch from github.event.workflow_run.head_branch: ${{ github.event.workflow_run.head_branch }}"
+          echo "Branch from GITHUB_REF: ${GITHUB_REF#refs/heads/}"
       - name: Release checkout
         uses: actions/checkout@v3
         with:
