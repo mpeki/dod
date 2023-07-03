@@ -46,7 +46,7 @@ jobs:
         run: ./gradlew :b:test jacocoTestCoverageVerification sonar --warn -DincludeTests="any()" -DexcludeTests="none()"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Report
+      - name: JUnit Report
         if: success() || failure() && github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v1.6.0
         with:
@@ -54,3 +54,15 @@ jobs:
           path: backend/build/test-results/test/*.xml
           reporter: java-junit
           fail-on-error: false
+      - name: JaCoCo Code Coverage Report
+        id: jacoco_reporter
+        uses: PavanMudigonda/jacoco-reporter@v4.8
+        with:
+          coverage_results_path: jacoco-report/test.xml
+          coverage_report_name: Coverage
+          coverage_report_title: JaCoCo
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_check_run: false
+          minimum_coverage: 80
+          fail_below_threshold: false
+          publish_only_summary: false
