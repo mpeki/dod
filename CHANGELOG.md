@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/mpeki/dod/compare/v1.11.0...v1.12.0) (2023-07-03)
+
+
+### Features
+
+* **DOD-246:** edit name ([b1ff0f6](https://github.com/mpeki/dod/commit/b1ff0f653cd9c6a778d50beb8e7c563433b41e80))
+
 # [1.11.0](https://github.com/mpeki/dod/compare/v1.10.0...v1.11.0) (2023-06-30)
 
 
