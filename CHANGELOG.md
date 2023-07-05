@@ -1,3 +1,10 @@
+# [1.14.0-rc.3](https://github.com/mpeki/dod/compare/v1.14.0-rc.2...v1.14.0-rc.3) (2023-07-05)
+
+
+### Bug Fixes
+
+* **DOD-259:** Activate character now refreshes card ([cee374c](https://github.com/mpeki/dod/commit/cee374c6a9e96fc4b5c4a2a2ccbc20bb01ee64a9))
+
 # [1.14.0-rc.2](https://github.com/mpeki/dod/compare/v1.14.0-rc.1...v1.14.0-rc.2) (2023-07-05)
 
 
