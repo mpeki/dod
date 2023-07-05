@@ -48,6 +48,6 @@ jobs:
           git fetch
           git checkout develop
           git merge origin/main -X theirs
-          git push develop
+          git push origin develop
 
           
