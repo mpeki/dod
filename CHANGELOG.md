@@ -1,3 +1,10 @@
+# [1.14.0-rc.2](https://github.com/mpeki/dod/compare/v1.14.0-rc.1...v1.14.0-rc.2) (2023-07-05)
+
+
+### Features
+
+* **DOD-257:** When listing skills, B skills are now marked ([182e8fc](https://github.com/mpeki/dod/commit/182e8fc899439f459d564b152365999f4d7553e4))
+
 # [1.14.0-rc.1](https://github.com/mpeki/dod/compare/v1.13.1-rc.1...v1.14.0-rc.1) (2023-07-05)
 
 
