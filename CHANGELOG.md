@@ -1,3 +1,10 @@
+# [1.14.0-rc.1](https://github.com/mpeki/dod/compare/v1.13.1-rc.1...v1.14.0-rc.1) (2023-07-05)
+
+
+### Features
+
+* **DOD-247:** highlighting name when hovering ([58e92e5](https://github.com/mpeki/dod/commit/58e92e55d2a5ad99e3a3fef3efed325db3e6f0d8))
+
 ## [1.13.1-rc.1](https://github.com/mpeki/dod/compare/v1.13.0...v1.13.1-rc.1) (2023-07-05)
 
 
