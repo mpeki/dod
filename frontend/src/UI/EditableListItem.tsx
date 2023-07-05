@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Grid, ListItem, ListItemIcon, ListItemText, TextField, Typography } from "@mui/material";
+import { ListItem, ListItemText, listItemTextClasses, TextField } from "@mui/material";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import Stack from "@mui/material/Stack";
 
 interface ListItemProps {
   label: string;
@@ -9,6 +8,12 @@ interface ListItemProps {
   nameChangeHandler: (name: string) => void;
   allowEdit: boolean;
 }
+
+const listItemTextSecondarySX = {
+  '&:hover .MuiListItemText-secondary': {
+    color: 'blue'
+  },
+};
 
 const EditableListItem: React.FC<ListItemProps> = ({ label, value, nameChangeHandler, allowEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -71,30 +76,31 @@ const EditableListItem: React.FC<ListItemProps> = ({ label, value, nameChangeHan
   }, [isEditing]);
 
   return (
-    <ListItem component="div" onClick={handleClick}>
+    <ListItem component="div" onClick={handleClick} sx={listItemTextSecondarySX}>
       {allowEdit ? (
 
         isEditing ? (
-        <TextField
-          required
-          fullWidth
-          value={textValue}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
-          inputRef={inputRef}
-          autoFocus
-          onFocus={handleFocus}
-          error={inputError}
-          helperText={inputError ? "Must be at least 2 alphabetic characters and no numbers, 2Pack!" : ""}
-          variant="standard"
-          label="Name"
-        />
-      ) : (
-        <>
-          <ListItemText primary={<React.Fragment>{label}<ModeEditIcon sx={{ marginLeft: "2px", fontSize: 12 }} /></React.Fragment>} secondary={textValue} />
-        </>
-      )) : (
+          <TextField
+            required
+            fullWidth
+            value={textValue}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+            inputRef={inputRef}
+            autoFocus
+            onFocus={handleFocus}
+            error={inputError}
+            helperText={inputError ? "Must be at least 2 alphabetic characters and no numbers, 2Pack!" : ""}
+            variant="standard"
+            label="Name"
+          />
+        ) : (
+          <>
+            <ListItemText primary={<React.Fragment>{label}<ModeEditIcon
+              sx={{ marginLeft: "2px", fontSize: 12 }} /></React.Fragment>} secondary={textValue} />
+          </>
+        )) : (
         <ListItemText primary={label} secondary={textValue} />
       )}
     </ListItem>

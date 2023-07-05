@@ -6,7 +6,6 @@ import { useTheme } from "./Theme/useTheme";
 import { GlobalStyles } from "./App.styled";
 import { Box, Backdrop, LinearProgress } from "@mui/material";
 import { AppRouter } from "./components/routing/AppRouter";
-import { CurrentRoute } from "./components/routing/CurrentRoute";
 import { AppTabs } from "./components/routing/AppTabs";
 import { Home } from "./pages/Home";
 import { CharacterOverview } from "./pages/Character/CharacterOverview";
