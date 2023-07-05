@@ -45,9 +45,12 @@ export const CharacterCard = ({ character, fetchCharactersHandler }: IProps): JS
     };
     console.log("Activating character: " + character.id);
     if (character.id != null) {
-      await ChangeService.doChange(character.id, changeData);
+      await ChangeService.doChange(character.id, changeData)
+      .then((characters) => {
+        fetchCharactersHandler();
+      })
     }
-  }, [character]);
+  }, [character, fetchCharactersHandler]);
 
   if (character.state == null || character.baseSkillPoints == null) {
     return <>
