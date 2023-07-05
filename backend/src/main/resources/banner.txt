@@ -17,7 +17,7 @@
                        @@@  (            #@                           
                       .@@               .                             
                       &@@   @,  &@
-                      /@@  @     @&  Drager & Dæmoner v. ${version}
-                       %@@@    .@@                                    
-                          @@@@@                               
+                      /@@  @     @&  Drager & Dæmoner
+                       %@@@    .@@    v. ${version}
+                          @@@@@
 
