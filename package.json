@@ -22,20 +22,8 @@
   },
   "release": {
     "branches": [
-      {
-        "name": "main",
-        "channel": "latest"
-      },
-      {
-        "name": "beta",
-        "channel": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "alpha",
-        "channel": "alpha",
-        "prerelease": true
-      }
+      { "name": "main", "channel": false },
+      { "name": "develop", "channel": "pre/rc", "prerelease": "rc" }
     ],
     "plugins": [
       "@semantic-release/commit-analyzer",
