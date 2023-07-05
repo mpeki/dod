@@ -75,7 +75,6 @@ export const SkillService = {
     } else if (skillCategory === '"A"' && fvToBuy > 20) {
       throw new Error("Category A skills can't start above 20 fv");
     }
-    console.log(JSON.stringify(skill.category));
     if (skillCategory === '"A"') {
       let result = -1;
       const skillPrice = skill.price || 0;
