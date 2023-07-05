@@ -1,3 +1,18 @@
+# [1.13.0](https://github.com/mpeki/dod/compare/v1.12.0...v1.13.0) (2023-07-05)
+
+
+### Bug Fixes
+
+* **DOD-249:** Improve code stability ([eaa6c27](https://github.com/mpeki/dod/commit/eaa6c27adbfd3e93657750e60d25df02cab8821a))
+* **DOD-249:** updated banner.txt ([fb38de4](https://github.com/mpeki/dod/commit/fb38de4943c639358462368e07610775f73b8001))
+* **DOD-253:** Release pipeline should fetch main changes ([92bc5de](https://github.com/mpeki/dod/commit/92bc5de54b4d65a67964dfdae96a1fb7084704a2))
+
+
+### Features
+
+* **DOD-124:** Skill training is now possible ([8037686](https://github.com/mpeki/dod/commit/8037686658c86861bc8cde2007efbe54599f0dff))
+* **DOD-85:** Buy FV for exp ([cceec13](https://github.com/mpeki/dod/commit/cceec13a45254d2ccbfae889f126b8c5f39a89fc))
+
 # [1.12.0](https://github.com/mpeki/dod/compare/v1.11.0...v1.12.0) (2023-07-03)
 
 
