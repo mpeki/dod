@@ -4,8 +4,7 @@ on:
     workflows: [ "build and verify" ]
     branches:
       - 'main'
-      - 'alpha'
-      - 'beta'
+      - 'develop'
     types:
       - completed
 concurrency:
