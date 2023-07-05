@@ -32,7 +32,6 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
           let result = false;
           charItems.forEach((charItem) => {
             if(charItem.item.itemKey === key){
-              console.log("Match found item: " + key + " = " + charItem.item.itemKey);
               result = true;
             }
           });

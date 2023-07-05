@@ -39,8 +39,6 @@ export const SkillSelector = ({ selectSkillHandler }: IProps): JSX.Element => {
   const [skills, setSkills] = useState<Skill[]>([]);
 
   const filterListHandler = (selected: OnChangeValue<any, any>) => {
-    console.log("Filter: " + JSON.stringify(selected));
-
     if (skills !== undefined) {
       if (selected.length === 0) {
         setShownSkills([]);

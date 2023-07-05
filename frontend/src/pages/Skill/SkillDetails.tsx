@@ -25,7 +25,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Element => {
 
   const [action , setAction] = useState<Action>();
-  const [memSkill, setMemSkill] = useState<Skill>();
   const [skillInput, setSkillInput] = useState<Skill>(skill);
   const [open, setOpen] = useState(false);
 
@@ -41,25 +40,14 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
     setOpen(false);
   };
 
-  useEffect(() => {
-    let skillJSON = localStorage.getItem("skills");
-    if (skillJSON !== null) {
-      const skills: Skill[] = JSON.parse(skillJSON);
-      if (skills !== undefined) {
-        const memSkill: Skill = skills.filter(storedSkill => {
-          return storedSkill.key === skill.key;
-        })[0];
-        setMemSkill(memSkill);
-      }
-    }
-  }, [skill]);
-
   const trainSkillHandler = useCallback(async () => {
     await SkillService.trainSkill(characterId, skill.key)
     .then((action) => {
       if (action.actor.skills !== undefined) {
         setAction(action);
-        setSkillInput(action.actor.skills[skill.key]);
+        skillInput.experience = action.actor.skills[skill.key].experience;
+        skillInput.fv = action.actor.skills[skill.key].fv;
+        setSkillInput(skillInput);
         handleClick();
       }
 
@@ -78,14 +66,19 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
     if(characterId != null) {
       await ChangeService.doChange(characterId, changeData)
       .then((change: Change) => {
+        console.log("skill.kley; " + skill.key);
+
         if (change.objectAfterChange?.skills !== undefined) {
-          setAction(action);
-          setSkillInput(change.objectAfterChange.skills[skill.key]);
+          console.log(change.objectAfterChange?.skills[skill.key]);
+          skillInput.experience = change.objectAfterChange.skills[skill.key].experience;
+          skillInput.fv = change.objectAfterChange.skills[skill.key].fv;
+          setSkillInput(skillInput);
+          handleClick();
         }
 
       });
     }
-  }, [characterId, skill]);
+  }, [characterId, skill, skillInput]);
 
   return (
     <>
@@ -99,11 +92,11 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
             <p>Name: {skillInput.key}</p>
             <p>FV: {skillInput.fv}</p>
             <p>Skill Points: {skillInput.experience}</p>
-            <p>Base Chance: {memSkill?.baseChance} group</p>
-            <p>Category: {memSkill?.category.toString()}</p>
-            <p>Group: {memSkill?.group.toString()}</p>
-            <p>Trait: {memSkill?.traitName}</p>
-            <p>Price: {memSkill?.price}</p>
+            <p>Base Chance: {skillInput?.baseChance} group</p>
+            <p>Category: {skillInput.category ? skillInput.category.toString() : ''}</p>
+            <p>Group: {skillInput.group ? skillInput.group.toString() : ''}</p>
+            <p>Trait: {skillInput?.traitName}</p>
+            <p>Price: {skillInput?.price}</p>
           </div>
 
           <footer className={classes.actions}>

@@ -11,7 +11,7 @@ interface ListItemProps {
 
 const listItemTextSecondarySX = {
   '&:hover .MuiListItemText-secondary': {
-    color: 'blue'
+    textDecoration: 'underline',
   },
 };
 
