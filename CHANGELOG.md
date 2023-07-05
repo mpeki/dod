@@ -1,3 +1,10 @@
+## [1.13.1-rc.1](https://github.com/mpeki/dod/compare/v1.13.0...v1.13.1-rc.1) (2023-07-05)
+
+
+### Bug Fixes
+
+* **DOD-249:** added CONTRIBUTING.md first version ([e88c1cb](https://github.com/mpeki/dod/commit/e88c1cbfb797e6a6b5dfb0e3031a701837a33144))
+
 # [1.13.0](https://github.com/mpeki/dod/compare/v1.12.0...v1.13.0) (2023-07-05)
 
 
