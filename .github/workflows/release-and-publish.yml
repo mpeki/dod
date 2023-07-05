@@ -42,3 +42,12 @@ jobs:
         run: npx semantic-release
       - name: Build and push Docker image
         run: ./gradlew jib -Djib.console=plain
+      - name: Merge back to develop
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git fetch
+          git checkout develop
+          git merge origin/master -X theirs
+          git push develop
+
+          
