@@ -1,6 +1,5 @@
 package dk.pekilidi.dod.changerequest.model;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import dk.pekilidi.dod.data.DODFact;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -28,6 +27,7 @@ public class ChangeRequest implements DODFact {
   private String changeDescription;
   @NotNull
   private ChangeKey changeKey;
+  private SecondaryChangeKey secondaryChangeKey;
   private Object objectBeforeChange;
   private Object objectAfterChange;
   @NotNull

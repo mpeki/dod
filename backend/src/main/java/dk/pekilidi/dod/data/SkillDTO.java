@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import dk.pekilidi.dod.character.model.BaseTraitName;
+import dk.pekilidi.dod.items.ItemKey;
 import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.skill.model.Group;
@@ -30,6 +31,7 @@ public class SkillDTO implements Serializable {
   //
   //  @JsonIgnore
   private SkillKey key;
+  private ItemKey itemKey;
   private BaseTraitName traitName;
   private Category category;
   private Group group;

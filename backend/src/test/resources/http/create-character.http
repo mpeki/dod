@@ -32,6 +32,10 @@ Content-Type: application/json
   "changeType": "NEW_SKILL",
   "changeDescription": "Buy Skill",
   "changeKey": "primary.weapon",
+  "secondaryChangeKey": {
+    "changeType": "SKILL_FOR_ITEM_USE",
+    "changeKey": "dagger"
+  },
   "modifier": {{$random.integer(10, 15)}}
 }
 
