@@ -1,12 +1,8 @@
 package dk.pekilidi.dod.skill;
 
-import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import dk.pekilidi.dod.actions.model.ActionKey;
 import dk.pekilidi.dod.changerequest.model.ChangeKey;
-import dk.pekilidi.dod.items.ItemKey;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.io.Serial;
@@ -24,6 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Embeddable
+//@JsonDeserialize(using = SkillKeyDeserializer.class)
 public class SkillKey implements ChangeKey, ActionKey, Serializable {
 
   @Serial
@@ -33,6 +30,10 @@ public class SkillKey implements ChangeKey, ActionKey, Serializable {
   @Column(name = "skill_key")
   private String value;
   // https://hibernate.atlassian.net/browse/HHH-15307
+
+  public static SkillKey toSkillKey(String key) {
+    return SkillKey.builder().value(key).build();
+  }
 
   public SkillKey getValue() {
     return this;
@@ -56,9 +57,5 @@ public class SkillKey implements ChangeKey, ActionKey, Serializable {
   @Override
   public int hashCode() {
     return Objects.hash(value);
-  }
-
-  public static SkillKey toSkillKey(String key){
-    return SkillKey.builder().value(key).build();
   }
 }

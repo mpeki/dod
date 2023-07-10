@@ -8,6 +8,7 @@ import dk.pekilidi.dod.skill.SkillService
 import dk.pekilidi.dod.data.SkillDTO
 import dk.pekilidi.dod.skill.SkillKey
 import dk.pekilidi.dod.skill.SkillNotFoundException
+import dk.pekilidi.dod.items.ItemKey
 
 global SkillService skillService;
 global SkillDTO skill;
@@ -70,6 +71,7 @@ rule "Add skill"
     skill = (SkillDTO) drools.getKieRuntime().getGlobal("skill");
     if( skill != null && skillCost != null ){
       skill.setFv((Integer) changeRequest.getModifier());
+      skill.setItemKey(changeRequest.getSecondaryChangeKey() != null ? ((ItemKey) changeRequest.getSecondaryChangeKey().getChangeKey()) : null);
       character.setBaseSkillPoints(character.getBaseSkillPoints() - skillCost);
       character.addSkill(skill);
       changeRequest.setStatus(ChangeStatus.APPROVED);

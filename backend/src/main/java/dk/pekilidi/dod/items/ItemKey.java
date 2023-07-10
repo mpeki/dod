@@ -1,10 +1,6 @@
 package dk.pekilidi.dod.items;
 
-import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NONE;
-
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.annotation.JsonValue;
 import dk.pekilidi.dod.actions.model.ActionKey;
 import dk.pekilidi.dod.changerequest.model.ChangeKey;
@@ -36,16 +32,16 @@ public class ItemKey implements ChangeKey, ActionKey, Serializable {
   private String value;
   // https://hibernate.atlassian.net/browse/HHH-15307
 
+  public static ItemKey toItemKey(String key) {
+    return ItemKey.builder().value(key).build();
+  }
+
   public ItemKey getValue() {
     return this;
   }
 
   public String getKeyValue() {
     return value;
-  }
-
-  public static ItemKey toItemKey(String key){
-    return ItemKey.builder().value(key).build();
   }
 
   @Override

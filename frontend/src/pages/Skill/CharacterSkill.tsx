@@ -33,6 +33,7 @@ export const CharacterSkill = ({ characterId, skill }: IProps): JSX.Element => {
         })[0];
         memSkill.fv = skill.fv;
         memSkill.experience = skill.experience;
+        memSkill.itemKey = skill.itemKey;
         setMemSkill(memSkill);
       }
     }
@@ -49,7 +50,7 @@ export const CharacterSkill = ({ characterId, skill }: IProps): JSX.Element => {
         <SkillDetails characterId={characterId} skill={memSkill} onConfirm={showSkillDetailsHandler} />
       )}
       <TableRow hover key={memSkill.key} onClick={showSkillDetailsHandler} >
-        <TableCell>{memSkill.key}</TableCell>
+        <TableCell>{memSkill.itemKey ? `${memSkill.itemKey} (${memSkill.key})` : memSkill.key}</TableCell>
         <TableCell>{skillCategory === "B" ? 'B'+memSkill.fv : memSkill.fv}</TableCell>
         <TableCell>{memSkill.experience}</TableCell>
       </TableRow>

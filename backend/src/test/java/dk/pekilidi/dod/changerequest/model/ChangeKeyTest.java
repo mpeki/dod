@@ -8,9 +8,15 @@ import org.junit.jupiter.api.Test;
 class ChangeKeyTest {
 
   @Test
-  void valueOf() {
+  void testValueOf() {
     Assertions.assertThrows(NotSupportedException.class, () -> {
       ChangeKey.valueOf("test");
     });
   }
+
+  @Test
+  void testValueOfNoArg() {
+    Assertions.assertThrows(NotSupportedException.class, ChangeKey::valueOf);
+  }
+
 }

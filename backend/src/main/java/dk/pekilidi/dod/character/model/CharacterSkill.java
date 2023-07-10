@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.character.model;
 
+import dk.pekilidi.dod.items.ItemKey;
 import dk.pekilidi.dod.skill.SkillKey;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.Column;
@@ -31,6 +32,8 @@ public class CharacterSkill implements Serializable {
   @Column(name = "skill_key")
   @Embedded
   public SkillKey skillKey;
+  @Embedded
+  private ItemKey itemKey;
   @Id
   @Tsid
   @GeneratedValue(strategy = GenerationType.IDENTITY)
