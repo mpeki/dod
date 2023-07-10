@@ -3,6 +3,7 @@ import { Category } from "./category";
 export interface Skill {
   id?: number;
   key: string;
+  itemKey?: string;
   price?: number;
   traitName?: string;
   group: Group;

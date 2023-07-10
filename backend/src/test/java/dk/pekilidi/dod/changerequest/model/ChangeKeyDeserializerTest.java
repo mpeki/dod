@@ -50,15 +50,29 @@ class ChangeKeyDeserializerTest {
           "baseChance": "NONE"
         }""";
 
-  static final String skillJSON_noKey = """
+  static final String skillJSON_primary_weapon = """
       {
-          "key": "",
-          "traitName": "INTELLIGENCE",
-          "category": "A",
-          "group": "THIEVING",
-          "price": 2,
-          "baseChance": "NONE"
-        }""";
+        "changeType": "NEW_SKILL",
+        "changeDescription": "Buy Skill",
+        "changeKey": "primary.weapon",
+        "secondaryChangeKey": {
+          "changeType": "SKILL_FOR_ITEM_USE",
+          "changeKey": "dagger"
+        },
+        "modifier": 12
+      }""";
+
+  static final String skillJSON_primary_weapon_invalid_secondary_changeType = """
+      {
+        "changeType": "NEW_SKILL",
+        "changeDescription": "Buy Skill",
+        "changeKey": "primary.weapon",
+        "secondaryChangeKey": {
+          "changeType": "BASE_TRAIT",
+          "changeKey": "dagger"
+        },
+        "modifier": 12
+      }""";
 
   @Test
   void test() {
@@ -100,6 +114,40 @@ class ChangeKeyDeserializerTest {
     assertNotNull(changeRequest.getChangeKey());
     assertEquals(CharacterInfo.class, changeRequest.getChangeKey().getClass());
     assertEquals("NAME", ((CharacterInfo) changeRequest.getChangeKey()).name());
+  }
+
+  @Test
+  void testDeserializeChangeRequest_connect_primary_weapon() throws JsonProcessingException {
+    ChangeRequest changeRequest = new ObjectMapper().readerFor(ChangeRequest.class).readValue(skillJSON_primary_weapon);
+    assertNotNull(changeRequest.getChangeKey());
+    assertEquals(SkillKey.class, changeRequest.getChangeKey().getClass());
+    assertEquals("primary.weapon", ((SkillKey) changeRequest.getChangeKey()).getKeyValue());
+    assertEquals(ChangeType.NEW_SKILL, changeRequest.getChangeType());
+    assertNotNull(changeRequest.getSecondaryChangeKey());
+    assertEquals(ChangeType.SKILL_FOR_ITEM_USE, changeRequest.getSecondaryChangeKey().getChangeType());
+    assertEquals(ItemKey.class, changeRequest.getSecondaryChangeKey().getChangeKey().getClass());
+    assertEquals("dagger", ((ItemKey) changeRequest.getSecondaryChangeKey().getChangeKey()).getKeyValue());
+  }
+
+  @Test
+  void testDeserializeChangeRequest_connect_primary_weapon_no_second_changeType() throws JsonProcessingException {
+    assertThrows(JsonMappingException.class, () -> new ObjectMapper()
+        .readerFor(ChangeRequest.class)
+        .readValue(skillJSON_primary_weapon_invalid_secondary_changeType));
+
+/*
+    ChangeRequest changeRequest = new ObjectMapper()
+        .readerFor(ChangeRequest.class)
+        .readValue(skillJSON_primary_weapon_invalid_secondary_changeType);
+    assertNotNull(changeRequest.getChangeKey());
+    assertEquals(SkillKey.class, changeRequest.getChangeKey().getClass());
+    assertEquals("primary.weapon", ((SkillKey) changeRequest.getChangeKey()).getKeyValue());
+    assertEquals(ChangeType.NEW_SKILL, changeRequest.getChangeType());
+    assertNotNull(changeRequest.getSecondaryChangeKey());
+    assertEquals(ChangeType.SKILL_FOR_ITEM_USE, changeRequest.getSecondaryChangeKey().getChangeType());
+    assertEquals(ItemKey.class, changeRequest.getSecondaryChangeKey().getChangeKey().getClass());
+    assertEquals("dagger", ((ItemKey) changeRequest.getSecondaryChangeKey().getChangeKey()).getKeyValue());
+*/
   }
 
   @Test

@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import { Payment } from "./Payment";
 import { Change } from "../../types/change";
 import { ChangeService } from "../../services/change.service";
+import { ItemSelector } from "./ItemSelector";
 
 interface IProps {
   onConfirm: any;
@@ -59,7 +60,7 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
       onConfirm();
     }
     onConfirm();
-  }, [fetchItemsHandler, changeData, character.id, itemSelected, onConfirm]);
+  }, [fetchCharHandler, changeData, character.id, itemSelected, onConfirm]);
 
   const resetFunds = () => {
     setGold(orgGold);
@@ -86,9 +87,19 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
     handGrip: item.handGrip
   }));
 
+  const handleItemChange = (items: Item[], newInputValue: string) => {
+    setInputValue(newInputValue);
+    setItemSelected(items.find(item => item.itemKey === newInputValue));
+    setOwed(items.find(item => item.itemKey === newInputValue)?.price || 0);
+    resetFunds();
+  }
+
+
   return (
     <Paper elevation={3}>
       <Stack>
+        <ItemSelector label="Select a Weapon" items={items} onChange={handleItemChange} />
+{/*
         <Autocomplete
           fullWidth
           disablePortal
@@ -118,6 +129,7 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
                                               }}
           />}
         />
+*/}
         <Payment handleClose={onConfirm} paymentHandler={doPaymentRequest} itemName={itemSelected ? itemSelected.itemKey : "none"} goldOwned={orgGold} silverOwned={orgSilver} copperOwned={orgCopper}
                  silverPrice={itemSelected ? itemSelected.price : owed} />
       </Stack>

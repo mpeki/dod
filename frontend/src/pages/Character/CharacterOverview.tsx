@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { CharacterService } from "../../services/character.service";
 import { Character } from "../../types/character";
 import { CharacterCard } from "./CharacterCard";
-import { Button } from "../../UI/Button";
 import { AddCharacter } from "./AddCharacter";
 import { Container, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";

@@ -13,6 +13,7 @@ import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.items.ItemKey;
 import dk.pekilidi.dod.skill.SkillKey;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
 
@@ -60,6 +61,12 @@ public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
         }
         default -> throw new IllegalStateException("Unexpected value: " + changeRequest.getChangeType());
       }
+    }
+    if(value instanceof SecondaryChangeKey secondaryChangeKey) {
+      if (Objects.requireNonNull(secondaryChangeKey.getChangeType()) == ChangeType.SKILL_FOR_ITEM_USE) {
+        return new ItemKey(text);
+      }
+      throw new IllegalStateException("Unexpected Secondary ChangeType: " + secondaryChangeKey.getChangeType());
     }
     throw new JsonParseException(jp, "Tried everything, but can't parse ChangeKey property: " + jp.currentName());
   }

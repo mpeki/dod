@@ -4,7 +4,6 @@ import { StyledTable } from "../../components/shared/Table.styled";
 import { Fab, List, ListItem, ListItemText, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { StyledList } from "../../components/shared/List.styled";
 import AddIcon from "@mui/icons-material/Add";
-import Stack from "@mui/material/Stack";
 
 interface IProps {
   parts: Record<string, BodyPartValue> | undefined;
