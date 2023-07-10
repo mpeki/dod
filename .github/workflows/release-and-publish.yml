@@ -35,7 +35,7 @@ jobs:
         run: |
           npm clean-install
           git checkout main; git pull
-          git checkout ${{ github.event.workflow_run.head_branch }}
+          git checkout develop; git pull
       - name: Do semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
