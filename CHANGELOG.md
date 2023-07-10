@@ -1,3 +1,10 @@
+# [1.14.0-rc.4](https://github.com/mpeki/dod/compare/v1.14.0-rc.3...v1.14.0-rc.4) (2023-07-10)
+
+
+### Features
+
+* **DOD-261:** Allow linking skills to items ([27f33de](https://github.com/mpeki/dod/commit/27f33dec4725d0f8370a95b26cf39c87a446e402))
+
 # [1.14.0-rc.3](https://github.com/mpeki/dod/compare/v1.14.0-rc.2...v1.14.0-rc.3) (2023-07-05)
 
 
