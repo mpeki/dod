@@ -7,7 +7,6 @@ import { SkillSelector } from "../../components/SkillSelector";
 import { Skill } from "../../types/skill";
 import { SkillService } from "../../services/skill.service";
 import { Character } from "../../types/character";
-import { ItemService } from "../../services/item.service";
 import { Item } from "../../types/item";
 import { ItemSelector } from "../Items/ItemSelector";
 
@@ -98,8 +97,8 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
         <Controller
           name="changeKey"
           control={control}
-          render={({ field }) => (
-            <SkillSelector selectSkillHandler={selectSkillHandler} />
+          render={() => (
+            <SkillSelector charSkills={character?.skills} selectSkillHandler={selectSkillHandler} />
             )}
           />
         {/*<input {...register("changeKey", { required: true })} />*/}

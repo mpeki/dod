@@ -12,6 +12,7 @@ import { OnChangeValue } from "react-select/dist/declarations/src/types";
 
 interface IProps {
   selectSkillHandler: (skill: Skill) => void;
+  charSkills?: Record<string,Skill>;
 }
 
 export interface GroupedOption {
@@ -33,7 +34,7 @@ export const groupedFilterOptions: readonly GroupedOption[] = [
 
 const animatedComponents = makeAnimated();
 
-export const SkillSelector = ({ selectSkillHandler }: IProps): JSX.Element => {
+export const SkillSelector = ({ selectSkillHandler, charSkills }: IProps): JSX.Element => {
 
   const [shownSkills, setShownSkills] = useState<Skill[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -83,7 +84,7 @@ export const SkillSelector = ({ selectSkillHandler }: IProps): JSX.Element => {
         onChange={filterListHandler}
       />
       <div>Select a skill:</div>
-      <SkillList skills={shownSkills} selectSkillHandler={selectSkillHandler}/>
+      <SkillList charSkills={charSkills} skills={shownSkills} selectSkillHandler={selectSkillHandler}/>
     </>
   );
 };
