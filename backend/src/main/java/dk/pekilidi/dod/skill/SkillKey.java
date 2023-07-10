@@ -20,7 +20,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Embeddable
-//@JsonDeserialize(using = SkillKeyDeserializer.class)
 public class SkillKey implements ChangeKey, ActionKey, Serializable {
 
   @Serial

@@ -2,8 +2,6 @@ import { Skill } from "../../types/skill";
 import { SkillDetails } from "./SkillDetails";
 import { useEffect, useState } from "react";
 import { TableCell, TableRow } from "@mui/material";
-import { StyledTableRow } from "../../components/shared/Table.styled";
-import { Category } from "../../types/category";
 
 interface IProps {
   characterId: string;

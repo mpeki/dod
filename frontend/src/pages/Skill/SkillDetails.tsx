@@ -1,7 +1,7 @@
 import { Skill } from "../../types/skill";
 import { Action } from "../../types/action";
 import classes from "./SkillDetails.module.css";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { SkillService } from "../../services/skill.service";
 import { Change } from "../../types/change";
 import { ChangeService } from "../../services/change.service";
@@ -53,7 +53,7 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
 
     })
     .catch((e) => alert("Error fetching character: " + e));
-  }, [characterId, skill]);
+  }, [skillInput, characterId, skill]);
 
 
   const exchangeXPHandler = useCallback(async () => {

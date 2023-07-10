@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Item } from "../types/item";
-import { Character } from "../types/character";
 
 export const ItemService = {
 

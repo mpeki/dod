@@ -1,7 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { SkillService } from "../../services/skill.service";
+import { useState } from "react";
 import { Skill } from "../../types/skill";
-import { SkillList } from "./SkillList";
 import { EnumSelect } from "../../components/EnumSelect";
 import { Group } from "../../types/group";
 import { BaseChance } from "../../types/basechance";

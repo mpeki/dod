@@ -4,14 +4,22 @@ import Select from "react-select";
 
 interface IProps {
   skills: Skill[] | undefined;
+  charSkills?: Record<string,Skill>;
   selectSkillHandler: (skill: Skill) => void;
 }
 
-export const SkillList = ({ skills, selectSkillHandler }: IProps): JSX.Element => {
+export const SkillList = ({ skills, charSkills, selectSkillHandler }: IProps): JSX.Element => {
 
   const skillItems = () => {
     let options: any[] = [];
     if(skills){
+      skills = skills.filter(skill => {
+        if(charSkills){
+          return !charSkills[skill.key];
+        }
+        return true;
+      });
+      console.log("Filtered skills: " + JSON.stringify(skills));
       options = skills.map((skill) => {
         return {
           value: skill.key,
