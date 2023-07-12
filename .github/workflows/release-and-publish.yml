@@ -34,8 +34,7 @@ jobs:
       - name: Prepare semantic-release
         run: |
           npm clean-install
-          git fetch origin develop:develop
-          git fetch origin main:main
+          git branch
       - name: Do semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
