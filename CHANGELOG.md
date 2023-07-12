@@ -1,3 +1,19 @@
+# [1.14.0](https://github.com/mpeki/dod/compare/v1.13.0...v1.14.0) (2023-07-12)
+
+
+### Bug Fixes
+
+* **DOD-249:** added CONTRIBUTING.md first version ([e88c1cb](https://github.com/mpeki/dod/commit/e88c1cbfb797e6a6b5dfb0e3031a701837a33144))
+* **DOD-259:** Activate character now refreshes card ([cee374c](https://github.com/mpeki/dod/commit/cee374c6a9e96fc4b5c4a2a2ccbc20bb01ee64a9))
+
+
+### Features
+
+* **DOD-247:** highlighting name when hovering ([58e92e5](https://github.com/mpeki/dod/commit/58e92e55d2a5ad99e3a3fef3efed325db3e6f0d8))
+* **DOD-252:** remove bought skills from available skills ([#282](https://github.com/mpeki/dod/issues/282)) ([16d20e0](https://github.com/mpeki/dod/commit/16d20e084190b75bd19941ec6d34c0c24c88a6ff))
+* **DOD-257:** When listing skills, B skills are now marked ([182e8fc](https://github.com/mpeki/dod/commit/182e8fc899439f459d564b152365999f4d7553e4))
+* **DOD-261:** Allow linking skills to items ([27f33de](https://github.com/mpeki/dod/commit/27f33dec4725d0f8370a95b26cf39c87a446e402))
+
 # [1.14.0-rc.5](https://github.com/mpeki/dod/compare/v1.14.0-rc.4...v1.14.0-rc.5) (2023-07-10)
 
 
