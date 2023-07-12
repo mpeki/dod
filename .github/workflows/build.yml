@@ -75,7 +75,7 @@ jobs:
       - name: Merge back to develop
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          git fetch
           git checkout develop
+          git pull
           git merge origin/main -X theirs
           git push origin develop
