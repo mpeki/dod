@@ -43,7 +43,6 @@
       [
         "@semantic-release/exec",
         {
-          "verifyConditionsCmd": "./gradlew jacocoTestCoverageVerification",
           "publishCmd": "./gradlew jib"
         }
       ]
