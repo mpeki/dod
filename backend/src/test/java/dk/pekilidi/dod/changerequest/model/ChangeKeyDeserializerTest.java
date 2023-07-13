@@ -30,11 +30,8 @@ class ChangeKeyDeserializerTest {
   static final String newItemChangeRequestJSON_invalid_change = "{\"changeType\": \"HIT_POINTS\", "
       + "\"changeDescription\": \"Buy Item\", \"changeKey\": \"hammer\",\"modifier\": 1 }";
 
-  static final String characterNameChangeRequestJSON = "{\"changeType\": \"CHARACTER_NAME_CHANGE\", "
+  static final String characterNameChangeRequestJSON = "{\"changeType\": \"CHARACTER_CHANGE_NAME\", "
       + "\"changeDescription\": \"Changing name\", \"changeKey\": \"NAME\",\"modifier\": \"Svend\" }";
-
-  static final String invalidChangeRequestJSON = "{\"changeType\": \"NEW_ITEM\", \"changeDescription\": \"Florida\", "
-      + "\"changeKey\": \"hammer\",\"modifier\": 1 }";
 
   static final String itemJSON = "{\"itemType\": \"MELEE_WEAPON\",\"breakable\": true,\"itemKey\": \"short.spear\","
       + "\"price\": 75,\"weight\": 2.0,\"bp\": 11,\"damage\": \"1t6+1\",\"handGrip\": \"ONE_OR_TWO_HANDED\","

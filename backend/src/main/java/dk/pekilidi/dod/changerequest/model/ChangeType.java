@@ -14,7 +14,9 @@ public enum ChangeType {
   BASE_SKILL_POINTS(ChangeType.CHARACTER_CHANGE),
   CHARACTER_READY_TO_PLAY("character-state-change"),
   SKILL_FOR_ITEM_USE("skill-for-item-use"),
-  CHARACTER_NAME_CHANGE(ChangeType.CHARACTER_CHANGE);
+  CHARACTER_CHANGE_HEIGHT(ChangeType.CHARACTER_CHANGE),
+  CHARACTER_CHANGE_WEIGHT(ChangeType.CHARACTER_CHANGE),
+  CHARACTER_CHANGE_NAME(ChangeType.CHARACTER_CHANGE);
 
   public final String changeRuleSet;
   private static final String CHARACTER_CHANGE = "character-change";

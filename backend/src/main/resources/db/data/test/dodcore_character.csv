@@ -1,2 +1,2 @@
-id;name;race_id;body_id;hero
-123;vokan fagerhård;1;1;true
+id;name;race_id;body_id;hero;height;weight
+123;vokan fagerhård;1;1;true;189;89

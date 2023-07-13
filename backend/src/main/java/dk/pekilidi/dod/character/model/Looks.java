@@ -1,9 +1,12 @@
 package dk.pekilidi.dod.character.model;
 
+import jakarta.persistence.Column;
 import java.io.Serial;
 import java.io.Serializable;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +19,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Embeddable
 public class Looks implements Serializable {
 
@@ -26,6 +30,12 @@ public class Looks implements Serializable {
   HairColor hairColor;
   HairLength hairLength;
   BeardLength beardLength;
+  @Default
+  @Column(columnDefinition = "int default -1")
+  int height = -1;
+  @Default
+  @Column(columnDefinition = "int default -1")
+  int weight = -1;
 
   public enum EyeColor {BLUE, CHESSNUT_BROWN, BROWN, BLUE_GRAY, STEEL_GRAY, SILVER, GOLDEN, GREEN}
 

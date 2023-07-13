@@ -45,6 +45,36 @@ function boolean isBetween(int x, int lower, int upper) {
   return lower <= x && x <= upper;
 }
 
+function int weightBySize(int size){
+  switch ( size ) {
+    case 1: return 5;
+    case 2: return 10;
+    case 3: return 20;
+    case 4: return 30;
+    case 5: return 40;
+    case 6: return 50;
+    case 7: return 55;
+    case 8: return 60;
+    case 9: return 65;
+    case 10: return 70;
+    case 11: return 75;
+    case 12: return 80;
+    case 13: return 85;
+    case 14: return 90;
+    case 15: return 95;
+    case 16: return 100;
+    case 17: return 110;
+    case 18: return 120;
+    case 19: return 130;
+    case 20: return 140;
+    case 21: return 150;
+    case 22: return 160;
+    case 23: return 170;
+    case 24: return 180;
+  }
+  return -1;
+}
+
 dialect "java"
 
 
@@ -156,6 +186,14 @@ rule "Set Looks"
     else if( isBetween(facialHairRoll, 6, 10) ) { looks.setBeardLength(BeardLength.MOUSTACHE); }
     else if( isBetween(facialHairRoll, 11, 15) ) { looks.setBeardLength(BeardLength.BEARD); }
     else if( isBetween(facialHairRoll, 16, 20) ) { looks.setBeardLength(BeardLength.BEARD_AND_MOUSTACHE); }
+
+    int size = character.getBaseTraits().get(BaseTraitName.SIZE).getStartValue();
+    if(looks.getWeight() == -1){
+      looks.setWeight(weightBySize(size));
+    }
+    if(looks.getHeight() == -1){
+      looks.setHeight(160 + Dice.roll("1t20"));
+    }
 
 
     character.setLooks(looks);

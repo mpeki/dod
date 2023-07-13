@@ -30,4 +30,5 @@ export interface Character {
   baseSkillPoints?: number;
   skills?: Record<string,Skill>;
   items?: Record<string,CharacterItem>;
+  weightCarried?: number;
 }

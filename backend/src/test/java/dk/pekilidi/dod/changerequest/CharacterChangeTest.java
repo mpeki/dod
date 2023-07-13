@@ -54,7 +54,7 @@ class CharacterChangeTest {
     ChangeRequest change = ChangeRequest
         .builder()
         .changeDescription("Change Name!")
-        .changeType(ChangeType.CHARACTER_NAME_CHANGE)
+        .changeType(ChangeType.CHARACTER_CHANGE_NAME)
         .changeKey(CharacterInfo.NAME)
         .modifier("2")
         .build();
@@ -74,7 +74,7 @@ class CharacterChangeTest {
     ChangeRequest change = ChangeRequest
         .builder()
         .changeDescription("Change Name!")
-        .changeType(ChangeType.CHARACTER_NAME_CHANGE)
+        .changeType(ChangeType.CHARACTER_CHANGE_NAME)
         .changeKey(CharacterInfo.NAME)
         .modifier("Boris")
         .build();
@@ -94,7 +94,7 @@ class CharacterChangeTest {
     ChangeRequest change = ChangeRequest
         .builder()
         .changeDescription("Change Name!")
-        .changeType(ChangeType.CHARACTER_NAME_CHANGE)
+        .changeType(ChangeType.CHARACTER_CHANGE_NAME)
         .changeKey(CharacterInfo.NAME)
         .modifier(validName)
         .build();

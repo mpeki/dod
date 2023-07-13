@@ -24,9 +24,9 @@ export const ViewCharacter = () => {
   const [character, setCharacter] = useState<Character>();
 
   const [changeData, setChangeData] = useState<Change>({
-    changeType: "CHARACTER_NAME_CHANGE",
-    changeDescription: "Change name",
-    changeKey: "NAME",
+    changeType: "",
+    changeDescription: "",
+    changeKey: "",
     modifier: ""
   });
 
@@ -44,11 +44,13 @@ export const ViewCharacter = () => {
     fetchCharHandler().then();
   }, [fetchCharHandler]);
 
-  const nameChangeHandler = useCallback( async (name: string) => {
+  const changeHandler = useCallback( async (changeKey: string, mod: any) => {
     const change: Change = {
       ...changeData,
-      changeKey: "NAME",
-      modifier: name,
+      changeType: "CHARACTER_CHANGE_" + changeKey,
+      changeDescription: "Changed " + changeKey + " to " + mod,
+      changeKey: changeKey,
+      modifier: mod,
     };
     ChangeService.doChange("" + charId, change).then()
   }, [changeData, charId]);
@@ -69,7 +71,7 @@ export const ViewCharacter = () => {
             <BaseTraitList baseTraits={character?.baseTraits} />
           </Paper>
           <Paper elevation={3}>
-            <CharacterInfo character={character} user={user} nameChangeHandler={nameChangeHandler} />
+            <CharacterInfo character={character} user={user} changeHandler={changeHandler} />
           </Paper>
           <Paper>
             <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
@@ -97,7 +99,7 @@ export const ViewCharacter = () => {
             )}
           </Paper>
           <Paper elevation={3}>
-            <ItemsContainer />
+            <ItemsContainer character={character}/>
           </Paper>
         </Masonry>
       </Container>
