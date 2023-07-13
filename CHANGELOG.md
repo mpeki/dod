@@ -1,3 +1,10 @@
+# [1.15.0-rc.1](https://github.com/mpeki/dod/compare/v1.14.0...v1.15.0-rc.1) (2023-07-13)
+
+
+### Features
+
+* **DOD-102:** added character weight and weight carried ([7cd7055](https://github.com/mpeki/dod/commit/7cd7055f0225fe08899a607f7a4b5d2af20c2566))
+
 # [1.14.0](https://github.com/mpeki/dod/compare/v1.13.0...v1.14.0) (2023-07-12)
 
 
