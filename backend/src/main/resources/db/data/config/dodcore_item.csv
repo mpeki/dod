@@ -1,7 +1,7 @@
 item_type;id;breakable;item_key;price;weight;pieces_for_price;bp;damage;hand_grip;length;strength_group;bow_cast;bep_storage;max_throw_distance;range_multiplier;range_trait
-5;0CDFGZFBTD4YB;false;gold;10;0.1;0.1;null;null;null;null;null;null;null;null;null;null
-5;0CDFGZFBTD4YC;false;silver;1;0.1;1;null;null;null;null;null;null;null;null;null;null
-5;0CDFGZFBTD4YD;false;copper;0.1;0.1;10;null;null;null;null;null;null;null;null;null;null
+5;0CDFGZFBTD4YB;false;gold;10;0.003;0.1;null;null;null;null;null;null;null;null;null;null
+5;0CDFGZFBTD4YC;false;silver;1;0.002;1;null;null;null;null;null;null;null;null;null;null
+5;0CDFGZFBTD4YD;false;copper;0.1;0.001;10;null;null;null;null;null;null;null;null;null;null
 4;0CDFGZFBTD4YE;true;arrow;12;1;20;1;null;null;null;null;null;null;null;null;null
 4;0CDFGZFBTD4YF;true;crossbow.arrow;25;1;20;2;null;null;null;null;null;null;null;null;null
 0;0CDFGZFBTD4YG;true;small.backpack;5;null;null;null;null;null;null;null;null;2;null;null;null

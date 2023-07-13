@@ -63,6 +63,7 @@ public class CharacterFlowTest {
 
     //Fetch the character created
     CharacterDTO fetchedChar = flowHelper.getCharById(createdChar.getId());
+    createdChar.setWeightCarried(fetchedChar.getWeightCarried());
     assertEquals(createdChar, fetchedChar);
 
     //update the character - increase number of hero points

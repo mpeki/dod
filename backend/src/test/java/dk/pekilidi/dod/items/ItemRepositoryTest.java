@@ -31,7 +31,7 @@ class ItemRepositoryTest {
     ManyPiece mithril = Coin.builder()
         .key(ItemKey.builder().value("mithril").build())
         .price(1000)
-        .piecesForPrice(1)
+        .piecesForPrice(1.0)
         .weight(0.01)
         .breakable(false)
         .build();

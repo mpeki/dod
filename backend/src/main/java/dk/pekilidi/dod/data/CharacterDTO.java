@@ -77,6 +77,7 @@ public class CharacterDTO implements DODFact, Serializable {
   private Map<String, CharacterItemDTO> items = new HashMap<>();
 
   private Looks looks;
+  private Double weightCarried;
 
   public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
     if (baseTraits.containsKey(baseTraitName)) {

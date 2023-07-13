@@ -64,7 +64,14 @@ class CharacterCreationRulesTest {
   @Test
   @TestRules(expected = {"Determine favorite hand", "Determine social status", "Set Looks"})
   void characterCreationDefaultCharacter() {
+    BaseTraitDTO size = BaseTraitDTO.builder()
+        .traitName(BaseTraitName.SIZE)
+        .startValue(10)
+        .currentValue(10)
+        .groupValue(2)
+        .build();
     CharacterDTO character = CharacterDTO.builder().build();
+    character.addBaseTrait(size);
     drools.insert(character);
     drools.fireAllRules();
     drools.assertFactsCount(1);
@@ -82,13 +89,14 @@ class CharacterCreationRulesTest {
             .characterTemplate(CharacterTemplateDTO
                 .builder()
                 .baseTraitRules(List.of(
-                    BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.STRENGTH).baseTraitDieRoll("1t20").build()))
+                    BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.STRENGTH).baseTraitDieRoll("1t20").build(),
+                    BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.SIZE).baseTraitDieRoll("1t20").build()))
                 .build())
             .build())
         .build();
     drools.insert(character);
     drools.fireAllRules();
-    drools.assertFactsCount(2);
+    drools.assertFactsCount(3);
   }
 
   @Test
