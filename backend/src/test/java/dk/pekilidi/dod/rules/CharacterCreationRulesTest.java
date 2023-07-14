@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.CharacterState;
+import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
 import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.BaseTraitRuleDTO;
@@ -117,6 +118,11 @@ class CharacterCreationRulesTest {
     assertEquals(2, drools.getObjects(BaseTraitDTO.class).size());
     assertEquals(8, drools.getObjects(CharacterDTO.class).get(0).getBodyParts().size());
     CharacterDTO characterDTO = drools.getObject(CharacterDTO.class);
+    //Prove DOD-286 is fixed
+    assertEquals(characterDTO.getBodyParts().get(BodyPartName.LEFT_LEG).getMaxHP(),
+        characterDTO.getBodyParts().get(BodyPartName.RIGHT_LEG).getMaxHP());
+    assertEquals(characterDTO.getBodyParts().get(BodyPartName.LEFT_ARM).getMaxHP(),
+        characterDTO.getBodyParts().get(BodyPartName.RIGHT_ARM).getMaxHP());
     assertEquals(CharacterState.INIT_COMPLETE, characterDTO.getState());
   }
 

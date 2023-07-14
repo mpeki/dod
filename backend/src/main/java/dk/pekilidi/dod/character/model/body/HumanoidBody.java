@@ -26,6 +26,8 @@ public class HumanoidBody extends BaseBody implements Serializable {
   @Serial
   private static final long serialVersionUID = -7287994998222456079L;
 
+  public static final int TOTAL_BODY_PARTS = 8;
+
   @Embedded
   @AttributeOverride(name = "currentHP", column = @Column(name = "head_hp"))
   @AttributeOverride(name = "maxHP", column = @Column(name = "head_max_hp"))
