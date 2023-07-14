@@ -9,6 +9,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @JsonDeserialize(using = ChangeKeyDeserializer.class)
 public enum CharacterInfo implements ChangeKey, Serializable {
-  NAME, SOCIAL_STATUS, PROFESSION, LIFE_GOALS;
+  NAME, HEIGHT, WEIGHT, SOCIAL_STATUS, PROFESSION, LIFE_GOALS;
 
 }

@@ -8,6 +8,7 @@ import static dk.pekilidi.dod.character.model.body.BodyPartName.RIGHT_ARM;
 import static dk.pekilidi.dod.character.model.body.BodyPartName.RIGHT_LEG;
 import static dk.pekilidi.dod.character.model.body.BodyPartName.STOMACH;
 import static dk.pekilidi.dod.character.model.body.BodyPartName.TOTAL;
+import static dk.pekilidi.dod.character.model.body.HumanoidBody.TOTAL_BODY_PARTS;
 
 import dk.pekilidi.dod.character.model.body.BodyPart;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
@@ -24,7 +25,10 @@ public class HumanoidBodyConverter {
 
   protected static Converter<Map<BodyPartName, BodyPartDTO>, HumanoidBody> toHumanoidEntity = context -> {
     Map<BodyPartName, BodyPartDTO> source = context.getSource();
-    return source == null || source.size() == 0 ? new HumanoidBody() : HumanoidBody
+    if(source.size() < TOTAL_BODY_PARTS){
+      throw new BodyIncompleteException(context.getDestinationType(), source);
+    }
+    return HumanoidBody
         .builder()
         .total(createBodyPartEntityFromSourceDTO(TOTAL, source))
         .head(createBodyPartEntityFromSourceDTO(HEAD, source))
@@ -32,7 +36,7 @@ public class HumanoidBodyConverter {
         .stomach(createBodyPartEntityFromSourceDTO(STOMACH, source))
         .rightArm(createBodyPartEntityFromSourceDTO(RIGHT_ARM, source))
         .leftArm(createBodyPartEntityFromSourceDTO(LEFT_ARM, source))
-        .rightLeg(createBodyPartEntityFromSourceDTO(LEFT_ARM, source))
+        .rightLeg(createBodyPartEntityFromSourceDTO(RIGHT_LEG, source))
         .leftLeg(createBodyPartEntityFromSourceDTO(LEFT_LEG, source))
         .build();
   };

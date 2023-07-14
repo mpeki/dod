@@ -56,7 +56,7 @@ public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
         case NEW_SKILL, SKILL_CHANGE -> {
           return new SkillKey(text);
         }
-        case CHARACTER_NAME_CHANGE -> {
+        case CHARACTER_CHANGE_NAME, CHARACTER_CHANGE_HEIGHT, CHARACTER_CHANGE_WEIGHT -> {
           return CharacterInfo.valueOf(text);
         }
         default -> throw new IllegalStateException("Unexpected value: " + changeRequest.getChangeType());

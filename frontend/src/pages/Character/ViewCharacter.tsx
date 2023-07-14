@@ -5,10 +5,9 @@ import { CharacterService } from "../../services/character.service";
 import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
 import { CharacterInfo } from "../../components/Character/CharacterInfo";
 import { User } from "../../types/user";
-import { Container, Paper } from "@mui/material";
+import { Container, Divider, Paper } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import { SkillContainer } from "../Skill/SkillContainer";
-import { ReputationStats } from "../../components/Character/ReputationStats";
 import { HeroStats } from "../../components/Character/HeroStats";
 import { SanityStats } from "../../components/Character/SanityStats";
 import { BodyContainer } from "./BodyContainer";
@@ -17,6 +16,9 @@ import { ItemsContainer } from "../Items/ItemsContainer";
 import { FundsContainer } from "../Items/FundsContainer";
 import { ChangeService } from "../../services/change.service";
 import { Change } from "../../types/change";
+import { MovementStats } from "../../components/Character/MovementStats";
+import Stack from "@mui/material/Stack";
+import { ReputationStats } from "../../components/Character/ReputationStats";
 
 
 export const ViewCharacter = () => {
@@ -24,12 +26,11 @@ export const ViewCharacter = () => {
   const [character, setCharacter] = useState<Character>();
 
   const [changeData, setChangeData] = useState<Change>({
-    changeType: "CHARACTER_NAME_CHANGE",
-    changeDescription: "Change name",
-    changeKey: "NAME",
+    changeType: "",
+    changeDescription: "",
+    changeKey: "",
     modifier: ""
   });
-
 
 
   const fetchCharHandler = useCallback(async () => {
@@ -44,13 +45,15 @@ export const ViewCharacter = () => {
     fetchCharHandler().then();
   }, [fetchCharHandler]);
 
-  const nameChangeHandler = useCallback( async (name: string) => {
+  const changeHandler = useCallback(async (changeKey: string, mod: any) => {
     const change: Change = {
       ...changeData,
-      changeKey: "NAME",
-      modifier: name,
+      changeType: "CHARACTER_CHANGE_" + changeKey,
+      changeDescription: "Changed " + changeKey + " to " + mod,
+      changeKey: changeKey,
+      modifier: mod
     };
-    ChangeService.doChange("" + charId, change).then()
+    ChangeService.doChange("" + charId, change).then();
   }, [changeData, charId]);
 
   if (character == null || character.id == null) {
@@ -69,22 +72,28 @@ export const ViewCharacter = () => {
             <BaseTraitList baseTraits={character?.baseTraits} />
           </Paper>
           <Paper elevation={3}>
-            <CharacterInfo character={character} user={user} nameChangeHandler={nameChangeHandler} />
+            <CharacterInfo character={character} user={user} changeHandler={changeHandler} />
           </Paper>
           <Paper>
             <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
           </Paper>
           {character.state === "READY_TO_PLAY" && (
             <Paper elevation={3}>
-              <SanityStats character={character} />
-              {character.hero && (
-                <>
-                  <ReputationStats character={character} />
-                  <HeroStats character={character} />
-                </>
-              )}
+              <Stack direction={"row"}>
+                <SanityStats character={character} />
+                {character.hero && (
+                  <>
+                    <Divider orientation="vertical" flexItem />
+                    <ReputationStats character={character} />
+                    <Divider orientation="vertical" flexItem />
+                    <HeroStats character={character} />
+                  </>
+                )}
+                <Divider orientation="vertical" flexItem />
+                <MovementStats character={character} />
+              </Stack>
             </Paper>
-          )}
+            )}
           <Paper elevation={3}>
             <BodyContainer parts={character.bodyParts} />
           </Paper>
@@ -97,7 +106,7 @@ export const ViewCharacter = () => {
             )}
           </Paper>
           <Paper elevation={3}>
-            <ItemsContainer />
+            <ItemsContainer character={character} />
           </Paper>
         </Masonry>
       </Container>

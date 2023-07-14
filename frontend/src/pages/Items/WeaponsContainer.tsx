@@ -1,4 +1,15 @@
-import { Box, Fab, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  Box,
+  Fab,
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography
+} from "@mui/material";
 import { StyledTable } from "../../components/shared/Table.styled";
 import Stack from "@mui/material/Stack";
 import AddIcon from "@mui/icons-material/Add";
@@ -62,22 +73,22 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
     return (
       <>
         <Stack direction="row-reverse">
-          <Fab color="success" size="small" aria-label="add">
-            <AddIcon onClick={handleOpen} />
-          </Fab>
+          <IconButton edge="start" aria-label="add skill">
+            <AddIcon onClick={handleOpen}/>
+          </IconButton>
         </Stack>
         <StyledTable>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Weapon/Shield</TableCell>
-                <TableCell>Fv</TableCell>
-                <TableCell>Dmg</TableCell>
-                <TableCell>Vl</TableCell>
-                <TableCell>Bv</TableCell>
-                <TableCell>Abs</TableCell>
-                <TableCell>Range</TableCell>
-                <TableCell>Weight</TableCell>
+                <TableCell sx={{fontWeight: "bold"}}>Weapon/Shield</TableCell>
+                <TableCell sx={{fontWeight: "bold"}}>Fv</TableCell>
+                <TableCell sx={{fontWeight: "bold"}}>Dmg</TableCell>
+                <TableCell sx={{fontWeight: "bold"}}>Vl</TableCell>
+                <TableCell sx={{fontWeight: "bold"}}>Bv</TableCell>
+                <TableCell sx={{fontWeight: "bold"}}>Abs</TableCell>
+                <TableCell sx={{fontWeight: "bold"}}>Range</TableCell>
+                <TableCell sx={{fontWeight: "bold"}}>Weight</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

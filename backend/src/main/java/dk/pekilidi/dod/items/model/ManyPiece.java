@@ -21,7 +21,7 @@ public abstract class ManyPiece extends BaseItem {
 
   @Serial
   private static final long serialVersionUID = 6047831652263378840L;
-  private Integer piecesForPrice;
+  private Double piecesForPrice;
 
   public String keyOf(){
     throw new UnsupportedOperationException("Not implemented");

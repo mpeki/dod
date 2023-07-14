@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.CharacterState;
+import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
 import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.BaseTraitRuleDTO;
@@ -62,9 +63,16 @@ class CharacterCreationRulesTest {
   }
 
   @Test
-  @TestRules(expected = {"Determine favorite hand", "Determine social status", "Set Looks"})
+  @TestRules(expected = {"Determine favorite hand", "Determine social status","Initialize movement point", "Set Looks"})
   void characterCreationDefaultCharacter() {
+    BaseTraitDTO size = BaseTraitDTO.builder()
+        .traitName(BaseTraitName.SIZE)
+        .startValue(10)
+        .currentValue(10)
+        .groupValue(2)
+        .build();
     CharacterDTO character = CharacterDTO.builder().build();
+    character.addBaseTrait(size);
     drools.insert(character);
     drools.fireAllRules();
     drools.assertFactsCount(1);
@@ -72,7 +80,7 @@ class CharacterCreationRulesTest {
 
   @Test
   @TestRules(expected = {
-      "Initialize base traits and hero points", "Determine social status", "Determine favorite hand", "Set Looks"},
+      "Initialize base traits and hero points", "Determine social status", "Determine favorite hand", "Initialize movement point", "Set Looks"},
       ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRace() {
     CharacterDTO character = CharacterDTO
@@ -82,13 +90,14 @@ class CharacterCreationRulesTest {
             .characterTemplate(CharacterTemplateDTO
                 .builder()
                 .baseTraitRules(List.of(
-                    BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.STRENGTH).baseTraitDieRoll("1t20").build()))
+                    BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.STRENGTH).baseTraitDieRoll("1t20").build(),
+                    BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.SIZE).baseTraitDieRoll("1t20").build()))
                 .build())
             .build())
         .build();
     drools.insert(character);
     drools.fireAllRules();
-    drools.assertFactsCount(2);
+    drools.assertFactsCount(3);
   }
 
   @Test
@@ -100,6 +109,7 @@ class CharacterCreationRulesTest {
       "Check character completion",
       "Determine social status",
       "Initialize damage bonus",
+      "Initialize movement point",
       "Set Looks"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRaceAndAbleToCalculateTotalHP() {
     drools.insert(validNonHero);
@@ -109,6 +119,11 @@ class CharacterCreationRulesTest {
     assertEquals(2, drools.getObjects(BaseTraitDTO.class).size());
     assertEquals(8, drools.getObjects(CharacterDTO.class).get(0).getBodyParts().size());
     CharacterDTO characterDTO = drools.getObject(CharacterDTO.class);
+    //Prove DOD-286 is fixed
+    assertEquals(characterDTO.getBodyParts().get(BodyPartName.LEFT_LEG).getMaxHP(),
+        characterDTO.getBodyParts().get(BodyPartName.RIGHT_LEG).getMaxHP());
+    assertEquals(characterDTO.getBodyParts().get(BodyPartName.LEFT_ARM).getMaxHP(),
+        characterDTO.getBodyParts().get(BodyPartName.RIGHT_ARM).getMaxHP());
     assertEquals(CharacterState.INIT_COMPLETE, characterDTO.getState());
   }
 
@@ -136,6 +151,7 @@ class CharacterCreationRulesTest {
       "Determine favorite hand",
       "Determine social status",
       "Initialize damage bonus",
+      "Initialize movement point",
       "Set Looks"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterTestDamageBonusLimits(int averageVal, String damageBonus) {
     validNonHero

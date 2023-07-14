@@ -34,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Cascade;
-
+import org.hibernate.annotations.Formula;
 
 @Getter
 @Setter
@@ -109,6 +109,16 @@ public class DODCharacter implements Serializable {
 
   @Embedded
   private Looks looks;
+
+  @Formula("(select sum(ci.quantity * i.weight) from character_item ci " +
+              "join character_item_mapping cim on ci.id = cim.item_id " +
+              "join dodcharacter c on cim.character_id = c.id " +
+              "join item i on ci.item_key = i.item_key " +
+              "where c.id = id)")
+  private Double weightCarried;
+
+  @Embedded
+  private Movement movementPoints;
 
   @Override
   public boolean equals(Object o) {

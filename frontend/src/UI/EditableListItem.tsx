@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ListItem, ListItemText, listItemTextClasses, TextField } from "@mui/material";
+import { ListItem, ListItemText, TextField } from "@mui/material";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 interface ListItemProps {
   label: string;
   value: string;
-  nameChangeHandler: (name: string) => void;
+  changeType: string;
+  changeHandler: (changeKey: string, mod: any) => void;
   allowEdit: boolean;
+  validationPattern?: RegExp;
+  validationErrorMsg?: string;
 }
 
 const listItemTextSecondarySX = {
@@ -15,13 +18,13 @@ const listItemTextSecondarySX = {
   },
 };
 
-const EditableListItem: React.FC<ListItemProps> = ({ label, value, nameChangeHandler, allowEdit }) => {
+const EditableListItem: React.FC<ListItemProps> = ({ label, value, changeType, changeHandler, allowEdit, validationPattern, validationErrorMsg }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [textValue, setTextValue] = useState(value);
   const [originalValue, setOriginalValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputError, setInputError] = useState(false);
-  const validNameRegExp = /^[\p{L}]{2}([- ]?[\p{L}])*$/u;
+  const validNameRegExp = validationPattern || /(?:)/;
 
   const handleClick = () => {
     setIsEditing(true);
@@ -35,7 +38,7 @@ const EditableListItem: React.FC<ListItemProps> = ({ label, value, nameChangeHan
 
     if (isValid) {
       setTextValue(inputValue?.trim());
-      nameChangeHandler(inputValue?.trim());
+      changeHandler(changeType, inputValue?.trim());
     } else {
       setTextValue(originalValue);
     }
@@ -76,7 +79,7 @@ const EditableListItem: React.FC<ListItemProps> = ({ label, value, nameChangeHan
   }, [isEditing]);
 
   return (
-    <ListItem component="div" onClick={handleClick} sx={listItemTextSecondarySX}>
+    <ListItem component="div" onClick={handleClick} sx={allowEdit ? listItemTextSecondarySX : {}}>
       {allowEdit ? (
 
         isEditing ? (
@@ -91,9 +94,9 @@ const EditableListItem: React.FC<ListItemProps> = ({ label, value, nameChangeHan
             autoFocus
             onFocus={handleFocus}
             error={inputError}
-            helperText={inputError ? "Must be at least 2 alphabetic characters and no numbers, 2Pack!" : ""}
+            helperText={inputError ? validationErrorMsg : ""}
             variant="standard"
-            label="Name"
+            label={label}
           />
         ) : (
           <>

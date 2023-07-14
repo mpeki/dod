@@ -1,3 +1,38 @@
+# [1.15.0-rc.5](https://github.com/mpeki/dod/compare/v1.15.0-rc.4...v1.15.0-rc.5) (2023-07-14)
+
+
+### Features
+
+* **DOD-280:** Added movement point to the UI ([6aff87b](https://github.com/mpeki/dod/commit/6aff87b582ea79eb56e80cb56bb01a2a3f73e249))
+
+# [1.15.0-rc.4](https://github.com/mpeki/dod/compare/v1.15.0-rc.3...v1.15.0-rc.4) (2023-07-14)
+
+
+### Features
+
+* **DOD-103:** API now returns movement points ([bc4e953](https://github.com/mpeki/dod/commit/bc4e953018d5942209b4d18ab46b028195436548))
+
+# [1.15.0-rc.3](https://github.com/mpeki/dod/compare/v1.15.0-rc.2...v1.15.0-rc.3) (2023-07-14)
+
+
+### Bug Fixes
+
+* **DOD-286:** Right leg now has same HP as left ([b6f0d73](https://github.com/mpeki/dod/commit/b6f0d7338830b32eb6297e1e68c4019b03ddd983))
+
+# [1.15.0-rc.2](https://github.com/mpeki/dod/compare/v1.15.0-rc.1...v1.15.0-rc.2) (2023-07-14)
+
+
+### Features
+
+* **DOD-288:** UI Improvements ([a354acd](https://github.com/mpeki/dod/commit/a354acd0bb22f172e197bd53694c28560f98f7b1))
+
+# [1.15.0-rc.1](https://github.com/mpeki/dod/compare/v1.14.0...v1.15.0-rc.1) (2023-07-13)
+
+
+### Features
+
+* **DOD-102:** added character weight and weight carried ([7cd7055](https://github.com/mpeki/dod/commit/7cd7055f0225fe08899a607f7a4b5d2af20c2566))
+
 # [1.14.0](https://github.com/mpeki/dod/compare/v1.13.0...v1.14.0) (2023-07-12)
 
 

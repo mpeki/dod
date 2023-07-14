@@ -65,7 +65,7 @@ function App() {
         <ThemeProvider theme={currentTheme}>
           <GlobalStyles />
           <AppRouter>
-            <Box sx={{ width: "100%" }}>
+            <Box sx={{ p: 10 }}>
               <AppTabs />
               <Routes>
                 <Route index element={<Home />} />

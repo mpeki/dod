@@ -11,6 +11,7 @@ import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.character.model.FavoriteHand;
 import dk.pekilidi.dod.character.model.Looks;
+import dk.pekilidi.dod.character.model.Movement;
 import dk.pekilidi.dod.character.model.SocialStatus;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.items.InsufficientFundsException;
@@ -77,6 +78,8 @@ public class CharacterDTO implements DODFact, Serializable {
   private Map<String, CharacterItemDTO> items = new HashMap<>();
 
   private Looks looks;
+  private Double weightCarried;
+  private Movement movementPoints;
 
   public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
     if (baseTraits.containsKey(baseTraitName)) {

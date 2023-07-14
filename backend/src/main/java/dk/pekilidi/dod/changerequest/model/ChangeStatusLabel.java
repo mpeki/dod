@@ -24,7 +24,12 @@ public enum ChangeStatusLabel {
   NO_RULES_FIRED("no.rules.fired"),
   CHANGE_REJECTED_UNKNOWN_REASON("rejected.unknow.reason"),
   OK_NAME("valid.name"),
-  INVALID_NAME("invalid.name");
+  INVALID_NAME("invalid.name"),
+  INVALID_HEIGHT("invalid.height"),
+  INVALID_WEIGHT("invalid.weight"),
+  OK_HEIGHT("valid.height"),
+  OK_WEIGHT("valid.weight");
+
   public final String label;
 
   ChangeStatusLabel(String label) {
