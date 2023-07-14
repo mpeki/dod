@@ -10,7 +10,7 @@ export const HeroStats = ({ character }: ICharacterProps) => {
 
   return (
     <StyledList>
-      <List>
+      <List dense>
         <ListItem>
           <ListItemText primary="Hero Points" secondary="0" />
         </ListItem>
