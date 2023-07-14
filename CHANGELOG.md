@@ -1,3 +1,10 @@
+# [1.15.0-rc.4](https://github.com/mpeki/dod/compare/v1.15.0-rc.3...v1.15.0-rc.4) (2023-07-14)
+
+
+### Features
+
+* **DOD-103:** API now returns movement points ([bc4e953](https://github.com/mpeki/dod/commit/bc4e953018d5942209b4d18ab46b028195436548))
+
 # [1.15.0-rc.3](https://github.com/mpeki/dod/compare/v1.15.0-rc.2...v1.15.0-rc.3) (2023-07-14)
 
 
