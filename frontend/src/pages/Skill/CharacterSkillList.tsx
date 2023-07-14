@@ -32,9 +32,9 @@ export const CharacterSkillList = ({ charId, skills }: IProps): JSX.Element => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Skills</TableCell>
-            <TableCell>Value</TableCell>
-            <TableCell>Exp</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>Skills</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>Value</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>Exp</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

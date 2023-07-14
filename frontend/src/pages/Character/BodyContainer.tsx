@@ -1,7 +1,18 @@
 import { BodyPartValue } from "../../types/character";
 import { BodyPartItem } from "./BodyPart";
 import { StyledTable } from "../../components/shared/Table.styled";
-import { Fab, List, ListItem, ListItemText, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import {
+  Fab,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from "@mui/material";
 import { StyledList } from "../../components/shared/List.styled";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -28,9 +39,9 @@ export const BodyContainer = ({ parts }: IProps): JSX.Element => {
             <ListItem dense={true}>
               <ListItemText primary="Total HP" secondary={parts["TOTAL"].maxHP} />
             </ListItem>
-            <Fab color="success" size="small" aria-label="add">
+            <IconButton edge="start" aria-label="add skill">
               <AddIcon />
-            </Fab>
+            </IconButton>
           </StyledList>
         </List>
 

@@ -21,13 +21,14 @@ export const BaseTraitList = ({ baseTraits }: IProps): JSX.Element => {
 
     return (
       <>
-        <StyledTable>
+        <StyledTable style={{ margin: '2px', marginTop: '15px' }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell></TableCell>
-                <TableCell>Value</TableCell>
-                <TableCell>Group</TableCell>
+                <TableCell colSpan={2}></TableCell>
+                <TableCell align="right" colSpan={2} sx={{ fontWeight: 'bold' }}>Value</TableCell>
+                <TableCell align="right" colSpan={2} sx={{ fontWeight: 'bold' }}>Group</TableCell>
+                <TableCell colSpan={3}></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

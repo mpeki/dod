@@ -9,9 +9,10 @@ interface IProps {
 export const BaseTraitItem = ({ baseTraitName, itemValues }: IProps) => {
   return (
     <TableRow key={baseTraitName} >
-      <TableCell>{baseTraitName}</TableCell>
-      <TableCell>{itemValues?.currentValue}</TableCell>
-      <TableCell>{itemValues?.groupValue}</TableCell>
+      <TableCell colSpan={2} align="justify" sx={{ fontWeight: 'bold' }}>{baseTraitName}</TableCell>
+      <TableCell colSpan={2} align="right">{itemValues?.currentValue}</TableCell>
+      <TableCell colSpan={2} align="right" padding={"checkbox"}>{itemValues?.groupValue}</TableCell>
+      <TableCell colSpan={3}></TableCell>
     </TableRow>
   );
 };
