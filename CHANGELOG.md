@@ -1,3 +1,10 @@
+# [1.15.0-rc.2](https://github.com/mpeki/dod/compare/v1.15.0-rc.1...v1.15.0-rc.2) (2023-07-14)
+
+
+### Features
+
+* **DOD-288:** UI Improvements ([a354acd](https://github.com/mpeki/dod/commit/a354acd0bb22f172e197bd53694c28560f98f7b1))
+
 # [1.15.0-rc.1](https://github.com/mpeki/dod/compare/v1.14.0...v1.15.0-rc.1) (2023-07-13)
 
 
