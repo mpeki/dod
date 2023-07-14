@@ -117,6 +117,9 @@ public class DODCharacter implements Serializable {
               "where c.id = id)")
   private Double weightCarried;
 
+  @Embedded
+  private Movement movementPoints;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

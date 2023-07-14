@@ -37,7 +37,8 @@ import dk.pekilidi.dod.items.model.ItemType;
 import dk.pekilidi.dod.items.ItemService;
 import dk.pekilidi.dod.items.ItemKey;
 import dk.pekilidi.dod.character.model.CharacterItem;
-import dk.pekilidi.dod.data.CharacterItemDTO;
+import dk.pekilidi.dod.data.CharacterItemDTO
+import dk.pekilidi.dod.character.model.Movement;
 
 global ItemService itemService;
 
@@ -112,7 +113,6 @@ rule "Initialize body - total HP"
     character.setState(CharacterState.TOTAL_HP_SET);
     update(character)
 end;
-
 
 rule "Initialize body - body parts HP - humanoid"
   no-loop
@@ -314,6 +314,17 @@ rule "Determine favorite hand"
       character.setFavoriteHand(FavoriteHand.AMBIDEXTROUS);
     }
 end;
+
+rule "Initialize movement point"
+  no-loop
+  when
+    character : CharacterDTO( movementPoints == null )
+  then
+    Movement movementPoints = Movement.builder().speedOnLand(10).speedInWater(5).speedInAir(0).build();
+    character.setMovementPoints(movementPoints);
+    update(character)
+end;
+
 
 rule "Determine social status"
   when
