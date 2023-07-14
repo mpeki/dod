@@ -1,3 +1,10 @@
+# [1.15.0-rc.3](https://github.com/mpeki/dod/compare/v1.15.0-rc.2...v1.15.0-rc.3) (2023-07-14)
+
+
+### Bug Fixes
+
+* **DOD-286:** Right leg now has same HP as left ([b6f0d73](https://github.com/mpeki/dod/commit/b6f0d7338830b32eb6297e1e68c4019b03ddd983))
+
 # [1.15.0-rc.2](https://github.com/mpeki/dod/compare/v1.15.0-rc.1...v1.15.0-rc.2) (2023-07-14)
 
 
