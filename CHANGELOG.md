@@ -1,3 +1,10 @@
+# [1.15.0-rc.5](https://github.com/mpeki/dod/compare/v1.15.0-rc.4...v1.15.0-rc.5) (2023-07-14)
+
+
+### Features
+
+* **DOD-280:** Added movement point to the UI ([6aff87b](https://github.com/mpeki/dod/commit/6aff87b582ea79eb56e80cb56bb01a2a3f73e249))
+
 # [1.15.0-rc.4](https://github.com/mpeki/dod/compare/v1.15.0-rc.3...v1.15.0-rc.4) (2023-07-14)
 
 
