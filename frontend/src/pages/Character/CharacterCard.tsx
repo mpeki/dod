@@ -62,7 +62,7 @@ export const CharacterCard = ({ character, fetchCharactersHandler }: IProps): JS
 
   return (
     <Grid item xs={2} sm={3} md={3}>
-      <Card variant="outlined" sx={{ minWidth: 250, padding: 1 }}>
+      <Card variant="outlined" sx={{ minWidth: 225, padding: 1 }}>
         <CardActionArea component={Link} to={"/characters/" + character.id}>
           <CardHeader
             avatar={
