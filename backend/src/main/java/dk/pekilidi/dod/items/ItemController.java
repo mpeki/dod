@@ -31,20 +31,20 @@ public class ItemController {
     return itemService.findItemByKey(key);
   }
 
-  @CrossOrigin(origins = "http://localhost:3000")
+  @CrossOrigin
   @GetMapping("items")
   public List<ItemDTO> getAllItems() {
     return itemService.findAll();
   }
 
-  @CrossOrigin(origins = "http://localhost:3000")
+  @CrossOrigin
   @GetMapping("items/type/{itemType}")
   public List<ItemDTO> findByType(@PathVariable ItemType itemType) {
     List<ItemDTO> result = itemService.findItemByType(itemType);
     return result;
   }
 
-  @CrossOrigin(origins = "http://localhost:3000")
+  @CrossOrigin
   @PostMapping(value = "/item/melee_weapon", consumes = MediaType.APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
   ItemDTO postMeleeWeapon(@RequestBody ItemDTO newMeleeWeapon) {
     return itemService.createItem(newMeleeWeapon, MeleeWeapon.class);

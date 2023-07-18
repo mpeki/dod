@@ -20,7 +20,7 @@ public class SkillController {
 
   private SkillService skillService;
 
-  @CrossOrigin(origins = "http://localhost:3000")
+  @CrossOrigin
   @GetMapping("/skill")
   public List<SkillDTO> findSkills(@RequestParam(required = false) String group,
       @RequestParam(required = false) String baseChance) {
@@ -39,6 +39,7 @@ public class SkillController {
   }
 
   @GetMapping("skill/key/{key}")
+  @CrossOrigin
   public SkillDTO getSkillByKey(@PathVariable String key) {
     return skillService.findSkillByKey(key);
   }

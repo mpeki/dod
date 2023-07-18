@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { registerConfig } from "./services/config.service";
 import "./index.css";
 import App from "./App";
 
@@ -7,10 +8,10 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-root.render(
-  // <React.StrictMode>
-  //   <BrowserRouter>
+registerConfig().then(() => {
+  root.render(
+    <React.StrictMode>
       <App />
-    // </BrowserRouter>
-  // </React.StrictMode>
-);
+    </React.StrictMode>
+  );
+});
