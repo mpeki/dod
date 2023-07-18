@@ -1,0 +1,4 @@
+{
+  "contextPath": "%contextPath%",
+  "gameApiUri": "http://localhost:8090"
+}

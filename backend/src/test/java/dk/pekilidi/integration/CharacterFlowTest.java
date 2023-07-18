@@ -23,16 +23,16 @@ import org.testcontainers.containers.wait.strategy.Wait;
 @Slf4j
 public class CharacterFlowTest {
 
-  private static final Integer BACKEND_PORT = 8090;
+  private static final Integer API_PORT = 8090;
   private static final Integer DATABASE_PORT = 3306;
   @ClassRule
   public static DockerComposeContainer<?> compose = new DockerComposeContainer<>(new File("../docker-compose.yml"))
       .withPull(false)
       .withExposedService("db_1", DATABASE_PORT)
-      .withExposedService("backend_1", BACKEND_PORT)
+      .withExposedService("api_1", API_PORT)
       .withLogConsumer("db_1", new Slf4jLogConsumer(log)) //Print database logs
-      .withLogConsumer("backend_1", new Slf4jLogConsumer(log)) //Print backend logs
-      .waitingFor("backend_1", Wait.forHealthcheck());
+      .withLogConsumer("api_1", new Slf4jLogConsumer(log)) //Print backend logs
+      .waitingFor("api_1", Wait.forHealthcheck());
   static FlowTestHelper flowHelper;
 
   @BeforeAll
@@ -41,8 +41,8 @@ public class CharacterFlowTest {
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
-    String serviceUrl = "http://" + compose.getServiceHost("backend_1", BACKEND_PORT) + ":" + compose.getServicePort(
-        "backend_1", BACKEND_PORT);
+    String serviceUrl = "http://" + compose.getServiceHost("api_1", API_PORT) + ":" + compose.getServicePort(
+        "api_1", API_PORT);
     flowHelper = new FlowTestHelper(serviceUrl, headers);
   }
 

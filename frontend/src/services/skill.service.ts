@@ -2,6 +2,7 @@ import axios from "axios";
 import { Skill } from "../types/skill";
 import { Character } from "../types/character";
 import { Action } from "../types/action";
+import { config } from "./config.service";
 
 export const SkillService = {
   trainSkill: async function (
@@ -9,7 +10,7 @@ export const SkillService = {
     skillKey: string
   ): Promise<Action> {
     return new Promise((resolve) => {
-      const charApiUri = `http://localhost:8090/action/training/char/${charId}/skill/${skillKey}`;
+      const charApiUri = `${config.gameApiUri}/action/training/char/${charId}/skill/${skillKey}`;
       setTimeout(() => {
         axios
           .post(charApiUri)
@@ -25,7 +26,7 @@ export const SkillService = {
 
   getAllSkills: async function (): Promise<Skill[]> {
     return new Promise((resolve) => {
-      const charApiUri = "http://localhost:8090/skill";
+      const charApiUri = `${config.gameApiUri}/skill`;
       setTimeout(() => {
         axios
           .get(charApiUri)

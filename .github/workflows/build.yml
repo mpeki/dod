@@ -69,9 +69,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.SEMREL_TOKEN }}
         run: npx semantic-release
-      - name: Build and push Docker image
+      - name: Build and push API Docker image
         if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
         run: ./gradlew jib -Djib.console=plain
+      - name: Build and push UI Docker image
+        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
+        run: ./gradlew :f:pushUIC
       - name: Merge back to develop
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |

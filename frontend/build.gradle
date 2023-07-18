@@ -1,0 +1,21 @@
+plugins {
+    id "com.github.node-gradle.node" version "5.0.0"
+    id 'com.bmuschko.docker-remote-api' version '6.7.0'
+}
+
+// Import task types
+import com.bmuschko.gradle.docker.tasks.image.*
+
+
+// Use task types
+task buildUIContainer(type: DockerBuildImage) {
+    inputDir = project.projectDir
+    images.add('macp/dod-ui:latest')
+    images.add("macp/dod-ui:${version}")
+}
+
+task pushUIContainer(type: DockerPushImage) {
+    dependsOn buildUIContainer
+    images.add('macp/dod-ui:latest')
+    images.add("macp/dod-ui:${version}")
+}

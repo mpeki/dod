@@ -1,16 +1,16 @@
 version: "3.9"
 services:
 
-#  frontend:
-#    image: "macp/dod-ui:latest"
-#    build:
-#      context: ./frontend
-#    ports:
-#      - "8081:80"
-#    depends_on:
-#      - backend
+  ui:
+    image: "macp/dod-ui:latest"
+    build:
+      context: ./frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
 
-  backend:
+  api:
     image: "macp/dod:latest"
     ports:
       - "8090:8090"
