@@ -1,3 +1,10 @@
+# [1.16.0-rc.1](https://github.com/mpeki/dod/compare/v1.15.0...v1.16.0-rc.1) (2023-07-18)
+
+
+### Features
+
+* **DOD-264:** Now we build the UI ([a0935b2](https://github.com/mpeki/dod/commit/a0935b24c2a30a31d56c8b2419c0677d6642584b))
+
 # [1.15.0](https://github.com/mpeki/dod/compare/v1.14.0...v1.15.0) (2023-07-14)
 
 
