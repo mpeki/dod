@@ -1,11 +1,19 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Skill } from "../types/skill";
 import { Character } from "../types/character";
 import { Action } from "../types/action";
 import { config } from "./config.service";
+import { createTimeout } from "retry";
+import { showWarningSnackbar } from "../utils/DODSnackbars";
+import { options, operation } from "../utils/DODRetryOptions";
+import { closeSnackbar, enqueueSnackbar } from "notistack";
+
+
 
 export const SkillService = {
-  trainSkill: async function (
+
+
+  trainSkill: async function(
     charId: string,
     skillKey: string
   ): Promise<Action> {
@@ -13,41 +21,54 @@ export const SkillService = {
       const charApiUri = `${config.gameApiUri}/action/training/char/${charId}/skill/${skillKey}`;
       setTimeout(() => {
         axios
-          .post(charApiUri)
-          .then((response) => resolve(response.data))
-          .catch((err) => {
-            throw new Error(
-              `Cannot fetch data from backend: ${err?.code} ${err?.message}`
-            );
-          });
+        .post(charApiUri)
+        .then((response) => resolve(response.data))
+        .catch((err) => {
+          throw new Error(
+            `Cannot fetch data from backend: ${err?.code} ${err?.message}`
+          );
+        });
       }, Math.random() * 100);
     });
   },
 
-  getAllSkills: async function (): Promise<Skill[]> {
-    return new Promise((resolve) => {
-      const charApiUri = `${config.gameApiUri}/skill`;
-      setTimeout(() => {
-        axios
-          .get(charApiUri)
-          .then((response) => resolve(response.data))
-          .catch((err) => {
-            throw new Error(
-              `Cannot fetch data from backend: ${err?.code} ${err?.message}`
-            );
-          });
-      }, Math.random() * 100);
+  getAllSkills: async function(): Promise<Skill[]> {
+
+    const charApiUri = `${config.gameApiUri}/skill`;
+
+    return new Promise((resolve, reject) => {
+      operation.reset();
+      operation.attempt(async (currentAttempt) => {
+        const currentTimeout = createTimeout(currentAttempt - 1, options);
+        try {
+          const response = await axios.get(charApiUri);
+          if(response.status === 200 && currentAttempt > 1) {
+            closeSnackbar();
+            enqueueSnackbar("Connection Re-established!", {variant: "success"})
+          }
+          return resolve(response.data);
+        } catch (e) {
+          const axiosError = e as AxiosError;
+          if (operation.retry(axiosError)) {
+            showWarningSnackbar(currentTimeout);
+            return;
+          }
+          reject(
+            new Error(`Cannot fetch SKILL data from the game engine: ${axiosError?.message}`)
+          );
+        }
+      });
     });
   },
-  calculateCatASkillCost: function (skill: Skill, pointsToBuy: number): number {
+  calculateCatASkillCost: function(skill: Skill, pointsToBuy: number): number {
     // implementation for calculateCatASkillCost
     return 0;
   },
-  calculateCatBSkillCost: function (skill: Skill, pointsToBuy: number): number {
+  calculateCatBSkillCost: function(skill: Skill, pointsToBuy: number): number {
     // implementation for calculateCatBSkillCost
     return 0;
   },
-  calculateNewSkillPrice: function (
+  calculateNewSkillPrice: function(
     character: Character,
     skill: Skill | undefined,
     fvToBuy: number
@@ -63,7 +84,7 @@ export const SkillService = {
       return 0;
     }
     let skillCategory = JSON.stringify(skill.category);
-    if (skillCategory === '"A"' && character.hero) {
+    if (skillCategory === "\"A\"" && character.hero) {
       if (character.baseTraits != null && skill.traitName != null) {
         freePoints = character.baseTraits[skill.traitName].groupValue || 0;
       }
@@ -71,12 +92,12 @@ export const SkillService = {
     const pointsToBuy = fvToBuy - freePoints;
     if (pointsToBuy < 1) {
       return 0;
-    } else if (skillCategory === '"B"' && fvToBuy > 5) {
+    } else if (skillCategory === "\"B\"" && fvToBuy > 5) {
       throw new Error("Category B skills can't start above 5 fv");
-    } else if (skillCategory === '"A"' && fvToBuy > 20) {
+    } else if (skillCategory === "\"A\"" && fvToBuy > 20) {
       throw new Error("Category A skills can't start above 20 fv");
     }
-    if (skillCategory === '"A"') {
+    if (skillCategory === "\"A\"") {
       let result = -1;
       const skillPrice = skill.price || 0;
       const tier1Price = skillPrice * 10;
@@ -137,5 +158,5 @@ export const SkillService = {
       }
       return result;
     }
-  },
+  }
 };

@@ -16,7 +16,6 @@ export const ViewItems = () => {
   const handleClose = () => setOpen(false);
 
   const fetchItemsHandler = useCallback(async () => {
-    console.log("Fetching items : ");
     let itemJSON = localStorage.getItem("items");
     if (itemJSON === null) {
       await ItemService.getAllItems()
@@ -24,7 +23,6 @@ export const ViewItems = () => {
         itemJSON = JSON.stringify(items);
         localStorage.setItem("items", itemJSON);
         setItems(items);
-        console.log(items)
       })
       .catch((e) => alert("Error fetching items: " + e));
     }
