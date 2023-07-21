@@ -1,3 +1,10 @@
+# [1.16.0-rc.2](https://github.com/mpeki/dod/compare/v1.16.0-rc.1...v1.16.0-rc.2) (2023-07-21)
+
+
+### Features
+
+* **DOD-296:** initializing game now retries on connection error ([9a8ffb0](https://github.com/mpeki/dod/commit/9a8ffb01195658d2fb4929a85591789ec61fad62))
+
 # [1.16.0-rc.1](https://github.com/mpeki/dod/compare/v1.15.0...v1.16.0-rc.1) (2023-07-18)
 
 
