@@ -1,23 +1,22 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Character } from "../types/character";
+import { Item } from "../types/item";
+import { config } from "./config.service";
 
 //Todo: use properties for uri's etc.
 
 export const CharacterService = {
 
-  getCharacters: async function(): Promise<Character[]> {
-    return new Promise((resolve) => {
-      const charApiUri = "http://localhost:8090/char";
-      setTimeout(() => {
-        axios.get(charApiUri)
-        .then((response) => resolve(response.data))
-        .catch((err) => {
-          throw new Error(`Cannot fetch data from backend: ${err?.code} ${err?.message}`);
-        });
-      }, Math.random() * 100);
-    });
+  getCharacters: async function (): Promise<Character[]> {
+    try {
+      const fetchCharactersUri = `${config.gameApiUri}/char`;
+      const response = await axios.get(fetchCharactersUri);
+      return response.data;
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      throw new Error(`Cannot fetch character data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
+    }
   },
-
   getCharacter: async function(charId: string): Promise<Character> {
     return new Promise((resolve) => {
       const charApiUri = `http://localhost:8090/char/${charId}`;

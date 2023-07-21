@@ -26,6 +26,7 @@ export let config: UIOptions = {
  * awaited before mounting the root component to the DOM
  */
 export const registerConfig = async (): Promise<void> => {
+  console.log("Registering configuration...")
   if (process.env.NODE_ENV === "production") {
     console.log(`Reading production configuration from ${process.env.PUBLIC_URL}/env/environment.json ...`);
     const optionsJson: AxiosResponse = await axios.get(`${process.env.PUBLIC_URL}/env/environment.json`);
