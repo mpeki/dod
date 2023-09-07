@@ -26,19 +26,19 @@ export const showWarningSnackbar = (
       display: "flex",
       alignItems: "center",
     },
-    preventDuplicate: false,
+    preventDuplicate: true,
     autoHideDuration: currentTimeout,
     action: createCountdownSnackbarAction(currentTimeout / 1000)
   });
 };
 
-export const showFatalConnectionErrorSnackbar = (): void => {
+export const showFatalConnectionErrorSnackbar = (message: string, reload: boolean): void => {
   closeSnackbar(); // Close any existing snackbars before showing a new one
-  enqueueSnackbar("We tried everything! And it failed, please come back later!", {
+  enqueueSnackbar(message, {
     variant: 'error',
     persist: true,
-    preventDuplicate: false,
-    action: createReconnectFeedbackSnackbarAction()
+    preventDuplicate: true,
+    action: reload ? createReconnectFeedbackSnackbarAction() : undefined
   });
 }
 

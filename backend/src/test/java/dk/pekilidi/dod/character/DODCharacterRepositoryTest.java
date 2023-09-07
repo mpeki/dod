@@ -39,7 +39,7 @@ class DODCharacterRepositoryTest {
   @Test
   void findAllReturnsVokan() {
     for (DODCharacter aChar : repository.findAll()) {
-      assertThat(aChar.getName()).startsWith("vokan");
+      assertThat(aChar.getName()).startsWith("Vokan");
     }
   }
 
@@ -50,7 +50,7 @@ class DODCharacterRepositoryTest {
     assertThat(characterOptional).isNotEmpty().isPresent();
 
     DODCharacter dodCharacter = characterOptional.get();
-    assertThat(dodCharacter.getName()).isEqualTo("vokan fagerhård");
+    assertThat(dodCharacter.getName()).isEqualTo("Vokan");
     assertThat(dodCharacter.getRace().getName()).isEqualTo("human");
     dodCharacter.setName("Paul");
     repository.save(dodCharacter);
@@ -67,7 +67,7 @@ class DODCharacterRepositoryTest {
     assertThat(characterOptional).isNotEmpty().isPresent();
 
     DODCharacter dodCharacter = characterOptional.get();
-    assertThat(dodCharacter.getName()).isEqualTo("vokan fagerhård");
+    assertThat(dodCharacter.getName()).isEqualTo("Vokan");
     assertThat(dodCharacter.getRace().getName()).isEqualTo("human");
 
     dodCharacter.setName("skilled char");

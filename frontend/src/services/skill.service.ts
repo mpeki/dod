@@ -1,73 +1,40 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Skill } from "../types/skill";
 import { Character } from "../types/character";
-import { Action } from "../types/action";
-import { config } from "./config.service";
-import { createTimeout } from "retry";
-import { showWarningSnackbar } from "../utils/DODSnackbars";
-import { options, operation } from "../utils/DODRetryOptions";
-import { closeSnackbar, enqueueSnackbar } from "notistack";
+import { useContext } from "react";
+import { AxiosContext } from "./axios/AxiosContext";
 
+export const useSkillService = () => {
 
+  const axiosInstance = useContext(AxiosContext);
+  // console.log("called useSkillService with axiosInstance: " + axiosInstance.options);
+  const trainSkill = async (charId: string, skillKey: string) => {
+    try {
+      const response = await axiosInstance.post(`/action/training/char/${charId}/skill/${skillKey}`);
+      return response.data;
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      throw new Error(`Cannot train skill: ${axiosError?.code} ${axiosError?.message}`);
+    }
+  };
+  const getAllSkills = async () => {
+    try {
+      const response = await axiosInstance.get('/skill');
+      return response.data;
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      throw new Error(`Cannot fetch SKILL data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
+    }
+  };
 
-export const SkillService = {
+  return {
+    trainSkill,
+    getAllSkills,
+  }
+}
 
+export const SkillUtil = {
 
-  trainSkill: async function(
-    charId: string,
-    skillKey: string
-  ): Promise<Action> {
-    return new Promise((resolve) => {
-      const charApiUri = `${config.gameApiUri}/action/training/char/${charId}/skill/${skillKey}`;
-      setTimeout(() => {
-        axios
-        .post(charApiUri)
-        .then((response) => resolve(response.data))
-        .catch((err) => {
-          throw new Error(
-            `Cannot fetch data from backend: ${err?.code} ${err?.message}`
-          );
-        });
-      }, Math.random() * 100);
-    });
-  },
-
-  getAllSkills: async function(): Promise<Skill[]> {
-
-    const charApiUri = `${config.gameApiUri}/skill`;
-
-    return new Promise((resolve, reject) => {
-      operation.reset();
-      operation.attempt(async (currentAttempt) => {
-        const currentTimeout = createTimeout(currentAttempt - 1, options);
-        try {
-          const response = await axios.get(charApiUri);
-          if(response.status === 200 && currentAttempt > 1) {
-            closeSnackbar();
-            enqueueSnackbar("Connection Re-established!", {variant: "success"})
-          }
-          return resolve(response.data);
-        } catch (e) {
-          const axiosError = e as AxiosError;
-          if (operation.retry(axiosError)) {
-            showWarningSnackbar(currentTimeout);
-            return;
-          }
-          reject(
-            new Error(`Cannot fetch SKILL data from the game engine: ${axiosError?.message}`)
-          );
-        }
-      });
-    });
-  },
-  calculateCatASkillCost: function(skill: Skill, pointsToBuy: number): number {
-    // implementation for calculateCatASkillCost
-    return 0;
-  },
-  calculateCatBSkillCost: function(skill: Skill, pointsToBuy: number): number {
-    // implementation for calculateCatBSkillCost
-    return 0;
-  },
   calculateNewSkillPrice: function(
     character: Character,
     skill: Skill | undefined,

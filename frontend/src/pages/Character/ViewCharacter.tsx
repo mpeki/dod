@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { Character } from "../../types/character";
-import { CharacterService } from "../../services/character.service";
+import useCharacterService from "../../services/character.service";
 import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
 import { CharacterInfo } from "../../components/Character/CharacterInfo";
 import { User } from "../../types/user";
@@ -14,7 +14,7 @@ import { BodyContainer } from "./BodyContainer";
 import { WeaponsContainer } from "../Items/WeaponsContainer";
 import { ItemsContainer } from "../Items/ItemsContainer";
 import { FundsContainer } from "../Items/FundsContainer";
-import { ChangeService } from "../../services/change.service";
+import { useChangeService } from "../../services/change.service";
 import { Change } from "../../types/change";
 import { MovementStats } from "../../components/Character/MovementStats";
 import Stack from "@mui/material/Stack";
@@ -22,6 +22,9 @@ import { ReputationStats } from "../../components/Character/ReputationStats";
 
 
 export const ViewCharacter = () => {
+
+  const { getCharacter } = useCharacterService();
+  const { doChange } = useChangeService();
   const { charId } = useParams();
   const [character, setCharacter] = useState<Character>();
 
@@ -34,7 +37,7 @@ export const ViewCharacter = () => {
 
 
   const fetchCharHandler = useCallback(async () => {
-    CharacterService.getCharacter("" + charId)
+    getCharacter("" + charId)
     .then((character) => {
       setCharacter(character);
     })
@@ -53,7 +56,7 @@ export const ViewCharacter = () => {
       changeKey: changeKey,
       modifier: mod
     };
-    ChangeService.doChange("" + charId, change).then();
+    doChange("" + charId, change).then();
   }, [changeData, charId]);
 
   if (character == null || character.id == null) {

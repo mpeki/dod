@@ -41,3 +41,4 @@ build/
 /frontend/package-lock.json
 /frontend/node_modules/
 /node_modules/
+/security/keycloak/new-realm-export/data/

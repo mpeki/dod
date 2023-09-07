@@ -1,0 +1,33 @@
+POST http://security:8181/realms/master/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=admin-cli&username=admin&password=admin&grant_type=password
+
+> {%
+  client.global.set("auth_token", response.body.access_token);
+%}
+
+<> 2023-09-08T143723.200.json
+<> 2023-09-08T141823.200.json
+
+###
+
+GET http://security:8181/admin/realms/dodgame
+Authorization: Bearer {{auth_token}}
+
+>> ./dodgame-realm-exported_{{$timestamp}}.json
+
+###
+
+GET http://security:8181/admin/realms/dodgame/users/count
+Authorization: Bearer {{auth_token}}
+
+###
+
+GET http://security:8181/admin/realms/dodgame/clients
+Authorization: Bearer {{auth_token}}
+
+###
+
+GET http://security:8181/admin/realms/dodgame/clients/138c5771-aaf5-495f-8480-05f1504a6c3a
+Authorization: Bearer {{auth_token}}

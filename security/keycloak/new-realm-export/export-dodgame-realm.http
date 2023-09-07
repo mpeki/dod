@@ -1,0 +1,15 @@
+POST http://security:8181/realms/master/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=admin-cli&username=admin&password=admin&grant_type=password
+
+> {%
+  client.global.set("auth_token", response.body.access_token);
+%}
+
+###
+
+POST http://security:8181/admin/realms/dodgame/partial-export?exportClients=true&exportGroupsAndRoles=true&exportUsers=true
+Authorization: Bearer {{auth_token}}
+
+>> ./data/dodgame-realm-exported.json

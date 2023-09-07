@@ -1,0 +1,8 @@
+{
+  "realm": "dodgame",
+  "auth-server-url": "http://localhost:8180",
+  "resource": "dodgame-api",
+  "credentials": {
+    "secret": "PrTzm23UNLQzdDIhFwFte2qqonrirt5D"
+  }
+}

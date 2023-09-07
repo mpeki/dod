@@ -1,5 +1,16 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://security:8181/realms/dodgame
+jwt:
+  auth:
+    converter:
+      resource-id: dodgame-api
+      principal-attribute: preferred_username
 logging:
   level:
     root: INFO
     dk.pekilidi: DEBUG
-    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.web.client.RestTemplate: INFO

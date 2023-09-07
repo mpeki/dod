@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { Item } from "../../types/item";
 import { ItemType } from "../../types/item-type";
 import { useForm } from "react-hook-form";
-import { ItemService } from "../../services/item.service";
+import { useItemService } from "../../services/item.service";
 import { Button, MenuItem, TextField } from "@mui/material";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
@@ -43,10 +43,9 @@ const initialState: Item = {
 };
 export const CreateMeleeWeapon = ({ onConfirm }: IProps) => {
 
+  const { createItem } = useItemService();
   const { getValues, register, formState: { errors }, handleSubmit, reset } = useForm<FormData>();
-
   const [itemData, setItemData] = useState<Item>(initialState);
-
   const submitHandler = useCallback(async () => {
 
     const itemPostData: Item = {
@@ -60,7 +59,7 @@ export const CreateMeleeWeapon = ({ onConfirm }: IProps) => {
       length: getValues("length"),
       strengthGroup: getValues("strengthGroup")
     };
-    await ItemService.createItem(itemPostData);
+    await createItem(itemPostData);
     setItemData(initialState);
     // fetchCharactersHandler();
     reset();

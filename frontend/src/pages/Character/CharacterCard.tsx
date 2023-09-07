@@ -1,8 +1,8 @@
 import { Character } from "../../types/character";
 import { Link } from "react-router-dom";
 import { useCallback } from "react";
-import { CharacterService } from "../../services/character.service";
-import { ChangeService } from "../../services/change.service";
+import useCharacterService from "../../services/character.service";
+import { useChangeService } from "../../services/change.service";
 import { Change } from "../../types/change";
 import { CharacterState } from "../../types/character-state";
 import {
@@ -26,10 +26,13 @@ interface IProps {
 
 export const CharacterCard = ({ character, fetchCharactersHandler }: IProps): JSX.Element => {
 
+  const { deleteCharacter } = useCharacterService();
+  const { doChange } = useChangeService();
+
   const deleteCharHandler = useCallback(async () => {
     if (character.id != null) {
-      await CharacterService.deleteCharacter(character.id)
-      .then((characters) => {
+      await deleteCharacter(character.id)
+      .then(() => {
         fetchCharactersHandler();
       })
       .catch((e) => alert("Error deleting character: " + e));
@@ -45,8 +48,8 @@ export const CharacterCard = ({ character, fetchCharactersHandler }: IProps): JS
     };
     console.log("Activating character: " + character.id);
     if (character.id != null) {
-      await ChangeService.doChange(character.id, changeData)
-      .then((characters) => {
+      await doChange(character.id, changeData)
+      .then(() => {
         fetchCharactersHandler();
       })
     }
