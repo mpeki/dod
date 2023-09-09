@@ -1,11 +1,11 @@
 import { Controller, useForm } from "react-hook-form";
 import { useCallback, useEffect, useState } from "react";
 import { Change } from "../../types/change";
-import { ChangeService } from "../../services/change.service";
+import { useChangeService } from "../../services/change.service";
 import classes from "../Character/AddCharacter.module.css";
 import { SkillSelector } from "../../components/SkillSelector";
 import { Skill } from "../../types/skill";
-import { SkillService } from "../../services/skill.service";
+import { SkillUtil } from "../../services/skill.service";
 import { Character } from "../../types/character";
 import { Item } from "../../types/item";
 import { ItemSelector } from "../Items/ItemSelector";
@@ -24,6 +24,8 @@ interface FormData {
 }
 
 export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) => {
+
+  const { doChange } = useChangeService();
 
   const { getValues, register, formState: { errors }, handleSubmit, reset, control } = useForm<FormData>();
   const [selected, setSelected] = useState<Skill>();
@@ -52,7 +54,7 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
         modifier: getValues('modifier'),
       };
       if (character.id != null) {
-        await ChangeService.doChange(character.id, changePostData);
+        await doChange(character.id, changePostData);
       }
       setChangeData({ changeKey: "", modifier: 0, changeType: "NEW_SKILL", changeDescription: "Buy new skill"});
       buySkillHandler();
@@ -69,7 +71,7 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
 
   const handleModifierChange = (event: any) => {
     // 👇 Get input value from "event"
-    let cost = SkillService.calculateNewSkillPrice(character, selected, event.target.value)
+    let cost = SkillUtil.calculateNewSkillPrice(character, selected, event.target.value)
     setBspCost(cost);
     if(character.baseSkillPoints != null){
       setBspLeft( character.baseSkillPoints - cost);

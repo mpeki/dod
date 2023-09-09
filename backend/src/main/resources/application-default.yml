@@ -1,5 +1,7 @@
 server:
   port: 8090
+  servlet:
+    context-path: /dodgame
 spring:
   output:
     ansi:
@@ -22,14 +24,14 @@ spring:
   #   Database Settings
   ###
   datasource:
-    url: jdbc:mysql://db:3306/dodcore
+    url: jdbc:mysql://db:3306/dodcoreDB
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: sa
     password: example
     hikari:
       minimum-idle: 0
       maximum-pool-size: 15
-      connection-timeout: 20000 #20s
+      connection-timeout: 300000 #5m was #20s
       idle-timeout: 300000 #5m
       max-lifetime: 600000 #10m
       initialization-fail-timeout: -1
@@ -38,7 +40,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none
-#      use-new-id-generator-mappings: false
+    #      use-new-id-generator-mappings: false
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
@@ -52,18 +54,29 @@ spring:
         cache:
           use_second_level_cache: false
     open-in-view: true
-security:
-  cors:
-    allowedHeaders: '*'
-    allowedCredentials: true
-    allowedOrigins: '*'
-    allowedMethods: '*'
-    exposedHeaders: 'ETag, Content-Disposition'
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://security:8181/realms/dodgame
+#    cors:
+#      allowed-headers: "*"
+#      allowed-credentials: true
+#      allowed-origins: "*"
+#      allowed-methods: "*"
+#      exposed-headers: "ETag, Content-Disposition"
+jwt:
+  auth:
+    converter:
+      resource-id: dodgame-api
+      principal-attribute: preferred_username
 management:
   endpoints:
     web:
       exposure:
         include: health,info,liquibase,env
+      base-path: /
 logging:
   level:
     root: INFO
+    org.springframework.web.cors: DEBUG

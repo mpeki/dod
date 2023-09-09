@@ -1,8 +1,9 @@
-import { SkillService } from "./skill.service";
+import { useSkillService } from "./skill.service";
 
 describe( 'Skill Service', () => {
+  const { getAllSkills } = useSkillService();
   it('get all skills',async () => {
-    await SkillService.getAllSkills().then((data) => {
+    await getAllSkills().then((data) => {
       expect(data).toBeTruthy();
       expect(data.length).toBeGreaterThanOrEqual(1);
       expect(data[0].id).toBeTruthy();

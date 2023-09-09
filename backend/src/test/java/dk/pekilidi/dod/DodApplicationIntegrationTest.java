@@ -1,60 +1,59 @@
 package dk.pekilidi.dod;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.pekilidi.dod.character.model.AgeGroup;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.h2.tools.Server;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT)
 @Tag("integration")
-class DodApplicationIntegrationTest {
+class DodApplicationIntegrationTest extends BaseControllerTest {
 
   @Autowired
-  private TestRestTemplate restTemplate;
+  private ObjectMapper jacksonObjectMapper;
 
   @Test
+  @WithMockUser(username = "system", password = "system", roles = {"system"})
   void clearCacheEnpointShouldReturnOk() throws Exception {
-    //arrange
-    //act
-    ResponseEntity<Void> response = restTemplate.exchange("/caches/clear", HttpMethod.DELETE, HttpEntity.EMPTY, Void.class);
-    //assert
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    mockMvc.perform(delete("/caches/clear")).andExpect(status().isOk());
   }
 
   @Test
+  @WithMockUser(username = "player", password = "player", roles = {"player"})
   void testCreateCharacter() throws Exception {
     //arrange
-    CharacterDTO newCharacter = CharacterDTO.builder()
+    CharacterDTO newCharacter = CharacterDTO
+        .builder()
         .race(RaceDTO.builder().name("human").build())
         .name("Hagrun Brosson")
         .hero(true)
         .build();
-    //act
-    ResponseEntity<CharacterDTO> response = restTemplate.postForEntity(
-        "/char", newCharacter, CharacterDTO.class);
 
-    CharacterDTO createdChar = response.getBody();
-    //assert
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    MvcResult result = mockMvc
+        .perform(MockMvcRequestBuilders
+            .post("/api/char")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(jacksonObjectMapper.writeValueAsString(newCharacter)))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    CharacterDTO createdChar = jacksonObjectMapper.readValue(
+        result.getResponse().getContentAsString(), CharacterDTO.class);
+
     assert createdChar != null;
     assertThat(createdChar.getId()).isNotNull();
     assertThat(createdChar.getName()).isEqualTo("Hagrun Brosson");
@@ -70,33 +69,22 @@ class DodApplicationIntegrationTest {
   }
 
   @Test
+  @WithMockUser(username = "player", password = "player", roles = {"player"})
   void testGetNamedCharacter() throws Exception {
 
-    //arrange
-    //act
-    ResponseEntity<CharacterDTO[]> response = restTemplate.getForEntity(
-        "/char/name/{name}", CharacterDTO[].class, "vokan fagerhård");
-    CharacterDTO[] responseBody = response.getBody();
-    //assert
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assert responseBody != null;
-    assert responseBody.length != 0;
+    MvcResult result = mockMvc
+        .perform(MockMvcRequestBuilders.get("/api/char/name/Vokan").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andReturn();
 
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        List<CharacterDTO> result = Arrays.stream(responseBody)
-            .map(object -> mapper.convertValue(object, CharacterDTO.class))
-            .toList();
-        assert result.size() != 0;
-        CharacterDTO character = result.get(0);
-        assertThat(character.getName()).isEqualTo("vokan fagerhård");
-        assertThat(character.getRace().getName()).isEqualTo("human");
+    String content = result.getResponse().getContentAsString();
+    List<CharacterDTO> characters = new ObjectMapper().readValue(content, new TypeReference<List<CharacterDTO>>() {});
+
+    assert characters != null;
+    assert !characters.isEmpty();
+
+    CharacterDTO character = characters.get(0);
+    assertThat(character.getName()).isEqualTo("Vokan");
+    assertThat(character.getRace().getName()).isEqualTo("human");
   }
-/*
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    assert result.size() != 0;
-    CharacterDTO character = result.get(0);
-*/
-
 }

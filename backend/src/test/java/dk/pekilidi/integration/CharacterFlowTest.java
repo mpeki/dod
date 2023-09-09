@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.data.CharacterDTO;
 import java.io.File;
+import java.time.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,34 +17,54 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.testcontainers.containers.DockerComposeContainer;
+import org.testcontainers.containers.DockerComposeContainer.RemoveImages;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.containers.wait.strategy.WaitStrategy;
 
-@Tag("regression")
+@Tag("integration")
 @Slf4j
 public class CharacterFlowTest {
 
+  public static final String REQUEST_PROTOCOL = "http://";
+  private static final String API_SERVICE_NAME = "api_1";
   private static final Integer API_PORT = 8090;
+  public static final String API_SERVICE_PATH = "/dodgame/api";
+  public static final String SEC_SERVICE_NAME = "security_1";
+  private static final Integer SEC_PORT = 8181;
+  public static final String AUTH_TOKEN_PATH = "/realms/dodgame/protocol/openid-connect/token";
+  public static final String DB_SERVICE_NAME = "db_1";
   private static final Integer DATABASE_PORT = 3306;
+
+  private static final WaitStrategy waitStrategy = Wait.forHealthcheck().withStartupTimeout(Duration.ofMinutes(5));
+
   @ClassRule
   public static DockerComposeContainer<?> compose = new DockerComposeContainer<>(new File("../docker-compose.yml"))
       .withPull(false)
-      .withExposedService("db_1", DATABASE_PORT)
-      .withExposedService("api_1", API_PORT)
-      .withLogConsumer("db_1", new Slf4jLogConsumer(log)) //Print database logs
-      .withLogConsumer("api_1", new Slf4jLogConsumer(log)) //Print backend logs
-      .waitingFor("api_1", Wait.forHealthcheck());
+      .withStartupTimeout(java.time.Duration.ofMinutes(15))
+      .withExposedService(DB_SERVICE_NAME, DATABASE_PORT)
+      .withExposedService(SEC_SERVICE_NAME, SEC_PORT, waitStrategy)
+      .withExposedService(API_SERVICE_NAME, API_PORT)
+      .withLogConsumer(DB_SERVICE_NAME, new Slf4jLogConsumer(log))
+      .withLogConsumer(API_SERVICE_NAME, new Slf4jLogConsumer(log))
+      .withLogConsumer(SEC_SERVICE_NAME, new Slf4jLogConsumer(log));
+
   static FlowTestHelper flowHelper;
 
   @BeforeAll
   public static void startup() {
+
     compose.start();
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
-    String serviceUrl = "http://" + compose.getServiceHost("api_1", API_PORT) + ":" + compose.getServicePort(
-        "api_1", API_PORT);
-    flowHelper = new FlowTestHelper(serviceUrl, headers);
+    String serviceUrl = REQUEST_PROTOCOL + compose.getServiceHost(API_SERVICE_NAME, API_PORT) + ":" + compose.getServicePort(
+        API_SERVICE_NAME, API_PORT) + API_SERVICE_PATH;
+
+    String authUrl = REQUEST_PROTOCOL + compose.getServiceHost(SEC_SERVICE_NAME, SEC_PORT) + ":" + compose.getServicePort(
+        SEC_SERVICE_NAME, SEC_PORT) + AUTH_TOKEN_PATH;
+
+    flowHelper = new FlowTestHelper(authUrl, serviceUrl, headers);
   }
 
   @Test

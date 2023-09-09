@@ -1,10 +1,13 @@
 import { SnackbarAction, SnackbarKey } from "notistack";
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
+import ReplayIcon from '@mui/icons-material/Replay';
 
 export const createReconnectFeedbackSnackbarAction = (): SnackbarAction => {
   const action = (key: SnackbarKey) => (
     <>
-      <Button variant="text" onClick={() => window.location.reload()}>reload</Button>
+      <IconButton size="small" style={{ color: 'darkred', background: 'white' }} onClick={() => window.location.reload()}>
+        <ReplayIcon />
+      </IconButton>
     </>
   );
 

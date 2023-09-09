@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useCallback, useEffect, useState } from "react";
 import { Item } from "../../types/item";
-import { ItemService } from "../../services/item.service";
+import { useItemService } from "../../services/item.service";
 import { Typography, Paper, Fab } from "@mui/material";
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
@@ -10,6 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 export const ViewItems = () => {
 
+  const { getAllItems } = useItemService();
   const [items, setItems] = useState<Item[]>([]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -18,7 +19,7 @@ export const ViewItems = () => {
   const fetchItemsHandler = useCallback(async () => {
     let itemJSON = localStorage.getItem("items");
     if (itemJSON === null) {
-      await ItemService.getAllItems()
+      await getAllItems()
       .then((items) => {
         itemJSON = JSON.stringify(items);
         localStorage.setItem("items", itemJSON);

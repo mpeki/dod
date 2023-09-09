@@ -18,7 +18,7 @@ export const Countdown = ({ message, startTime } : IProps ) : React.JSX.Element 
 
 export const createCountdownSnackbarAction = ( startTime: number): SnackbarAction => {
   const action = (key: SnackbarKey) => (
-    <Countdown message="Retrying in" startTime={startTime} />
+    <Countdown message="Retrying in" startTime={Math.floor(startTime)} />
   );
 
   return action as SnackbarAction;

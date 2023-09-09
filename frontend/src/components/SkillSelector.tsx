@@ -1,13 +1,14 @@
 import { Category } from "../types/category";
 import { Group } from "../types/group";
 import { useCallback, useEffect, useState } from "react";
-import { SkillService } from "../services/skill.service";
+import { useSkillService } from "../services/skill.service";
 import { Skill } from "../types/skill";
 import Select from "react-select";
 import { EnumHelpers } from "../utils/EnumHelpers";
 import makeAnimated from "react-select/animated";
 import { SkillList } from "../pages/Skill/SkillList";
 import { OnChangeValue } from "react-select/dist/declarations/src/types";
+import { showFatalConnectionErrorSnackbar } from "../utils/DODSnackbars";
 
 
 interface IProps {
@@ -36,6 +37,7 @@ const animatedComponents = makeAnimated();
 
 export const SkillSelector = ({ selectSkillHandler, charSkills }: IProps): JSX.Element => {
 
+  const { getAllSkills } = useSkillService();
   const [shownSkills, setShownSkills] = useState<Skill[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
 
@@ -59,13 +61,14 @@ export const SkillSelector = ({ selectSkillHandler, charSkills }: IProps): JSX.E
   const fetchSkillsHandler = useCallback(async () => {
     let skillJSON = localStorage.getItem("skills");
     if (skillJSON === null) {
-      await SkillService.getAllSkills()
-      .then((skills) => {
+      try {
+        const skills = await getAllSkills();
         skillJSON = JSON.stringify(skills);
         localStorage.setItem("skills", skillJSON);
-        setSkills(skills);
-      })
-      .catch((e) => alert("Error fetching skills: " + e));
+      } catch (e) {
+        console.log("error: " + e);
+        showFatalConnectionErrorSnackbar("Could not load skills.", false);
+      }
     }
     setSkills(skillJSON === null ? null : JSON.parse(skillJSON));
   }, []);

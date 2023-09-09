@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dk.pekilidi.dod.character.CharacterNotFoundException;
+import dk.pekilidi.dod.BaseControllerTest;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Group;
@@ -19,16 +19,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-@WebMvcTest(SkillController.class)
 @Tag("regression")
-class SkillControllerTest {
+class SkillControllerTest extends BaseControllerTest {
 
   RandomObjectFiller objFill = new RandomObjectFiller();
   SkillDTO testSkill1;
@@ -36,13 +33,12 @@ class SkillControllerTest {
   SkillDTO testSkill3;
   @Autowired
   private ObjectMapper jacksonObjectMapper;
-  @Autowired
-  private MockMvc mockMvc;
+
   @MockBean
   private SkillService skillService;
 
   @BeforeEach
-  void setup() throws Exception {
+  void setup() {
     testSkill1 = objFill.createAndFill(SkillDTO.class);
     testSkill2 = objFill.createAndFill(SkillDTO.class);
     testSkill3 = objFill.createAndFill(SkillDTO.class);
@@ -55,7 +51,7 @@ class SkillControllerTest {
     given(skillService.getSkillsByGroup(Group.COMBAT)).willReturn(resultList);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/skill?group=COMBAT")
+            .get("/api/skill?group=COMBAT")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(resultList)))
         .andDo(MockMvcResultHandlers.print())
@@ -76,7 +72,7 @@ class SkillControllerTest {
     given(skillService.getSkillsByBaseChance(BaseTraitName.INTELLIGENCE)).willReturn(resultList);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/skill?baseChance=INTELLIGENCE")
+            .get("/api/skill?baseChance=INTELLIGENCE")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(resultList)))
         .andDo(MockMvcResultHandlers.print())
@@ -97,7 +93,7 @@ class SkillControllerTest {
     given(skillService.getSkillsByGroupAndBaseChance(Group.COMBAT, BaseTraitName.INTELLIGENCE)).willReturn(resultList);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/skill?group=COMBAT&baseChance=INTELLIGENCE")
+            .get("/api/skill?group=COMBAT&baseChance=INTELLIGENCE")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(resultList)))
         .andDo(MockMvcResultHandlers.print())
@@ -121,7 +117,7 @@ class SkillControllerTest {
     given(skillService.getSkillsByGroupAndBaseChance(Group.COMBAT, BaseTraitName.INTELLIGENCE)).willReturn(resultList);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/skill?group=&baseChance=")
+            .get("/api/skill?group=&baseChance=")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(resultList)))
         .andDo(MockMvcResultHandlers.print())
@@ -136,7 +132,7 @@ class SkillControllerTest {
 
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/skill")
+            .get("/api/skill")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(resultList)))
         .andDo(MockMvcResultHandlers.print())
@@ -153,6 +149,6 @@ class SkillControllerTest {
   @Test
   void getSkillNotFound() throws Exception {
     given(skillService.findSkillByKey(anyString())).willThrow(new SkillNotFoundException());
-    mockMvc.perform(MockMvcRequestBuilders.get("/skill/key/no-a-skill")).andExpect(status().isNotFound());
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/skill/key/no-a-skill")).andExpect(status().isNotFound());
   }
 }

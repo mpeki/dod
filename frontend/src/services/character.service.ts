@@ -1,22 +1,77 @@
 import axios, { AxiosError } from "axios";
-import { Character } from "../types/character";
-import { Item } from "../types/item";
-import { config } from "./config.service";
+// import { Character } from "../types/character";
+import { useContext } from "react";
+import { AxiosContext } from "./axios/AxiosContext";
 
-//Todo: use properties for uri's etc.
+const useCharacterService = () => {
 
-export const CharacterService = {
+  const axiosInstance = useContext(AxiosContext);
 
-  getCharacters: async function (): Promise<Character[]> {
+  const getCharacters = async () => {
     try {
-      const fetchCharactersUri = `${config.gameApiUri}/char`;
-      const response = await axios.get(fetchCharactersUri);
+      const response = await axiosInstance.get('/char');
       return response.data;
     } catch (err) {
       const axiosError = err as AxiosError;
       throw new Error(`Cannot fetch character data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
     }
-  },
+  };
+
+  const getCharacter = async (charId: string) => {
+    try {
+      const response = await axiosInstance.get(`/char/${charId}`);
+      return response.data;
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      throw new Error(`Cannot fetch character data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
+    }
+  };
+
+  const getCharactersByName = async (charName: string) => {
+    try {
+      const response = await axiosInstance.get(`/char/name/${charName}`);
+      return response.data;
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      throw new Error(`Cannot fetch character data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
+    }
+  };
+
+  const deleteCharacter = async (charId: string) => {
+    try {
+      const response = await axiosInstance.delete(`/char/${charId}`);
+      return response.data;
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      throw new Error(`Cannot delete character: ${axiosError?.code} ${axiosError?.message}`);
+    }
+  };
+
+  const createCharacter = async (char: any) => {
+    try {
+      const response = await axiosInstance.post(`/char`, char);
+      return response.data;
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      throw new Error(`Cannot create character: ${axiosError?.code} ${axiosError?.message}`);
+    }
+  };
+
+  return {
+    getCharacters,
+    getCharacter,
+    getCharactersByName,
+    createCharacter,
+    deleteCharacter
+    // ... other methods
+  };
+};
+
+export default useCharacterService;
+
+
+/*export const CharacterService = {
+
   getCharacter: async function(charId: string): Promise<Character> {
     return new Promise((resolve) => {
       const charApiUri = `http://localhost:8090/char/${charId}`;
@@ -54,18 +109,5 @@ export const CharacterService = {
         });
       }, Math.random() * 100);
     });
-  },
-
-  deleteCharacter: async function(charId: string): Promise<Character> {
-    return new Promise((resolve) => {
-      const charApiUri = `http://localhost:8090/char/${charId}`;
-      setTimeout(() => {
-        axios.delete(charApiUri)
-        .then((response) => resolve(response.data))
-        .catch((err) => {
-          throw new Error(`Cannot fetch data from backend: ${err?.code} ${err?.message}`);
-        });
-      }, Math.random() * 100);
-    });
   }
-};
+}; */

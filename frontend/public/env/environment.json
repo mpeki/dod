@@ -1,4 +1,5 @@
 {
   "contextPath": "%contextPath%",
-  "gameApiUri": "http://localhost:8090"
+  "gameApiUri": "http://api:8090/dodgame/api",
+  "authRedirectUri": "http://ui:8081"
 }

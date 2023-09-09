@@ -4,11 +4,13 @@ import { template, templateSettings } from "lodash";
 export interface UIOptions {
   contextPath: string;
   gameApiUri: string;
+  authRedirectUri: string;
 }
 
 export let config: UIOptions = {
   contextPath: "",
-  gameApiUri: ""
+  gameApiUri: "",
+  authRedirectUri: ""
 };
 
 /**
@@ -41,9 +43,11 @@ export const registerConfig = async (): Promise<void> => {
 
     config = {
       contextPath: process.env.REACT_APP_CONTEXT_PATH || "",
-      gameApiUri: process.env.REACT_APP_GAME_API_URI || ""
+      gameApiUri: process.env.REACT_APP_GAME_API_URI || "",
+      authRedirectUri: process.env.REACT_APP_AUTH_REDIRECT_URI || ""
     };
   }
+  console.log(`Application configuration: ${JSON.stringify(config)}`);
 };
 
 async function interpolate(optionsJson: AxiosResponse): Promise<UIOptions> {

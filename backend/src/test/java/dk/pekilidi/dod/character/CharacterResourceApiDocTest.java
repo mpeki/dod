@@ -15,6 +15,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.testcontainers.utility.Base58.randomString;
 
+import dk.pekilidi.dod.BaseControllerTest;
 import dk.pekilidi.dod.character.model.AgeGroup;
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.character.model.FavoriteHand;
@@ -27,6 +28,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -39,15 +41,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@WebMvcTest(CharacterController.class)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @Tag("regression")
-class CharacterResourceApiDocTest {
+class CharacterResourceApiDocTest extends BaseControllerTest {
 
   CharacterDTO testCharacter;
   @Autowired
   private WebApplicationContext context;
-  private MockMvc mockMvc;
   @MockBean
   private CharacterService service;
 
@@ -78,7 +78,7 @@ class CharacterResourceApiDocTest {
     when(service.findCharacterById("123")).thenReturn(testCharacter);
 
     mockMvc
-        .perform(get("/char/{id}", "123").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/char/{id}", "123").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint()),
             pathParameters(parameterWithName("id").description("The character id")),
@@ -102,7 +102,7 @@ class CharacterResourceApiDocTest {
     when(service.findCharacterById("123")).thenReturn(testCharacter);
 
     mockMvc
-        .perform(delete("/char/{id}", 1L).accept(MediaType.APPLICATION_JSON))
+        .perform(delete("/api/char/{id}", 1L).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint()),
             pathParameters(parameterWithName("id").description("The character id"))));

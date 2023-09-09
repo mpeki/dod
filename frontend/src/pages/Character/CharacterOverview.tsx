@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { CharacterService } from "../../services/character.service";
+import useCharacterService from "../../services/character.service";
 import { Character } from "../../types/character";
 import { CharacterCard } from "./CharacterCard";
 import { AddCharacter } from "./AddCharacter";
-import { Alert, Container, Fab, Paper } from "@mui/material";
+import { Container, Fab, Paper } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Grid from "@mui/system/Unstable_Grid";
 import charCreationImg from "../../img/new_character.png";
@@ -21,14 +21,13 @@ const styles = {
 
 export const CharacterOverview = (): React.JSX.Element => {
 
-
-
   const [characters, setCharacters] = useState<Character[]>([]);
   const [showCreateCharacter, setShowCreateCharacter] = useState<boolean>()
-  const fetchCharsHandler = useCallback(async () => {
+  const { getCharacters } = useCharacterService();
 
+  const fetchCharsHandler = useCallback(async () => {
     try {
-      const characters = await CharacterService.getCharacters();
+      const characters = await getCharacters();
       setCharacters(characters);
     } catch (e) {
       const error = e as Error;

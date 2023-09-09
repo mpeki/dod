@@ -1,5 +1,5 @@
 import { Change } from "../types/change";
-import { ChangeService } from "./change.service";
+import { useChangeService } from "./change.service";
 
 
 const changeData: Change = {
@@ -9,9 +9,14 @@ const changeData: Change = {
   modifier: 10
 }
 
+
+
 describe( 'Change Service', () => {
+
+  const { doChange } = useChangeService();
+
   it('buy new skill',async () => {
-    await ChangeService.doChange("2", changeData).then((data) => {
+    await doChange("2", changeData).then((data) => {
       expect(data).toBeTruthy();
     });
   });

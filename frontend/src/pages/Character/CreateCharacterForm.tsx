@@ -1,12 +1,11 @@
-import { CharacterService } from "../../services/character.service";
+import useCharacterService from "../../services/character.service";
 import { useForm } from "react-hook-form";
 import { useCallback, useEffect, useState } from "react";
 import { Character } from "../../types/character";
 import classes from "./AddCharacter.module.css";
-import { RaceService } from "../../services/race.service";
+import { useRaceService } from "../../services/race.service";
 import { Race } from "../../types/race";
-import { SkillService } from "../../services/skill.service";
-import { Skill } from "../../types/skill";
+import { useItemService } from "../../services/item.service";
 
 interface IProps {
   fetchCharactersHandler: any;
@@ -23,6 +22,9 @@ interface FormData {
 
 export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProps) => {
 
+  const { createCharacter } = useCharacterService();
+  const { getRaces } = useRaceService();
+
   const { getValues, register, formState: { errors }, handleSubmit, reset } = useForm<FormData>();
   const [races, setRaces] = useState<Race[]>([]);
   const [charData, setCharData] = useState<Character>({
@@ -35,7 +37,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
   const fetchRacesHandler = useCallback(async () => {
     let raceJSON = localStorage.getItem("races");
     if (raceJSON === null) {
-      await RaceService.getRaces()
+      await getRaces()
       .then((races) => {
         raceJSON = JSON.stringify(races);
         localStorage.setItem("races", raceJSON);
@@ -44,7 +46,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
       .catch((e) => alert("Error fetching skills: " + e));
     }
     setRaces(raceJSON === null ? null : JSON.parse(raceJSON));
-  }, []);
+  }, [getRaces]);
 
   useEffect(() => {
     fetchRacesHandler().then();
@@ -57,12 +59,12 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
       race: { name: getValues('raceName') },
       hero: getValues('hero')
     };
-    await CharacterService.createCharacter(charPostData);
+    await createCharacter(charPostData);
     setCharData({ name: "", ageGroup: "MATURE", race: { name: "human" }, hero: false });
     fetchCharactersHandler();
     reset();
     onConfirm();
-  }, []);
+  }, [createCharacter, fetchCharactersHandler, getValues, onConfirm, reset]); //does this work? it was empty before
 
   const onSubmit = handleSubmit(submitHandler);
 
