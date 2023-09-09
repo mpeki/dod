@@ -1,3 +1,10 @@
+# [1.16.0-rc.3](https://github.com/mpeki/dod/compare/v1.16.0-rc.2...v1.16.0-rc.3) (2023-09-09)
+
+
+### Features
+
+* **DOD-298:** Added Keycloak as auth provider ([db7d128](https://github.com/mpeki/dod/commit/db7d12805b2f62856d86913ce6393538b11898ef))
+
 # [1.16.0-rc.2](https://github.com/mpeki/dod/compare/v1.16.0-rc.1...v1.16.0-rc.2) (2023-07-21)
 
 
