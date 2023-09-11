@@ -7,8 +7,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import ruleImg from "../img/dod-logo_small.png";
 import combatImg from "../img/combat.png";
 import charCreateImg from "../img/new_character.png";
+import theCityImg from "../img/the_city.png";
+import theWildImg from "../img/the_wild.png";
+import settingsImg from "../img/settings.png";
 import storeImg from "../img/general_store.png";
 import smithyImg from "../img/the_smithy.png";
+import dmImg from "../img/dm.png";
 import signupImg from "../img/signup.png";
 import { Link } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
@@ -34,21 +38,28 @@ export const HomeImageMenu = () => {
       loginRequired: true
     },
     {
+      img: theCityImg,
+      title: "The City",
+      description: "Wander the streets of the city",
+      page: "/city",
+      loginRequired: true
+    },
+    {
+      img: theWildImg,
+      title: "The Wilderness",
+      description: "Explore the wilderness",
+      loginRequired: true
+    },
+    {
+      img: dmImg,
+      title: "Dungeon Master",
+      description: "Hush hush",
+      loginRequired: true
+    },
+    {
       img: combatImg,
       title: "Combat",
       description: "Engage in combat with other players",
-      loginRequired: true
-    },
-    {
-      img: storeImg,
-      title: "The Store",
-      description: "Buy and sell items",
-      loginRequired: true
-    },
-    {
-      img: smithyImg,
-      title: "The Smithy",
-      description: "Craft and upgrade items",
       loginRequired: true
     },
     {
@@ -56,6 +67,13 @@ export const HomeImageMenu = () => {
       title: "Sign in or sigup",
       page: "signin",
       description: "The goblins want you!",
+      loginRequired: false
+    },
+    {
+      img: settingsImg,
+      title: "Settings",
+      page: "signin",
+      description: "Change your settings",
       loginRequired: false
     }
   ];

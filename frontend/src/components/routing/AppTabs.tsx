@@ -37,13 +37,14 @@ export const AppTabs = () => {
     }
   }
 
-  const currentTab = useRouteMatch(['/home', '/characters', '/items']);
+  const currentTab = useRouteMatch(['/home', '/characters', '/city']);
 
   return (
     <Tabs value={currentTab || "/home"} centered>
       <Tab label="Home" value="/home" to="/home" component={Link} />
       <Tab label="My Characters" value="/characters" to="/characters" component={Link} disabled={!auth.isAuthenticated}/>
-      <Tab label="The Store" value="/items" to="/items" component={Link} disabled={!auth.isAuthenticated}/>
+      <Tab label="The City" value="/city" to="/city" component={Link} disabled={!auth.isAuthenticated}/>
+      <Tab label="The Wilderness" value="/wilderness" to="/wilderness" component={Link} disabled={!auth.isAuthenticated}/>
       <Tab label="Profile" value="/account" to="/account" component={Link} disabled={!auth.isAuthenticated} />
       <Tab icon={auth.isAuthenticated ? <Tooltip title="Logout"><LockOutlinedIcon/></Tooltip> : <Tooltip title="Login"><LockOpenOutlinedIcon/></Tooltip>}
            iconPosition="end"
