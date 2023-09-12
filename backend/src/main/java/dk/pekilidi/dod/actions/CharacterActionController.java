@@ -8,7 +8,6 @@ import dk.pekilidi.dod.character.CharacterService;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.skill.SkillNotFoundException;
 import dk.pekilidi.dod.skill.SkillService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,18 +19,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("api")
 public class CharacterActionController {
 
-  @Autowired
-  private CharacterActionService service;
+  private final CharacterActionService service;
+
+  private final CharacterService characterService;
+
+  private final SkillService skillService;
 
   @Autowired
-  private CharacterService characterService;
-
-  @Autowired
-  private SkillService skillService;
+  public CharacterActionController(CharacterActionService service, CharacterService characterService,
+      SkillService skillService) {
+    this.service = service;
+    this.characterService = characterService;
+    this.skillService = skillService;
+  }
 
   @PostMapping("/action/training/char/{characterId}/skill/{skillKey}")
   @ResponseBody

@@ -21,6 +21,7 @@ public class RandomObjectFiller {
 
   private final Random random = new Random();
 
+  @SuppressWarnings("unchecked")
   public <T> T createAndFill(Class<T> clazz) {
     if (Modifier.isAbstract(clazz.getModifiers())) {
       Reflections reflections = new Reflections("dk.pekilidi.dod.character");

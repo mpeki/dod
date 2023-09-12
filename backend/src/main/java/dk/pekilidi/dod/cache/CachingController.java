@@ -2,7 +2,6 @@ package dk.pekilidi.dod.cache;
 
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class CachingController {
 
-  @Autowired
-  private CacheManager cacheManager;
+  private final CacheManager cacheManager;
+
+  public CachingController(CacheManager cacheManager) {
+    this.cacheManager = cacheManager;
+  }
 
   @DeleteMapping("clear")
   public ResponseEntity<Void> clearAllCaches() {

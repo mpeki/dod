@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +22,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
   }
 
   @Override
-  public AbstractAuthenticationToken convert(Jwt jwt) {
+  public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
     Collection<GrantedAuthority> authorities = extractResourceRoles(jwt);
     return new JwtAuthenticationToken(jwt, authorities, getPrincipalClaimName(jwt));
   }
@@ -34,6 +35,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     return jwt.getClaim(claimName);
   }
 
+  @SuppressWarnings("unchecked")
   private Collection<GrantedAuthority> extractResourceRoles(Jwt jwt) {
     Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
     Map<String, Object> resource;

@@ -68,8 +68,9 @@ class ItemRepositoryTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   void find_all_PROJECTILE_WEAPON() {
-    List<BaseItem> projectileWeapons = repository.findByItemType(ItemType.PROJECTILE_WEAPON);
+    List<? extends BaseItem> projectileWeapons = repository.findByItemType(ItemType.PROJECTILE_WEAPON);
     for (BaseItem projectileWeapon : projectileWeapons) {
       assertThat(projectileWeapon).isInstanceOf(ProjectileWeapon.class);
     }

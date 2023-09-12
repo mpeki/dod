@@ -8,9 +8,6 @@ spring:
       enabled: DETECT
   application:
     name: dod
-  cloud:
-    config:
-      enabled: false
   cache:
     type: simple
   liquibase:

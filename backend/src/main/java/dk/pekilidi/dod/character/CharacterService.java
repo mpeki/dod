@@ -10,14 +10,12 @@ import dk.pekilidi.dod.race.RaceRepository;
 import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.rules.DroolsService;
 import dk.pekilidi.dod.util.character.CharacterMapper;
-import dk.pekilidi.dod.util.repo.OptionalCheck;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import lombok.NonNull;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -27,15 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class CharacterService {
 
   private static final CharacterMapper modelMapper = new CharacterMapper();
-  @Autowired
-  private CharacterRepository characterRepository;
-  @Autowired
-  private RaceRepository raceRepository;
-  @Autowired
-  private DroolsService ruleService;
+  private final CharacterRepository characterRepository;
+  private final RaceRepository raceRepository;
+  private final DroolsService ruleService;
 
-  public CharacterService(CharacterRepository characterRepository) {
+  public CharacterService(CharacterRepository characterRepository, RaceRepository raceRepository, DroolsService ruleService) {
     this.characterRepository = characterRepository;
+    this.raceRepository = raceRepository;
+    this.ruleService = ruleService;
   }
 
   @Cacheable("characters")
@@ -68,7 +65,7 @@ public class CharacterService {
   @Cacheable("characters")
   @Transactional
   public CharacterDTO findCharacterById(String charId) {
-    DODCharacter result = OptionalCheck.forDODCharacter(characterRepository.findById(charId));
+    DODCharacter result = characterRepository.findById(charId).orElseThrow(CharacterNotFoundException::new);
     return modelMapper.map(result, CharacterDTO.class);
   }
 
@@ -107,8 +104,8 @@ public class CharacterService {
     return result;
   }
 
-
-  private String createRandomCharacter(String raceName){
+  @Transactional
+  public String createRandomCharacter(String raceName) {
     Race race = getRaceByName(raceName);
 
     CharacterDTO newCharacter = new CharacterDTO();
