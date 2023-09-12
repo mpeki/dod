@@ -40,7 +40,7 @@ allprojects {
 	}
 }
 subprojects {
-	if (project != project(':frontend')) {
+	if (project != project(':frontend') && project != project(':selenium-tests')) {
 		apply from: "$rootDir/gradle/test.gradle"
 		apply from: "$rootDir/gradle/liquibase.gradle"
 		apply from: "$rootDir/gradle/publish.gradle"

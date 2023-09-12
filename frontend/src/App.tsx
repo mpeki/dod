@@ -12,7 +12,7 @@ import { CharacterOverview } from "./pages/Character/CharacterOverview";
 import { ViewCharacter } from "./pages/Character/ViewCharacter";
 import { ViewItems } from "./pages/Items/ViewItems";
 import { ViewSkill } from "./pages/Skill/ViewSkill";
-import { useAuth } from "react-oidc-context";
+import { TheCity } from "./pages/City/TheCity";
 import { useLoadAppDataWithRetry } from "./services/axios/useLoadAppDataWithRetry";
 
 function App() {
@@ -59,6 +59,7 @@ function App() {
                 <Route index element={<Home />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/characters" element={<CharacterOverview />} />
+                <Route path="/city" element={<TheCity />} />
                 <Route path="/items" element={<ViewItems />} />
                 <Route path="/skill/:skillKey" element={<ViewSkill />} />
                 <Route path="/characters/:charId" element={<ViewCharacter />} />
