@@ -19,6 +19,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -29,7 +30,8 @@ public class CharacterService {
   private final RaceRepository raceRepository;
   private final DroolsService ruleService;
 
-  public CharacterService(CharacterRepository characterRepository, RaceRepository raceRepository, DroolsService ruleService) {
+  public CharacterService(CharacterRepository characterRepository, RaceRepository raceRepository,
+      DroolsService ruleService) {
     this.characterRepository = characterRepository;
     this.raceRepository = raceRepository;
     this.ruleService = ruleService;
@@ -45,12 +47,13 @@ public class CharacterService {
   }
 
   @CacheEvict(value = "characters", allEntries = true)
-  @Transactional
-  public CharacterDTO createCharacter(@NonNull CharacterDTO newCharacter) {
+  @Transactional(propagation = Propagation.NESTED)
+  public CharacterDTO createCharacter(@NonNull CharacterDTO newCharacter,@NonNull String owner) {
     Race race = getRaceByName(newCharacter.getRace().getName());
     newCharacter.setRace(modelMapper.map(race, RaceDTO.class));
     ruleService.executeRulesFor(newCharacter);
     DODCharacter characterEntity = modelMapper.map(newCharacter, DODCharacter.class);
+    characterEntity.setOwner(owner);
     characterEntity = characterRepository.save(characterEntity);
     newCharacter.setId(characterEntity.getId());
     return newCharacter;
@@ -58,31 +61,34 @@ public class CharacterService {
 
   @CacheEvict(value = "characters", allEntries = true)
   @Transactional
-  public void deleteCharacterById(String characterId) {
-    characterRepository.deleteById(characterId);
+  public void deleteCharacterByIdAndOwner(String characterId, String owner) {
+    characterRepository.deleteByIdAndOwner(characterId, owner);
   }
 
   @Cacheable("characters")
   @Transactional
-  public CharacterDTO findCharacterById(String charId) {
-    DODCharacter result = characterRepository.findById(charId).orElseThrow(CharacterNotFoundException::new);
+  public CharacterDTO findCharacterByIdAndOwner(String charId, String owner) {
+    DODCharacter result = characterRepository
+        .findByIdAndOwner(charId, owner)
+        .orElseThrow(CharacterNotFoundException::new);
     return modelMapper.map(result, CharacterDTO.class);
   }
 
   @CacheEvict(value = "characters", allEntries = true)
   @Transactional
-  public CharacterDTO save(CharacterDTO charUpdate) {
+  public CharacterDTO save(CharacterDTO charUpdate, String owner) {
     DODCharacter characterEntity = modelMapper.map(charUpdate, DODCharacter.class);
     characterEntity.setBaseTraits(
         modelMapper.map(charUpdate.getBaseTraits(), new TypeToken<Map<BaseTraitName, BaseTrait>>() {}.getType()));
+    characterEntity.setOwner(owner);
     characterRepository.save(characterEntity);
     return modelMapper.map(characterEntity, CharacterDTO.class);
   }
 
   @Transactional
   @Cacheable("characters")
-  public List<CharacterDTO> fetchAllCharacters() {
-    List<DODCharacter> entities = characterRepository.findAll();
+  public List<CharacterDTO> fetchAllCharactersByOwner(String owner) {
+    List<DODCharacter> entities = characterRepository.findAllByOwner(owner);
     return Arrays.stream(entities.toArray()).map(object -> modelMapper.map(object, CharacterDTO.class)).toList();
   }
 
@@ -95,26 +101,28 @@ public class CharacterService {
   }
 
   @Transactional
-  public List<String> createCharacters(int bulkSize, String raceName) {
+  public List<String> createCharacters(int bulkSize, String raceName, String owner) {
     //create a list of bulkSize CharacterDTOs
     List<String> result = new ArrayList<>();
+    String nameBase = "bulk";
     for (int i = 0; i < bulkSize; i++) {
-      result.add(createRandomCharacter(raceName));
+      result.add(createRandomCharacter(nameBase+"_1", raceName, owner));
     }
     return result;
   }
 
-  @Transactional
-  public String createRandomCharacter(String raceName) {
+  public String createRandomCharacter(String characterName, String raceName, String owner) {
     Race race = getRaceByName(raceName);
 
     CharacterDTO newCharacter = new CharacterDTO();
     newCharacter.setRace(modelMapper.map(race, RaceDTO.class));
-    newCharacter = createCharacter(newCharacter);
+    newCharacter.setName(characterName);
+    newCharacter = createCharacter(newCharacter, owner);
 
     ruleService.executeRulesFor(newCharacter);
 
     DODCharacter characterEntity = modelMapper.map(newCharacter, DODCharacter.class);
+    characterEntity.setOwner(owner);
     characterEntity = characterRepository.save(characterEntity);
 
     return characterEntity.getId();

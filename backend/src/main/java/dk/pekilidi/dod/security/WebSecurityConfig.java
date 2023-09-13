@@ -19,8 +19,6 @@ public class WebSecurityConfig {
   public static final String SYSTEM = "system";
   public static final String DUNGEON_MASTER = "master";
   public static final String PLAYER = "player";
-  public static final String NPC = "npc";
-
   private final JwtAuthConverter jwtAuthConverter;
 
   public WebSecurityConfig(JwtAuthConverter jwtAuthConverter) {

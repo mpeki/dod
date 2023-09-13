@@ -3,6 +3,7 @@ package dk.pekilidi.dod.changerequest;
 import dk.pekilidi.dod.changerequest.model.ChangeRequest;
 import dk.pekilidi.dod.character.CharacterNotFoundException;
 import dk.pekilidi.dod.race.RaceNotFoundException;
+import java.security.Principal;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,8 +24,8 @@ public class ChangeRequestController {
 
   @PostMapping("/char/{id}")
   @ResponseBody
-  public ChangeRequest handleChangeRequest(@PathVariable String id, @RequestBody ChangeRequest change) {
-    return service.submitChangeRequest(id, change);
+  public ChangeRequest handleChangeRequest(Principal principal, @PathVariable String id, @RequestBody ChangeRequest change) {
+    return service.submitChangeRequest(id, change, principal.getName());
   }
 
   @ExceptionHandler

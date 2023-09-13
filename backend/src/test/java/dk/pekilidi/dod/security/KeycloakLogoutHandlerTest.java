@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.security;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
@@ -84,6 +85,22 @@ class KeycloakLogoutHandlerTest {
     // Here you can validate that the restTemplate was called with the correct parameters
     verify(restTemplate).getForEntity(anyString(), eq(String.class));
     verify(restTemplate, times(1)).getForEntity(actualUrl, String.class);
+  }
+
+  @Test
+  void testRestTemplateIsNull(){
+    keycloakLogoutHandler = new KeycloakLogoutHandler(null);
+    String issuer = "http://keycloak-instance/auth/realms/test";
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("sub", "1234567890");
+    claims.put("iss", issuer);
+    claims.put("customClaim", "claimValue");
+    OidcIdToken idToken = new OidcIdToken("testToken", Instant.now(), Instant.now().plusSeconds(60), claims);
+    OidcUserAuthority authority = new OidcUserAuthority(idToken, null);
+    OidcUser oidcUser = new DefaultOidcUser(Collections.singleton(authority), idToken);
+
+    when(authentication.getPrincipal()).thenReturn(oidcUser);
+    assertThrows(java.lang.AssertionError.class, () -> keycloakLogoutHandler.logout(null, null, authentication));
   }
 
   @Test

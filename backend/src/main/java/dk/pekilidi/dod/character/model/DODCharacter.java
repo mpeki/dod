@@ -55,6 +55,9 @@ public class DODCharacter implements Serializable {
   @NonNull
   private String name;
 
+  @NonNull
+  private String owner;
+
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "character_trait_mapping",
       joinColumns = {@JoinColumn(name = "character_id", referencedColumnName = "id")},

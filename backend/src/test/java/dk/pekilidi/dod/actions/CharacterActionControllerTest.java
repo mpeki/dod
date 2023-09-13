@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.actions;
 
+import static dk.pekilidi.utils.BaseTestUtil.TEST_OWNER;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -83,7 +84,7 @@ class CharacterActionControllerTest extends BaseControllerTest {
         .build();
     //    actionSuccess.setActor(testBeing);
     given(skillService.findSkillByKey("primary.weapon")).willReturn(skill);
-    given(characterService.findCharacterById("testid")).willReturn(testBeing);
+    given(characterService.findCharacterByIdAndOwner("testid", "player")).willReturn(testBeing);
     given(actionService.doAction(testAction)).willReturn(actionSuccess);
     ResultActions resultActions = mockMvc
         .perform(MockMvcRequestBuilders

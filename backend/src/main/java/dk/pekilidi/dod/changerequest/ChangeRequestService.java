@@ -26,8 +26,8 @@ public class ChangeRequestService {
   }
 
   @Transactional
-  public ChangeRequest submitChangeRequest(@NotNull String characterId, ChangeRequest change) {
-    CharacterDTO character = characterService.findCharacterById(characterId);
+  public ChangeRequest submitChangeRequest(@NotNull String characterId, ChangeRequest change, String owner) {
+    CharacterDTO character = characterService.findCharacterByIdAndOwner(characterId, owner);
     change = change.withObjectBeforeChange(character);
     int noRulesFired = ruleService.executeGroupFlowRulesFor(
         List.of(character, change), change.getChangeType().changeRuleSet);
@@ -35,7 +35,7 @@ public class ChangeRequestService {
       change = change.withStatus(ChangeStatus.REJECTED).withStatusLabel(ChangeStatusLabel.NO_RULES_FIRED);
     }
     if (change.getStatus() == ChangeStatus.APPROVED) {
-      characterService.save(character);
+      characterService.save(character, owner);
       return change.withObjectAfterChange(character);
     } else {
       return change;

@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.character;
 
+import static dk.pekilidi.utils.BaseTestUtil.TEST_OWNER;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
@@ -50,9 +50,9 @@ class DODCharacterControllerTest extends BaseControllerTest {
   }
 
   @Test
-  @WithMockUser(username = "player", password = "player", roles = {"player"})
+  @WithMockUser(username = TEST_OWNER, password = "player", roles = {"player"})
   void getCharacterShouldReturnChar() throws Exception {
-    given(characterService.findCharacterById(anyString())).willReturn(testBeing);
+    given(characterService.findCharacterByIdAndOwner(anyString(), anyString())).willReturn(testBeing);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/char/1"))
         .andExpect(status().isOk())
@@ -67,10 +67,10 @@ class DODCharacterControllerTest extends BaseControllerTest {
   }
 
   @Test
-  @WithMockUser(username = "player", password = "player", roles = {"player"})
+  @WithMockUser(username = TEST_OWNER, password = "player", roles = {"player"})
   void fetchAllCharactersShouldFetchList() throws Exception {
     List<CharacterDTO> resultList = Arrays.asList(testBeing);
-    given(characterService.fetchAllCharacters()).willReturn(resultList);
+    given(characterService.fetchAllCharactersByOwner(TEST_OWNER)).willReturn(resultList);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/char"))
         .andExpect(status().isOk())
@@ -86,10 +86,10 @@ class DODCharacterControllerTest extends BaseControllerTest {
   }
 
   @Test
-  @WithMockUser(username = "player", password = "player", roles = {"player"})
+  @WithMockUser(username = TEST_OWNER, password = "player", roles = {"player"})
   void postCharacterShouldReturnChar() throws Exception {
 
-    given(characterService.createCharacter(testBeing)).willReturn(resultBeing);
+    given(characterService.createCharacter(testBeing, TEST_OWNER)).willReturn(resultBeing);
     mockMvc
         .perform(MockMvcRequestBuilders
             .post("/api/char")
@@ -103,11 +103,11 @@ class DODCharacterControllerTest extends BaseControllerTest {
   }
 
   @Test
-  @WithMockUser(username = "player", password = "player", roles = {"player"})
+  @WithMockUser(username = TEST_OWNER, password = "player", roles = {"player"})
   void postCharacterWithNonRace() throws Exception {
 
     testBeing.setRace(RaceDTO.builder().name("Bogorm").build());
-    given(characterService.createCharacter(testBeing)).willThrow(new RaceNotFoundException());
+    given(characterService.createCharacter(testBeing, TEST_OWNER)).willThrow(new RaceNotFoundException());
     mockMvc
         .perform(MockMvcRequestBuilders
             .post("/api/char")
@@ -118,9 +118,9 @@ class DODCharacterControllerTest extends BaseControllerTest {
   }
 
   @Test
-  @WithMockUser(username = "system", password = "system", roles = {"system"})
+  @WithMockUser(username = TEST_OWNER, password = "system", roles = {"system"})
   void postBulkCreateShouldReturnArrayOfIDs() throws Exception {
-    given(characterService.createCharacters(3, "human")).willReturn(Arrays.asList("123", "124", "125"));
+    given(characterService.createCharacters(3, "human", TEST_OWNER)).willReturn(Arrays.asList("123", "124", "125"));
     mockMvc
         .perform(MockMvcRequestBuilders.post("/api/char/bulk/create/3").contentType(MediaType.APPLICATION_JSON))
         .andDo(MockMvcResultHandlers.print())

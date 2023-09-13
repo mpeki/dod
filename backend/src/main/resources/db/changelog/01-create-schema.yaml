@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 1689348750984-1
+    id: 1694603854290-1
     author: msp (generated)
     changes:
     - createTable:
@@ -32,7 +32,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: base_trait
 - changeSet:
-    id: 1689348750984-2
+    id: 1694603854290-2
     author: msp (generated)
     changes:
     - createTable:
@@ -55,7 +55,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: base_trait_rule
 - changeSet:
-    id: 1689348750984-3
+    id: 1694603854290-3
     author: msp (generated)
     changes:
     - createTable:
@@ -122,7 +122,7 @@ databaseChangeLog:
             type: INT
         tableName: body
 - changeSet:
-    id: 1689348750984-4
+    id: 1694603854290-4
     author: msp (generated)
     changes:
     - createTable:
@@ -161,7 +161,7 @@ databaseChangeLog:
             type: TIMESTAMP
         tableName: character_item
 - changeSet:
-    id: 1689348750984-5
+    id: 1694603854290-5
     author: msp (generated)
     changes:
     - createTable:
@@ -182,7 +182,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_item_mapping
 - changeSet:
-    id: 1689348750984-6
+    id: 1694603854290-6
     author: msp (generated)
     changes:
     - createTable:
@@ -212,7 +212,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_skill
 - changeSet:
-    id: 1689348750984-7
+    id: 1694603854290-7
     author: msp (generated)
     changes:
     - createTable:
@@ -233,7 +233,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_skill_mapping
 - changeSet:
-    id: 1689348750984-8
+    id: 1694603854290-8
     author: msp (generated)
     changes:
     - createTable:
@@ -253,7 +253,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_template
 - changeSet:
-    id: 1689348750984-9
+    id: 1694603854290-9
     author: msp (generated)
     changes:
     - createTable:
@@ -270,7 +270,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_template_base_trait_rules
 - changeSet:
-    id: 1689348750984-10
+    id: 1694603854290-10
     author: msp (generated)
     changes:
     - createTable:
@@ -291,7 +291,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: character_trait_mapping
 - changeSet:
-    id: 1689348750984-11
+    id: 1694603854290-11
     author: msp (generated)
     changes:
     - createTable:
@@ -366,6 +366,9 @@ databaseChangeLog:
             name: name
             type: VARCHAR(255)
         - column:
+            name: owner
+            type: VARCHAR(255)
+        - column:
             name: social_status
             type: SMALLINT
         - column:
@@ -380,7 +383,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: dodcharacter
 - changeSet:
-    id: 1689348750984-12
+    id: 1694603854290-12
     author: msp (generated)
     changes:
     - createTable:
@@ -446,7 +449,7 @@ databaseChangeLog:
             type: SMALLINT
         tableName: item
 - changeSet:
-    id: 1689348750984-13
+    id: 1694603854290-13
     author: msp (generated)
     changes:
     - createTable:
@@ -466,7 +469,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: race
 - changeSet:
-    id: 1689348750984-14
+    id: 1694603854290-14
     author: msp (generated)
     changes:
     - createTable:
@@ -501,7 +504,7 @@ databaseChangeLog:
             type: SMALLINT
         tableName: skill
 - changeSet:
-    id: 1689348750984-15
+    id: 1694603854290-15
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -509,7 +512,7 @@ databaseChangeLog:
         constraintName: UC_CHARACTER_TEMPLATENAME_COL
         tableName: character_template
 - changeSet:
-    id: 1689348750984-16
+    id: 1694603854290-16
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -517,7 +520,7 @@ databaseChangeLog:
         constraintName: UC_RACENAME_COL
         tableName: race
 - changeSet:
-    id: 1689348750984-17
+    id: 1694603854290-17
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -525,7 +528,7 @@ databaseChangeLog:
         constraintName: UK_2cg9j8vhevl570acpju84ec8j
         tableName: character_template_base_trait_rules
 - changeSet:
-    id: 1689348750984-18
+    id: 1694603854290-18
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -533,7 +536,7 @@ databaseChangeLog:
         constraintName: UK_45psubq54lgj19xkobhca7u55
         tableName: character_skill_mapping
 - changeSet:
-    id: 1689348750984-19
+    id: 1694603854290-19
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -541,7 +544,7 @@ databaseChangeLog:
         constraintName: UK_k6vtk0pkbejph04e1m2r77img
         tableName: character_trait_mapping
 - changeSet:
-    id: 1689348750984-20
+    id: 1694603854290-20
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -549,7 +552,7 @@ databaseChangeLog:
         constraintName: UK_q3lnqg2yvdmmrlt3donwumcjj
         tableName: character_item_mapping
 - changeSet:
-    id: 1689348750984-21
+    id: 1694603854290-21
     author: msp (generated)
     changes:
     - addUniqueConstraint:
@@ -557,7 +560,7 @@ databaseChangeLog:
         constraintName: UKldfll8p1ac14slnmwagx1brla
         tableName: race
 - changeSet:
-    id: 1689348750984-22
+    id: 1694603854290-22
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -570,7 +573,7 @@ databaseChangeLog:
         referencedTableName: character_template
         validate: true
 - changeSet:
-    id: 1689348750984-23
+    id: 1694603854290-23
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -583,7 +586,7 @@ databaseChangeLog:
         referencedTableName: character_template
         validate: true
 - changeSet:
-    id: 1689348750984-24
+    id: 1694603854290-24
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -596,7 +599,7 @@ databaseChangeLog:
         referencedTableName: character_skill
         validate: true
 - changeSet:
-    id: 1689348750984-25
+    id: 1694603854290-25
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -609,7 +612,7 @@ databaseChangeLog:
         referencedTableName: dodcharacter
         validate: true
 - changeSet:
-    id: 1689348750984-26
+    id: 1694603854290-26
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -622,7 +625,7 @@ databaseChangeLog:
         referencedTableName: character_item
         validate: true
 - changeSet:
-    id: 1689348750984-27
+    id: 1694603854290-27
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -635,7 +638,7 @@ databaseChangeLog:
         referencedTableName: body
         validate: true
 - changeSet:
-    id: 1689348750984-28
+    id: 1694603854290-28
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -648,7 +651,7 @@ databaseChangeLog:
         referencedTableName: dodcharacter
         validate: true
 - changeSet:
-    id: 1689348750984-29
+    id: 1694603854290-29
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -661,7 +664,7 @@ databaseChangeLog:
         referencedTableName: dodcharacter
         validate: true
 - changeSet:
-    id: 1689348750984-30
+    id: 1694603854290-30
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -674,7 +677,7 @@ databaseChangeLog:
         referencedTableName: race
         validate: true
 - changeSet:
-    id: 1689348750984-31
+    id: 1694603854290-31
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:
@@ -687,7 +690,7 @@ databaseChangeLog:
         referencedTableName: base_trait_rule
         validate: true
 - changeSet:
-    id: 1689348750984-32
+    id: 1694603854290-32
     author: msp (generated)
     changes:
     - addForeignKeyConstraint:

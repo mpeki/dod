@@ -24,3 +24,4 @@ projectJDK: temurin-18 #(Applied in CI/CD pipeline)
 linter: jetbrains/qodana-jvm:latest
 include:
   - name: UNUSED_IMPORT
+  - name: CheckDependencyLicenses

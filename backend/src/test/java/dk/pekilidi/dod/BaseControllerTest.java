@@ -14,6 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 abstract public class BaseControllerTest {
+
   public MockMvc mockMvc;
   @Autowired
   public WebApplicationContext context;

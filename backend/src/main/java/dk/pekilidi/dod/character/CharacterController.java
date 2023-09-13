@@ -6,6 +6,7 @@ import dk.pekilidi.dod.character.model.DODCharacter;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.race.RaceNotFoundException;
 import dk.pekilidi.dod.util.character.CharacterMapper;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -29,18 +30,18 @@ public class CharacterController {
   private CharacterService characterService;
 
   @GetMapping("/{id}")
-  public CharacterDTO getCharacter(@PathVariable String id) {
-    return characterService.findCharacterById(id);
+  public CharacterDTO getCharacter(Principal principal, @PathVariable String id) {
+    return characterService.findCharacterByIdAndOwner(id, principal.getName());
   }
 
   @DeleteMapping("/{id}")
-  public void deleteCharacter(@PathVariable String id) {
-    characterService.deleteCharacterById(id);
+  public void deleteCharacter(Principal pricipal, @PathVariable String id) {
+    characterService.deleteCharacterByIdAndOwner(id, pricipal.getName());
   }
 
   @GetMapping
-  public List<CharacterDTO> fetchCharacters() {
-    return characterService.fetchAllCharacters();
+  public List<CharacterDTO> fetchCharacters(Principal principal) {
+    return characterService.fetchAllCharactersByOwner(principal.getName());
   }
 
   @GetMapping("/name/{name}")
@@ -51,15 +52,15 @@ public class CharacterController {
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-  CharacterDTO postCharacter(@RequestBody CharacterDTO newCharacter) {
-    return characterService.createCharacter(newCharacter);
+  CharacterDTO postCharacter(Principal principal, @RequestBody CharacterDTO newCharacter) {
+    return characterService.createCharacter(newCharacter, principal.getName());
   }
 
   @PostMapping(value = "/bulk/create/{bulkSize}",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-  List<String> postCharacter(@PathVariable int bulkSize) {
-    return characterService.createCharacters(bulkSize, "human");
+  List<String> postCharacter(Principal principal, @PathVariable int bulkSize) {
+    return characterService.createCharacters(bulkSize, "human", principal.getName());
   }
 
   @ExceptionHandler
