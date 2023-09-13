@@ -24,11 +24,7 @@ public class ItemService {
 
   private final ItemRepository<BaseItem> repo;
 
-  public ItemService(ItemRepository<BaseItem> repo) {
-    this.repo = repo;
-  }
-
-  @CacheEvict(value = "items", allEntries = true)
+    @CacheEvict(value = "items", allEntries = true)
   @Transactional
   public ItemDTO createItem(@NonNull ItemDTO item, Class<? extends BaseItem> type) {
     BaseItem itemEntity = modelMapper.map(item, type);

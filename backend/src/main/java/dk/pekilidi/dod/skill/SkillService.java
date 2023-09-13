@@ -26,11 +26,6 @@ public class SkillService {
   private static final ModelMapper modelMapper = new ModelMapper();
   private SkillRepository skillRepository;
 
-    @Autowired
-    public SkillService(SkillRepository skillRepository) {
-        this.skillRepository = skillRepository;
-    }
-
     public static Integer calculateNewSkillPrice(CharacterDTO characterDTO, SkillDTO skill, Integer fvToBuy) {
     Integer freePoints = 0;
     if (skill.getCategory() == Category.A && characterDTO.isHero()) {
