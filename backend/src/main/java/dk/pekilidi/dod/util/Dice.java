@@ -12,7 +12,7 @@ public class Dice {
   }
 
   public static int roll(String dieSpec) {
-    int result = 0;
+    int result;
     if(dieSpec.contains("+")) {
       result = doAdditionRoll(dieSpec);
     } else if(dieSpec.contains("x")){

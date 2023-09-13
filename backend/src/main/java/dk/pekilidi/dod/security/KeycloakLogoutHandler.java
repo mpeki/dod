@@ -3,9 +3,8 @@ package dk.pekilidi.dod.security;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -35,6 +34,7 @@ public class KeycloakLogoutHandler implements LogoutHandler {
         .fromUriString(endSessionEndpoint)
         .queryParam("id_token_hint", user.getIdToken().getTokenValue());
 
+    assert restTemplate != null;
     ResponseEntity<String> logoutResponse = restTemplate.getForEntity(builder.toUriString(), String.class);
     if (logoutResponse.getStatusCode().is2xxSuccessful()) {
       log.info("Successfully logged out from Keycloak");

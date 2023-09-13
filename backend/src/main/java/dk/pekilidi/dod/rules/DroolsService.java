@@ -18,13 +18,16 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class DroolsService {
 
-  @Autowired
-  private KieContainer kieContainer;
-  @Autowired
-  private SkillService skillService;
-  @Autowired
-  private ItemService itemService;
+  private final KieContainer kieContainer;
+  private final SkillService skillService;
+  private final ItemService itemService;
 
+  @Autowired
+  public DroolsService(SkillService skillService, ItemService itemService, KieContainer kieContainer) {
+    this.skillService = skillService;
+    this.itemService = itemService;
+    this.kieContainer = kieContainer;
+  }
 
   public int executeRulesFor(DODFact fact) {
     return executeRulesFor(List.of(fact), null);
@@ -32,7 +35,7 @@ public class DroolsService {
 
   public int executeGroupFlowRulesFor(List<DODFact> dodFacts, String... ruleFlowGroups) {
     KieBase kieBase = kieContainer.getKieBase();
-    for ( KiePackage kp : kieBase.getKiePackages() ) {
+    for (KiePackage kp : kieBase.getKiePackages()) {
       for (Rule rule : kp.getRules()) {
         log.debug("kp " + kp + " rule " + rule.getName());
       }

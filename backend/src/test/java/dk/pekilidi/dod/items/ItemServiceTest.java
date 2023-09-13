@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 @Tag("regression")
 class ItemServiceTest {
 
-  ItemRepository itemRepo;
   ItemService itemService;
   MeleeWeapon meleeWeaponEntity;
   ItemDTO genericItem;
@@ -25,6 +24,7 @@ class ItemServiceTest {
   private final CharacterMapper modelMapper = new CharacterMapper();
 
   @BeforeEach
+  @SuppressWarnings("unchecked")
   void setUp() {
     meleeWeaponEntity = MeleeWeapon.builder()
         .key(ItemKey.toItemKey("short.sword"))
@@ -36,7 +36,7 @@ class ItemServiceTest {
         .bp(10)
         .build();
     genericItem = modelMapper.map(meleeWeaponEntity, ItemDTO.class);
-    itemRepo = mock(ItemRepository.class);
+    ItemRepository itemRepo = mock(ItemRepository.class);
     itemService = new ItemService(itemRepo);
     when(itemRepo.save(any(MeleeWeapon.class))).thenReturn(meleeWeaponEntity.toBuilder().id("test-melee-weapon-id").build());
   }
@@ -48,6 +48,7 @@ class ItemServiceTest {
   }
 
   @Test
+  @SuppressWarnings("ConstantConditions")
   void createNullItem() {
     assertThrows(NullPointerException.class, () -> itemService.createItem(null, MeleeWeapon.class));
   }

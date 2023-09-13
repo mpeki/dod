@@ -85,6 +85,10 @@ processResources {
     }
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['-Xlint:unchecked']
+}
+
 test {
 
     String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : 'regression'

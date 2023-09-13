@@ -31,7 +31,7 @@ class DODCharacterServiceTest {
   @BeforeEach
   void setMockOutput() {
     charRepo = mock(CharacterRepository.class);
-    charService = new CharacterService(charRepo);
+    charService = new CharacterService(charRepo, null, null);
     when(charRepo.findAllByName("NONAME")).thenReturn(List.of());
   }
 

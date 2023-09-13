@@ -51,10 +51,9 @@ public class CharacterTemplate implements Serializable {
     if (this == o) {
       return true;
     }
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+    if (!(o instanceof CharacterTemplate that) || Hibernate.getClass(this) != Hibernate.getClass(o)) {
       return false;
     }
-    CharacterTemplate that = (CharacterTemplate) o;
     return Objects.equals(id, that.id);
   }
 

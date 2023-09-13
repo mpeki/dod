@@ -20,7 +20,7 @@ plugins {
 group = 'dk.pekilidi'
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
+	set('snippetsDir', file("build/generated"))
 	set('testcontainersVersion', "1.18.0")
 	set('droolsVersion', "8.34.0.Final")
 }

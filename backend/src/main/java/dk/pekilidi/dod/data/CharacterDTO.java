@@ -5,7 +5,6 @@ import static dk.pekilidi.dod.character.model.AgeGroup.MATURE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import dk.pekilidi.dod.actions.model.ActionContainer;
 import dk.pekilidi.dod.character.model.AgeGroup;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.CharacterState;
@@ -195,7 +194,7 @@ public class CharacterDTO implements DODFact, Serializable {
     if (items.containsKey(item.getItemName())) {
       CharacterItemDTO existingItem = items.get(item.getItemName());
       if (existingItem.getItem().getItemType() == ItemType.PROJECTILE
-            && item.getItem().getItemType() == ItemType.COIN) {
+          && item.getItem().getItemType() == ItemType.COIN) {
         existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
       }
       return;
