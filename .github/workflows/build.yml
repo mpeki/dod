@@ -1,4 +1,4 @@
-name: build and verify
+name: Main CI
 on:
   push:
     branches:
