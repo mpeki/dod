@@ -1,3 +1,10 @@
+# [1.16.0-rc.4](https://github.com/mpeki/dod/compare/v1.16.0-rc.3...v1.16.0-rc.4) (2023-09-13)
+
+
+### Features
+
+* **DOD-300:** Introducing Selenium tests ([1414a9c](https://github.com/mpeki/dod/commit/1414a9ce7c1158d5dede11d47e896fbeb6e4ed38))
+
 # [1.16.0-rc.3](https://github.com/mpeki/dod/compare/v1.16.0-rc.2...v1.16.0-rc.3) (2023-09-09)
 
 
