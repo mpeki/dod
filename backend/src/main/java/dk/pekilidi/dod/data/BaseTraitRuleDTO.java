@@ -1,6 +1,8 @@
 package dk.pekilidi.dod.data;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
+
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BaseTraitRuleDTO implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 217444570883418038L;
 
   private BaseTraitName baseTraitName;

@@ -24,10 +24,14 @@ import org.springframework.stereotype.Service;
 public class SkillService {
 
   private static final ModelMapper modelMapper = new ModelMapper();
-  @Autowired
   private SkillRepository skillRepository;
 
-  public static Integer calculateNewSkillPrice(CharacterDTO characterDTO, SkillDTO skill, Integer fvToBuy) {
+    @Autowired
+    public SkillService(SkillRepository skillRepository) {
+        this.skillRepository = skillRepository;
+    }
+
+    public static Integer calculateNewSkillPrice(CharacterDTO characterDTO, SkillDTO skill, Integer fvToBuy) {
     Integer freePoints = 0;
     if (skill.getCategory() == Category.A && characterDTO.isHero()) {
       freePoints = characterDTO.getBaseTraits().get(skill.getTraitName()).getGroupValue();

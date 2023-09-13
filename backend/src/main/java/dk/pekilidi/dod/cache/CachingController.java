@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class CachingController {
 
-  @Autowired
-  private CacheManager cacheManager;
+  private final CacheManager cacheManager;
 
-  @DeleteMapping("clear")
+    public CachingController(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
+
+    @DeleteMapping("clear")
   public ResponseEntity<Void> clearAllCaches() {
     cacheManager.getCacheNames().forEach(cacheName -> {
       log.info("Clearing cache: {}", cacheName);

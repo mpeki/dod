@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CharacterActionService {
 
-  @Autowired
-  private DroolsService ruleService;
+  private final DroolsService ruleService;
 
-  public Action doAction(Action action) {
+    public CharacterActionService(DroolsService ruleService) {
+        this.ruleService = ruleService;
+    }
+
+    public Action doAction(Action action) {
     if (action == null) {
       throw new IllegalArgumentException("Action cannot be null");
     }
