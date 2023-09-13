@@ -27,15 +27,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class CharacterService {
 
   private static final CharacterMapper modelMapper = new CharacterMapper();
-  @Autowired
-  private CharacterRepository characterRepository;
-  @Autowired
-  private RaceRepository raceRepository;
-  @Autowired
-  private DroolsService ruleService;
+  private final CharacterRepository characterRepository;
+  private final RaceRepository raceRepository;
+  private final DroolsService ruleService;
 
-  public CharacterService(CharacterRepository characterRepository) {
+  public CharacterService(CharacterRepository characterRepository, CharacterRepository characterRepository, RaceRepository raceRepository, DroolsService ruleService) {
     this.characterRepository = characterRepository;
+      this.characterRepository = characterRepository;
+      this.raceRepository = raceRepository;
+      this.ruleService = ruleService;
   }
 
   @Cacheable("characters")

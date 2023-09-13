@@ -18,15 +18,26 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class DroolsService {
 
-  @Autowired
-  private KieContainer kieContainer;
-  @Autowired
+  private final KieContainer kieContainer;
   private SkillService skillService;
-  @Autowired
   private ItemService itemService;
 
+    public DroolsService(KieContainer kieContainer) {
+        this.kieContainer = kieContainer;
+    }
 
-  public int executeRulesFor(DODFact fact) {
+    @Autowired
+    public DroolsService(SkillService skillService) {
+        this.skillService = skillService;
+    }
+
+    @Autowired
+    public DroolsService(ItemService itemService) {
+        this.itemService = itemService;
+    }
+
+
+    public int executeRulesFor(DODFact fact) {
     return executeRulesFor(List.of(fact), null);
   }
 

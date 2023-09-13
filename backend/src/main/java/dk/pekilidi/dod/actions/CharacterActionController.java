@@ -24,16 +24,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api")
 public class CharacterActionController {
 
-  @Autowired
   private CharacterActionService service;
 
-  @Autowired
   private CharacterService characterService;
 
-  @Autowired
   private SkillService skillService;
 
-  @PostMapping("/action/training/char/{characterId}/skill/{skillKey}")
+    @Autowired
+    public CharacterActionController(CharacterActionService service) {
+        this.service = service;
+    }
+
+    @Autowired
+    public CharacterActionController(CharacterService characterService) {
+        this.characterService = characterService;
+    }
+
+    @Autowired
+    public CharacterActionController(SkillService skillService) {
+        this.skillService = skillService;
+    }
+
+    @PostMapping("/action/training/char/{characterId}/skill/{skillKey}")
   @ResponseBody
   public SkillTrainingAction trainSkill(@PathVariable String characterId, @PathVariable String skillKey) {
     CharacterDTO character = characterService.findCharacterById(characterId);

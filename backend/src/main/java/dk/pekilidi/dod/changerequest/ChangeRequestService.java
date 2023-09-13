@@ -15,13 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ChangeRequestService {
 
-  @Autowired
-  private CharacterService characterService;
+  private final CharacterService characterService;
 
-  @Autowired
   private DroolsService ruleService;
 
-  @Transactional
+    public ChangeRequestService(CharacterService characterService) {
+        this.characterService = characterService;
+    }
+
+    @Autowired
+    public ChangeRequestService(DroolsService ruleService) {
+        this.ruleService = ruleService;
+    }
+
+    @Transactional
   public ChangeRequest submitChangeRequest(@NotNull String characterId, ChangeRequest change) {
     CharacterDTO character = characterService.findCharacterById(characterId);
     change = change.withObjectBeforeChange(character);

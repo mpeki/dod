@@ -23,6 +23,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MapKey;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
@@ -44,6 +46,7 @@ import org.hibernate.annotations.Formula;
 @Entity
 public class DODCharacter implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 5434025811976973643L;
 
   @Id @Tsid

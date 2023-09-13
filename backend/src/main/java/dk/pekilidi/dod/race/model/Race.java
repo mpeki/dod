@@ -3,6 +3,8 @@ package dk.pekilidi.dod.race.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.pekilidi.dod.character.model.CharacterTemplate;
 import io.hypersistence.utils.hibernate.id.Tsid;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import jakarta.persistence.CascadeType;
@@ -34,6 +36,7 @@ import org.hibernate.Hibernate;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "character_template_id"}))
 public class Race implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = -8860486223584199305L;
 
   @Id @Tsid
