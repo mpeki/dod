@@ -22,8 +22,11 @@ public class ItemService {
 
   private static final ModelMapper modelMapper = new ModelMapper();
 
-  @Autowired
-  private ItemRepository<BaseItem> repo;
+  private final ItemRepository<BaseItem> repo;
+
+  public ItemService(ItemRepository<BaseItem> repo) {
+    this.repo = repo;
+  }
 
   @CacheEvict(value = "items", allEntries = true)
   @Transactional

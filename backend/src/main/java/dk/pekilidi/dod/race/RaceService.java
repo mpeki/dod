@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 public class RaceService {
 
   private static final ModelMapper modelMapper = new ModelMapper();
-  @Autowired
-  private RaceRepository raceRepository;
+  private final RaceRepository raceRepository;
 
-  public RaceService(RaceRepository repo) {
+  public RaceService(RaceRepository repo, RaceRepository raceRepository) {
     this.raceRepository = repo;
+      this.raceRepository = raceRepository;
   }
 
   @Cacheable("races")
