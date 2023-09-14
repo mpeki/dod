@@ -1,3 +1,10 @@
+# [1.16.0-rc.5](https://github.com/mpeki/dod/compare/v1.16.0-rc.4...v1.16.0-rc.5) (2023-09-14)
+
+
+### Features
+
+* **DOD-302:** Characters now have an owner ([b09f17e](https://github.com/mpeki/dod/commit/b09f17e1d72623db427fcb2954c169b686fb7b08))
+
 # [1.16.0-rc.4](https://github.com/mpeki/dod/compare/v1.16.0-rc.3...v1.16.0-rc.4) (2023-09-13)
 
 
