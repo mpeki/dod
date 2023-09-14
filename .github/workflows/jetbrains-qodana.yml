@@ -1,11 +1,10 @@
 name: Qodana
 on:
   workflow_dispatch:
-  pull_request:
   push:
-    branches:
-      - main
-      - develop
+    branches: [ "develop", "main" ]
+  pull_request:
+    branches: [ "develop" ]
 env:
   QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -28,5 +27,6 @@ jobs:
           args: --apply-fixes
           push-fixes: pull-request
       - uses: github/codeql-action/upload-sarif@v2
+        if: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
         with:
           sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json

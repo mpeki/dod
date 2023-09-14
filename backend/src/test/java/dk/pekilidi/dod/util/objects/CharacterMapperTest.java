@@ -30,7 +30,7 @@ class CharacterMapperTest {
 
   @Test
   void testNullBodyInSourceCharacterEntity() {
-    DODCharacter source = new DODCharacter("noname", new Race(), new HumanoidBody());
+    DODCharacter source = new DODCharacter("noname", "tester", new Race(), new HumanoidBody());
     CharacterDTO result = mapper.map(source, CharacterDTO.class);
     assertNotNull(result.getBodyParts());
   }

@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.character;
 
+import static dk.pekilidi.utils.BaseTestUtil.TEST_OWNER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.test.context.support.WithMockUser;
 
 @Tag("regression")
 class DODCharacterServiceTest {
@@ -65,6 +67,7 @@ class DODCharacterServiceTest {
   }
 
   @Test
+  @WithMockUser(username = TEST_OWNER, password = "player", roles = {"player"})
   void testPojoMethods() throws Exception {
     RandomObjectFiller objFiller = new RandomObjectFiller();
     DODCharacter testChar = objFiller.createAndFill(DODCharacter.class);
@@ -73,15 +76,15 @@ class DODCharacterServiceTest {
     testChar.setRace(testRace);
     testChar.setName("kyron");
     CharacterDTO testCharDTO = modelMapper.map(testChar, CharacterDTO.class);
-    given(charRepo.findById("123")).willReturn(Optional.of(testChar));
-    CharacterDTO being = charService.findCharacterById("123");
+    given(charRepo.findByIdAndOwner("123", TEST_OWNER)).willReturn(Optional.of(testChar));
+    CharacterDTO being = charService.findCharacterByIdAndOwner("123", TEST_OWNER);
     assertThat(being).isEqualTo(testCharDTO).hasToString(testCharDTO.toString());
   }
 
   @Test
   void getCharacterByIdReturnCharNotFound() throws Exception {
     assertThrows(CharacterNotFoundException.class, () -> {
-      charService.findCharacterById("18401L");
+      charService.findCharacterByIdAndOwner("18401L", TEST_OWNER);
     });
   }
 

@@ -8,6 +8,7 @@ import dk.pekilidi.dod.character.CharacterService;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.skill.SkillNotFoundException;
 import dk.pekilidi.dod.skill.SkillService;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,8 +39,8 @@ public class CharacterActionController {
 
   @PostMapping("/action/training/char/{characterId}/skill/{skillKey}")
   @ResponseBody
-  public SkillTrainingAction trainSkill(@PathVariable String characterId, @PathVariable String skillKey) {
-    CharacterDTO character = characterService.findCharacterById(characterId);
+  public SkillTrainingAction trainSkill(Principal principal, @PathVariable String characterId, @PathVariable String skillKey) {
+    CharacterDTO character = characterService.findCharacterByIdAndOwner(characterId, principal.getName());
     Action action = SkillTrainingAction
         .builder()
         .actor(character)
@@ -49,7 +50,7 @@ public class CharacterActionController {
         .skill(skillService.findSkillByKey(skillKey))
         .build();
     SkillTrainingAction actionAndResult = (SkillTrainingAction) service.doAction(action);
-    characterService.save(actionAndResult.getActor());
+    characterService.save(actionAndResult.getActor(), principal.getName());
     return actionAndResult;
   }
 

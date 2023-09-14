@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.character.model;
 
+import static dk.pekilidi.utils.BaseTestUtil.TEST_OWNER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -26,18 +27,18 @@ class BeingTest {
     Race race = firstObject.getRace();
 
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter(id, name, null, race, null, null, -1, -1, null, false, "", FavoriteHand.RIGHT,
+      new DODCharacter(id, name, TEST_OWNER, null, race, null, null, -1, -1, null, false, "", FavoriteHand.RIGHT,
           SocialStatus.DISPOSSESSED, null, null,null,null,null);
     });
     HumanoidBody humanoidBody = new HumanoidBody();
     assertThrows(NullPointerException.class, () -> {
-      new DODCharacter("test", null, humanoidBody);
+      new DODCharacter("test", TEST_OWNER, null, humanoidBody);
     });
   }
 
   @Test
   void testRequiredArgsConstructor() {
-    DODCharacter newChar = new DODCharacter("Peter", new Race(null, "human", null), new HumanoidBody());
+    DODCharacter newChar = new DODCharacter("Peter", TEST_OWNER, new Race(null, "human", null), new HumanoidBody());
     assertNotNull(newChar);
     assertEquals("Peter", newChar.getName());
   }
@@ -55,7 +56,7 @@ class BeingTest {
     DODCharacter firstObject = rof.createAndFill(DODCharacter.class);
     DODCharacter secondObject = rof.createAndFill(DODCharacter.class);
     assertNotEquals(firstObject, secondObject);
-    DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(), firstObject.getBaseTraits(),
+    DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(), TEST_OWNER, firstObject.getBaseTraits(),
         firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
         firstObject.getHeroPoints(), firstObject.getBody(), false, "", FavoriteHand.RIGHT, SocialStatus.DISPOSSESSED,
         null, null, null, null, null);
@@ -81,7 +82,7 @@ class BeingTest {
     DODCharacter firstObject = rof.createAndFill(DODCharacter.class);
     DODCharacter secondObject = rof.createAndFill(DODCharacter.class);
     assertNotEquals(firstObject.hashCode(), secondObject.hashCode());
-    DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(), firstObject.getBaseTraits(),
+    DODCharacter copied = new DODCharacter(firstObject.getId(), firstObject.getName(), TEST_OWNER, firstObject.getBaseTraits(),
         firstObject.getRace(), firstObject.getAgeGroup(), firstObject.getState(), firstObject.getBaseSkillPoints(),
         firstObject.getHeroPoints(), firstObject.getBody(), false, "", FavoriteHand.RIGHT, SocialStatus.DISPOSSESSED,
         null, null, null, null, null);

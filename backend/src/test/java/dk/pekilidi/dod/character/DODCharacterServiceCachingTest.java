@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.character;
 
+import static dk.pekilidi.utils.BaseTestUtil.TEST_OWNER;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -58,7 +59,7 @@ class DODCharacterServiceCachingTest {
     given(charRepo.findAllByName(anyString())).willReturn(chars);
     given(raceRepo.findByName(anyString())).willReturn(Race.builder().name("human").build());
     given(ruleService.executeRulesFor(testCharacterDTO)).willReturn(1);
-    service.createCharacter(testCharacterDTO);
+    service.createCharacter(testCharacterDTO, TEST_OWNER);
   }
 
   @Test
@@ -72,7 +73,7 @@ class DODCharacterServiceCachingTest {
   @Test
   void testCharServiceCacheEviction() throws Exception {
     service.getCharactersByName("kyron");
-    service.createCharacter(testCharacterDTO); //This evicts the cache
+    service.createCharacter(testCharacterDTO, TEST_OWNER); //This evicts the cache
     service.getCharactersByName("kyron");
     service.getCharactersByName("kyron");
     service.getCharactersByName("kyron");
