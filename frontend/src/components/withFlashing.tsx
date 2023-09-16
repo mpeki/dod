@@ -1,18 +1,18 @@
-import React, { useState, useEffect, ComponentType } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Fade } from '@mui/material';
 
 type FlashingProps = {
-  skipFlash?: boolean;
+  skipflash?: boolean;
 };
 
-function withFlashing<T extends {}>(IconComponent: ComponentType<T>) {
-  return function FlashingIconComponent(props: T & FlashingProps) {
+function withFlashing<P extends {}>(IconComponent: React.ComponentType<P>) {
+  return function FlashingIconComponent(props: P & FlashingProps) {
 
-    const { skipFlash, ...restProps } = props;
+    const { skipflash, ...restProps } = props;
     const [shown, setShown] = useState(true);
 
     useEffect(() => {
-      if (skipFlash) {
+      if (skipflash) {
         setShown(true);
         return;  // Return early without setting up flashing if skipFlash is true
       }
@@ -30,11 +30,11 @@ function withFlashing<T extends {}>(IconComponent: ComponentType<T>) {
       }, 500);
 
       return () => clearInterval(interval);
-    }, []);
+    }, [skipflash]);
 
     return (
       <Fade in={shown}>
-        <IconComponent {...props} />
+        <IconComponent {...restProps as P} />
       </Fade>
     );
   };

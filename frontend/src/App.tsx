@@ -15,16 +15,16 @@ import { ViewSkill } from "./pages/Skill/ViewSkill";
 import { TheCity } from "./pages/City/TheCity";
 import { useLoadAppDataWithRetry } from "./services/axios/useLoadAppDataWithRetry";
 import { AboutSettings } from "./pages/Settings/AboutSettings";
+import { CharacterContextProvider } from "./pages/Character/CharacterContextProvider";
 
 function App() {
-  // const auth = useAuth();
-  const { currentTheme, setActiveTheme } = useTheme();
-  const [isSkillsLoaded, setIsSkillsLoaded] = useState(false);
+
+  const { currentTheme } = useTheme();
   const { loading: loadingSkills, error: skillsLoadingError } = useLoadAppDataWithRetry("skills", "/skill");
   const [itemsEndpoint, setItemsEndpoint] = useState("/nocall");
   const [racesEndpoint, setRacesEndpoint] = useState("/nocall");
   useEffect(() => {
-    if ( skillsLoadingError === null ) {
+    if (skillsLoadingError === null) {
       setItemsEndpoint("/items");
     }
   }, [loadingSkills, skillsLoadingError]);
@@ -32,21 +32,20 @@ function App() {
   const { loading: loadingItems, error: itemsLoadingError } = useLoadAppDataWithRetry("items", itemsEndpoint);
 
   useEffect(() => {
-    if ( itemsLoadingError === null ) {
+    if (itemsLoadingError === null) {
       setRacesEndpoint("/race");
     }
   }, [loadingItems, itemsLoadingError]);
 
-  const { loading: loadingRaces, error: racesLoadingError } = useLoadAppDataWithRetry("races", racesEndpoint);
-
+  const { loading: loadingRaces } = useLoadAppDataWithRetry("races", racesEndpoint);
 
   return (
-    <>
+    <CharacterContextProvider>
       {currentTheme && (
         <ThemeProvider theme={currentTheme}>
           <Backdrop
-            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer -1 }}
-            open={ loadingSkills || loadingItems || loadingRaces }
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer - 1 }}
+            open={loadingSkills || loadingItems || loadingRaces}
           >
             <Box position="fixed" top={0} left={0} right={0}>
               <LinearProgress />
@@ -58,7 +57,7 @@ function App() {
               <AppTabs />
               <Routes>
                 <Route index element={<Home />} />
-                <Route path="/home" element={<Home/>} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/characters" element={<CharacterOverview />} />
                 <Route path="/city" element={<TheCity />} />
                 <Route path="/items" element={<ViewItems />} />
@@ -70,7 +69,8 @@ function App() {
           </AppRouter>
         </ThemeProvider>
       )}
-    </>
+    </CharacterContextProvider>
   );
 }
+
 export default App;
