@@ -1,9 +1,7 @@
 import { Character } from "../../types/character";
 import { Link } from "react-router-dom";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import useCharacterService from "../../services/character.service";
-import { useChangeService } from "../../services/change.service";
-import { Change } from "../../types/change";
 import { CharacterState } from "../../types/character-state";
 import {
   Avatar,
@@ -11,50 +9,47 @@ import {
   CardActionArea,
   CardActions,
   CardContent,
-  CardHeader,
+  CardHeader, Fab,
   Grid,
   IconButton,
   Typography
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import StartIcon from "@mui/icons-material/Start";
+import CharacterContext from "./CharacterContext";
+import withFlashing from "../../components/withFlashing";
 
 interface IProps {
   character: Character;
-  fetchCharactersHandler: any;
 }
 
 
-export const CharacterCard = ({ character, fetchCharactersHandler }: IProps): JSX.Element => {
+export const CharacterCard = ({ character }: IProps): JSX.Element => {
 
   const { deleteCharacter } = useCharacterService();
-  const { doChange } = useChangeService();
+  const charContext = useContext(CharacterContext);
+  const FlashingActivateButton = withFlashing(Fab)
+
+  if (!charContext) {
+    throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+  }
+
+  const { activateCharHandler, fetchCharsHandler } = charContext;
+  const handleActivation = () => {
+    const characterId = character.id ? character.id : "";
+    activateCharHandler(characterId);
+  };
+
 
   const deleteCharHandler = useCallback(async () => {
     if (character.id != null) {
       await deleteCharacter(character.id)
       .then(() => {
-        fetchCharactersHandler();
+        fetchCharsHandler();
       })
       .catch((e) => alert("Error deleting character: " + e));
     }
-  }, [character, fetchCharactersHandler]);
-
-  const activateCharHandler = useCallback(async () => {
-    const changeData: Change = {
-      changeKey: "READY_TO_PLAY",
-      changeType: "CHARACTER_READY_TO_PLAY",
-      changeDescription: "Character {character.id} is ready to play",
-      modifier: 0
-    };
-    console.log("Activating character: " + character.id);
-    if (character.id != null) {
-      await doChange(character.id, changeData)
-      .then(() => {
-        fetchCharactersHandler();
-      })
-    }
-  }, [character, fetchCharactersHandler]);
+  }, [character.id, deleteCharacter, fetchCharsHandler]);
 
   if (character.state == null || character.baseSkillPoints == null) {
     return <>
@@ -87,9 +82,9 @@ export const CharacterCard = ({ character, fetchCharactersHandler }: IProps): JS
         </CardActionArea>
         <CardActions disableSpacing>
           {canActivate && (
-            <IconButton onClick={activateCharHandler} aria-label="activate">
+            <FlashingActivateButton onClick={handleActivation} aria-label="activate" size={"small"} color={"success"} sx={{ mr: 1 }} >
               <StartIcon />
-            </IconButton>
+            </FlashingActivateButton>
           )}
           <IconButton onClick={deleteCharHandler} aria-label="delete" title="delete">
             <DeleteForeverIcon />

@@ -81,8 +81,8 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
       </div>
       <div>
         <label>Age group</label>
-        <select {...register("ageGroup")}>
-          {ageGroups.map(ageGroup => ( <option key={ageGroup.key} value={ageGroup.value} selected={ageGroup.value === "MATURE"}>{ageGroup.value}</option>))}
+        <select {...register("ageGroup")} defaultValue={"MATURE"}>
+          {ageGroups.map(ageGroup => ( <option key={ageGroup.key} value={ageGroup.value} >{ageGroup.value}</option>))}
         </select>
       </div>
       <div>

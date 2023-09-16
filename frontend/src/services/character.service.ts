@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useContext, useCallback } from "react";
 import { AxiosContext } from "./axios/AxiosContext";
 
@@ -16,7 +16,7 @@ const useCharacterService = () => {
     }
   },[axiosInstance]);
 
-  const getCharacter = async (charId: string) => {
+  const getCharacter = useCallback( async (charId: string) => {
     try {
       const response = await axiosInstance.get(`/char/${charId}`);
       return response.data;
@@ -24,7 +24,7 @@ const useCharacterService = () => {
       const axiosError = err as AxiosError;
       throw new Error(`Cannot fetch character data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
     }
-  };
+  },[axiosInstance]);
 
   const getCharactersByName = async (charName: string) => {
     try {

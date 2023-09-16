@@ -1,5 +1,5 @@
 import { Skill } from "../../types/skill";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { BuySkill } from "./BuySkill";
 import { CharacterSkillList } from "./CharacterSkillList";
 import { Character } from "../../types/character";
@@ -9,6 +9,9 @@ import AddIcon from "@mui/icons-material/Add";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { StyledList } from "../../components/shared/List.styled";
 import withFlashing from "../../components/withFlashing";
+import StartIcon from "@mui/icons-material/Start";
+import CharacterContext from "../Character/CharacterContext";
+
 
 interface IProps {
   character: Character;
@@ -16,14 +19,18 @@ interface IProps {
   fetchCharHandler: () => void;
 }
 
-export const SkillContainer = ({
-                                 character,
-                                 skills,
-                                 fetchCharHandler
-                               }: IProps): JSX.Element => {
+export const SkillContainer = ({character, skills, fetchCharHandler }: IProps): JSX.Element => {
 
   const [showBuySkill, setShowBuySkill] = useState<boolean>();
   const FlashingAddButton = withFlashing(Fab);
+  const FlashingActivateButton = withFlashing(Fab)
+  const charContext = useContext(CharacterContext);
+
+  if (!charContext) {
+    throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+  }
+
+  const { activateCharHandler } = charContext;
 
   const showBuySkillHandler = () => {
     if (showBuySkill) {
@@ -33,9 +40,15 @@ export const SkillContainer = ({
     }
   };
 
+  const canActivate: boolean = (character.baseSkillPoints !== undefined && character.baseSkillPoints < 10 && character.state === CharacterState.INIT_COMPLETE);
   let canBuySkill = character.state === CharacterState.INIT_COMPLETE && character.baseSkillPoints !== undefined && character.baseSkillPoints > 0;
   let canTransferBonusXP: boolean = (character.baseSkillPoints !== undefined && character.baseSkillPoints > 0 && character.state === CharacterState.READY_TO_PLAY);
 
+  const handleActivation = () => {
+    const characterId = character.id ? character.id : "";
+    activateCharHandler(characterId);
+    fetchCharHandler();
+  };
 
   return (
     <>
@@ -45,6 +58,11 @@ export const SkillContainer = ({
             <ListItem dense={true}>
               <ListItemText primary={character.state === "READY_TO_PLAY" ? "Bonus Exp." : "Base Skill Points"}
                             secondary={character.baseSkillPoints} />
+              {canActivate && (
+                <FlashingActivateButton onClick={handleActivation} aria-label="activate" sx={{ mr: 1 }} size={"small"} color={"success"}>
+                  <StartIcon />
+                </FlashingActivateButton>
+              )}
               {canTransferBonusXP && (
                 <IconButton>
                   <KeyboardDoubleArrowDownIcon />
@@ -52,7 +70,8 @@ export const SkillContainer = ({
               )}
               {(!showBuySkill && canBuySkill) && (
                 <FlashingAddButton onClick={showBuySkillHandler} disabled={!canBuySkill} size="small" color={"success"}
-                                   aria-label="add skill" skipFlash={skills === undefined ? false : Object.keys(skills).length > 0}>
+                                   aria-label="add skill"
+                                   skipflash={skills === undefined ? false : Object.keys(skills).length > 0}>
                   <AddIcon />
                 </FlashingAddButton>
               )}

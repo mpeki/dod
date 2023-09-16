@@ -10,8 +10,6 @@ import charCreateImg from "../img/new_character.png";
 import theCityImg from "../img/the_city.png";
 import theWildImg from "../img/the_wild.png";
 import settingsImg from "../img/settings.png";
-import storeImg from "../img/general_store.png";
-import smithyImg from "../img/the_smithy.png";
 import dmImg from "../img/dm.png";
 import signupImg from "../img/signup.png";
 import { Link } from "react-router-dom";
