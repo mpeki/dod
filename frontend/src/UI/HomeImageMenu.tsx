@@ -71,9 +71,9 @@ export const HomeImageMenu = () => {
     },
     {
       img: settingsImg,
-      title: "Settings",
-      page: "signin",
-      description: "Change your settings",
+      title: (auth.isAuthenticated ? "About / Settings" : "About"),
+      page: "/settings",
+      description: (auth.isAuthenticated ? "View about page and change settings" : "View about page"),
       loginRequired: false
     }
   ];

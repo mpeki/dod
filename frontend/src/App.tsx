@@ -14,6 +14,7 @@ import { ViewItems } from "./pages/Items/ViewItems";
 import { ViewSkill } from "./pages/Skill/ViewSkill";
 import { TheCity } from "./pages/City/TheCity";
 import { useLoadAppDataWithRetry } from "./services/axios/useLoadAppDataWithRetry";
+import { AboutSettings } from "./pages/Settings/AboutSettings";
 
 function App() {
   // const auth = useAuth();
@@ -53,16 +54,17 @@ function App() {
           </Backdrop>
           <GlobalStyles />
           <AppRouter>
-            <Box sx={{ p: 10 }}>
+            <Box sx={{ p: 12 }}>
               <AppTabs />
               <Routes>
                 <Route index element={<Home />} />
-                <Route path="/home" element={<Home />} />
+                <Route path="/home" element={<Home/>} />
                 <Route path="/characters" element={<CharacterOverview />} />
                 <Route path="/city" element={<TheCity />} />
                 <Route path="/items" element={<ViewItems />} />
                 <Route path="/skill/:skillKey" element={<ViewSkill />} />
                 <Route path="/characters/:charId" element={<ViewCharacter />} />
+                <Route path="/settings" element={<AboutSettings />} />
               </Routes>
             </Box>
           </AppRouter>

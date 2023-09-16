@@ -21,6 +21,7 @@ import Stack from "@mui/material/Stack";
 import { ReputationStats } from "../../components/Character/ReputationStats";
 
 
+
 export const ViewCharacter = () => {
 
   const { getCharacter } = useCharacterService();

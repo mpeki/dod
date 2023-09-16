@@ -6,6 +6,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import storeImg from "../../img/general_store.png";
 import smithyImg from "../../img/the_smithy.png";
+import alchemistImg from "../../img/the_alchemist.png";
 import { Link } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import Tooltip from '@mui/material/Tooltip';
@@ -28,11 +29,18 @@ export const CityImageMenu = () => {
       description: "Buy and sell weapons and armor",
       page: "/home",
       loginRequired: true
+    },
+    {
+      img: alchemistImg,
+      title: "The Alchemist",
+      description: "Potent potions and powerful poisons",
+      loginRequired: true,
+      page: "/home"
     }
   ];
 
   return (
-    <ImageList sx={{ width: "100%", height: 600 }} cols={2} gap={5}>
+    <ImageList sx={{ width: "100%", height: 600 }} cols={3} gap={5}>
       {itemData.map((item) => (
         <ImageListItem key={item.img}>
           <img

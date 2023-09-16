@@ -5,7 +5,6 @@ import { Character } from "../../types/character";
 import classes from "./AddCharacter.module.css";
 import { useRaceService } from "../../services/race.service";
 import { Race } from "../../types/race";
-import { useItemService } from "../../services/item.service";
 
 interface IProps {
   fetchCharactersHandler: any;
@@ -27,6 +26,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
 
   const { getValues, register, formState: { errors }, handleSubmit, reset } = useForm<FormData>();
   const [races, setRaces] = useState<Race[]>([]);
+
   const [charData, setCharData] = useState<Character>({
     name: "",
     ageGroup: "MATURE",
@@ -35,21 +35,20 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
   });
 
   const fetchRacesHandler = useCallback(async () => {
-    let raceJSON = localStorage.getItem("races");
-    if (raceJSON === null) {
       await getRaces()
       .then((races) => {
-        raceJSON = JSON.stringify(races);
-        localStorage.setItem("races", raceJSON);
-        setRaces(races);
+        localStorage.setItem("races", JSON.stringify(races));
       })
       .catch((e) => alert("Error fetching skills: " + e));
-    }
-    setRaces(raceJSON === null ? null : JSON.parse(raceJSON));
   }, [getRaces]);
 
   useEffect(() => {
-    fetchRacesHandler().then();
+    let raceJSON = localStorage.getItem("races");
+    if(raceJSON !== null) {
+      setRaces(prevRaces => raceJSON === null ? null : JSON.parse(raceJSON));
+    } else {
+      fetchRacesHandler().then(() => setRaces(prevRaces => raceJSON === null ? null : JSON.parse(raceJSON)));
+    }
   }, [fetchRacesHandler]);
 
   const submitHandler = useCallback(async () => {
@@ -67,6 +66,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
   }, [createCharacter, fetchCharactersHandler, getValues, onConfirm, reset]); //does this work? it was empty before
 
   const onSubmit = handleSubmit(submitHandler);
+  const ageGroups = [{key: 1 , value: "YOUNG"}, {key: 2 , value: "MATURE"}, {key: 3 , value: "OLD"}];
 
   return (
     <form onSubmit={onSubmit}>
@@ -82,18 +82,15 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
       <div>
         <label>Age group</label>
         <select {...register("ageGroup")}>
-          <option value="MATURE">Mature</option>
-          <option value="YOUNG">Young</option>
-          <option value="OLD">Old</option>
+          {ageGroups.map(ageGroup => ( <option key={ageGroup.key} value={ageGroup.value} selected={ageGroup.value === "MATURE"}>{ageGroup.value}</option>))}
         </select>
       </div>
       <div>
         <label htmlFor="raceName">Race Name:</label>
         <select {...register("raceName")}>
           <option value="0"> -- Select a race -- </option>
-          {races.map((race) => <option value={race.id}>{race.name}</option>)}
+          {races.map((race) => <option key={race.id} value={race.id}>{race.name}</option>)}
         </select>
-        {/*<input {...register("raceName", { required: true } )} />{errors.raceName?.type === 'required' && "Pick a race, any race!"}*/}
       </div>
       <footer className={classes.actions}>
         <button type='submit'>Create</button>
