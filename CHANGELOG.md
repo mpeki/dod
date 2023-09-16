@@ -1,3 +1,10 @@
+# [1.16.0-rc.6](https://github.com/mpeki/dod/compare/v1.16.0-rc.5...v1.16.0-rc.6) (2023-09-16)
+
+
+### Features
+
+* **DOD-309:** Added Settings Page v0 ([ef69163](https://github.com/mpeki/dod/commit/ef69163bf10dc62d809ccbe8e3ad9c754213d213))
+
 # [1.16.0-rc.5](https://github.com/mpeki/dod/compare/v1.16.0-rc.4...v1.16.0-rc.5) (2023-09-14)
 
 
