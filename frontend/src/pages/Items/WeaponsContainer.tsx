@@ -1,15 +1,4 @@
-import {
-  Box,
-  Fab,
-  IconButton,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography
-} from "@mui/material";
+import { Box, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { StyledTable } from "../../components/shared/Table.styled";
 import Stack from "@mui/material/Stack";
 import AddIcon from "@mui/icons-material/Add";
@@ -18,6 +7,7 @@ import Modal from "@mui/material/Modal";
 import { BuyWeapon } from "./BuyWeapon";
 import { Character } from "../../types/character";
 import { CharacterItem, Item } from "../../types/item";
+import { CharacterState } from "../../types/character-state";
 
 interface IProps {
   character: Character;
@@ -33,6 +23,8 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const canBuy: boolean = (character.state === CharacterState.READY_TO_PLAY);
+
     useEffect(() => {
       let itemJSON = localStorage.getItem("items");
       if (itemJSON !== null && character.items) {
@@ -42,7 +34,7 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
         const filteredMap = new Map([...itemsMap].filter(([key, item]) => {
           let result = false;
           charItems.forEach((charItem) => {
-            if(charItem.item.itemKey === key){
+            if (charItem.item.itemKey === key) {
               result = true;
             }
           });
@@ -55,7 +47,7 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
     const itemRows = () => {
       const result: JSX.Element[] = [];
       items.forEach((item, key) => {
-        if(item.itemType !== "MELEE_WEAPON" && item.itemType !== "RANGED_WEAPON" && item.itemType !== "SHIELD") return;
+        if (item.itemType !== "MELEE_WEAPON" && item.itemType !== "RANGED_WEAPON" && item.itemType !== "SHIELD") return;
         result.push(<TableRow key={item.id}>
           <TableCell height={12}>{item.itemKey}</TableCell>
           <TableCell></TableCell>
@@ -73,22 +65,22 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
     return (
       <>
         <Stack direction="row-reverse">
-          <IconButton edge="start" aria-label="add skill">
-            <AddIcon onClick={handleOpen}/>
+          <IconButton edge="start" aria-label="add skill" disabled={!canBuy}>
+            <AddIcon onClick={handleOpen} />
           </IconButton>
         </Stack>
         <StyledTable>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{fontWeight: "bold"}}>Weapon/Shield</TableCell>
-                <TableCell sx={{fontWeight: "bold"}}>Fv</TableCell>
-                <TableCell sx={{fontWeight: "bold"}}>Dmg</TableCell>
-                <TableCell sx={{fontWeight: "bold"}}>Vl</TableCell>
-                <TableCell sx={{fontWeight: "bold"}}>Bv</TableCell>
-                <TableCell sx={{fontWeight: "bold"}}>Abs</TableCell>
-                <TableCell sx={{fontWeight: "bold"}}>Range</TableCell>
-                <TableCell sx={{fontWeight: "bold"}}>Weight</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Weapon/Shield</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Fv</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Dmg</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Vl</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Bv</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Abs</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Range</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Weight</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -108,7 +100,7 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
               Buy a new Weapon or Shield
             </Typography>
             <Box>
-              <BuyWeapon onConfirm={handleClose} character={character} fetchCharHandler={fetchCharHandler}/>
+              <BuyWeapon onConfirm={handleClose} character={character} fetchCharHandler={fetchCharHandler} />
             </Box>
           </Paper>
         </Modal>

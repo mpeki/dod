@@ -37,15 +37,16 @@ export const AppTabs = () => {
     }
   }
 
-  const currentTab = useRouteMatch(['/home', '/characters', '/city']);
+  const currentTab = useRouteMatch(['/home', '/characters', '/city', '/settings', '/wilderness']);
 
   return (
     <Tabs value={currentTab || "/home"} centered>
       <Tab label="Home" value="/home" to="/home" component={Link} />
-      <Tab label="My Characters" value="/characters" to="/characters" component={Link} disabled={!auth.isAuthenticated}/>
-      <Tab label="The City" value="/city" to="/city" component={Link} disabled={!auth.isAuthenticated}/>
-      <Tab label="The Wilderness" value="/wilderness" to="/wilderness" component={Link} disabled={!auth.isAuthenticated}/>
-      <Tab label="Profile" value="/account" to="/account" component={Link} disabled={!auth.isAuthenticated} />
+      <Tab label="Characters" value="/characters" to="/characters" component={Link} disabled={!auth.isAuthenticated}/>
+      <Tab label="City" value="/city" to="/city" component={Link} disabled={!auth.isAuthenticated}/>
+      <Tab label="Wilderness" value="/wilderness" to="/wilderness" component={Link} disabled={!auth.isAuthenticated}/>
+      <Tab label={auth.isAuthenticated ? "Settings / About" : "About" } value="/settings" to="/settings" component={Link} />
+
       <Tab icon={auth.isAuthenticated ? <Tooltip title="Logout"><LockOutlinedIcon/></Tooltip> : <Tooltip title="Login"><LockOpenOutlinedIcon/></Tooltip>}
            iconPosition="end"
            onClick={auth.isAuthenticated ? () => void handleLogout() : () => void handleLogin()}

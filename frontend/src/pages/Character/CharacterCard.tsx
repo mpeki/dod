@@ -24,6 +24,7 @@ interface IProps {
   fetchCharactersHandler: any;
 }
 
+
 export const CharacterCard = ({ character, fetchCharactersHandler }: IProps): JSX.Element => {
 
   const { deleteCharacter } = useCharacterService();
@@ -64,8 +65,8 @@ export const CharacterCard = ({ character, fetchCharactersHandler }: IProps): JS
   const canActivate: boolean = (character.baseSkillPoints < 10 && character.state === CharacterState.INIT_COMPLETE);
 
   return (
-    <Grid item xs={2} sm={3} md={3}>
-      <Card variant="outlined" sx={{ minWidth: 225, padding: 1 }}>
+    <Grid item xs={2} sm={3} md={3} padding={.2}>
+      <Card elevation={5} variant="elevation" square={false} sx={{ minWidth: 200, minHeight: 220 }} >
         <CardActionArea component={Link} to={"/characters/" + character.id}>
           <CardHeader
             avatar={

@@ -4,10 +4,11 @@ import { BuySkill } from "./BuySkill";
 import { CharacterSkillList } from "./CharacterSkillList";
 import { Character } from "../../types/character";
 import { CharacterState } from "../../types/character-state";
-import { IconButton, List, ListItem, ListItemText, Paper } from "@mui/material";
+import { Fab, IconButton, List, ListItem, ListItemText, Paper } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { StyledList } from "../../components/shared/List.styled";
+import withFlashing from "../../components/withFlashing";
 
 interface IProps {
   character: Character;
@@ -22,6 +23,7 @@ export const SkillContainer = ({
                                }: IProps): JSX.Element => {
 
   const [showBuySkill, setShowBuySkill] = useState<boolean>();
+  const FlashingAddButton = withFlashing(Fab);
 
   const showBuySkillHandler = () => {
     if (showBuySkill) {
@@ -31,7 +33,7 @@ export const SkillContainer = ({
     }
   };
 
-  let canBuySkill = character.state === CharacterState.INIT_COMPLETE;
+  let canBuySkill = character.state === CharacterState.INIT_COMPLETE && character.baseSkillPoints !== undefined && character.baseSkillPoints > 0;
   let canTransferBonusXP: boolean = (character.baseSkillPoints !== undefined && character.baseSkillPoints > 0 && character.state === CharacterState.READY_TO_PLAY);
 
 
@@ -41,16 +43,18 @@ export const SkillContainer = ({
         <List dense={true}>
           <StyledList>
             <ListItem dense={true}>
-              <ListItemText primary={character.state === "READY_TO_PLAY" ? "Bonus Exp." : "Base Skill Points"} secondary={character.baseSkillPoints} />
-              { canTransferBonusXP && (
-              <IconButton>
-                <KeyboardDoubleArrowDownIcon />
-              </IconButton>
-              )}
-              { canBuySkill && (
-                <IconButton onClick={showBuySkillHandler} disabled={!canBuySkill} edge="end" aria-label="add skill">
-                  <AddIcon />
+              <ListItemText primary={character.state === "READY_TO_PLAY" ? "Bonus Exp." : "Base Skill Points"}
+                            secondary={character.baseSkillPoints} />
+              {canTransferBonusXP && (
+                <IconButton>
+                  <KeyboardDoubleArrowDownIcon />
                 </IconButton>
+              )}
+              {(!showBuySkill && canBuySkill) && (
+                <FlashingAddButton onClick={showBuySkillHandler} disabled={!canBuySkill} size="small" color={"success"}
+                                   aria-label="add skill" skipFlash={skills === undefined ? false : Object.keys(skills).length > 0}>
+                  <AddIcon />
+                </FlashingAddButton>
               )}
             </ListItem>
           </StyledList>
