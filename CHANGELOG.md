@@ -1,3 +1,10 @@
+# [1.16.0-rc.7](https://github.com/mpeki/dod/compare/v1.16.0-rc.6...v1.16.0-rc.7) (2023-09-16)
+
+
+### Features
+
+* **DOD-311:** Character activation can now be done in the Character Details page ([98a309f](https://github.com/mpeki/dod/commit/98a309fbc8a2b6263a15c0f81fc619bfbbc24a98))
+
 # [1.16.0-rc.6](https://github.com/mpeki/dod/compare/v1.16.0-rc.5...v1.16.0-rc.6) (2023-09-16)
 
 
