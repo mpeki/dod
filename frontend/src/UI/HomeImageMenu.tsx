@@ -3,7 +3,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import ruleImg from "../img/dod-logo_small.png";
 import combatImg from "../img/combat.png";
 import charCreateImg from "../img/new_character.png";
@@ -12,9 +12,9 @@ import theWildImg from "../img/the_wild.png";
 import settingsImg from "../img/settings.png";
 import dmImg from "../img/dm.png";
 import signupImg from "../img/signup.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 
 export const HomeImageMenu = () => {
 
@@ -86,7 +86,9 @@ export const HomeImageMenu = () => {
             alt={item.title}
             loading="lazy"
           />
-          <Link style={{pointerEvents: !item.loginRequired || auth.isAuthenticated ? 'auto' : 'none'}} to={item.page || "/"} onClick={item.page === 'signin' ? () => void auth.signinRedirect() : () => undefined}>
+          <Link style={{ pointerEvents: !item.loginRequired || auth.isAuthenticated ? "auto" : "none" }}
+                to={item.page || "/"}
+                onClick={item.page === "signin" ? () => void auth.signinRedirect() : () => undefined}>
             <ImageListItemBar
               title={item.title}
               subtitle={item.description}
@@ -95,7 +97,8 @@ export const HomeImageMenu = () => {
                   sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                   aria-label={`info about ${item.title}`}
                 >
-                  {(!item.loginRequired || auth.isAuthenticated) ? <KeyboardDoubleArrowRightIcon /> : <Tooltip title="Login"><LockOutlinedIcon/></Tooltip>}
+                  {(!item.loginRequired || auth.isAuthenticated) ? <KeyboardDoubleArrowRightIcon /> :
+                    <Tooltip title="Login"><LockOutlinedIcon /></Tooltip>}
                 </IconButton>
               }
             />
