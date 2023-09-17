@@ -9,7 +9,8 @@ import charCreationImg from "../../img/new_character.png";
 import { EmptyCharacterCard } from "./EmptyCharacterCard";
 import withFlashing from "../../components/withFlashing";
 import CharacterContext from "../Character/CharacterContext";
-
+import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   characterContainer: {
@@ -41,11 +42,8 @@ export const CharacterOverview = (): React.JSX.Element => {
   const characterCount = characters.length;
 
   useEffect(() => {
-    console.log("Fetching characters ... no lie!");
     fetchCharsHandler().then();
   }, [fetchCharsHandler, activateCharHandler]);
-
-
   const showCharacterHandler = () => {
     if (showCreateCharacter) {
       setShowCreateCharacter(false);
@@ -53,25 +51,38 @@ export const CharacterOverview = (): React.JSX.Element => {
       setShowCreateCharacter(true);
     }
   };
+  const navigate = useNavigate();
+  const emptyCardCharShortcuts= [
+    { key: '+', callback: () => showCharacterHandler() }
+  ];
+  const addCharShortcuts= [
+    { key: "Escape", callback: () => showCharacterHandler() }
+  ];
+
+
   return (
-      <Container disableGutters>
-        {showCreateCharacter &&
-          <AddCharacter fetchCharactersHandler={fetchCharsHandler} onConfirm={showCharacterHandler} />}
-        <Paper elevation={20}>
-          <Stack direction={"row"}>
-            <Stack direction={"column"}>
-              <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
-                Character Overview
-              </Typography>
-              <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
-                This is where you manage your characters. You can create new characters, delete old ones and activate
-                them
-                for play.
-                Press the + button to create a new character.
-              </Typography>
-              <Grid container justifyContent="center" style={styles.characterContainer}>
-                {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} />)}
-                {[...Array(10 - characters.length)].map((_, index) => (
+    <Container disableGutters>
+      {showCreateCharacter &&
+        <KeyboardShortcutProvider shortcuts={addCharShortcuts} >
+          <AddCharacter fetchCharactersHandler={fetchCharsHandler} onConfirm={showCharacterHandler} />
+        </KeyboardShortcutProvider>
+      }
+      <Paper elevation={20}>
+        <Stack direction={"row"}>
+          <Stack direction={"column"}>
+            <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
+              Character Overview
+            </Typography>
+            <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
+              This is where you manage your characters. You can create new characters, delete old ones and activate
+              them
+              for play.
+              Press the + button to create a new character.
+            </Typography>
+            <Grid container justifyContent="center" style={styles.characterContainer}>
+              {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} />)}
+              {[...Array(10 - characters.length)].map((_, index) => (
+                <KeyboardShortcutProvider shortcuts={emptyCardCharShortcuts}>
                   <EmptyCharacterCard key={index}>
                     {(!showCreateCharacter && index === 0) && (
                       <FlashingFab onClick={showCharacterHandler} color="success" size="small"
@@ -80,11 +91,12 @@ export const CharacterOverview = (): React.JSX.Element => {
                       </FlashingFab>
                     )}
                   </EmptyCharacterCard>
-                ))}
-              </Grid>
-            </Stack>
+                </KeyboardShortcutProvider>
+              ))}
+            </Grid>
           </Stack>
-        </Paper>
-      </Container>
+        </Stack>
+      </Paper>
+    </Container>
   );
 };

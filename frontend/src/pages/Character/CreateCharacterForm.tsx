@@ -72,7 +72,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
     <form onSubmit={onSubmit}>
       <div>
         <label htmlFor="characterName">Character Name:</label>
-        <input {...register("characterName", { required: true })} />
+        <input {...register("characterName", { required: true })} autoFocus />
         {errors.characterName?.type === 'required' && <div className="error">You character must have a name</div>}
       </div>
       <div>
