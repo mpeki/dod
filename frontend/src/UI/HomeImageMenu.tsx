@@ -46,6 +46,7 @@ export const HomeImageMenu = () => {
       img: theWildImg,
       title: "The Wilderness",
       description: "Explore the wilderness",
+      page: "/wilderness",
       loginRequired: true
     },
     {
