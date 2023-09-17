@@ -1,3 +1,10 @@
+# [1.16.0-rc.9](https://github.com/mpeki/dod/compare/v1.16.0-rc.8...v1.16.0-rc.9) (2023-09-17)
+
+
+### Features
+
+* **DOD-316:** added The Wilderness ([3d18a03](https://github.com/mpeki/dod/commit/3d18a03546ca7ea9b94ec8e7a801657e83374170))
+
 # [1.16.0-rc.8](https://github.com/mpeki/dod/compare/v1.16.0-rc.7...v1.16.0-rc.8) (2023-09-17)
 
 
