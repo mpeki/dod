@@ -1,3 +1,10 @@
+# [1.16.0-rc.8](https://github.com/mpeki/dod/compare/v1.16.0-rc.7...v1.16.0-rc.8) (2023-09-17)
+
+
+### Features
+
+* **DOD-314:** added tab navigation via keyboard ([d658f91](https://github.com/mpeki/dod/commit/d658f915728ef71a3c15dcbe7dc2e4480a91b1d5))
+
 # [1.16.0-rc.7](https://github.com/mpeki/dod/compare/v1.16.0-rc.6...v1.16.0-rc.7) (2023-09-16)
 
 
