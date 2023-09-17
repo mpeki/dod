@@ -16,6 +16,7 @@ import { TheCity } from "./pages/City/TheCity";
 import { useLoadAppDataWithRetry } from "./services/axios/useLoadAppDataWithRetry";
 import { AboutSettings } from "./pages/Settings/AboutSettings";
 import { CharacterContextProvider } from "./pages/Character/CharacterContextProvider";
+import { TheWilderness } from "./pages/Wilderness/TheWilderness";
 
 function App() {
 
@@ -64,6 +65,7 @@ function App() {
                 <Route path="/items" element={<ViewItems />} />
                 <Route path="/skill/:skillKey" element={<ViewSkill />} />
                 <Route path="/characters/:charId" element={<ViewCharacter />} />
+                <Route path="/wilderness" element={<TheWilderness />} />
                 <Route path="/settings" element={<AboutSettings />} />
               </Routes>
             </Box>

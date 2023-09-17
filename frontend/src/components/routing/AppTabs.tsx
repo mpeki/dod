@@ -50,7 +50,7 @@ export const AppTabs = () => {
     }
   };
 
-  const currentTab = useRouteMatch(["/home", "/characters", "/city", "/settings", "/wilderness"]);
+  const currentTab = useRouteMatch(["/home", "/characters", "/city", "/wilderness", "/settings"]);
 
   const navigate = useNavigate();
   const shortcuts = [
