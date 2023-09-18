@@ -41,6 +41,17 @@ export const CharacterOverview = (): React.JSX.Element => {
   const { activateCharHandler, fetchCharsHandler, characters } = charContext;
   const characterCount = characters.length;
 
+  const addShortcut = { key: "+", callback: () => showCharacterHandler() };
+
+  const getCharacterShortcuts = (characters: Character[]) => {
+    return characters.map((character, index) => ({
+      key: `Alt+${index + 1}`,
+      callback: () => navigate(`/characters/${character.id}`)
+    }));
+  };
+
+  const shortcuts = [...getCharacterShortcuts(characters), addShortcut];
+
   useEffect(() => {
     fetchCharsHandler().then();
   }, [fetchCharsHandler, activateCharHandler]);
@@ -52,37 +63,28 @@ export const CharacterOverview = (): React.JSX.Element => {
     }
   };
   const navigate = useNavigate();
-  const emptyCardCharShortcuts= [
-    { key: '+', callback: () => showCharacterHandler() }
-  ];
-  const addCharShortcuts= [
-    { key: "Escape", callback: () => showCharacterHandler() }
-  ];
-
 
   return (
-    <Container disableGutters>
-      {showCreateCharacter &&
-        <KeyboardShortcutProvider shortcuts={addCharShortcuts} >
+    <KeyboardShortcutProvider shortcuts={shortcuts}>
+      <Container disableGutters>
+        {showCreateCharacter &&
           <AddCharacter fetchCharactersHandler={fetchCharsHandler} onConfirm={showCharacterHandler} />
-        </KeyboardShortcutProvider>
-      }
-      <Paper elevation={20}>
-        <Stack direction={"row"}>
-          <Stack direction={"column"}>
-            <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
-              Character Overview
-            </Typography>
-            <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
-              This is where you manage your characters. You can create new characters, delete old ones and activate
-              them
-              for play.
-              Press the + button to create a new character.
-            </Typography>
-            <Grid container justifyContent="center" style={styles.characterContainer}>
-              {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} />)}
-              {[...Array(10 - characters.length)].map((_, index) => (
-                <KeyboardShortcutProvider shortcuts={emptyCardCharShortcuts}>
+        }
+        <Paper elevation={20}>
+          <Stack direction={"row"}>
+            <Stack direction={"column"}>
+              <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
+                Character Overview
+              </Typography>
+              <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
+                This is where you manage your characters. You can create new characters, delete old ones and activate
+                them
+                for play.
+                Press the + button to create a new character.
+              </Typography>
+              <Grid container justifyContent="center" style={styles.characterContainer}>
+                {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} />)}
+                {[...Array(10 - characters.length)].map((_, index) => (
                   <EmptyCharacterCard key={index}>
                     {(!showCreateCharacter && index === 0) && (
                       <FlashingFab onClick={showCharacterHandler} color="success" size="small"
@@ -91,12 +93,12 @@ export const CharacterOverview = (): React.JSX.Element => {
                       </FlashingFab>
                     )}
                   </EmptyCharacterCard>
-                </KeyboardShortcutProvider>
-              ))}
-            </Grid>
+                ))}
+              </Grid>
+            </Stack>
           </Stack>
-        </Stack>
-      </Paper>
-    </Container>
+        </Paper>
+      </Container>
+    </KeyboardShortcutProvider>
   );
 };

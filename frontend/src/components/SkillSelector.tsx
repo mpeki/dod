@@ -81,6 +81,7 @@ export const SkillSelector = ({ selectSkillHandler, charSkills }: IProps): JSX.E
     <>
       <div>Filter skills:</div>
       <Select
+        autoFocus={true}
         isMulti
         components={animatedComponents}
         options={groupedFilterOptions}

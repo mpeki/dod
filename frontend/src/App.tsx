@@ -22,8 +22,8 @@ function App() {
 
   const { currentTheme } = useTheme();
   const { loading: loadingSkills, error: skillsLoadingError } = useLoadAppDataWithRetry("skills", "/skill");
-  const [itemsEndpoint, setItemsEndpoint] = useState("/nocall");
-  const [racesEndpoint, setRacesEndpoint] = useState("/nocall");
+  const [itemsEndpoint, setItemsEndpoint] = useState("/no-call");
+  const [racesEndpoint, setRacesEndpoint] = useState("/no-call");
 
   useEffect(() => {
     if (skillsLoadingError === null) {

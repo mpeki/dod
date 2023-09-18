@@ -11,6 +11,7 @@ import { StyledList } from "../../components/shared/List.styled";
 import withFlashing from "../../components/withFlashing";
 import StartIcon from "@mui/icons-material/Start";
 import CharacterContext from "../Character/CharacterContext";
+import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
 
 
 interface IProps {
@@ -19,12 +20,14 @@ interface IProps {
   fetchCharHandler: () => void;
 }
 
-export const SkillContainer = ({character, skills, fetchCharHandler }: IProps): JSX.Element => {
+export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps): JSX.Element => {
 
   const [showBuySkill, setShowBuySkill] = useState<boolean>();
   const FlashingAddButton = withFlashing(Fab);
-  const FlashingActivateButton = withFlashing(Fab)
+  const FlashingActivateButton = withFlashing(Fab);
   const charContext = useContext(CharacterContext);
+
+  const shortcuts = [{ key: "+", callback: () => showBuySkillHandler() }];
 
   if (!charContext) {
     throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
@@ -52,43 +55,47 @@ export const SkillContainer = ({character, skills, fetchCharHandler }: IProps): 
 
   return (
     <>
-      <Paper elevation={3}>
-        <List dense={true}>
-          <StyledList>
-            <ListItem dense={true}>
-              <ListItemText primary={character.state === "READY_TO_PLAY" ? "Bonus Exp." : "Base Skill Points"}
-                            secondary={character.baseSkillPoints} />
-              {canActivate && (
-                <FlashingActivateButton onClick={handleActivation} aria-label="activate" sx={{ mr: 1 }} size={"small"} color={"success"}>
-                  <StartIcon />
-                </FlashingActivateButton>
-              )}
-              {canTransferBonusXP && (
-                <IconButton>
-                  <KeyboardDoubleArrowDownIcon />
-                </IconButton>
-              )}
-              {(!showBuySkill && canBuySkill) && (
-                <FlashingAddButton onClick={showBuySkillHandler} disabled={!canBuySkill} size="small" color={"success"}
-                                   aria-label="add skill"
-                                   skipflash={skills === undefined ? false : Object.keys(skills).length > 0}>
-                  <AddIcon />
-                </FlashingAddButton>
-              )}
-            </ListItem>
-          </StyledList>
-        </List>
-      </Paper>
-      <Paper elevation={3}>
-        {showBuySkill && (
-          <BuySkill
-            character={character}
-            onConfirm={showBuySkillHandler}
-            buySkillHandler={fetchCharHandler}
-          />
-        )}
-        <CharacterSkillList charId={character.id || ""} skills={skills || {}} />
-      </Paper>
+      <KeyboardShortcutProvider shortcuts={shortcuts}>
+        <Paper elevation={3}>
+          <List dense={true}>
+            <StyledList>
+              <ListItem dense={true}>
+                <ListItemText primary={character.state === "READY_TO_PLAY" ? "Bonus Exp." : "Base Skill Points"}
+                              secondary={character.baseSkillPoints} />
+                {canActivate && (
+                  <FlashingActivateButton onClick={handleActivation} aria-label="activate" sx={{ mr: 1 }} size={"small"}
+                                          color={"success"}>
+                    <StartIcon />
+                  </FlashingActivateButton>
+                )}
+                {canTransferBonusXP && (
+                  <IconButton>
+                    <KeyboardDoubleArrowDownIcon />
+                  </IconButton>
+                )}
+                {(!showBuySkill && canBuySkill) && (
+                  <FlashingAddButton onClick={showBuySkillHandler} disabled={!canBuySkill} size="small"
+                                     color={"success"}
+                                     aria-label="add skill"
+                                     skipflash={skills === undefined ? false : Object.keys(skills).length > 0}>
+                    <AddIcon />
+                  </FlashingAddButton>
+                )}
+              </ListItem>
+            </StyledList>
+          </List>
+        </Paper>
+        <Paper elevation={3}>
+          {showBuySkill && (
+            <BuySkill
+              character={character}
+              onConfirm={showBuySkillHandler}
+              buySkillHandler={fetchCharHandler}
+            />
+          )}
+          <CharacterSkillList charId={character.id || ""} skills={skills || {}} />
+        </Paper>
+      </KeyboardShortcutProvider>
     </>
   );
 };
