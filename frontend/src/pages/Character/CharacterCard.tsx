@@ -9,7 +9,8 @@ import {
   CardActionArea,
   CardActions,
   CardContent,
-  CardHeader, Fab,
+  CardHeader,
+  Fab,
   Grid,
   IconButton,
   Typography
@@ -24,20 +25,20 @@ interface IProps {
 }
 
 
-export const CharacterCard = ({ character }: IProps): JSX.Element => {
+export const CharacterCard = ({ character }: IProps) => {
 
   const { deleteCharacter } = useCharacterService();
   const charContext = useContext(CharacterContext);
-  const FlashingActivateButton = withFlashing(Fab)
+  const FlashingActivateButton = withFlashing(Fab);
 
   if (!charContext) {
-    throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+    throw new Error("CharacterCard must be rendered within an ActivateCharContext.Provider");
   }
 
   const { activateCharHandler, fetchCharsHandler } = charContext;
   const handleActivation = () => {
     const characterId = character.id ? character.id : "";
-    activateCharHandler(characterId);
+    activateCharHandler(characterId).then();
   };
 
 
@@ -58,10 +59,9 @@ export const CharacterCard = ({ character }: IProps): JSX.Element => {
   }
 
   const canActivate: boolean = (character.baseSkillPoints < 10 && character.state === CharacterState.INIT_COMPLETE);
-
   return (
     <Grid item xs={2} sm={3} md={3} padding={.2}>
-      <Card elevation={5} variant="elevation" square={false} sx={{ minWidth: 200, minHeight: 220 }} >
+      <Card elevation={5} variant="elevation" square={false} sx={{ minWidth: 200, minHeight: 220 }}>
         <CardActionArea component={Link} to={"/characters/" + character.id}>
           <CardHeader
             avatar={
@@ -82,7 +82,8 @@ export const CharacterCard = ({ character }: IProps): JSX.Element => {
         </CardActionArea>
         <CardActions disableSpacing>
           {canActivate && (
-            <FlashingActivateButton onClick={handleActivation} aria-label="activate" size={"small"} color={"success"} sx={{ mr: 1 }} >
+            <FlashingActivateButton onClick={handleActivation} aria-label="activate" size={"small"} color={"success"}
+                                    sx={{ mr: 1 }}>
               <StartIcon />
             </FlashingActivateButton>
           )}

@@ -1,10 +1,13 @@
 import { createContext, useContext } from 'react';
 
-type KeyboardShortcutContextType = {
-  registerShortcut?: (keys: string[], callback: () => void) => void;
-  unregisterShortcut?: (keys: string[]) => void;
+export type ShortcutDefinition = {
+  key: string;
+  callback: () => void;
 };
 
+type KeyboardShortcutContextType = {
+  parentShortcuts?: ShortcutDefinition[];
+};
 export const KeyboardShortcutContext = createContext<KeyboardShortcutContextType>({});
 
 export const useKeyboardShortcut = () => {
