@@ -1,3 +1,10 @@
+# [1.16.0-rc.10](https://github.com/mpeki/dod/compare/v1.16.0-rc.9...v1.16.0-rc.10) (2023-09-18)
+
+
+### Features
+
+* **DOD-318:** adds keyboard shortcuts to character pages ([d1dcf1e](https://github.com/mpeki/dod/commit/d1dcf1eeb8d7007a67e44387d33623fd9b22a912))
+
 # [1.16.0-rc.9](https://github.com/mpeki/dod/compare/v1.16.0-rc.8...v1.16.0-rc.9) (2023-09-17)
 
 
