@@ -11,7 +11,7 @@ plugins {
 	//https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
 	id "com.gorylenko.gradle-git-properties" version "2.4.1"
 	//https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
-	id 'org.siouan.frontend-jdk11' version '6.0.0' apply false
+	id 'org.siouan.frontend-jdk11' version '8.0.0' apply false
 	//https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
 	id "org.asciidoctor.jvm.convert" version "3.3.2" apply false
 
