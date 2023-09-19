@@ -17,4 +17,6 @@ public interface CharacterRepository extends CrudRepository<DODCharacter, String
   List<DODCharacter> findAll();
 
   void deleteByIdAndOwner(String characterId, String owner);
+
+  int countByOwner(String owner);
 }

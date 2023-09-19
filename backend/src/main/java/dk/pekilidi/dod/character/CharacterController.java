@@ -8,7 +8,9 @@ import dk.pekilidi.dod.race.RaceNotFoundException;
 import dk.pekilidi.dod.util.character.CharacterMapper;
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,8 +38,8 @@ public class CharacterController {
   }
 
   @DeleteMapping("/{id}")
-  public void deleteCharacter(Principal pricipal, @PathVariable String id) {
-    characterService.deleteCharacterByIdAndOwner(id, pricipal.getName());
+  public void deleteCharacter(Principal principal, @PathVariable String id) {
+    characterService.deleteCharacterByIdAndOwner(id, principal.getName());
   }
 
   @GetMapping
@@ -66,6 +69,16 @@ public class CharacterController {
   @ExceptionHandler
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public void characterNotFoundHandler(CharacterNotFoundException ex) { /* Just need the HttpStatus.NOT_FOUND */ }
+
+  @ExceptionHandler
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public Map<String, String> maxCharactersReachedHandler(MaxCharactersReachedException ex) {
+    Map<String, String> response = new HashMap<>();
+    response.put("error", "max.characters.reached");
+    response.put("message", "Max characters limit reached"); // If your exception has a custom message
+    return response;
+  }
 
   @ExceptionHandler
   @ResponseStatus(HttpStatus.NOT_FOUND)

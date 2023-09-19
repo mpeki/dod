@@ -118,6 +118,21 @@ class DODCharacterControllerTest extends BaseControllerTest {
   }
 
   @Test
+  @WithMockUser(username = TEST_OWNER, password = "player", roles = {"player"})
+  void postCharacterMaxExceeded() throws Exception {
+
+    testBeing.setRace(RaceDTO.builder().name("Bogorm").build());
+    given(characterService.createCharacter(testBeing, TEST_OWNER)).willThrow(new MaxCharactersReachedException());
+    mockMvc
+        .perform(MockMvcRequestBuilders
+            .post("/api/char")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(jacksonObjectMapper.writeValueAsString(testBeing)))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(status().is4xxClientError());
+  }
+
+  @Test
   @WithMockUser(username = TEST_OWNER, password = "system", roles = {"system"})
   void postBulkCreateShouldReturnArrayOfIDs() throws Exception {
     given(characterService.createCharacters(3, "human", TEST_OWNER)).willReturn(Arrays.asList("123", "124", "125"));

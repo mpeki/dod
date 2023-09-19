@@ -5,6 +5,7 @@ import { Character } from "../../types/character";
 import classes from "./AddCharacter.module.css";
 import { useRaceService } from "../../services/race.service";
 import { Race } from "../../types/race";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 interface IProps {
   fetchCharactersHandler: any;
@@ -39,7 +40,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
       .then((races) => {
         localStorage.setItem("races", JSON.stringify(races));
       })
-      .catch((e) => alert("Error fetching skills: " + e));
+      .catch((e) => showWarningSnackbar((e as Error).message));
   }, [getRaces]);
 
   useEffect(() => {
@@ -58,11 +59,16 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
       race: { name: getValues('raceName') },
       hero: getValues('hero')
     };
-    await createCharacter(charPostData);
-    setCharData({ name: "", ageGroup: "MATURE", race: { name: "human" }, hero: false });
-    fetchCharactersHandler();
-    reset();
-    onConfirm();
+    try {
+      await createCharacter(charPostData);
+    } catch (e) {
+      showWarningSnackbar((e as Error).message);
+    } finally {
+      setCharData({ name: "", ageGroup: "MATURE", race: { name: "human" }, hero: false });
+      fetchCharactersHandler();
+      reset();
+      onConfirm();
+    }
   }, [createCharacter, fetchCharactersHandler, getValues, onConfirm, reset]); //does this work? it was empty before
 
   const onSubmit = handleSubmit(submitHandler);

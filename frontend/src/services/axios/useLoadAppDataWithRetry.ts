@@ -1,7 +1,7 @@
 // useFetchWithRetry.ts
 import { useEffect, useState } from "react";
 import { useAxios } from "./useAxios";
-import { showFatalConnectionErrorSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
+import { showFatalConnectionErrorSnackbar, showNoConnectionWarningSnackbar } from "../../utils/DODSnackbars";
 import { operation, options } from "../../utils/DODRetryOptions";
 import { createTimeout } from "retry";
 import { closeSnackbar, enqueueSnackbar } from "notistack";
@@ -42,7 +42,7 @@ export const useLoadAppDataWithRetry = (dataKey: string, endpoint: string ) => {
             const axiosError = e as AxiosError;
             setError(axiosError);
             if (operation.retry(axiosError)) {
-              showWarningSnackbar(currentTimeout);
+              showNoConnectionWarningSnackbar(currentTimeout);
               return;
             } else {
               showFatalConnectionErrorSnackbar("We tried everything! And it failed, please come back later or press RELOAD and try again!", true);

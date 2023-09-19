@@ -37,7 +37,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none
-    #      use-new-id-generator-mappings: false
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
@@ -77,3 +76,6 @@ logging:
   level:
     root: INFO
     org.springframework.web.cors: DEBUG
+dodgame:
+  player:
+    max-characters: 10

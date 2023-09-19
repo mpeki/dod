@@ -3,6 +3,7 @@ package dk.pekilidi.dod.character;
 import dk.pekilidi.dod.character.model.BaseTrait;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.DODCharacter;
+import dk.pekilidi.dod.config.ConfigurationService;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.race.RaceNotFoundException;
@@ -29,12 +30,14 @@ public class CharacterService {
   private final CharacterRepository characterRepository;
   private final RaceRepository raceRepository;
   private final DroolsService ruleService;
+  private final ConfigurationService configurationService;
 
   public CharacterService(CharacterRepository characterRepository, RaceRepository raceRepository,
-      DroolsService ruleService) {
+      DroolsService ruleService, ConfigurationService configurationService) {
     this.characterRepository = characterRepository;
     this.raceRepository = raceRepository;
     this.ruleService = ruleService;
+    this.configurationService = configurationService;
   }
 
   @Cacheable("characters")
@@ -49,6 +52,9 @@ public class CharacterService {
   @CacheEvict(value = "characters", allEntries = true)
   @Transactional(propagation = Propagation.NESTED)
   public CharacterDTO createCharacter(@NonNull CharacterDTO newCharacter,@NonNull String owner) {
+    if(isCharacterLimitReached(owner)) {
+      throw new MaxCharactersReachedException();
+    }
     Race race = getRaceByName(newCharacter.getRace().getName());
     newCharacter.setRace(modelMapper.map(race, RaceDTO.class));
     ruleService.executeRulesFor(newCharacter);
@@ -126,5 +132,13 @@ public class CharacterService {
     characterEntity = characterRepository.save(characterEntity);
 
     return characterEntity.getId();
+  }
+
+  public int getCharacterCountByOwner(String owner) {
+    return characterRepository.countByOwner(owner);
+  }
+
+  public boolean isCharacterLimitReached(String owner) {
+    return getCharacterCountByOwner(owner) >= configurationService.resolveMaxNpcsForUser(owner);
   }
 }

@@ -7,6 +7,7 @@ import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import { CreateMeleeWeapon } from "./CreateMeleeWeapon"
 import AddIcon from "@mui/icons-material/Add";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 export const ViewItems = () => {
 
@@ -25,7 +26,7 @@ export const ViewItems = () => {
         localStorage.setItem("items", itemJSON);
         setItems(items);
       })
-      .catch((e) => alert("Error fetching items: " + e));
+      .catch((e) => showWarningSnackbar((e as Error).message));
     }
     setItems(itemJSON === null ? null : JSON.parse(itemJSON));
   }, []);

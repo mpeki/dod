@@ -4,6 +4,38 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://security:8181/realms/dodgame
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=value
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    hikari:
+      minimum-idle: 0
+      maximum-pool-size: 15
+      connection-timeout: 300000 #5m was #20s
+      idle-timeout: 300000 #5m
+      max-lifetime: 600000 #10m
+      initialization-fail-timeout: -1
+      validation-timeout: 1000 #1s
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: none
+    #      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        event:
+          merge:
+            entity_copy_observer: allow
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        globally_quoted_identifiers: true
+        cache:
+          use_second_level_cache: false
+    open-in-view: true
+
 jwt:
   auth:
     converter:
@@ -14,3 +46,6 @@ logging:
     root: INFO
     dk.pekilidi: DEBUG
     org.springframework.web.client.RestTemplate: INFO
+dodgame:
+  player:
+    max-characters: 500

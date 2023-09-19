@@ -7,6 +7,7 @@ import { Change } from "../../types/change";
 import { useChangeService } from "../../services/change.service";
 import { Snackbar } from "@mui/material";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 interface IProps {
   characterId: string;
@@ -54,7 +55,7 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
       }
 
     })
-    .catch((e) => alert("Error fetching character: " + e));
+    .catch((e) => showWarningSnackbar((e as Error).message));
   }, [trainSkill, characterId, skill.key, skillInput]);
 
 

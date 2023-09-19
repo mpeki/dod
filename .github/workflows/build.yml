@@ -69,8 +69,6 @@ jobs:
       - name: Integration Test
         if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
         run: ./gradlew :b:test -DincludeTests="integration" -DexcludeTests="all()"
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: JUnit Report - Integration Tests
         if: success() || failure() && github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v1.6.0

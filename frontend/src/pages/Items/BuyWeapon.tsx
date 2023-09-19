@@ -8,6 +8,7 @@ import { Payment } from "./Payment";
 import { Change } from "../../types/change";
 import { useChangeService } from "../../services/change.service";
 import { ItemSelector } from "./ItemSelector";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 interface IProps {
   onConfirm: any;
@@ -45,7 +46,7 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
       console.log(items);
       setItems(items);
     })
-    .catch((e) => alert("Error fetching items: " + e));
+    .catch((e) => showWarningSnackbar((e as Error).message));
   }, []);
 
   const doPaymentRequest = useCallback(async () => {

@@ -1,7 +1,7 @@
 import { Change } from "../types/change";
-import { AxiosError } from "axios";
 import { useContext, useCallback } from "react";
 import { AxiosContext } from "./axios/AxiosContext";
+import handleAxiosError from "./axios/axiosErrorHandler";
 
 export const useChangeService = () => {
 
@@ -12,8 +12,7 @@ export const useChangeService = () => {
       const response = await axiosInstance.post(`/change/char/${charId}`, change);
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError;
-      throw new Error(`Cannot change character: ${axiosError?.code} ${axiosError?.message}`);
+      handleAxiosError(err)
     }
   }, [axiosInstance]);
 

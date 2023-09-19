@@ -1,7 +1,7 @@
-import { AxiosError } from "axios";
 import { Item } from "../types/item";
 import { useContext } from "react";
 import { AxiosContext } from "./axios/AxiosContext";
+import handleAxiosError from "./axios/axiosErrorHandler";
 
 export const useItemService = () => {
 
@@ -12,8 +12,7 @@ export const useItemService = () => {
       const response = await axiosInstance.get('/items');
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError;
-      throw new Error(`Cannot fetch ITEM data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
+      handleAxiosError(err);
     }
   };
 
@@ -22,8 +21,7 @@ export const useItemService = () => {
       const response = await axiosInstance.get('/items/type/MELEE_WEAPON');
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError;
-      throw new Error(`Cannot fetch ITEM data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
+      handleAxiosError(err);
     }
   };
 
@@ -32,8 +30,7 @@ export const useItemService = () => {
       const response = await axiosInstance.post(`/item/melee_weapon`, item);
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError;
-      throw new Error(`Cannot create ITEM: ${axiosError?.code} ${axiosError?.message}`);
+      handleAxiosError(err);
     }
   };
 
