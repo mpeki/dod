@@ -3,6 +3,8 @@ package dk.pekilidi.dod.character;
 import static dk.pekilidi.dod.character.model.BaseTraitName.STRENGTH;
 import static dk.pekilidi.utils.BaseTestUtil.TEST_OWNER;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.drools.model.PatternDSL.when;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import dk.pekilidi.dod.DodApplication;
 import dk.pekilidi.dod.changerequest.ChangeRequestService;
@@ -30,7 +32,6 @@ class DODCharacterServiceWithRulesTest {
   private CharacterService charService;
   @Autowired
   private RaceService raceService;
-
   @Autowired
   private ChangeRequestService changeService;
 
@@ -57,6 +58,9 @@ class DODCharacterServiceWithRulesTest {
     assertThat(newBeing.getHeroPoints()).isZero();
     assertThat(newBeing.getRace().getName()).isEqualTo("human");
   }
+
+
+
 
   @Test
   void createdCharacterHasBody() {

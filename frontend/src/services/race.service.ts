@@ -1,6 +1,6 @@
-import { AxiosError } from "axios";
 import { useContext, useCallback } from "react";
 import { AxiosContext } from "./axios/AxiosContext";
+import handleAxiosError from "./axios/axiosErrorHandler";
 
 
 export const useRaceService = () => {
@@ -11,8 +11,7 @@ export const useRaceService = () => {
       const response = await axiosInstance.get('/race');
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError;
-      throw new Error(`Cannot fetch Race data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
+      handleAxiosError(err);
     }
   },[axiosInstance]);
 

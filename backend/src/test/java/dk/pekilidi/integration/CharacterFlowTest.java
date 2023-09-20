@@ -4,6 +4,7 @@ import static dk.pekilidi.dod.character.model.BaseTraitName.STRENGTH;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.data.CharacterDTO;
@@ -15,7 +16,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.client.HttpClientErrorException;
 import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.containers.DockerComposeContainer.RemoveImages;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
@@ -132,7 +135,7 @@ public class CharacterFlowTest {
   @Test
   void characterCreationMulti() throws InterruptedException {
     int initalCharCount = flowHelper.fetchAllCharacters().length;
-    int numChars = 20;
+    int numChars = 10;
     for (int i = 0; i < numChars; i++) {
       CharacterDTO createdChar = flowHelper.createNewCharacter("tester_" + i, true);
       assertNotNull(createdChar.getId());
@@ -145,5 +148,6 @@ public class CharacterFlowTest {
     int newCharCount = flowHelper.fetchAllCharacters().length;
     assertNotEquals(initalCharCount, newCharCount);
     assertEquals(initalCharCount + numChars, newCharCount);
+    assertThrows(HttpClientErrorException.class, () -> flowHelper.createNewCharacter("tester_11", true));
   }
 }

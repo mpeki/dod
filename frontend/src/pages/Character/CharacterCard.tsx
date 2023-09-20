@@ -19,6 +19,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import StartIcon from "@mui/icons-material/Start";
 import CharacterContext from "./CharacterContext";
 import withFlashing from "../../components/withFlashing";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 interface IProps {
   character: Character;
@@ -48,7 +49,7 @@ export const CharacterCard = ({ character }: IProps) => {
       .then(() => {
         fetchCharsHandler();
       })
-      .catch((e) => alert("Error deleting character: " + e));
+      .catch((e) => showWarningSnackbar((e as Error).message));
     }
   }, [character.id, deleteCharacter, fetchCharsHandler]);
 

@@ -16,7 +16,7 @@ const connectionLostMessages = [
 ];
 
 
-export const showWarningSnackbar = (
+export const showNoConnectionWarningSnackbar = (
   currentTimeout: number
 ): void => {
   closeSnackbar(); // Close any existing snackbars before showing a new one
@@ -39,6 +39,14 @@ export const showFatalConnectionErrorSnackbar = (message: string, reload: boolea
     persist: true,
     preventDuplicate: true,
     action: reload ? createReconnectFeedbackSnackbarAction() : undefined
+  });
+}
+
+export const showWarningSnackbar = (message: string): void => {
+  closeSnackbar(); // Close any existing snackbars before showing a new one
+  enqueueSnackbar(message, {
+    variant: 'warning',
+    preventDuplicate: true
   });
 }
 

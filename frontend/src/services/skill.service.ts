@@ -1,20 +1,18 @@
-import { AxiosError } from "axios";
 import { Skill } from "../types/skill";
 import { Character } from "../types/character";
 import { useContext } from "react";
 import { AxiosContext } from "./axios/AxiosContext";
+import handleAxiosError from "./axios/axiosErrorHandler";
 
 export const useSkillService = () => {
 
   const axiosInstance = useContext(AxiosContext);
-  // console.log("called useSkillService with axiosInstance: " + axiosInstance.options);
   const trainSkill = async (charId: string, skillKey: string) => {
     try {
       const response = await axiosInstance.post(`/action/training/char/${charId}/skill/${skillKey}`);
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError;
-      throw new Error(`Cannot train skill: ${axiosError?.code} ${axiosError?.message}`);
+      handleAxiosError(err);
     }
   };
   const getAllSkills = async () => {
@@ -22,8 +20,7 @@ export const useSkillService = () => {
       const response = await axiosInstance.get('/skill');
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError;
-      throw new Error(`Cannot fetch SKILL data from the game engine: ${axiosError?.code} ${axiosError?.message}`);
+      handleAxiosError(err);
     }
   };
 

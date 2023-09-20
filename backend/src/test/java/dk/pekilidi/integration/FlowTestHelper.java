@@ -72,6 +72,10 @@ public class FlowTestHelper {
   }
 
   CharacterDTO createNewCharacter(String name, boolean isHero) {
+    return createNewCharacter(name, isHero, HttpStatus.OK, true);
+  }
+
+  CharacterDTO createNewCharacter(String name, boolean isHero, HttpStatus expectedStatus, boolean doAsserts) {
     String createCharacterUrl = serviceUrl + "/char";
     CharacterDTO character = CharacterDTO
         .builder()
@@ -84,9 +88,12 @@ public class FlowTestHelper {
     HttpEntity<CharacterDTO> request = new HttpEntity<>(character, headers);
     ResponseEntity<CharacterDTO> createdResponse = restTemplate.postForEntity(
         createCharacterUrl, request, CharacterDTO.class);
-    assertEquals(HttpStatus.OK, createdResponse.getStatusCode());
-    assertNotNull(createdResponse.getBody());
-    assertEquals(CharacterState.INIT_COMPLETE, createdResponse.getBody().getState());
+
+    assertEquals(expectedStatus, createdResponse.getStatusCode());
+    if (doAsserts) {
+      assertNotNull(createdResponse.getBody());
+      assertEquals(CharacterState.INIT_COMPLETE, createdResponse.getBody().getState());
+    }
 
     return createdResponse.getBody();
   }

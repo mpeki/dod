@@ -20,6 +20,7 @@ import Stack from "@mui/material/Stack";
 import { ReputationStats } from "../../components/Character/ReputationStats";
 import { useAuth } from "react-oidc-context";
 import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 export const ViewCharacter = () => {
 
@@ -41,7 +42,7 @@ export const ViewCharacter = () => {
     .then((character) => {
       setCharacter(character);
     })
-    .catch((e) => alert("Error fetching character: " + e));
+    .catch((e) => showWarningSnackbar((e as Error).message));
   }, [charId, getCharacter]);
 
   useEffect(() => {

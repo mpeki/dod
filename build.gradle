@@ -61,5 +61,6 @@ sonarqube {
 		property "sonar.projectKey", "mpeki_dod"
 		property "sonar.organization", "mpeki"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.token", System.getenv('SONAR_TOKEN') // This should be an environment variable
 	}
 }
