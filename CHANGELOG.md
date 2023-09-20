@@ -1,3 +1,10 @@
+# [1.16.0-rc.11](https://github.com/mpeki/dod/compare/v1.16.0-rc.10...v1.16.0-rc.11) (2023-09-20)
+
+
+### Features
+
+* **DOD-312:** Enforce max player limit ([9703fdd](https://github.com/mpeki/dod/commit/9703fdd307fd94691de33992fee7b2daf5bc5340))
+
 # [1.16.0-rc.10](https://github.com/mpeki/dod/compare/v1.16.0-rc.9...v1.16.0-rc.10) (2023-09-18)
 
 
