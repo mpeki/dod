@@ -1,3 +1,10 @@
+# [1.16.0-rc.12](https://github.com/mpeki/dod/compare/v1.16.0-rc.11...v1.16.0-rc.12) (2023-09-21)
+
+
+### Bug Fixes
+
+* **DOD-319:** Fix keyboard shortcut handling in Character pages ([295722c](https://github.com/mpeki/dod/commit/295722c70eed03baa2d8a2a07d1ab2d4b4eab742))
+
 # [1.16.0-rc.11](https://github.com/mpeki/dod/compare/v1.16.0-rc.10...v1.16.0-rc.11) (2023-09-20)
 
 
