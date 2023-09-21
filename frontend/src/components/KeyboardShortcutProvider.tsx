@@ -19,8 +19,6 @@ export const KeyboardShortcutProvider: React.FC<KeyboardShortcutProviderProps> =
   // Merge the parent shortcuts and the current shortcuts
   const allShortcuts = useMemo(() => {
     const parentShortcuts = parentShortcutsContext.parentShortcuts || [];
-    // console.log("Parent shortcuts:", parentShortcuts);
-    // console.log("Current shortcuts:", shortcuts);
 
     // Create a map from parentShortcuts
     const mergedShortcuts = new Map(
@@ -35,8 +33,6 @@ export const KeyboardShortcutProvider: React.FC<KeyboardShortcutProviderProps> =
     return Array.from(mergedShortcuts.values());
   }, [parentShortcutsContext.parentShortcuts, shortcuts]);
 
-  // console.log("All shortcuts:", allShortcuts);
-
   // Create a map of key combinations to callbacks
   const initialShortcuts = useMemo(() => {
     const map = new Map<string, () => void>();
@@ -46,7 +42,6 @@ export const KeyboardShortcutProvider: React.FC<KeyboardShortcutProviderProps> =
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [registeredShortcuts, setRegisteredShortcuts] = useState<Map<string, () => void>>(initialShortcuts);
-
   useKeyPress(Array.from(registeredShortcuts.keys()), (event) => {
     const targetElement = event.target as HTMLElement;
     // Check if the target element of the keypress event is an input, textarea, or select
@@ -55,7 +50,7 @@ export const KeyboardShortcutProvider: React.FC<KeyboardShortcutProviderProps> =
       targetElement.tagName === "TEXTAREA" ||
       targetElement.tagName === "SELECT"
     ) {
-      targetElement.blur();
+      event.key === "Escape" && targetElement.blur();
       return; // If it is, do not proceed with executing the keyboard shortcut
     }
     // Generate a string to represent the key combination
@@ -64,11 +59,8 @@ export const KeyboardShortcutProvider: React.FC<KeyboardShortcutProviderProps> =
     if (event.altKey) keyCombination += "Alt+";
     // ... similarly, you can handle other modifiers like Ctrl, Alt, etc.
     keyCombination += event.key;
-    // console.log("Pressed:", keyCombination);
-    // console.log("Registered:", Array.from(registeredShortcuts.keys()));
     if (auth.isAuthenticated) {
       const callback = registeredShortcuts.get(keyCombination);
-      // console.log("Found callback for:", keyCombination, callback);
       callback && callback();
       event.stopPropagation(); // Stop the event from propagating further
       event.preventDefault(); // Prevent any default browser behavior

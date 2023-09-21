@@ -9,7 +9,7 @@ import { SkillUtil } from "../../services/skill.service";
 import { Character } from "../../types/character";
 import { Item } from "../../types/item";
 import { ItemSelector } from "../Items/ItemSelector";
-import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
+import useKeyboardShortcut from "../../components/KeyboardShortcutContext";
 
 interface IProps {
   character: Character;
@@ -62,7 +62,7 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
       reset();
       onConfirm();
     }
-  }, [weaponSelected, buySkillHandler, changeData, character.id, getValues, onConfirm, reset, selected]);
+  }, [selected, weaponSelected, changeData, getValues, character.id, buySkillHandler, reset, onConfirm, doChange]);
 
   const onSubmit = handleSubmit(submitHandler);
 
@@ -94,41 +94,38 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
 
   //create form that buys a skill and adds it to the character
   return (
-    <KeyboardShortcutProvider shortcuts={[{key: "Escape", callback: () => onConfirm()}]}>
-      <form onSubmit={onSubmit}>
-        <div>
-          <label htmlFor="changeKey">Select skill:</label>
-          <Controller
-            name="changeKey"
-            control={control}
-            render={() => (
-              <SkillSelector charSkills={character?.skills} selectSkillHandler={selectSkillHandler} />
-            )}
-          />
-          {/*<input {...register("changeKey", { required: true })} />*/}
-          {errors.changeKey?.type === "required" && <div className="error">You must name a skill</div>}
-        </div>
-        <div>
-          {(selected?.key === "primary.weapon" || selected?.key === "secondary.weapon") && (
-            <ItemSelector label={`Select ${selected.key}`} items={weapons} onChange={handleItemChange} />
+    <form onSubmit={onSubmit}>
+      <div>
+        <label htmlFor="changeKey">Select skill:</label>
+        <Controller
+          name="changeKey"
+          control={control}
+          render={() => (
+            <SkillSelector charSkills={character?.skills} selectSkillHandler={selectSkillHandler} />
           )}
-        </div>
-        <div>
-          <div>BSPs Left: {bspLeft}</div>
-          <div>BSPs Cost: {bspCost}</div>
-          <label htmlFor="modifier">FV to buy:</label>
-          {/*{selected?.key === "primary.weapon" && <input type="range" {...register("modifier", { valueAsNumber: true, required: true, min: 1, max: 15 } )} onChange={handleModifierChange} />}*/}
-          <input {...register("modifier", { valueAsNumber: true, required: true, min: 1, max: 15 })}
-                 onChange={handleModifierChange} />
-          {errors.modifier?.type === "required" && <div className="error">Must be a number between 1 and 15</div>}
+        />
+        {/*<input {...register("changeKey", { required: true })} />*/}
+        {errors.changeKey?.type === "required" && <div className="error">You must name a skill</div>}
+      </div>
+      <div>
+        {(selected?.key === "primary.weapon" || selected?.key === "secondary.weapon") && (
+          <ItemSelector label={`Select ${selected.key}`} items={weapons} onChange={handleItemChange} />
+        )}
+      </div>
+      <div>
+        <div>BSPs Left: {bspLeft}</div>
+        <div>BSPs Cost: {bspCost}</div>
+        <label htmlFor="modifier">FV to buy:</label>
+        {/*{selected?.key === "primary.weapon" && <input type="range" {...register("modifier", { valueAsNumber: true, required: true, min: 1, max: 15 } )} onChange={handleModifierChange} />}*/}
+        <input {...register("modifier", { valueAsNumber: true, required: true, min: 1, max: 15 })}
+               onChange={handleModifierChange} />
+        {errors.modifier?.type === "required" && <div className="error">Must be a number between 1 and 15</div>}
 
-        </div>
-        <footer className={classes.actions}>
-          <button type="submit">Buy</button>
-          <button onClick={onConfirm}>Cancel</button>
-        </footer>
-      </form>
-    </KeyboardShortcutProvider>
-
+      </div>
+      <footer className={classes.actions}>
+        <button type="submit">Buy</button>
+        <button onClick={onConfirm}>Cancel</button>
+      </footer>
+    </form>
   );
 };
