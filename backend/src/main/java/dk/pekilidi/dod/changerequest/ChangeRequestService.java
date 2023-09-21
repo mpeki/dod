@@ -15,22 +15,27 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ChangeRequestService {
 
-  @Autowired
-  private CharacterService characterService;
+  private final CharacterService characterService;
+
+  private final DroolsService ruleService;
 
   @Autowired
-  private DroolsService ruleService;
+  public ChangeRequestService(DroolsService ruleService, CharacterService characterService) {
+    this.ruleService = ruleService;
+    this.characterService = characterService;
+  }
 
   @Transactional
-  public ChangeRequest submitChangeRequest(@NotNull String characterId, ChangeRequest change) {
-    CharacterDTO character = characterService.findCharacterById(characterId);
+  public ChangeRequest submitChangeRequest(@NotNull String characterId, ChangeRequest change, String owner) {
+    CharacterDTO character = characterService.findCharacterByIdAndOwner(characterId, owner);
     change = change.withObjectBeforeChange(character);
-    int noRulesFired = ruleService.executeGroupFlowRulesFor(List.of(character, change), change.getChangeType().changeRuleSet);
+    int noRulesFired = ruleService.executeGroupFlowRulesFor(
+        List.of(character, change), change.getChangeType().changeRuleSet);
     if (noRulesFired == 0) {
       change = change.withStatus(ChangeStatus.REJECTED).withStatusLabel(ChangeStatusLabel.NO_RULES_FIRED);
     }
     if (change.getStatus() == ChangeStatus.APPROVED) {
-      characterService.save(character);
+      characterService.save(character, owner);
       return change.withObjectAfterChange(character);
     } else {
       return change;

@@ -1,10 +1,26 @@
+POST http://localhost:32866/realms/dodgame/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
 
+username=msp&password=msp123&client_id=dodgame-api&grant_type=password
+
+###
+
+POST http://localhost:8181/realms/dodgame/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+username=msp&password=msp123&client_id=dodgame-api&client_secret=ymSN8u8KJ1LktUXKnjJdhTH4DOY3TtHO&grant_type=password&scope=openid%20email%20profile
+
+> {%
+  client.global.set("auth_token", response.body.access_token);
+%}
 ### clear caches
-DELETE http://localhost:8090/caches/clear
+DELETE http://localhost:8090/dodgame/caches/clear
+Authorization: Bearer {{auth_token}}
 
 ### Create new character
-POST http://localhost:8090/char
+POST http://localhost:8090/dodgame/api/char
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "name": "{{$uuid}}",
@@ -16,17 +32,18 @@ Content-Type: application/json
 }
 
 > {%
- client.log("Created character: " + response.body.name)
- client.test("Create new character", function() {
-   client.assert(response.status === 200, "response status is 200")
- })
- client.global.set("char_id", response.body.id)
- %}
+  client.log("Created character: " + response.body.name)
+  client.test("Create new character", function() {
+    client.assert(response.status === 200, "response status is 200")
+  })
+  client.global.set("char_id", response.body.id)
+%}
 
 ### Change character, buy skill
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -48,8 +65,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -66,8 +84,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -84,8 +103,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -101,8 +121,9 @@ Content-Type: application/json
 %}
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -118,8 +139,9 @@ Content-Type: application/json
 %}
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -135,8 +157,9 @@ Content-Type: application/json
 %}
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -152,8 +175,9 @@ Content-Type: application/json
 %}
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -169,8 +193,9 @@ Content-Type: application/json
 %}
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -186,8 +211,9 @@ Content-Type: application/json
 %}
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -203,8 +229,9 @@ Content-Type: application/json
 %}
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -220,8 +247,9 @@ Content-Type: application/json
 %}
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -237,8 +265,9 @@ Content-Type: application/json
 %}
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -255,8 +284,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -273,8 +303,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -291,8 +322,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -309,8 +341,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -327,8 +360,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",
@@ -345,8 +379,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8090/change/char/{{char_id}}
+POST http://localhost:8090/dodgame/api/change/char/{{char_id}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "changeType": "NEW_SKILL",

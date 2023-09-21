@@ -1,42 +1,85 @@
 version: "3.9"
 services:
 
-#  frontend:
-#    image: "macp/dod-ui:latest"
-#    build:
-#      context: ./frontend
-#    ports:
-#      - "8081:80"
-#    depends_on:
-#      - backend
+  ui:
+    image: "macp/dod-ui:latest"
+    build:
+      context: ./frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
+    healthcheck:
+      test: "wget --quiet --tries=1 --spider http://localhost:80 || exit 1"
+      start_period: "10s"
 
-  backend:
+  api:
     image: "macp/dod:latest"
     ports:
       - "8090:8090"
       - "5005:5005"
     depends_on:
       - db
+      - security
+    environment:
+      SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE:-default,prod}"
     healthcheck:
-      test: "wget --quiet --tries=1 --spider http://localhost:8090/actuator/health || exit 1"
-      start_period: "30s"
+      test: "wget --quiet --tries=1 --spider http://localhost:8090/dodgame/health || exit 1"
+      start_period: "200s"
+#    volumes:
+#      - ./security/dodgame.jks:/tmp/dodgame.jks
+
+  security:
+    image: "macp/dod-keycloak:22.0.1"
+    build:
+      context: ./security/keycloak
+    entrypoint: ''
+    command: "wait-for-it.sh -t 0 db:3306 -- /opt/keycloak/bin/kc.sh start-dev  --http-port=8181 --hostname-admin-url=http://security:8181 --hostname-debug=true --import-realm"
+    ports:
+      - "8181:8181"
+#      - "8443:8443"
+    depends_on:
+      - db
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_LOGLEVEL: DEBUG
+      QUARKUS_TRANSACTION_MANAGER_ENABLE_RECOVERY: "true"
+      QUARKUS_DATASOURCE_JDBC_ACQUISITION_TIMEOUT: 300000
+      ROOT_LOGLEVEL: DEBUG
+      KC_DB_URL_DATABASE: keycloakDB
+      KC_DB_USERNAME: sa
+      KC_DB_PASSWORD: example
+      KC_DB_TIMEOUT_WAIT_SECONDS: 600
+      KC_HEALTH_ENABLED: "true"
+#      KC_SPI_CONNECTIONS_JPA_LEGACY_MIGRATION_STRATEGY: manual
+#      KC_SPI_IMPORT_DIR_STRATEGY: OVERWRITE_EXISTING
+    volumes:
+      - "./security/keycloak/new-realm-export:/tmp/keycloak-export"
+    healthcheck:
+      test: "curl -k --silent --fail http://localhost:8181/health || exit 1"
+      start_period: "200s"
 
   db:
-    image: "mysql:8.0"
+    image: "mysql:8.1"
     volumes:
-      - "db_data:/var/lib/mysql"
+      - "./mysql/init-scripts:/docker-entrypoint-initdb.d"
+      - "./mysql/config/my.cnf:/etc/mysql/my.cnf"
+      - "db_data:/var/lib/mysql:rw"
     restart: "always"
-    command: "--default-authentication-plugin=mysql_native_password"
+    command: mysqld --character-set-server=UTF8MB3
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-      MYSQL_DATABASE: dodcore
       MYSQL_USER: sa
       MYSQL_PASSWORD: example
+      MYSQL_DEFAULT_AUTH: caching_sha2_password
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      TZ: "UTC"
     ports:
       - "3306:3306"
+    cap_add:
+      - SYS_NICE
     healthcheck:
       test: "mysqladmin ping -hlocalhost -usa -pexample  | grep -i 'mysqld is alive' || exit 1"
       start_period: "20s"
-
 volumes:
   db_data: {}

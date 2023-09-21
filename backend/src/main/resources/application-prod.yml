@@ -1,0 +1,22 @@
+spring:
+  liquibase:
+    contexts: test
+    drop-first: false
+  jpa:
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        event:
+          merge:
+            entity_copy_observer: allow
+        show_sql: false
+        use_sql_comments: false
+        globally_quoted_identifiers: true
+        cache:
+          use_second_level_cache: false
+    open-in-view: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://security:8181/realms/dodgame/protocol/openid-connect/certs

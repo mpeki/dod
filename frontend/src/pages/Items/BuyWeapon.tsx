@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import { ItemService } from "../../services/item.service";
+import { useItemService } from "../../services/item.service";
 import { Item } from "../../types/item";
 import { Autocomplete, Box, Paper, TextField } from "@mui/material";
 import { Character } from "../../types/character";
 import Stack from "@mui/material/Stack";
 import { Payment } from "./Payment";
 import { Change } from "../../types/change";
-import { ChangeService } from "../../services/change.service";
+import { useChangeService } from "../../services/change.service";
 import { ItemSelector } from "./ItemSelector";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 interface IProps {
   onConfirm: any;
@@ -20,6 +21,9 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
   const orgGold = character?.items?.gold ? character.items.gold.quantity : 0;
   const orgSilver = character?.items?.silver ? character.items.silver.quantity : 0;
   const orgCopper = character?.items?.copper ? character.items.copper.quantity : 0;
+
+  const { doChange } = useChangeService();
+  const { getMeleeWeapons } = useItemService();
 
   const [items, setItems] = useState<Item[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -37,12 +41,12 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
   });
 
   const fetchItemsHandler = useCallback(async () => {
-    await ItemService.getMeleeWeapons()
+    await getMeleeWeapons()
     .then((items) => {
       console.log(items);
       setItems(items);
     })
-    .catch((e) => alert("Error fetching items: " + e));
+    .catch((e) => showWarningSnackbar((e as Error).message));
   }, []);
 
   const doPaymentRequest = useCallback(async () => {
@@ -53,7 +57,7 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
         modifier: 1,
       };
       if (character.id != null) {
-        await ChangeService.doChange(character.id, changePostData);
+        await doChange(character.id, changePostData);
       }
       setChangeData({ changeKey: "", modifier: 1, changeType: "NEW_ITEM", changeDescription: "Buy new item"});
       fetchCharHandler();

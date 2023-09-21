@@ -1,24 +1,22 @@
 import { Change } from "../types/change";
-import axios from "axios";
+import { useContext, useCallback } from "react";
+import { AxiosContext } from "./axios/AxiosContext";
+import handleAxiosError from "./axios/axiosErrorHandler";
 
+export const useChangeService = () => {
 
-export const ChangeService = {
-  doChange: async function(charId: string, change: Change): Promise<Change> {
+  const axiosInstance = useContext(AxiosContext);
 
-    return new Promise((resolve) => {
+  const doChange = useCallback(async (charId: string, change: Change) => {
+    try {
+      const response = await axiosInstance.post(`/change/char/${charId}`, change);
+      return response.data;
+    } catch (err) {
+      handleAxiosError(err)
+    }
+  }, [axiosInstance]);
 
-      const changeApiUri = `http://localhost:8090/change/char/${charId}`
-
-      setTimeout(() => {
-        axios.post(changeApiUri, change, {
-          headers: {
-            'Content-Type': 'application/json'
-          }})
-        .then((response) => resolve(response.data))
-        .catch((err) => {
-          throw new Error(`Cannot fetch data from backend: ${err?.code} ${err?.message}`);
-        });
-      }, 0);
-    });
-  }
+  return {
+    doChange,
+  };
 };

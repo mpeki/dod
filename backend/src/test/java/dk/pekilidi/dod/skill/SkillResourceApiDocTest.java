@@ -14,6 +14,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 //import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import dk.pekilidi.dod.BaseControllerTest;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Category;
@@ -40,15 +41,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@WebMvcTest(SkillController.class)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @Tag("regression")
-class SkillResourceApiDocTest {
+class SkillResourceApiDocTest extends BaseControllerTest {
 
   List<SkillDTO> testListResult = new ArrayList<>(1);
   SkillDTO testSkill;
-  @Autowired
-  private WebApplicationContext context;
   private MockMvc mockMvc;
   @MockBean
   private SkillService skillService;
@@ -94,7 +92,7 @@ class SkillResourceApiDocTest {
     when(skillService.getSkillsByGroupAndBaseChance(Group.COMBAT, BaseTraitName.DEXTERITY)).thenReturn(testListResult);
 
     mockMvc
-        .perform(get("/skill?group=COMBAT&baseChance=DEXTERITY").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/skill?group=COMBAT&baseChance=DEXTERITY").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint()),
             pathParameters(enumParam("group", Group.values()).optional(),
@@ -111,7 +109,7 @@ class SkillResourceApiDocTest {
     when(skillService.findSkillByKey("primary.weapon")).thenReturn(testSkill);
 
     mockMvc
-        .perform(get("/skill/key/{key}", "primary.weapon").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/skill/key/{key}", "primary.weapon").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint()),
             pathParameters(parameterWithName("key").description("The skill key")),

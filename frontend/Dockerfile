@@ -1,15 +1,14 @@
-FROM node:18-alpine AS builder
+FROM node:18.16.1-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json .
-RUN npm install --omit=dev
+COPY package*.json ./
+RUN npm --version && npm install
 RUN pwd
-COPY . .
-RUN npm run build --development
-RUN ls -alt build
+COPY . ./
+RUN npm run build
 
-FROM nginx:1.21.0-alpine
+FROM nginx:1.25.1-alpine
 
 RUN rm -rf /usr/share/nginx/html/
 

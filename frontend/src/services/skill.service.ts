@@ -1,52 +1,38 @@
-import axios from "axios";
 import { Skill } from "../types/skill";
 import { Character } from "../types/character";
-import { Action } from "../types/action";
+import { useContext } from "react";
+import { AxiosContext } from "./axios/AxiosContext";
+import handleAxiosError from "./axios/axiosErrorHandler";
 
-export const SkillService = {
-  trainSkill: async function (
-    charId: string,
-    skillKey: string
-  ): Promise<Action> {
-    return new Promise((resolve) => {
-      const charApiUri = `http://localhost:8090/action/training/char/${charId}/skill/${skillKey}`;
-      setTimeout(() => {
-        axios
-          .post(charApiUri)
-          .then((response) => resolve(response.data))
-          .catch((err) => {
-            throw new Error(
-              `Cannot fetch data from backend: ${err?.code} ${err?.message}`
-            );
-          });
-      }, Math.random() * 100);
-    });
-  },
+export const useSkillService = () => {
 
-  getAllSkills: async function (): Promise<Skill[]> {
-    return new Promise((resolve) => {
-      const charApiUri = "http://localhost:8090/skill";
-      setTimeout(() => {
-        axios
-          .get(charApiUri)
-          .then((response) => resolve(response.data))
-          .catch((err) => {
-            throw new Error(
-              `Cannot fetch data from backend: ${err?.code} ${err?.message}`
-            );
-          });
-      }, Math.random() * 100);
-    });
-  },
-  calculateCatASkillCost: function (skill: Skill, pointsToBuy: number): number {
-    // implementation for calculateCatASkillCost
-    return 0;
-  },
-  calculateCatBSkillCost: function (skill: Skill, pointsToBuy: number): number {
-    // implementation for calculateCatBSkillCost
-    return 0;
-  },
-  calculateNewSkillPrice: function (
+  const axiosInstance = useContext(AxiosContext);
+  const trainSkill = async (charId: string, skillKey: string) => {
+    try {
+      const response = await axiosInstance.post(`/action/training/char/${charId}/skill/${skillKey}`);
+      return response.data;
+    } catch (err) {
+      handleAxiosError(err);
+    }
+  };
+  const getAllSkills = async () => {
+    try {
+      const response = await axiosInstance.get('/skill');
+      return response.data;
+    } catch (err) {
+      handleAxiosError(err);
+    }
+  };
+
+  return {
+    trainSkill,
+    getAllSkills,
+  }
+}
+
+export const SkillUtil = {
+
+  calculateNewSkillPrice: function(
     character: Character,
     skill: Skill | undefined,
     fvToBuy: number
@@ -62,7 +48,7 @@ export const SkillService = {
       return 0;
     }
     let skillCategory = JSON.stringify(skill.category);
-    if (skillCategory === '"A"' && character.hero) {
+    if (skillCategory === "\"A\"" && character.hero) {
       if (character.baseTraits != null && skill.traitName != null) {
         freePoints = character.baseTraits[skill.traitName].groupValue || 0;
       }
@@ -70,12 +56,12 @@ export const SkillService = {
     const pointsToBuy = fvToBuy - freePoints;
     if (pointsToBuy < 1) {
       return 0;
-    } else if (skillCategory === '"B"' && fvToBuy > 5) {
+    } else if (skillCategory === "\"B\"" && fvToBuy > 5) {
       throw new Error("Category B skills can't start above 5 fv");
-    } else if (skillCategory === '"A"' && fvToBuy > 20) {
+    } else if (skillCategory === "\"A\"" && fvToBuy > 20) {
       throw new Error("Category A skills can't start above 20 fv");
     }
-    if (skillCategory === '"A"') {
+    if (skillCategory === "\"A\"") {
       let result = -1;
       const skillPrice = skill.price || 0;
       const tier1Price = skillPrice * 10;
@@ -136,5 +122,5 @@ export const SkillService = {
       }
       return result;
     }
-  },
+  }
 };

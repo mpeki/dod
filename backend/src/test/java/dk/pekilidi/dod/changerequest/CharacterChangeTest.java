@@ -1,5 +1,6 @@
 package dk.pekilidi.dod.changerequest;
 
+import static dk.pekilidi.dod.changerequest.ChangeRequestServiceTest.TEST_OWNER;
 import static dk.pekilidi.dod.character.model.BaseTraitName.STRENGTH;
 import static dk.pekilidi.dod.character.model.CharacterState.INIT_COMPLETE;
 import static dk.pekilidi.dod.character.model.CharacterState.READY_TO_PLAY;
@@ -44,13 +45,13 @@ class CharacterChangeTest {
   @BeforeEach
   void setup() {
     testChar = charService.createCharacter(
-        CharacterDTO.builder().name("unwanted-name").race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name("unwanted-name").race(new RaceDTO("human")).build(), TEST_OWNER);
   }
 
   @Test
   void testCharacterNameChange_invalid_name(){
     testChar.setState(INIT_COMPLETE);
-    testChar = charService.save(testChar);
+    testChar = charService.save(testChar, TEST_OWNER);
     ChangeRequest change = ChangeRequest
         .builder()
         .changeDescription("Change Name!")
@@ -59,7 +60,7 @@ class CharacterChangeTest {
         .modifier("2")
         .build();
 
-    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(testChar.getId(), change);
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(testChar.getId(), change, TEST_OWNER);
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.INVALID_NAME);
     assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
 
@@ -69,7 +70,7 @@ class CharacterChangeTest {
   void testCharacterNameChange_invalid_state(){
 
     testChar.setState(READY_TO_PLAY);
-    charService.save(testChar);
+    charService.save(testChar, TEST_OWNER);
 
     ChangeRequest change = ChangeRequest
         .builder()
@@ -79,7 +80,7 @@ class CharacterChangeTest {
         .modifier("Boris")
         .build();
 
-    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(testChar.getId(), change);
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(testChar.getId(), change, TEST_OWNER);
     assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.WRONG_CHARACTER_STATE);
   }
@@ -89,7 +90,7 @@ class CharacterChangeTest {
   void testCharacterNameChange_name_ok(String validName){
 
     testChar.setState(INIT_COMPLETE);
-    charService.save(testChar);
+    charService.save(testChar, TEST_OWNER);
 
     ChangeRequest change = ChangeRequest
         .builder()
@@ -99,7 +100,7 @@ class CharacterChangeTest {
         .modifier(validName)
         .build();
 
-    change = changeRequestService.submitChangeRequest(testChar.getId(), change);
+    change = changeRequestService.submitChangeRequest(testChar.getId(), change, TEST_OWNER);
     assertThat(change.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_NAME);
     assertThat(change.getStatus()).isEqualTo(ChangeStatus.APPROVED);
   }
@@ -107,10 +108,10 @@ class CharacterChangeTest {
   void buyBasetraitIncrease() {
 
     CharacterDTO newChar = charService.createCharacter(
-        CharacterDTO.builder().name("tester").hero(true).race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name("tester").hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
     newChar.setState(INIT_COMPLETE);
     newChar.setHeroPoints(2);
-    newChar = charService.save(newChar);
+    newChar = charService.save(newChar, TEST_OWNER);
     int orgStrength = newChar.getBaseTraits().get(STRENGTH).getCurrentValue();
     ChangeRequest change = ChangeRequest
         .builder()
@@ -119,12 +120,12 @@ class CharacterChangeTest {
         .changeKey(STRENGTH)
         .modifier(1)
         .build();
-    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
     CharacterDTO result = (CharacterDTO) changeRequest.getObjectAfterChange();
     assertThat(result.getHeroPoints()).isZero();
     int newStrength = result.getBaseTraitValue(STRENGTH);
     assertThat(orgStrength).isNotEqualTo(newStrength);
-    CharacterDTO loadedChar = charService.findCharacterById(newChar.getId());
+    CharacterDTO loadedChar = charService.findCharacterByIdAndOwner(newChar.getId(), TEST_OWNER);
     assertThat(orgStrength).isNotEqualTo(loadedChar.getBaseTraitValue(STRENGTH));
     assertThat(orgStrength + 1).isEqualTo(loadedChar.getBaseTraitValue(STRENGTH));
   }
@@ -133,9 +134,9 @@ class CharacterChangeTest {
   void buyHeroPointIncrease() {
 
     CharacterDTO newChar = charService.createCharacter(
-        CharacterDTO.builder().name("tester").hero(true).race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name("tester").hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
     newChar.setState(INIT_COMPLETE);
-    newChar = charService.save(newChar);
+    newChar = charService.save(newChar, TEST_OWNER);
     int orgHeroPoints = newChar.getHeroPoints();
     ChangeRequest change = ChangeRequest
         .builder()
@@ -143,12 +144,12 @@ class CharacterChangeTest {
         .changeType(ChangeType.HERO_POINTS)
         .modifier(1)
         .build();
-    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
     CharacterDTO result = (CharacterDTO) changeRequest.getObjectAfterChange();
     assertThat(result.getHeroPoints()).isEqualTo(1);
     int newHeroPoints = result.getHeroPoints();
     assertThat(orgHeroPoints).isNotEqualTo(newHeroPoints);
-    CharacterDTO loadedChar = charService.findCharacterById(newChar.getId());
+    CharacterDTO loadedChar = charService.findCharacterByIdAndOwner(newChar.getId(), TEST_OWNER);
     assertThat(orgHeroPoints + 1).isEqualTo(loadedChar.getHeroPoints());
   }
 
@@ -156,16 +157,16 @@ class CharacterChangeTest {
   void buyBaseTraitIncreaseRejected() {
 
     CharacterDTO newChar = charService.createCharacter(
-        CharacterDTO.builder().name("tester").hero(true).race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name("tester").hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
     newChar.setState(INIT_COMPLETE);
-    newChar = charService.save(newChar);
+    newChar = charService.save(newChar, TEST_OWNER);
     ChangeRequest change = ChangeRequest
         .builder()
         .changeType(ChangeType.BASE_TRAIT)
         .changeKey(STRENGTH)
         .modifier(1)
         .build();
-    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
     assertThat(changeRequest.getObjectAfterChange()).isNull();
     assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.INSUFFICIENT_HERO_POINTS);
@@ -179,7 +180,7 @@ class CharacterChangeTest {
       "'char4', 'primary.weapon'"})
   void buyNewSkill(String charName, String skillName) {
     CharacterDTO newChar = charService.createCharacter(
-        CharacterDTO.builder().name(charName).hero(true).race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name(charName).hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
 
     SkillDTO skill = SkillDTO.builder().group(Group.COMBAT).key(SkillKey.builder().value(skillName).build()).build();
 
@@ -190,7 +191,7 @@ class CharacterChangeTest {
         .modifier(13)
         .build();
 
-    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
 
     if (skillName.equals("skill.that.does.not.exist")) {
       assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
@@ -206,7 +207,7 @@ class CharacterChangeTest {
   @Test
   void buyDuplicateSkillShouldFail() {
     CharacterDTO newChar = charService.createCharacter(
-        CharacterDTO.builder().name("test-char-duplicate").hero(true).race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name("test-char-duplicate").hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
 
     SkillDTO skill = SkillDTO
         .builder()
@@ -221,20 +222,20 @@ class CharacterChangeTest {
         .modifier(11)
         .build();
 
-    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
 
     assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.APPROVED);
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_SKILL_BOUGHT);
     assertThat(changeRequest.getObjectAfterChange()).isNotNull();
 
-    changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+    changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.SKILL_ALREADY_BOUGHT);
   }
 
   @Test
   void testBuyingMultipleSkills() {
     CharacterDTO newChar = charService.createCharacter(
-        CharacterDTO.builder().name("test-char-all").hero(true).race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name("test-char-all").hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
     for (SkillDTO skill : skillService.getSkills()) {
       ChangeRequest change = ChangeRequest
             .builder()
@@ -243,11 +244,11 @@ class CharacterChangeTest {
             .modifier(skill.getCategory() == Category.A ? 6 : 1)
             .build();
 
-      ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+      ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
       assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.APPROVED);
       assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_SKILL_BOUGHT);
       assertThat(changeRequest.getObjectAfterChange()).isNotNull();
-      CharacterDTO character = charService.findCharacterById(newChar.getId());
+      CharacterDTO character = charService.findCharacterByIdAndOwner(newChar.getId(), TEST_OWNER);
       System.out.println("Num char skills: " + character.getSkills().size() + " skill points left: " + character.getBaseSkillPoints());
       if(character.getBaseSkillPoints() < 15) {
         break;
@@ -258,9 +259,9 @@ class CharacterChangeTest {
   @Test
   void testMultipleCharsBuyingMultipleSkills() {
     CharacterDTO newChar1 = charService.createCharacter(
-        CharacterDTO.builder().name("test-char-1").hero(true).race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name("test-char-1").hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
     CharacterDTO newChar2 = charService.createCharacter(
-        CharacterDTO.builder().name("test-char-2").hero(true).race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name("test-char-2").hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
 
     for (SkillDTO skill : skillService.getSkills()) {
       ChangeRequest change1 = ChangeRequest
@@ -276,22 +277,22 @@ class CharacterChangeTest {
           .modifier(skill.getCategory() == Category.A ? 6 : 1)
           .build();
 
-      ChangeRequest changeRequest1 = changeRequestService.submitChangeRequest(newChar1.getId(), change1);
+      ChangeRequest changeRequest1 = changeRequestService.submitChangeRequest(newChar1.getId(), change1, TEST_OWNER);
       if(changeRequest1.getStatus() == ChangeStatus.APPROVED) {
         assertThat(changeRequest1.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_SKILL_BOUGHT);
         assertThat(changeRequest1.getObjectAfterChange()).isNotNull();
-        CharacterDTO character1 = charService.findCharacterById(newChar1.getId());
+        CharacterDTO character1 = charService.findCharacterByIdAndOwner(newChar1.getId(), TEST_OWNER);
         assertThat(character1.getSkills()).containsKey(skill.getKey().getKeyValue());
       } else {
         assertThat(changeRequest1.getStatusLabel()).isEqualTo(ChangeStatusLabel.INSUFFICIENT_SKILL_POINTS);
         break;
       }
 
-      ChangeRequest changeRequest2 = changeRequestService.submitChangeRequest(newChar2.getId(), change2);
+      ChangeRequest changeRequest2 = changeRequestService.submitChangeRequest(newChar2.getId(), change2, TEST_OWNER);
       if(changeRequest2.getStatus() == ChangeStatus.APPROVED) {
         assertThat(changeRequest2.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_SKILL_BOUGHT);
         assertThat(changeRequest2.getObjectAfterChange()).isNotNull();
-        CharacterDTO character2 = charService.findCharacterById(newChar2.getId());
+        CharacterDTO character2 = charService.findCharacterByIdAndOwner(newChar2.getId(), TEST_OWNER);
         assertThat(character2.getSkills()).containsKey(skill.getKey().getKeyValue());
       } else {
         assertThat(changeRequest2.getStatusLabel()).isEqualTo(ChangeStatusLabel.INSUFFICIENT_SKILL_POINTS);
@@ -303,14 +304,14 @@ class CharacterChangeTest {
   @Test
   void testChangeWithNoMatchingRules(){
     CharacterDTO newChar = charService.createCharacter(
-        CharacterDTO.builder().name("test-char-no-rules").hero(true).race(new RaceDTO("human")).build());
+        CharacterDTO.builder().name("test-char-no-rules").hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
     ChangeRequest change = ChangeRequest
         .builder()
         .changeType(ChangeType.HIT_POINTS)
         .changeKey(ItemKey.toItemKey("no.rules.item"))
         .modifier(1)
         .build();
-    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change);
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
     assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.NO_RULES_FIRED);
   }

@@ -3,14 +3,12 @@ package dk.pekilidi.dod.skill;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.SkillDTO;
-import dk.pekilidi.dod.items.ItemNotFoundException;
 import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.skill.model.Group;
 import dk.pekilidi.dod.skill.model.Skill;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.IterableUtils;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -19,12 +17,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
-@NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SkillService {
 
   private static final ModelMapper modelMapper = new ModelMapper();
-  @Autowired
   private SkillRepository skillRepository;
 
   public static Integer calculateNewSkillPrice(CharacterDTO characterDTO, SkillDTO skill, Integer fvToBuy) {
@@ -53,7 +49,7 @@ public class SkillService {
 
   private static int calculateCatBSkillCost(SkillDTO skill, int pointsToBuy, int currentFv) {
     pointsToBuy = currentFv + pointsToBuy;
-    int result = -1;
+    int result;
     int skillPrice = skill.getPrice();
     int tier1Price = skillPrice * 2;
     int tier2Price = tier1Price + (skillPrice * 4);
@@ -67,7 +63,7 @@ public class SkillService {
   }
 
   private static int calculateCatASkillCost(SkillDTO skill, int pointsToBuy) {
-    int result = -1;
+    int result;
     int skillPrice = skill.getPrice();
     int tier1Price = skillPrice * 10;
     int tier2Price = tier1Price + (skillPrice * 8);
@@ -93,13 +89,13 @@ public class SkillService {
 
   public static int calculatePriceForFVIncrease(CharacterDTO characterDTO, String skillKey, int fvToBuy) {
     SkillDTO skill = characterDTO.getSkills().get(skillKey);
-    if(skill.getCategory() == Category.B) {
+    if (skill.getCategory() == Category.B) {
       return calculatePriceForFVIncreaseCatB(characterDTO, skill, fvToBuy);
     }
     int currentFv = characterDTO.getSkills().get(skillKey).getFv();
     int newFV = currentFv + fvToBuy;
     int cost = 0;
-    for(int i = currentFv+1; i < newFV+1; i++) {
+    for (int i = currentFv + 1; i < newFV + 1; i++) {
       switch (i) {
         case 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 -> cost += skill.getPrice();
         case 11, 12, 13, 14 -> cost += skill.getPrice() * 2 + 1;

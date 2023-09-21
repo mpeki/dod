@@ -2,12 +2,10 @@ package dk.pekilidi.dod.race;
 
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.race.model.Race;
-import java.util.List;
 import jakarta.transaction.Transactional;
-
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +13,10 @@ import org.springframework.stereotype.Service;
 public class RaceService {
 
   private static final ModelMapper modelMapper = new ModelMapper();
-  @Autowired
-  private RaceRepository raceRepository;
+  private final RaceRepository raceRepository;
 
-  public RaceService(RaceRepository repo) {
-    this.raceRepository = repo;
+  public RaceService(RaceRepository raceRepository) {
+    this.raceRepository = raceRepository;
   }
 
   @Cacheable("races")

@@ -1,0 +1,43 @@
+name: SonarCloud analysis
+on:
+  push:
+    branches: [ "develop", "main" ]
+  pull_request:
+    branches: [ "develop" ]
+  workflow_dispatch:
+
+permissions:
+  pull-requests: read
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  DOCKER_USER: ${{ secrets.DOCKERHUB_USER }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+jobs:
+  Analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: mpeki/build-env/pre-build@v0
+        with:
+          use-docker: true
+          docker-user: ${{ secrets.DOCKERHUB_USER }}
+          docker-password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      # Should this be moved to pre-build step?
+      #      - name: Cache Gradle packages
+      #        uses: actions/cache@v2
+      #        with:
+      #          path: |
+      #            ~/.gradle/caches
+      #            ~/.gradle/wrapper
+      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+      #          restore-keys: |
+      #            ${{ runner.os }}-gradle-
+
+      - name: Test
+        run: ./gradlew :b:test
+
+      - name: Analyze 'backend' with SonarCloud
+        run: ./gradlew sonar

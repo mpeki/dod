@@ -1,32 +1,32 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useCallback, useEffect, useState } from "react";
 import { Item } from "../../types/item";
-import { ItemService } from "../../services/item.service";
+import { useItemService } from "../../services/item.service";
 import { Typography, Paper, Fab } from "@mui/material";
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import { CreateMeleeWeapon } from "./CreateMeleeWeapon"
 import AddIcon from "@mui/icons-material/Add";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 export const ViewItems = () => {
 
+  const { getAllItems } = useItemService();
   const [items, setItems] = useState<Item[]>([]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const fetchItemsHandler = useCallback(async () => {
-    console.log("Fetching items : ");
     let itemJSON = localStorage.getItem("items");
     if (itemJSON === null) {
-      await ItemService.getAllItems()
+      await getAllItems()
       .then((items) => {
         itemJSON = JSON.stringify(items);
         localStorage.setItem("items", itemJSON);
         setItems(items);
-        console.log(items)
       })
-      .catch((e) => alert("Error fetching items: " + e));
+      .catch((e) => showWarningSnackbar((e as Error).message));
     }
     setItems(itemJSON === null ? null : JSON.parse(itemJSON));
   }, []);

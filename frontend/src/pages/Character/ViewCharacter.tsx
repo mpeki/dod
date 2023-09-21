@@ -1,10 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { Character } from "../../types/character";
-import { CharacterService } from "../../services/character.service";
+import useCharacterService from "../../services/character.service";
 import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
 import { CharacterInfo } from "../../components/Character/CharacterInfo";
-import { User } from "../../types/user";
 import { Container, Divider, Paper } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import { SkillContainer } from "../Skill/SkillContainer";
@@ -14,14 +13,21 @@ import { BodyContainer } from "./BodyContainer";
 import { WeaponsContainer } from "../Items/WeaponsContainer";
 import { ItemsContainer } from "../Items/ItemsContainer";
 import { FundsContainer } from "../Items/FundsContainer";
-import { ChangeService } from "../../services/change.service";
+import { useChangeService } from "../../services/change.service";
 import { Change } from "../../types/change";
 import { MovementStats } from "../../components/Character/MovementStats";
 import Stack from "@mui/material/Stack";
 import { ReputationStats } from "../../components/Character/ReputationStats";
-
+import { useAuth } from "react-oidc-context";
+import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import useKeyboardShortcut from "../../components/KeyboardShortcutContext";
 
 export const ViewCharacter = () => {
+
+  const auth = useAuth();
+  const { getCharacter } = useCharacterService();
+  const { doChange } = useChangeService();
   const { charId } = useParams();
   const [character, setCharacter] = useState<Character>();
 
@@ -32,14 +38,13 @@ export const ViewCharacter = () => {
     modifier: ""
   });
 
-
   const fetchCharHandler = useCallback(async () => {
-    CharacterService.getCharacter("" + charId)
+    getCharacter("" + charId)
     .then((character) => {
       setCharacter(character);
     })
-    .catch((e) => alert("Error fetching character: " + e));
-  }, [charId]);
+    .catch((e) => showWarningSnackbar((e as Error).message));
+  }, [charId, getCharacter]);
 
   useEffect(() => {
     fetchCharHandler().then();
@@ -53,63 +58,59 @@ export const ViewCharacter = () => {
       changeKey: changeKey,
       modifier: mod
     };
-    ChangeService.doChange("" + charId, change).then();
-  }, [changeData, charId]);
+    doChange("" + charId, change).then();
+  }, [changeData, charId, doChange]);
 
   if (character == null || character.id == null) {
     return <><p>Invalid character!</p></>;
   } else {
-    //Remove this when user is implemented
-    let user: User = {
-      id: 0,
-      name: "Test User"
-    };
 
     return (
-      <Container maxWidth="lg">
-        <Masonry columns={2} spacing={1}>
-          <Paper elevation={3}>
-            <BaseTraitList baseTraits={character?.baseTraits} />
-          </Paper>
-          <Paper elevation={3}>
-            <CharacterInfo character={character} user={user} changeHandler={changeHandler} />
-          </Paper>
-          <Paper>
-            <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
-          </Paper>
-          {character.state === "READY_TO_PLAY" && (
+        <Container maxWidth="lg">
+          <Masonry columns={2} spacing={1}>
             <Paper elevation={3}>
-              <Stack direction={"row"}>
-                <SanityStats character={character} />
-                {character.hero && (
-                  <>
-                    <Divider orientation="vertical" flexItem />
-                    <ReputationStats character={character} />
-                    <Divider orientation="vertical" flexItem />
-                    <HeroStats character={character} />
-                  </>
-                )}
-                <Divider orientation="vertical" flexItem />
-                <MovementStats character={character} />
-              </Stack>
+              <BaseTraitList baseTraits={character?.baseTraits} />
             </Paper>
+            <Paper elevation={3}>
+              <CharacterInfo character={character} username={auth.user?.profile.name ? auth.user.profile.name : ""}
+                             changeHandler={changeHandler} />
+            </Paper>
+            <Paper>
+              <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
+            </Paper>
+            {character.state === "READY_TO_PLAY" && (
+              <Paper elevation={3}>
+                <Stack direction={"row"}>
+                  <SanityStats character={character} />
+                  {character.hero && (
+                    <>
+                      <Divider orientation="vertical" flexItem />
+                      <ReputationStats character={character} />
+                      <Divider orientation="vertical" flexItem />
+                      <HeroStats character={character} />
+                    </>
+                  )}
+                  <Divider orientation="vertical" flexItem />
+                  <MovementStats character={character} />
+                </Stack>
+              </Paper>
             )}
-          <Paper elevation={3}>
-            <BodyContainer parts={character.bodyParts} />
-          </Paper>
-          <Paper elevation={3}>
-            <WeaponsContainer character={character} fetchCharHandler={fetchCharHandler} />
-          </Paper>
-          <Paper elevation={3}>
-            {character.items && (
-              <FundsContainer character={character} />
-            )}
-          </Paper>
-          <Paper elevation={3}>
-            <ItemsContainer character={character} />
-          </Paper>
-        </Masonry>
-      </Container>
+            <Paper elevation={3}>
+              <BodyContainer parts={character.bodyParts} />
+            </Paper>
+            <Paper elevation={3}>
+              <WeaponsContainer character={character} fetchCharHandler={fetchCharHandler} />
+            </Paper>
+            <Paper elevation={3}>
+              {character.items && (
+                <FundsContainer character={character} />
+              )}
+            </Paper>
+            <Paper elevation={3}>
+              <ItemsContainer character={character} />
+            </Paper>
+          </Masonry>
+        </Container>
     );
   }
 

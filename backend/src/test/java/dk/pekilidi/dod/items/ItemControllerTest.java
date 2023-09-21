@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.pekilidi.dod.BaseControllerTest;
 import dk.pekilidi.dod.data.ItemDTO;
 import dk.pekilidi.dod.items.model.ItemType;
 import dk.pekilidi.dod.items.model.MeleeWeapon;
@@ -17,13 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-@WebMvcTest(ItemController.class)
 @Tag("regression")
-class ItemControllerTest {
+class ItemControllerTest extends BaseControllerTest {
 
   RandomObjectFiller objFill = new RandomObjectFiller();
   ItemDTO item1;
@@ -32,8 +33,7 @@ class ItemControllerTest {
 
   @Autowired
   private ObjectMapper jacksonObjectMapper;
-  @Autowired
-  private MockMvc mockMvc;
+
   @MockBean
   private ItemService itemService;
 
@@ -45,11 +45,12 @@ class ItemControllerTest {
   }
 
   @Test
+  @WithMockUser(username = "player", password = "player", roles = {"player"})
   void findItemByKey() throws Exception {
     given(itemService.findItemByKey(item1.getItemKey().getKeyValue())).willReturn(item1);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/item/key/" + item1.getItemKey())
+            .get("/api/items/key/" + item1.getItemKey())
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(item1)))
         .andDo(MockMvcResultHandlers.print())
@@ -62,7 +63,7 @@ class ItemControllerTest {
     given(itemService.findAll()).willReturn(items);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/items")
+            .get("/api/items")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(items)))
         .andDo(MockMvcResultHandlers.print())
@@ -70,12 +71,13 @@ class ItemControllerTest {
   }
 
   @Test
+  @WithMockUser(username = "player", password = "player", roles = {"player"})
   void findByType() throws Exception {
     List<ItemDTO> items = List.of(item1, item2);
     given(itemService.findItemByType(ItemType.MELEE_WEAPON)).willReturn(items);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .get("/items/type/MELEE_WEAPON")
+            .get("/api/items/type/MELEE_WEAPON")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(items)))
         .andDo(MockMvcResultHandlers.print())
@@ -83,11 +85,12 @@ class ItemControllerTest {
   }
 
   @Test
+  @WithMockUser(username = "system", password = "system", roles = {"system"})
   void createMeleeWeapon() throws Exception {
     given(itemService.createItem(item1, MeleeWeapon.class)).willReturn(item2);
     mockMvc
         .perform(MockMvcRequestBuilders
-            .post("/item/melee_weapon")
+            .post("/api/items/melee_weapon")
             .contentType(MediaType.APPLICATION_JSON)
             .content(jacksonObjectMapper.writeValueAsString(item1)))
         .andDo(MockMvcResultHandlers.print())
@@ -95,8 +98,9 @@ class ItemControllerTest {
   }
 
   @Test
+  @WithMockUser(username = "player", password = "player", roles = {"player"})
   void getItemNotFound() throws Exception {
     given(itemService.findItemByKey(anyString())).willThrow(new ItemNotFoundException());
-    mockMvc.perform(MockMvcRequestBuilders.get("/skill/key/no-a-skill")).andExpect(status().isNotFound());
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/item/key/no-a-skill")).andExpect(status().isNotFound());
   }
 }

@@ -19,10 +19,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MapKey;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
@@ -44,14 +44,19 @@ import org.hibernate.annotations.Formula;
 @Entity
 public class DODCharacter implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 5434025811976973643L;
 
-  @Id @Tsid
+  @Id
+  @Tsid
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String id;
 
   @NonNull
   private String name;
+
+  @NonNull
+  private String owner;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "character_trait_mapping",
@@ -110,11 +115,9 @@ public class DODCharacter implements Serializable {
   @Embedded
   private Looks looks;
 
-  @Formula("(select sum(ci.quantity * i.weight) from character_item ci " +
-              "join character_item_mapping cim on ci.id = cim.item_id " +
-              "join dodcharacter c on cim.character_id = c.id " +
-              "join item i on ci.item_key = i.item_key " +
-              "where c.id = id)")
+  @Formula("(select sum(ci.quantity * i.weight) from character_item ci "
+      + "join character_item_mapping cim on ci.id = cim.item_id " + "join dodcharacter c on cim.character_id = c.id "
+      + "join item i on ci.item_key = i.item_key " + "where c.id = id)")
   private Double weightCarried;
 
   @Embedded
@@ -142,7 +145,7 @@ public class DODCharacter implements Serializable {
     return "DODCharacter{" + "id=" + id + ", name='" + name + '\'' + '}';
   }
 
-  public void addSkill(CharacterSkill skill){
+  public void addSkill(CharacterSkill skill) {
     skills.putIfAbsent(skill.skillKey.getKeyValue(), skill);
   }
 }

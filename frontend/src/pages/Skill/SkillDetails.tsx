@@ -2,11 +2,12 @@ import { Skill } from "../../types/skill";
 import { Action } from "../../types/action";
 import classes from "./SkillDetails.module.css";
 import React, { useCallback, useState } from "react";
-import { SkillService } from "../../services/skill.service";
+import { useSkillService } from "../../services/skill.service";
 import { Change } from "../../types/change";
-import { ChangeService } from "../../services/change.service";
+import { useChangeService } from "../../services/change.service";
 import { Snackbar } from "@mui/material";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 interface IProps {
   characterId: string;
@@ -24,6 +25,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Element => {
 
+  const { doChange } = useChangeService();
+  const { trainSkill } = useSkillService();
   const [action , setAction] = useState<Action>();
   const [skillInput, setSkillInput] = useState<Skill>(skill);
   const [open, setOpen] = useState(false);
@@ -41,7 +44,7 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
   };
 
   const trainSkillHandler = useCallback(async () => {
-    await SkillService.trainSkill(characterId, skill.key)
+    await trainSkill(characterId, skill.key)
     .then((action) => {
       if (action.actor.skills !== undefined) {
         setAction(action);
@@ -52,8 +55,8 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
       }
 
     })
-    .catch((e) => alert("Error fetching character: " + e));
-  }, [skillInput, characterId, skill]);
+    .catch((e) => showWarningSnackbar((e as Error).message));
+  }, [trainSkill, characterId, skill.key, skillInput]);
 
 
   const exchangeXPHandler = useCallback(async () => {
@@ -64,10 +67,8 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
       modifier: 1,
     };
     if(characterId != null) {
-      await ChangeService.doChange(characterId, changeData)
+      await doChange(characterId, changeData)
       .then((change: Change) => {
-        console.log("skill.kley; " + skill.key);
-
         if (change.objectAfterChange?.skills !== undefined) {
           console.log(change.objectAfterChange?.skills[skill.key]);
           skillInput.experience = change.objectAfterChange.skills[skill.key].experience;
@@ -78,7 +79,7 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
 
       });
     }
-  }, [characterId, skill, skillInput]);
+  }, [characterId, doChange, skill.key, skillInput]);
 
   return (
     <>

@@ -1,16 +1,15 @@
 import { Character } from "../../types/character";
-import { User } from "../../types/user";
 import { List, ListItem, ListItemText, Stack } from "@mui/material";
 import { StyledList } from "../shared/List.styled";
 import EditableListItem from "../../UI/EditableListItem";
 
 interface ICharacterProps {
   character: Character;
-  user: User;
+  username: string;
   changeHandler: (changeKey: string, mod: any) => void;
 }
 
-export const CharacterInfo = ({ character, user, changeHandler }: ICharacterProps) => {
+export const CharacterInfo = ({ character, username, changeHandler }: ICharacterProps) => {
 
   if(character == null || character.id == null || character.looks == null) {
     return <><p>Invalid character!</p></>;
@@ -30,7 +29,7 @@ export const CharacterInfo = ({ character, user, changeHandler }: ICharacterProp
 
           />
           <ListItem>
-            <ListItemText primary="Player Name" secondary={user.name} />
+            <ListItemText primary="Player Name" secondary={username} />
           </ListItem>
           <ListItem>
             <ListItemText primary="Race" secondary={character.race.name} />

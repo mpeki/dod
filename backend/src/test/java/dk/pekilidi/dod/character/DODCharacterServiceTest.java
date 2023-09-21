@@ -1,13 +1,16 @@
 package dk.pekilidi.dod.character;
 
+import static dk.pekilidi.utils.BaseTestUtil.TEST_OWNER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.character.model.DODCharacter;
+import dk.pekilidi.dod.config.ConfigurationService;
 import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
@@ -19,21 +22,30 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.test.context.support.WithMockUser;
 
 @Tag("regression")
 class DODCharacterServiceTest {
 
   private CharacterRepository charRepo;
   private CharacterService charService;
-
   private final CharacterMapper modelMapper = new CharacterMapper();
 
   @BeforeEach
   void setMockOutput() {
     charRepo = mock(CharacterRepository.class);
-    charService = new CharacterService(charRepo);
+    ConfigurationService configService = mock(ConfigurationService.class);
+    charService = new CharacterService(charRepo, null, null, configService);
     when(charRepo.findAllByName("NONAME")).thenReturn(List.of());
   }
+
+  @Test
+  void createCharacterMaxLimitReached() {
+    when(charRepo.countByOwner(anyString())).thenReturn(10);
+    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human")).build();
+    assertThrows(MaxCharactersReachedException.class, () -> charService.createCharacter(testChar, TEST_OWNER));
+  }
+
 
   @Test
   void getCharacterReturnChar() throws Exception {
@@ -65,6 +77,7 @@ class DODCharacterServiceTest {
   }
 
   @Test
+  @WithMockUser(username = TEST_OWNER, password = "player", roles = {"player"})
   void testPojoMethods() throws Exception {
     RandomObjectFiller objFiller = new RandomObjectFiller();
     DODCharacter testChar = objFiller.createAndFill(DODCharacter.class);
@@ -73,15 +86,15 @@ class DODCharacterServiceTest {
     testChar.setRace(testRace);
     testChar.setName("kyron");
     CharacterDTO testCharDTO = modelMapper.map(testChar, CharacterDTO.class);
-    given(charRepo.findById("123")).willReturn(Optional.of(testChar));
-    CharacterDTO being = charService.findCharacterById("123");
+    given(charRepo.findByIdAndOwner("123", TEST_OWNER)).willReturn(Optional.of(testChar));
+    CharacterDTO being = charService.findCharacterByIdAndOwner("123", TEST_OWNER);
     assertThat(being).isEqualTo(testCharDTO).hasToString(testCharDTO.toString());
   }
 
   @Test
   void getCharacterByIdReturnCharNotFound() throws Exception {
     assertThrows(CharacterNotFoundException.class, () -> {
-      charService.findCharacterById("18401L");
+      charService.findCharacterByIdAndOwner("18401L", TEST_OWNER);
     });
   }
 

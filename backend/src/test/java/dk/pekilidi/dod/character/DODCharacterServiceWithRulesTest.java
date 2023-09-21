@@ -1,11 +1,13 @@
 package dk.pekilidi.dod.character;
 
 import static dk.pekilidi.dod.character.model.BaseTraitName.STRENGTH;
+import static dk.pekilidi.utils.BaseTestUtil.TEST_OWNER;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.drools.model.PatternDSL.when;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import dk.pekilidi.dod.DodApplication;
 import dk.pekilidi.dod.changerequest.ChangeRequestService;
-import dk.pekilidi.dod.changerequest.model.ChangeKey;
 import dk.pekilidi.dod.changerequest.model.ChangeRequest;
 import dk.pekilidi.dod.changerequest.model.ChangeType;
 import dk.pekilidi.dod.data.CharacterDTO;
@@ -13,7 +15,6 @@ import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.race.RaceNotFoundException;
 import dk.pekilidi.dod.race.RaceService;
-
 import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.dod.skill.model.Group;
 import java.util.List;
@@ -31,14 +32,13 @@ class DODCharacterServiceWithRulesTest {
   private CharacterService charService;
   @Autowired
   private RaceService raceService;
-
   @Autowired
   private ChangeRequestService changeService;
 
   @Test
   void createCharacterReturnChar() {
     CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human")).build();
-    CharacterDTO newBeing = charService.createCharacter(testChar);
+    CharacterDTO newBeing = charService.createCharacter(testChar, TEST_OWNER);
     assertThat(newBeing.getBaseTraits()).isNotNull();
     assertThat(newBeing.getBaseTraits()).isNotEmpty();
     assertThat(newBeing.getBaseTraits().get(STRENGTH).getCurrentValue()).isGreaterThanOrEqualTo(3);
@@ -50,7 +50,7 @@ class DODCharacterServiceWithRulesTest {
   @Test
   void createHeroReturnHero() {
     CharacterDTO testChar = CharacterDTO.builder().name("bilbo").hero(true).race(new RaceDTO("human")).build();
-    CharacterDTO newBeing = charService.createCharacter(testChar);
+    CharacterDTO newBeing = charService.createCharacter(testChar, TEST_OWNER);
     assertThat(newBeing.getBaseTraits()).isNotNull();
     assertThat(newBeing.getBaseTraits()).isNotEmpty();
     assertThat(newBeing.getBaseTraits().get(STRENGTH).getCurrentValue()).isGreaterThanOrEqualTo(7);
@@ -59,28 +59,31 @@ class DODCharacterServiceWithRulesTest {
     assertThat(newBeing.getRace().getName()).isEqualTo("human");
   }
 
+
+
+
   @Test
   void createdCharacterHasBody() {
     CharacterDTO testChar = CharacterDTO.builder().name("bilbo").hero(true).race(new RaceDTO("human")).build();
-    charService.createCharacter(testChar);
+    charService.createCharacter(testChar, TEST_OWNER);
     assertThat(testChar.getBodyParts()).isNotEmpty();
   }
 
   @Test
   void foundCharacterHasBody() {
     CharacterDTO testChar = CharacterDTO.builder().name("bilbo").hero(true).race(new RaceDTO("human")).build();
-    CharacterDTO newBeing = charService.createCharacter(testChar);
-    newBeing = charService.findCharacterById(newBeing.getId());
+    CharacterDTO newBeing = charService.createCharacter(testChar, TEST_OWNER);
+    newBeing = charService.findCharacterByIdAndOwner(newBeing.getId(), TEST_OWNER);
     assertThat(newBeing.getBodyParts()).isNotEmpty();
   }
 
   @Test
   void deletedCharacterIsGone() {
     CharacterDTO testChar = CharacterDTO.builder().name("nomore").hero(true).race(new RaceDTO("human")).build();
-    CharacterDTO newBeing = charService.createCharacter(testChar);
-    newBeing = charService.findCharacterById(newBeing.getId());
+    CharacterDTO newBeing = charService.createCharacter(testChar, TEST_OWNER);
+    newBeing = charService.findCharacterByIdAndOwner(newBeing.getId(), TEST_OWNER);
     assertThat(newBeing.getBodyParts()).isNotEmpty();
-    charService.deleteCharacterById(newBeing.getId());
+    charService.deleteCharacterByIdAndOwner(newBeing.getId(), TEST_OWNER);
     Assertions.assertDoesNotThrow(() -> raceService.getRaceByName("human"));
     assertThat(raceService.fetchRaces()).isNotEmpty();
   }
@@ -89,18 +92,18 @@ class DODCharacterServiceWithRulesTest {
   void getCharacterNonExistingRaceThrowsException() {
     CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("hobbit")).build();
     Assertions.assertThrows(RaceNotFoundException.class, () -> {
-      charService.createCharacter(testChar);
+      charService.createCharacter(testChar, TEST_OWNER);
     });
   }
 
   @Test
-  void possibleToFetchAllCharsAfterSkillBought(){
+  void possibleToFetchAllCharsAfterSkillBought() {
     CharacterDTO testChar = CharacterDTO.builder().name("New guy").hero(true).race(new RaceDTO("human")).build();
-    CharacterDTO newBeing = charService.createCharacter(testChar);
-    List<CharacterDTO> chars = charService.fetchAllCharacters();
+    CharacterDTO newBeing = charService.createCharacter(testChar, TEST_OWNER);
+    List<CharacterDTO> chars = charService.fetchAllCharactersByOwner(TEST_OWNER);
     boolean foundNewGuy = false;
     for (CharacterDTO aChar : chars) {
-      if(aChar.getName().equals(newBeing.getName())){
+      if (aChar.getName().equals(newBeing.getName())) {
         foundNewGuy = true;
       }
     }
@@ -119,16 +122,16 @@ class DODCharacterServiceWithRulesTest {
         .modifier(13)
         .build();
 
-    changeService.submitChangeRequest(newBeing.getId(), change);
+    changeService.submitChangeRequest(newBeing.getId(), change, TEST_OWNER);
 
-    charService.fetchAllCharacters();
+    charService.fetchAllCharactersByOwner(TEST_OWNER);
   }
 
   @Test
-  void createManyCharacters(){
-    List<String> characterIds = charService.createCharacters(10, "human");
+  void createManyCharacters() {
+    List<String> characterIds = charService.createCharacters(10, "human", TEST_OWNER);
     for (String id : characterIds) {
-      CharacterDTO charById = charService.findCharacterById(id);
+      CharacterDTO charById = charService.findCharacterByIdAndOwner(id, TEST_OWNER);
       assertThat(charById).isNotNull();
       assertThat(charById.getRace().getName()).isEqualTo("human");
       assertThat(charById.getBaseTraits()).isNotEmpty();

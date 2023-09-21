@@ -8,37 +8,39 @@ import dk.pekilidi.dod.character.CharacterService;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.skill.SkillNotFoundException;
 import dk.pekilidi.dod.skill.SkillService;
-import lombok.AllArgsConstructor;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AllArgsConstructor
-@CrossOrigin
+@RequestMapping("api")
 public class CharacterActionController {
 
-  @Autowired
-  private CharacterActionService service;
+  private final CharacterActionService service;
+
+  private final CharacterService characterService;
+
+  private final SkillService skillService;
 
   @Autowired
-  private CharacterService characterService;
-
-  @Autowired
-  private SkillService skillService;
-
-
+  public CharacterActionController(CharacterActionService service, CharacterService characterService,
+      SkillService skillService) {
+    this.service = service;
+    this.characterService = characterService;
+    this.skillService = skillService;
+  }
 
   @PostMapping("/action/training/char/{characterId}/skill/{skillKey}")
   @ResponseBody
-  public SkillTrainingAction trainSkill(@PathVariable String characterId, @PathVariable String skillKey) {
-    CharacterDTO character = characterService.findCharacterById(characterId);
+  public SkillTrainingAction trainSkill(Principal principal, @PathVariable String characterId, @PathVariable String skillKey) {
+    CharacterDTO character = characterService.findCharacterByIdAndOwner(characterId, principal.getName());
     Action action = SkillTrainingAction
         .builder()
         .actor(character)
@@ -48,11 +50,11 @@ public class CharacterActionController {
         .skill(skillService.findSkillByKey(skillKey))
         .build();
     SkillTrainingAction actionAndResult = (SkillTrainingAction) service.doAction(action);
-    characterService.save(actionAndResult.getActor());
+    characterService.save(actionAndResult.getActor(), principal.getName());
     return actionAndResult;
   }
+
   @ExceptionHandler
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public void skillNotFoundHandler(SkillNotFoundException ex) { /* Just need the HttpStatus.NOT_FOUND */ }
-
 }

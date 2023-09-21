@@ -14,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
+
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +32,7 @@ import lombok.experimental.SuperBuilder;
 @DiscriminatorColumn(name = "body_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class BaseBody implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = -4047526321333706702L;
 
   @Id @Tsid

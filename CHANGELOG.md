@@ -1,3 +1,94 @@
+# [1.16.0-rc.13](https://github.com/mpeki/dod/compare/v1.16.0-rc.12...v1.16.0-rc.13) (2023-09-21)
+
+
+### Features
+
+* **DOD-268:** Quiet down sql output in prod ([28d4b58](https://github.com/mpeki/dod/commit/28d4b58a1e418ccb412abdded0d31ecd8cf6016e))
+
+# [1.16.0-rc.12](https://github.com/mpeki/dod/compare/v1.16.0-rc.11...v1.16.0-rc.12) (2023-09-21)
+
+
+### Bug Fixes
+
+* **DOD-319:** Fix keyboard shortcut handling in Character pages ([295722c](https://github.com/mpeki/dod/commit/295722c70eed03baa2d8a2a07d1ab2d4b4eab742))
+
+# [1.16.0-rc.11](https://github.com/mpeki/dod/compare/v1.16.0-rc.10...v1.16.0-rc.11) (2023-09-20)
+
+
+### Features
+
+* **DOD-312:** Enforce max player limit ([9703fdd](https://github.com/mpeki/dod/commit/9703fdd307fd94691de33992fee7b2daf5bc5340))
+
+# [1.16.0-rc.10](https://github.com/mpeki/dod/compare/v1.16.0-rc.9...v1.16.0-rc.10) (2023-09-18)
+
+
+### Features
+
+* **DOD-318:** adds keyboard shortcuts to character pages ([d1dcf1e](https://github.com/mpeki/dod/commit/d1dcf1eeb8d7007a67e44387d33623fd9b22a912))
+
+# [1.16.0-rc.9](https://github.com/mpeki/dod/compare/v1.16.0-rc.8...v1.16.0-rc.9) (2023-09-17)
+
+
+### Features
+
+* **DOD-316:** added The Wilderness ([3d18a03](https://github.com/mpeki/dod/commit/3d18a03546ca7ea9b94ec8e7a801657e83374170))
+
+# [1.16.0-rc.8](https://github.com/mpeki/dod/compare/v1.16.0-rc.7...v1.16.0-rc.8) (2023-09-17)
+
+
+### Features
+
+* **DOD-314:** added tab navigation via keyboard ([d658f91](https://github.com/mpeki/dod/commit/d658f915728ef71a3c15dcbe7dc2e4480a91b1d5))
+
+# [1.16.0-rc.7](https://github.com/mpeki/dod/compare/v1.16.0-rc.6...v1.16.0-rc.7) (2023-09-16)
+
+
+### Features
+
+* **DOD-311:** Character activation can now be done in the Character Details page ([98a309f](https://github.com/mpeki/dod/commit/98a309fbc8a2b6263a15c0f81fc619bfbbc24a98))
+
+# [1.16.0-rc.6](https://github.com/mpeki/dod/compare/v1.16.0-rc.5...v1.16.0-rc.6) (2023-09-16)
+
+
+### Features
+
+* **DOD-309:** Added Settings Page v0 ([ef69163](https://github.com/mpeki/dod/commit/ef69163bf10dc62d809ccbe8e3ad9c754213d213))
+
+# [1.16.0-rc.5](https://github.com/mpeki/dod/compare/v1.16.0-rc.4...v1.16.0-rc.5) (2023-09-14)
+
+
+### Features
+
+* **DOD-302:** Characters now have an owner ([b09f17e](https://github.com/mpeki/dod/commit/b09f17e1d72623db427fcb2954c169b686fb7b08))
+
+# [1.16.0-rc.4](https://github.com/mpeki/dod/compare/v1.16.0-rc.3...v1.16.0-rc.4) (2023-09-13)
+
+
+### Features
+
+* **DOD-300:** Introducing Selenium tests ([1414a9c](https://github.com/mpeki/dod/commit/1414a9ce7c1158d5dede11d47e896fbeb6e4ed38))
+
+# [1.16.0-rc.3](https://github.com/mpeki/dod/compare/v1.16.0-rc.2...v1.16.0-rc.3) (2023-09-09)
+
+
+### Features
+
+* **DOD-298:** Added Keycloak as auth provider ([db7d128](https://github.com/mpeki/dod/commit/db7d12805b2f62856d86913ce6393538b11898ef))
+
+# [1.16.0-rc.2](https://github.com/mpeki/dod/compare/v1.16.0-rc.1...v1.16.0-rc.2) (2023-07-21)
+
+
+### Features
+
+* **DOD-296:** initializing game now retries on connection error ([9a8ffb0](https://github.com/mpeki/dod/commit/9a8ffb01195658d2fb4929a85591789ec61fad62))
+
+# [1.16.0-rc.1](https://github.com/mpeki/dod/compare/v1.15.0...v1.16.0-rc.1) (2023-07-18)
+
+
+### Features
+
+* **DOD-264:** Now we build the UI ([a0935b2](https://github.com/mpeki/dod/commit/a0935b24c2a30a31d56c8b2419c0677d6642584b))
+
 # [1.15.0](https://github.com/mpeki/dod/compare/v1.14.0...v1.15.0) (2023-07-14)
 
 

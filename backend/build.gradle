@@ -12,7 +12,6 @@ configurations {
     asciidoctorExt
 }
 
-//ext['spring-restdocs.version'] = '2.0.6.BUILD-SNAPSHOT'
 dependencies {
 
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
@@ -21,29 +20,25 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.2'
 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+//    implementation 'org.keycloak:keycloak-policy-enforcer:22.0.1'
+    implementation 'org.keycloak:keycloak-core:22.0.1'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.liquibase:liquibase-core'
-//    implementation 'org.springframework.retry:spring-retry:2.0.0'
-    //https://mvnrepository.com/artifact/org.springframework/spring-aspects
-//    implementation 'org.springframework:spring-aspects:6.0.7'
-//    implementation 'org.springframework:spring-core:5.3.23'
 
-//    implementation 'org.drools:drools-core:8.36.0.Final'
     implementation "org.drools:drools-engine:${droolsVersion}"
     implementation "org.drools:drools-mvel:${droolsVersion}"
-//    implementation 'org.drools:drools-model-compiler:8.37.0.Final'
-//    implementation 'org.drools:drools-mvel:8.29.0.Final'
-//    implementation 'org.kie:kie-spring:7.73.0.Final'
-//    implementation 'org.kie:kie-api:8.36.0.Final'
 
     implementation 'mysql:mysql-connector-java:8.0.32'
     implementation 'org.modelmapper:modelmapper:3.1.1'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-    implementation 'ch.qos.logback:logback-classic:1.4.7'
+    implementation 'org.springframework.retry:spring-retry:2.0.2'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -64,9 +59,11 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
     testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
 
+    testImplementation "org.keycloak:keycloak-test-helper:22.0.1"
+    testImplementation "org.keycloak:keycloak-admin-client:22.0.1"
+    testImplementation "org.springframework.security:spring-security-test"
 
 }
-
 
 dependencyManagement {
     imports {
@@ -86,6 +83,10 @@ processResources {
         }
 
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['-Xlint:unchecked']
 }
 
 test {

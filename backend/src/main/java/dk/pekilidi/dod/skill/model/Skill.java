@@ -52,10 +52,9 @@ public class Skill implements Serializable {
     if (this == o) {
       return true;
     }
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+    if ( !(o instanceof Skill that) || Hibernate.getClass(this) != Hibernate.getClass(o)) {
       return false;
     }
-    Skill that = (Skill) o;
     return Objects.equals(id, that.id) && Objects.equals(key, that.key);
   }
 

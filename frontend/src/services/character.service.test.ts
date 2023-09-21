@@ -1,7 +1,6 @@
-import { CharacterService } from "./character.service";
 import { Character } from "../types/character";
 import { Race } from "../types/race";
-
+import useCharacterService from "../services/character.service";
 
 const raceData: Race = {
   id: "1",
@@ -14,10 +13,12 @@ const charPostData: Character = {
   hero: true
 }
 
-
 describe( 'Character Service', () => {
+
+  const { getCharacters, getCharacter, createCharacter, getCharactersByName, deleteCharacter } = useCharacterService();
+
   it('get all characters',async () => {
-    await CharacterService.getCharacters().then((data) => {
+    await getCharacters().then((data) => {
       expect(data).toBeTruthy();
       expect(data.length).toBeGreaterThanOrEqual(1);
       expect(data[0].id).toBeTruthy();
@@ -27,7 +28,7 @@ describe( 'Character Service', () => {
   });
 
   it('get character by id',async () => {
-    await CharacterService.getCharacter("1").then((data) => {
+    await getCharacter("1").then((data) => {
       expect(data).toBeTruthy();
       expect(data.id).toBeTruthy();
       expect(data.name).toBe("vokan fagerhård");
@@ -36,7 +37,7 @@ describe( 'Character Service', () => {
   });
 
   it('create new character',async () => {
-    await CharacterService.createCharacter(charPostData).then((data) => {
+    await createCharacter(charPostData).then((data) => {
       expect(data).toBeTruthy();
       expect(data.id).toBe("1");
       expect(data.name).toBe("Børge Blåtand");
@@ -46,23 +47,19 @@ describe( 'Character Service', () => {
 
   it('create new character - find by name',async () => {
     charPostData.name = "Hansi Hinterseer"
-    await CharacterService.createCharacter(charPostData).then((data) => {
+    await createCharacter(charPostData).then((data) => {
       expect(data).toBeTruthy();
 
       // expect(data.id).toBeGreaterThan(1);
       expect(data.name).toBe("Hansi Hinterseer");
       expect(data.hero).toBe(true);
     });
-    await CharacterService.getCharactersByName("Hansi Hinterseer").then((data) => {
+    await getCharactersByName("Hansi Hinterseer").then((data) => {
       expect(data).toBeTruthy();
       expect(data.length).toBeGreaterThanOrEqual(1);
       expect(data[0].id).toBeGreaterThan(1);
       expect(data[0].name).toBe("Hansi Hinterseer");
       expect(data[0].hero).toBe(true);
     });
-
-
   });
-
-
 });

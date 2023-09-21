@@ -3,7 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.0.5' apply false
 	id 'jacoco'
 	//https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
-	id 'org.sonarqube' version '4.0.0.2929'
+	id 'org.sonarqube' version '4.3.1.3277'
 	//https://plugins.gradle.org/plugin/io.spring.dependency-management
 	id 'io.spring.dependency-management' version '1.1.0' apply false
 	//https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
@@ -11,7 +11,7 @@ plugins {
 	//https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
 	id "com.gorylenko.gradle-git-properties" version "2.4.1"
 	//https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
-	id 'org.siouan.frontend-jdk11' version '6.0.0' apply false
+	id 'org.siouan.frontend-jdk11' version '8.0.0' apply false
 	//https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
 	id "org.asciidoctor.jvm.convert" version "3.3.2" apply false
 
@@ -20,7 +20,7 @@ plugins {
 group = 'dk.pekilidi'
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
+	set('snippetsDir', file("build/generated"))
 	set('testcontainersVersion', "1.18.0")
 	set('droolsVersion', "8.34.0.Final")
 }
@@ -40,7 +40,7 @@ allprojects {
 	}
 }
 subprojects {
-	if (project != project(':frontend')) {
+	if (project != project(':frontend') && project != project(':selenium-tests')) {
 		apply from: "$rootDir/gradle/test.gradle"
 		apply from: "$rootDir/gradle/liquibase.gradle"
 		apply from: "$rootDir/gradle/publish.gradle"
@@ -61,5 +61,6 @@ sonarqube {
 		property "sonar.projectKey", "mpeki_dod"
 		property "sonar.organization", "mpeki"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.token", System.getenv('SONAR_TOKEN') // This should be an environment variable
 	}
 }
