@@ -21,6 +21,7 @@ import { ReputationStats } from "../../components/Character/ReputationStats";
 import { useAuth } from "react-oidc-context";
 import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import useKeyboardShortcut from "../../components/KeyboardShortcutContext";
 
 export const ViewCharacter = () => {
 
@@ -49,9 +50,6 @@ export const ViewCharacter = () => {
     fetchCharHandler().then();
   }, [fetchCharHandler]);
 
-  const navigate = useNavigate();
-  const shortcuts = [{ key: "Escape", callback: () => navigate("/characters") },];
-
   const changeHandler = useCallback(async (changeKey: string, mod: any) => {
     const change: Change = {
       ...changeData,
@@ -68,7 +66,6 @@ export const ViewCharacter = () => {
   } else {
 
     return (
-      <KeyboardShortcutProvider shortcuts={shortcuts}>
         <Container maxWidth="lg">
           <Masonry columns={2} spacing={1}>
             <Paper elevation={3}>
@@ -114,7 +111,6 @@ export const ViewCharacter = () => {
             </Paper>
           </Masonry>
         </Container>
-      </KeyboardShortcutProvider>
     );
   }
 

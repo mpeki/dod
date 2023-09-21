@@ -12,6 +12,8 @@ import withFlashing from "../../components/withFlashing";
 import StartIcon from "@mui/icons-material/Start";
 import CharacterContext from "../Character/CharacterContext";
 import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
+import useKeyboardShortcut from "../../components/KeyboardShortcutContext";
+import { useNavigate } from "react-router-dom";
 
 
 interface IProps {
@@ -26,8 +28,6 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
   const FlashingAddButton = withFlashing(Fab);
   const FlashingActivateButton = withFlashing(Fab);
   const charContext = useContext(CharacterContext);
-
-  const shortcuts = [{ key: "+", callback: () => showBuySkillHandler() }];
 
   if (!charContext) {
     throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
@@ -46,12 +46,29 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
   const canActivate: boolean = (character.baseSkillPoints !== undefined && character.baseSkillPoints < 10 && character.state === CharacterState.INIT_COMPLETE);
   let canBuySkill = character.state === CharacterState.INIT_COMPLETE && character.baseSkillPoints !== undefined && character.baseSkillPoints > 0;
   let canTransferBonusXP: boolean = (character.baseSkillPoints !== undefined && character.baseSkillPoints > 0 && character.state === CharacterState.READY_TO_PLAY);
+  const shortcuts = canBuySkill ? [{ key: "+", callback: () => showBuySkillHandler() }] : [];
 
   const handleActivation = () => {
     const characterId = character.id ? character.id : "";
-    activateCharHandler(characterId);
+    activateCharHandler(characterId).then();
     fetchCharHandler();
   };
+
+  const navigate = useNavigate();
+  useKeyboardShortcut(['Escape'], (event) => {
+    const targetElement = event.target as HTMLElement;
+    if (
+      targetElement.tagName === "INPUT" ||
+      targetElement.tagName === "TEXTAREA" ||
+      targetElement.tagName === "SELECT"
+    ) {
+      event.key === "Escape" && targetElement.blur();
+      return; // If it is, do not proceed with executing the keyboard shortcut
+    } else {
+      showBuySkill ? showBuySkillHandler() : navigate("/characters");
+    }
+  });
+
 
   return (
     <>

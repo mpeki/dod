@@ -7,14 +7,15 @@ export const useKeyPress = (keys: string[], callback: (event: KeyboardEvent) => 
     callbackRef.current = callback;
   });
 
+  const keySet = useRef(new Set(keys));
   // handle what happens on key press
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
-      if (keys.some((key) => event.key === key)) {
+      if (keySet.current.has(event.key)) {
         callbackRef.current(event);
       }
     },
-    [keys]
+    []
   );
 
   useEffect(() => {

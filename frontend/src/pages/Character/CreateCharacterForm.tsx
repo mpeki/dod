@@ -73,7 +73,6 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
 
   const onSubmit = handleSubmit(submitHandler);
   const ageGroups = [{key: 1 , value: "YOUNG"}, {key: 2 , value: "MATURE"}, {key: 3 , value: "OLD"}];
-
   return (
     <form onSubmit={onSubmit}>
       <div>
@@ -95,7 +94,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
         <label htmlFor="raceName">Race Name:</label>
         <select {...register("raceName")}>
           <option value="0"> -- Select a race -- </option>
-          {races.map((race) => <option key={race.id} value={race.id}>{race.name}</option>)}
+          {races.map((race) => <option key={race.name} value={race.name} >{race.name}</option>)}
         </select>
       </div>
       <footer className={classes.actions}>

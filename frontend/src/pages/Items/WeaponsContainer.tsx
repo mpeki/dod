@@ -65,8 +65,8 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
     return (
       <>
         <Stack direction="row-reverse">
-          <IconButton edge="start" aria-label="add skill" disabled={!canBuy}>
-            <AddIcon onClick={handleOpen} />
+          <IconButton edge="start" aria-label="add skill" disabled={!canBuy} onClick={handleOpen}>
+            <AddIcon />
           </IconButton>
         </Stack>
         <StyledTable>
