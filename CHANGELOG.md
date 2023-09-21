@@ -1,3 +1,10 @@
+# [1.16.0-rc.13](https://github.com/mpeki/dod/compare/v1.16.0-rc.12...v1.16.0-rc.13) (2023-09-21)
+
+
+### Features
+
+* **DOD-268:** Quiet down sql output in prod ([28d4b58](https://github.com/mpeki/dod/commit/28d4b58a1e418ccb412abdded0d31ecd8cf6016e))
+
 # [1.16.0-rc.12](https://github.com/mpeki/dod/compare/v1.16.0-rc.11...v1.16.0-rc.12) (2023-09-21)
 
 
