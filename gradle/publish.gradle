@@ -22,6 +22,6 @@ jib {
     }
     container {
         ports = ['8090']
-        jvmFlags = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]
+        jvmFlags = ["-Dspring.profiles.active=\${SPRING_PROFILES_ACTIVE}","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]
     }
 }
