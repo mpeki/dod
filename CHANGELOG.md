@@ -1,3 +1,26 @@
+# [1.16.0](https://github.com/mpeki/dod/compare/v1.15.0...v1.16.0) (2023-09-21)
+
+
+### Bug Fixes
+
+* **DOD-319:** Fix keyboard shortcut handling in Character pages ([295722c](https://github.com/mpeki/dod/commit/295722c70eed03baa2d8a2a07d1ab2d4b4eab742))
+
+
+### Features
+
+* **DOD-264:** Now we build the UI ([a0935b2](https://github.com/mpeki/dod/commit/a0935b24c2a30a31d56c8b2419c0677d6642584b))
+* **DOD-268:** Quiet down sql output in prod ([28d4b58](https://github.com/mpeki/dod/commit/28d4b58a1e418ccb412abdded0d31ecd8cf6016e))
+* **DOD-296:** initializing game now retries on connection error ([9a8ffb0](https://github.com/mpeki/dod/commit/9a8ffb01195658d2fb4929a85591789ec61fad62))
+* **DOD-298:** Added Keycloak as auth provider ([db7d128](https://github.com/mpeki/dod/commit/db7d12805b2f62856d86913ce6393538b11898ef))
+* **DOD-300:** Introducing Selenium tests ([1414a9c](https://github.com/mpeki/dod/commit/1414a9ce7c1158d5dede11d47e896fbeb6e4ed38))
+* **DOD-302:** Characters now have an owner ([b09f17e](https://github.com/mpeki/dod/commit/b09f17e1d72623db427fcb2954c169b686fb7b08))
+* **DOD-309:** Added Settings Page v0 ([ef69163](https://github.com/mpeki/dod/commit/ef69163bf10dc62d809ccbe8e3ad9c754213d213))
+* **DOD-311:** Character activation can now be done in the Character Details page ([98a309f](https://github.com/mpeki/dod/commit/98a309fbc8a2b6263a15c0f81fc619bfbbc24a98))
+* **DOD-312:** Enforce max player limit ([9703fdd](https://github.com/mpeki/dod/commit/9703fdd307fd94691de33992fee7b2daf5bc5340))
+* **DOD-314:** added tab navigation via keyboard ([d658f91](https://github.com/mpeki/dod/commit/d658f915728ef71a3c15dcbe7dc2e4480a91b1d5))
+* **DOD-316:** added The Wilderness ([3d18a03](https://github.com/mpeki/dod/commit/3d18a03546ca7ea9b94ec8e7a801657e83374170))
+* **DOD-318:** adds keyboard shortcuts to character pages ([d1dcf1e](https://github.com/mpeki/dod/commit/d1dcf1eeb8d7007a67e44387d33623fd9b22a912))
+
 # [1.16.0-rc.13](https://github.com/mpeki/dod/compare/v1.16.0-rc.12...v1.16.0-rc.13) (2023-09-21)
 
 
