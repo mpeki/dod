@@ -6,9 +6,11 @@ import { StyledTable } from "../../components/shared/Table.styled";
 interface IProps {
   charId: string;
   skills: Record<string, Skill>;
+  fetchCharHandler: () => void;
+  canRemoveSkill: boolean;
 }
 
-export const CharacterSkillList = ({ charId, skills }: IProps): JSX.Element => {
+export const CharacterSkillList = ({ charId, skills, fetchCharHandler, canRemoveSkill }: IProps): JSX.Element => {
 
   const charSkillItems = () => {
     const result: JSX.Element[] = [];
@@ -18,7 +20,7 @@ export const CharacterSkillList = ({ charId, skills }: IProps): JSX.Element => {
         if (value != null) {
           let skill = skillMap.get(key);
           if (skill != null) {
-            result.push(<CharacterSkill key={skill.key} characterId={charId} skill={skill} />);
+            result.push(<CharacterSkill key={skill.key} characterId={charId} skill={skill} fetchCharHandler={fetchCharHandler} canRemoveSkill={canRemoveSkill}/>);
           }
         }
       });
@@ -32,6 +34,7 @@ export const CharacterSkillList = ({ charId, skills }: IProps): JSX.Element => {
       <Table>
         <TableHead>
           <TableRow>
+            {canRemoveSkill && <TableCell width={1}/>}
             <TableCell sx={{ fontWeight: 'bold' }}>Skills</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }}>Value</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }}>Exp</TableCell>

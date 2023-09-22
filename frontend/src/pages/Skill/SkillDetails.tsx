@@ -3,7 +3,7 @@ import { Action } from "../../types/action";
 import classes from "./SkillDetails.module.css";
 import React, { useCallback, useState } from "react";
 import { useSkillService } from "../../services/skill.service";
-import { Change } from "../../types/change";
+import { Change, createChange } from "../../types/change";
 import { useChangeService } from "../../services/change.service";
 import { Snackbar } from "@mui/material";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -60,12 +60,8 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
 
 
   const exchangeXPHandler = useCallback(async () => {
-    const changeData: Change = {
-      changeType: "SKILL_CHANGE",
-      changeDescription: "Increase FV for skill",
-      changeKey: skill.key,
-      modifier: 1,
-    };
+    const changeData: Change = createChange("SKILL_CHANGE", "Increase FV for skill", skill.key, 1);
+
     if(characterId != null) {
       await doChange(characterId, changeData)
       .then((change: Change) => {
@@ -76,7 +72,6 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
           setSkillInput(skillInput);
           handleClick();
         }
-
       });
     }
   }, [characterId, doChange, skill.key, skillInput]);
@@ -105,7 +100,7 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
             <button onClick={trainSkillHandler}>Train Skill</button>
             <button onClick={onConfirm}>Ok</button>
           </footer>
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
             <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
               {action?.actionResult}
             </Alert>

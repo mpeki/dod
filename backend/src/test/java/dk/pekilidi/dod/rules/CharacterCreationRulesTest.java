@@ -31,7 +31,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 
-@DroolsSession(resources = {"classpath:/rules/CharacterCreationRules.drl"},
+@DroolsSession(resources = {"classpath:/rules/character/CharacterCreationRules.drl"},
     ignoreRules = {"before", "after"},
     logResources = true)
 @Tag("regression")

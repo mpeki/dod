@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useItemService } from "../../services/item.service";
 import { Item } from "../../types/item";
-import { Autocomplete, Box, Paper, TextField } from "@mui/material";
+import { Paper } from "@mui/material";
 import { Character } from "../../types/character";
 import Stack from "@mui/material/Stack";
 import { Payment } from "./Payment";
-import { Change } from "../../types/change";
+import { Change, createChange } from "../../types/change";
 import { useChangeService } from "../../services/change.service";
 import { ItemSelector } from "./ItemSelector";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
@@ -33,12 +33,7 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
   const [copper, setCopper] = useState<number>(orgCopper);
   const [owed, setOwed] = useState<number>(0);
 
-  const [changeData, setChangeData] = useState<Change>({
-    changeType: "NEW_ITEM",
-    changeDescription: "Buy new item",
-    changeKey: "",
-    modifier: 0
-  });
+  const [changeData, setChangeData] = useState<Change>(createChange());
 
   const fetchItemsHandler = useCallback(async () => {
     await getMeleeWeapons()
@@ -51,15 +46,11 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
 
   const doPaymentRequest = useCallback(async () => {
     if (itemSelected) {
-      const changePostData: Change = {
-        ...changeData,
-        changeKey: itemSelected.itemKey,
-        modifier: 1,
-      };
+      const changePostData: Change = createChange("NEW_ITEM", "Buy new item", itemSelected.itemKey, 1);
       if (character.id != null) {
         await doChange(character.id, changePostData);
       }
-      setChangeData({ changeKey: "", modifier: 1, changeType: "NEW_ITEM", changeDescription: "Buy new item"});
+      setChangeData(createChange());
       fetchCharHandler();
       onConfirm();
     }

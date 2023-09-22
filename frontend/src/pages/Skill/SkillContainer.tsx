@@ -50,8 +50,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
 
   const handleActivation = () => {
     const characterId = character.id ? character.id : "";
-    activateCharHandler(characterId).then();
-    fetchCharHandler();
+    activateCharHandler(characterId).then(() => fetchCharHandler());
   };
 
   const navigate = useNavigate();
@@ -69,6 +68,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
     }
   });
 
+  let canRemoveSkill = character.state === CharacterState.INIT_COMPLETE;
 
   return (
     <>
@@ -110,7 +110,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
               buySkillHandler={fetchCharHandler}
             />
           )}
-          <CharacterSkillList charId={character.id || ""} skills={skills || {}} />
+          <CharacterSkillList charId={character.id || ""} skills={skills || {}} fetchCharHandler={fetchCharHandler} canRemoveSkill={canRemoveSkill} />
         </Paper>
       </KeyboardShortcutProvider>
     </>

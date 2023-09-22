@@ -1,16 +1,7 @@
-import { Change } from "../types/change";
+import { Change, createChange } from "../types/change";
 import { useChangeService } from "./change.service";
 
-
-const changeData: Change = {
-  changeDescription: "",
-  changeKey: "",
-  changeType: "",
-  modifier: 10
-}
-
-
-
+const changeData: Change = createChange("", "", "", 10);
 describe( 'Change Service', () => {
 
   const { doChange } = useChangeService();

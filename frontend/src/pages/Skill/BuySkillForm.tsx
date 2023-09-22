@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import { useCallback, useEffect, useState } from "react";
-import { Change } from "../../types/change";
+import { Change, createChange } from "../../types/change";
 import { useChangeService } from "../../services/change.service";
 import classes from "../Character/AddCharacter.module.css";
 import { SkillSelector } from "../../components/SkillSelector";
@@ -9,7 +9,8 @@ import { SkillUtil } from "../../services/skill.service";
 import { Character } from "../../types/character";
 import { Item } from "../../types/item";
 import { ItemSelector } from "../Items/ItemSelector";
-import useKeyboardShortcut from "../../components/KeyboardShortcutContext";
+import { showInfoSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
+import { SecondaryChangeKey } from "../../types/secondary-change-key";
 
 interface IProps {
   character: Character;
@@ -32,32 +33,23 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
   const [selected, setSelected] = useState<Skill>();
   const [bspLeft, setBspLeft] = useState<number>(character.baseSkillPoints || 0);
   const [bspCost, setBspCost] = useState<number>(0);
-  const [changeData, setChangeData] = useState<Change>({
-    changeType: "NEW_SKILL",
-    changeDescription: "Buy new skill",
-    changeKey: "",
-    secondaryChangeKey: undefined,
-    modifier: 0
-  });
+  const [changeData, setChangeData] = useState<Change>(createChange("NEW_SKILL", "Buy new skill", "", -1));
   const [weapons, setWeapons] = useState<Item[]>([]);
   const [weaponSelected, setWeaponSelected] = useState("");
 
   const submitHandler = useCallback(async () => {
     if (selected) {
-      const changePostData: Change = weaponSelected ? {
-        ...changeData,
-        changeKey: selected.key,
-        secondaryChangeKey: { changeType: "SKILL_FOR_ITEM_USE", changeKey: weaponSelected },
-        modifier: getValues("modifier")
-      } : {
-        ...changeData,
-        changeKey: selected.key,
-        modifier: getValues("modifier")
-      };
+      let secondaryChange: SecondaryChangeKey | undefined = weaponSelected ? { changeType: "SKILL_FOR_ITEM_USE", changeKey: weaponSelected } : undefined;
+      const changePostData: Change = createChange("NEW_SKILL", "Buy new skill", selected.key, secondaryChange, getValues("modifier"));
+
       if (character.id != null) {
-        await doChange(character.id, changePostData);
+        await doChange(character.id, changePostData).then((change: Change) => {
+          showInfoSnackbar("Skill bought successfully")
+        })
+        .catch((e) => showWarningSnackbar((e as Error).message))
+        .finally(() => {});
       }
-      setChangeData({ changeKey: "", modifier: 0, changeType: "NEW_SKILL", changeDescription: "Buy new skill" });
+      setChangeData(createChange());
       buySkillHandler();
       reset();
       onConfirm();
@@ -116,7 +108,6 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
         <div>BSPs Left: {bspLeft}</div>
         <div>BSPs Cost: {bspCost}</div>
         <label htmlFor="modifier">FV to buy:</label>
-        {/*{selected?.key === "primary.weapon" && <input type="range" {...register("modifier", { valueAsNumber: true, required: true, min: 1, max: 15 } )} onChange={handleModifierChange} />}*/}
         <input {...register("modifier", { valueAsNumber: true, required: true, min: 1, max: 15 })}
                onChange={handleModifierChange} />
         {errors.modifier?.type === "required" && <div className="error">Must be a number between 1 and 15</div>}

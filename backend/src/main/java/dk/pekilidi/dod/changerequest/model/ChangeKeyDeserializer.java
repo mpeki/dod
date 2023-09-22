@@ -53,7 +53,7 @@ public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
         case NEW_ITEM -> {
           return new ItemKey(text);
         }
-        case NEW_SKILL, SKILL_CHANGE -> {
+        case REMOVE_SKILL, NEW_SKILL, SKILL_CHANGE -> {
           return new SkillKey(text);
         }
         case CHARACTER_CHANGE_NAME, CHARACTER_CHANGE_HEIGHT, CHARACTER_CHANGE_WEIGHT -> {

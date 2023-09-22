@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,14 +44,13 @@ public class Skill implements Serializable {
   private Group group;
   private Integer price;
   private BaseTraitName baseChance;
-  private LocalDateTime lastUsed;
 
   @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if ( !(o instanceof Skill that) || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+    if (!(o instanceof Skill that) || Hibernate.getClass(this) != Hibernate.getClass(o)) {
       return false;
     }
     return Objects.equals(id, that.id) && Objects.equals(key, that.key);
