@@ -17,17 +17,17 @@ function withFlashing<P extends {}>(IconComponent: React.ComponentType<P>) {
         return;  // Return early without setting up flashing if skipFlash is true
       }
 
-      const timesToFlash = 3;
+      const timesToFlash = 4;
       let flashCount = 0;
 
       const interval = setInterval(() => {
         setShown(prev => !prev);
-        flashCount += 0.5;
+        flashCount += 1;
         if (flashCount >= timesToFlash) {
           clearInterval(interval);
           setShown(true);
         }
-      }, 500);
+      }, 400);
 
       return () => clearInterval(interval);
     }, [skipflash]);
