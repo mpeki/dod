@@ -1,3 +1,10 @@
+# [1.17.0-rc.3](https://github.com/mpeki/dod/compare/v1.17.0-rc.2...v1.17.0-rc.3) (2023-09-22)
+
+
+### Features
+
+* **DOD-277:** Added non-native languages ([31bfaa5](https://github.com/mpeki/dod/commit/31bfaa5a91e1f067f8b9c1e1e0b8bd9aeae80bcd))
+
 # [1.17.0-rc.2](https://github.com/mpeki/dod/compare/v1.17.0-rc.1...v1.17.0-rc.2) (2023-09-22)
 
 
