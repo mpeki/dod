@@ -2,8 +2,11 @@ package dk.pekilidi.dod.race.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.pekilidi.dod.character.model.CharacterTemplate;
+import dk.pekilidi.dod.skill.SkillKey;
 import io.hypersistence.utils.hibernate.id.Tsid;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Embedded;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
@@ -46,6 +49,10 @@ public class Race implements Serializable {
   @NonNull
   @Column(name = "name", unique = true)
   private String name;
+
+  @AttributeOverride(name="value", column=@Column(name="mother_tongue"))
+  @Embedded
+  private SkillKey motherTongue;
 
   @OneToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "character_template_id", referencedColumnName = "id")

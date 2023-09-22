@@ -16,6 +16,7 @@ import { FilterType } from "./filter-type";
 
 enum Values {
   KNOWLEDGE = "knowledge",
+  LANGUAGES = "languages",
   COMBAT = "combat",
   COMMUNICATION = "communication",
   THIEVING = "thieving",
@@ -24,6 +25,11 @@ enum Values {
 }
 
 export class Group extends FilterType {
+
+  constructor(value?: string) {
+    super();
+    this.value = value;
+  }
 
   static readonly values = Values;
   value: string | undefined = undefined;

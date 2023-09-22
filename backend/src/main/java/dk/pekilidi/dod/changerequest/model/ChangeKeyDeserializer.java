@@ -9,6 +9,7 @@ import dk.pekilidi.dod.character.model.CharacterInfo;
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.character.model.body.BodyPartName;
 import dk.pekilidi.dod.data.ItemDTO;
+import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.items.ItemKey;
 import dk.pekilidi.dod.skill.SkillKey;
@@ -45,7 +46,7 @@ public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
     if(value instanceof ItemDTO){
       return new ItemKey(text);
     }
-    if(value instanceof SkillDTO){
+    if(value instanceof SkillDTO || value instanceof RaceDTO){
       return new SkillKey(text);
     }
     if(value instanceof ChangeRequest changeRequest) {

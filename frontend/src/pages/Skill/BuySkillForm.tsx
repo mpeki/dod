@@ -11,6 +11,8 @@ import { Item } from "../../types/item";
 import { ItemSelector } from "../Items/ItemSelector";
 import { showInfoSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
 import { SecondaryChangeKey } from "../../types/secondary-change-key";
+import { Group } from "../../types/group";
+import { Category } from "../../types/category";
 
 interface IProps {
   character: Character;
@@ -47,12 +49,13 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
           showInfoSnackbar("Skill bought successfully")
         })
         .catch((e) => showWarningSnackbar((e as Error).message))
-        .finally(() => {});
+        .finally(() => {
+          setChangeData(createChange());
+          buySkillHandler();
+          reset();
+          onConfirm();
+        });
       }
-      setChangeData(createChange());
-      buySkillHandler();
-      reset();
-      onConfirm();
     }
   }, [selected, weaponSelected, changeData, getValues, character.id, buySkillHandler, reset, onConfirm, doChange]);
 
@@ -84,6 +87,15 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
     fetchWeaponsHandler().then();
   }, [fetchWeaponsHandler]);
 
+  // const excludedSkills: Record<string,Skill> | undefined = character.skills;
+  const langGroup = new Group(Group.values.LANGUAGES);
+  const langCategory = new Category(Category.values.B);
+  const languageSkills: Record<string,Skill> = {
+    [`speak.${character.race.motherTongue}`] : { key:`speak.${character.race.motherTongue}`, group: langGroup, category: langCategory },
+    [`rw.${character.race.motherTongue}`] : { key:`speak.${character.race.motherTongue}`, group: langGroup, category: langCategory }
+  };
+  const excludedSkills = { ...character.skills, ...languageSkills };
+
   //create form that buys a skill and adds it to the character
   return (
     <form onSubmit={onSubmit}>
@@ -93,17 +105,14 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
           name="changeKey"
           control={control}
           render={() => (
-            <SkillSelector charSkills={character?.skills} selectSkillHandler={selectSkillHandler} />
+            <SkillSelector charSkills={excludedSkills} selectSkillHandler={selectSkillHandler} />
           )}
         />
-        {/*<input {...register("changeKey", { required: true })} />*/}
         {errors.changeKey?.type === "required" && <div className="error">You must name a skill</div>}
       </div>
-      <div>
         {(selected?.key === "primary.weapon" || selected?.key === "secondary.weapon") && (
-          <ItemSelector label={`Select ${selected.key}`} items={weapons} onChange={handleItemChange} />
+          <div><ItemSelector label={`Select ${selected.key}`} items={weapons} onChange={handleItemChange} /></div>
         )}
-      </div>
       <div>
         <div>BSPs Left: {bspLeft}</div>
         <div>BSPs Cost: {bspCost}</div>

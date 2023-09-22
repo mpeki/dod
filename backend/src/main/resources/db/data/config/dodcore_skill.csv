@@ -34,6 +34,7 @@ id;skill_key;base_chance;category;skill_group;price;trait_name
 23;test.taste;0;0;4;3;5
 
 # Knowledge skills
+# skill_key;base_chance;category;skill_group;price;trait_name
 
 24;administration.law;0;0;0;4;5
 25;astrology;0;0;0;4;5
@@ -50,8 +51,8 @@ id;skill_key;base_chance;category;skill_group;price;trait_name
 36;general.cultural.knowledge;0;0;0;5;5
 37;kom;0;0;0;10;5
 38;medical.knowledge;0;0;0;3;5
-39;read.write.forn;0;1;0;8;5
-40;speak.forn;0;1;0;4;5
+39;rw.mother.tongue;0;1;0;8;5
+40;speak.mother.tongue;0;1;0;4;5
 41;area.knowledge;0;0;0;2;5
 42;mathematics;0;1;0;4;5
 43;chess.boardgames;0;0;0;1;5
@@ -92,3 +93,22 @@ id;skill_key;base_chance;category;skill_group;price;trait_name
 72;tracking;0;0;5;2;5
 73;swimming;0;1;5;6;4
 74;seamanship;0;0;5;2;5
+
+# Foreign Languages
+# skill_key;base_chance;category;skill_group;price;trait_name
+75;speak.common;0;1;6;4;5
+76;rw.common;0;1;6;8;5
+77;speak.elvish;0;1;6;12;5
+78;rw.elvish;0;1;6;12;5
+79;speak.dwarvish;0;1;6;12;5
+80;rw.dwarvish;0;1;6;16;5
+81;speak.black;0;1;6;8;5
+82;rw.black;0;1;6;12;5
+83;speak.lizard;6;1;0;14;5
+84;rw.lizard;0;1;6;14;5
+85;speak.elden;0;1;6;14;5
+86;rw.elden;0;1;6;14;5
+87;speak.dragon;0;1;6;20;5
+88;rw.dragon;0;1;6;20;5
+89;speak.insect;0;1;6;20;5
+90;rw.insect;0;1;6;20;5
