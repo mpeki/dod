@@ -1,3 +1,10 @@
+# [1.17.0-rc.1](https://github.com/mpeki/dod/compare/v1.16.0...v1.17.0-rc.1) (2023-09-22)
+
+
+### Features
+
+* **DOD-335:** It is now possible to remove skills before activating ([fe94a9d](https://github.com/mpeki/dod/commit/fe94a9d57c15e8f6851378422c4c561844b5efde))
+
 # [1.16.0](https://github.com/mpeki/dod/compare/v1.15.0...v1.16.0) (2023-09-21)
 
 
