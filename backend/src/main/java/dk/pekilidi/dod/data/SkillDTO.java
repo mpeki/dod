@@ -39,5 +39,6 @@ public class SkillDTO implements Serializable {
   private BaseTraitName baseChance;
   private Integer fv;
   private Integer experience;
+  private Integer skillPointsSpent;
   private LocalDateTime lastUsed;
 }

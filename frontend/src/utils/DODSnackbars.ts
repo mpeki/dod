@@ -50,3 +50,19 @@ export const showWarningSnackbar = (message: string): void => {
   });
 }
 
+export const showInfoSnackbar = (message: string): void => {
+  closeSnackbar();
+  enqueueSnackbar(message, {
+    anchorOrigin: {horizontal: 'left', vertical: 'bottom'},
+    variant: 'info',
+    preventDuplicate: true
+  });
+}
+
+export const showSuccessSnackbar = (message: string): void => {
+  closeSnackbar();
+  enqueueSnackbar(message, {
+    variant: 'success',
+    preventDuplicate: true
+  });
+}

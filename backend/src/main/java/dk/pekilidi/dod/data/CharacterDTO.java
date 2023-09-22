@@ -208,4 +208,9 @@ public class CharacterDTO implements DODFact, Serializable {
     }
     return items.get(type.keyOf()).getQuantity();
   }
+
+  public void removeSkill(String skillKey) {
+    skills.remove(skillKey);
+  }
+
 }

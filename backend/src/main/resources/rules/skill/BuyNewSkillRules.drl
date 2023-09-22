@@ -19,7 +19,7 @@ rule "Validate character state"
   salience 100
   no-loop
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING )
     character : CharacterDTO( state != CharacterState.INIT_COMPLETE)
   then
     changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
@@ -32,7 +32,7 @@ rule "Validate change request"
   salience 100
   no-loop
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING )
     character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
   then
     String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
@@ -64,14 +64,15 @@ rule "Add skill"
   ruleflow-group "new-skill"
   no-loop
   when
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE );
-    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING )
   then
     skillCost = (Integer) drools.getKieRuntime().getGlobal("skillCost");
     skill = (SkillDTO) drools.getKieRuntime().getGlobal("skill");
     if( skill != null && skillCost != null ){
       skill.setFv((Integer) changeRequest.getModifier());
       skill.setItemKey(changeRequest.getSecondaryChangeKey() != null ? ((ItemKey) changeRequest.getSecondaryChangeKey().getChangeKey()) : null);
+      skill.setSkillPointsSpent(skillCost);
       character.setBaseSkillPoints(character.getBaseSkillPoints() - skillCost);
       character.addSkill(skill);
       changeRequest.setStatus(ChangeStatus.APPROVED);
