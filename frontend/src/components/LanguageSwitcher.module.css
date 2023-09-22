@@ -1,0 +1,19 @@
+/* Adjust the dropdown to open sideways */
+
+.languageSwitcher button {
+  border: none;
+  background-image: none;
+  box-shadow: none;
+}
+
+.languageSwitcher button:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.languageSwitcher select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}

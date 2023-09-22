@@ -4,7 +4,7 @@ import "./App.css";
 import { ThemeProvider } from "styled-components";
 import { useTheme } from "./Theme/useTheme";
 import { GlobalStyles } from "./App.styled";
-import { Backdrop, Box, LinearProgress } from "@mui/material";
+import { Backdrop, Box, Container, LinearProgress, Paper } from "@mui/material";
 import { AppRouter } from "./components/routing/AppRouter";
 import { AppTabs } from "./components/routing/AppTabs";
 import { Home } from "./pages/Home";
@@ -17,6 +17,7 @@ import { useLoadAppDataWithRetry } from "./services/axios/useLoadAppDataWithRetr
 import { AboutSettings } from "./pages/Settings/AboutSettings";
 import { CharacterContextProvider } from "./pages/Character/CharacterContextProvider";
 import { TheWilderness } from "./pages/Wilderness/TheWilderness";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 
 function App() {
 
@@ -24,6 +25,14 @@ function App() {
   const { loading: loadingSkills, error: skillsLoadingError } = useLoadAppDataWithRetry("skills", "/skill");
   const [itemsEndpoint, setItemsEndpoint] = useState("/no-call");
   const [racesEndpoint, setRacesEndpoint] = useState("/no-call");
+
+  const styles = {
+    mainContainer: {
+      width: "100%",
+      maxWidth: 1200
+    }
+  };
+
 
   useEffect(() => {
     if (skillsLoadingError === null) {
@@ -57,17 +66,24 @@ function App() {
           <AppRouter>
             <Box sx={{ p: 12 }}>
               <AppTabs />
-              <Routes>
-                <Route index element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/characters" element={<CharacterOverview />} />
-                <Route path="/city" element={<TheCity />} />
-                <Route path="/items" element={<ViewItems />} />
-                <Route path="/skill/:skillKey" element={<ViewSkill />} />
-                <Route path="/characters/:charId" element={<ViewCharacter />} />
-                <Route path="/wilderness" element={<TheWilderness />} />
-                <Route path="/settings" element={<AboutSettings />} />
-              </Routes>
+              <Container style={styles.mainContainer} disableGutters>
+                <Paper elevation={20}>
+                  <Routes>
+                    <Route index element={<Home />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/characters" element={<CharacterOverview />} />
+                    <Route path="/city" element={<TheCity />} />
+                    <Route path="/items" element={<ViewItems />} />
+                    <Route path="/skill/:skillKey" element={<ViewSkill />} />
+                    <Route path="/characters/:charId" element={<ViewCharacter />} />
+                    <Route path="/wilderness" element={<TheWilderness />} />
+                    <Route path="/settings" element={<AboutSettings />} />
+                  </Routes>
+                  <Box display="flex" justifyContent="flex-end" >
+                    <LanguageSwitcher />
+                  </Box>
+                </Paper>
+              </Container>
             </Box>
           </AppRouter>
         </ThemeProvider>

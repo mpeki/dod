@@ -12,67 +12,68 @@ import theWildImg from "../img/the_wild.png";
 import settingsImg from "../img/settings.png";
 import dmImg from "../img/dm.png";
 import signupImg from "../img/signup.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import Tooltip from "@mui/material/Tooltip";
+import { useTranslation } from "react-i18next";
+import i18next from 'i18next';
 
 export const HomeImageMenu = () => {
-
+  const { t } = useTranslation("home");
   const auth = useAuth();
 
   const itemData = [
     {
       img: ruleImg,
-      title: "Game Rules",
-      description: "Read them and weep",
+      title: i18next.t("home:homeImgMenu.rules.title"),
+      description: i18next.t("home:homeImgMenu.rules.description"),
       loginRequired: false
       // page: "/characters"
     },
     {
       img: charCreateImg,
-      title: "Character Creation",
-      description: "View and create characters",
+      title: t("homeImgMenu.charCreation.title"),
+      description: t("homeImgMenu.charCreation.description"),
       page: "/characters",
       loginRequired: true
     },
     {
       img: theCityImg,
-      title: "The City",
-      description: "Wander the streets of the city",
+      title: t("homeImgMenu.city.title"),
+      description: t("homeImgMenu.city.description"),
       page: "/city",
       loginRequired: true
     },
     {
       img: theWildImg,
-      title: "The Wilderness",
-      description: "Explore the wilderness",
+      title: t("homeImgMenu.wilderness.title"),
+      description: t("homeImgMenu.wilderness.description"),
       page: "/wilderness",
       loginRequired: true
     },
     {
       img: dmImg,
-      title: "Dungeon Master",
-      description: "Hush hush",
+      title: t("homeImgMenu.dm.title"),
+      description: t("homeImgMenu.dm.description"),
       loginRequired: true
     },
     {
       img: combatImg,
-      title: "Combat",
-      description: "Engage in combat with other players",
+      title: t("homeImgMenu.combat.title"),
+      description: t("homeImgMenu.combat.description"),
       loginRequired: true
     },
     {
       img: signupImg,
-      title: "Sign in or sigup",
-      page: "signin",
-      description: "The goblins want you!",
+      title: t("homeImgMenu.signup.title"),
+      description: t("homeImgMenu.signup.description"),
       loginRequired: false
     },
     {
       img: settingsImg,
-      title: (auth.isAuthenticated ? "About / Settings" : "About"),
+      title: (auth.isAuthenticated ? t("homeImgMenu.aboutSettings.title") : t("homeImgMenu.about.title")),
       page: "/settings",
-      description: (auth.isAuthenticated ? "View about page and change settings" : "View about page"),
+      description: (auth.isAuthenticated ? t("homeImgMenu.aboutSettings.description") : t("homeImgMenu.about.description")),
       loginRequired: false
     }
   ];
