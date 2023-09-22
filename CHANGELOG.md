@@ -1,3 +1,10 @@
+# [1.17.0-rc.2](https://github.com/mpeki/dod/compare/v1.17.0-rc.1...v1.17.0-rc.2) (2023-09-22)
+
+
+### Features
+
+* **DOD-343:** Blinking buttons now blink less and faster ([ac23236](https://github.com/mpeki/dod/commit/ac23236e04b14a0218b8a06b1e27a0e5993afc66))
+
 # [1.17.0-rc.1](https://github.com/mpeki/dod/compare/v1.16.0...v1.17.0-rc.1) (2023-09-22)
 
 
