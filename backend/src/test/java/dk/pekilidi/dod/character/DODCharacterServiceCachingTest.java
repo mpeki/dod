@@ -12,6 +12,7 @@ import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.race.RaceRepository;
 import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.rules.DroolsService;
+import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.dod.util.character.CharacterMapper;
 import dk.pekilidi.utils.RandomObjectFiller;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ class DODCharacterServiceCachingTest {
 
     testCharacter.setName("kyron");
     testCharacter.setAgeGroup(AgeGroup.MATURE);
-    testCharacter.setRace(new Race(null, "human", null));
+    testCharacter.setRace(new Race(null, "human", SkillKey.toSkillKey("common"), null));
     testCharacter.setId("1234");
     testCharacterDTO = modelMapper.map(testCharacter, CharacterDTO.class);
 

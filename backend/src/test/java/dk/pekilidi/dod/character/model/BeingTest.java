@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dk.pekilidi.dod.character.model.body.HumanoidBody;
 import dk.pekilidi.dod.race.model.Race;
+import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class BeingTest {
 
   @Test
   void testRequiredArgsConstructor() {
-    DODCharacter newChar = new DODCharacter("Peter", TEST_OWNER, new Race(null, "human", null), new HumanoidBody());
+    DODCharacter newChar = new DODCharacter("Peter", TEST_OWNER, new Race(null, "human", SkillKey.toSkillKey("common"), null), new HumanoidBody());
     assertNotNull(newChar);
     assertEquals("Peter", newChar.getName());
   }

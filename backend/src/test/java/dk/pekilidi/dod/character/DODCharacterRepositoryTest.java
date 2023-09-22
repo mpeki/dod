@@ -24,14 +24,14 @@ class DODCharacterRepositoryTest {
   private TestEntityManager entityManager;
 
   @Test
-  void getCharacterReturnsChar() throws Exception {
+  void getCharacterReturnsChar() {
 
-    Race race = entityManager.persist(new Race(null, "tiefling", null));
+    Race race = entityManager.persist(new Race(null, "tiefling", SkillKey.toSkillKey("common"),null));
     DODCharacter testBeing = new DODCharacter();
     testBeing.setName("kyron");
     testBeing.setRace(race);
     DODCharacter character = entityManager.persistFlushFind(testBeing);
-    DODCharacter dodCharacter = repository.findById(character.getId()).get();
+    DODCharacter dodCharacter = repository.findById(character.getId()).orElseThrow(CharacterNotFoundException::new);
     assertThat(dodCharacter.getName()).isEqualTo("kyron");
     assertThat(dodCharacter.getRace().getName()).isEqualTo("tiefling");
   }

@@ -3,7 +3,6 @@ package dk.pekilidi.dod.character;
 import static dk.pekilidi.utils.BaseTestUtil.TEST_OWNER;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
@@ -25,9 +24,8 @@ import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.character.model.FavoriteHand;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
-import java.security.Principal;
+import dk.pekilidi.dod.skill.SkillKey;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -69,7 +67,7 @@ class CharacterResourceApiDocTest extends BaseControllerTest {
         .builder()
         .name("Borgan den Blå")
         .ageGroup(AgeGroup.MATURE)
-        .race(RaceDTO.builder().id(randomString(10)).name("Human").build())
+        .race(RaceDTO.builder().id(randomString(10)).name("Human").motherTongue(SkillKey.toSkillKey("common")).build())
         .baseSkillPoints(123)
         .favoriteHand(FavoriteHand.RIGHT)
         .hero(true)
@@ -79,6 +77,8 @@ class CharacterResourceApiDocTest extends BaseControllerTest {
 
   @Test
   @WithMockUser(username = TEST_OWNER, password = "player", roles = {"player"})
+
+
   void getCharacterById() throws Exception {
 
     when(service.findCharacterByIdAndOwner(anyString(), anyString())).thenReturn(testCharacter);
@@ -91,6 +91,7 @@ class CharacterResourceApiDocTest extends BaseControllerTest {
             responseFields(fieldWithPath("name").description("The character name"),
                 fieldWithPath("race").type(RaceDTO.class.getSimpleName()).description("Character race"),
                 fieldWithPath("race.name").type(RaceDTO.class.getSimpleName()).description("Race name"),
+                fieldWithPath("race.motherTongue").type(RaceDTO.class.getSimpleName()).description("Race mother tongue"),
                 fieldWithPath("hero").type(Boolean.class.getSimpleName()).description("Is this a hero?"),
                 fieldWithPath("heroPoints")
                     .type(Integer.class.getSimpleName())
