@@ -12,11 +12,11 @@ const getBrowserLanguage = () => {
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
   const defaultLanguage = (["en", "da"].includes(getBrowserLanguage()) ? getBrowserLanguage() : "en") === "en" ? "GB" : "DK";
-  console.log("defaultLanguage", defaultLanguage)
+  // console.log("defaultLanguage", defaultLanguage)
   const [selected, setSelected] = useState(defaultLanguage);
 
   const changeLanguage = useCallback((lng: string) => {
-    console.log("changeLanguage", lng);
+    // console.log("changeLanguage", lng);
     i18n.changeLanguage(lng).then();
   }, [i18n]);
 

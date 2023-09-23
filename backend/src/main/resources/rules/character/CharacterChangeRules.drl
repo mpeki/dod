@@ -26,7 +26,7 @@ rule "Character change - Change type not implemented"
   no-loop
   ruleflow-group "character-change"
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.BASE_SKILL_POINTS );
+    changeRequest : ChangeRequest( changeType == ChangeType.BASE_SKILL_POINTS )
   then
     changeRequest.setStatusLabel(ChangeStatusLabel.NOT_IMPLEMENTED);
     changeRequest.setStatus(ChangeStatus.REJECTED);
@@ -36,8 +36,8 @@ rule "Character change - must be hero"
   no-loop
   ruleflow-group "character-change"
   when
-    character : CharacterDTO( hero == false );
-    changeRequest : ChangeRequest( changeType == ChangeType.BASE_TRAIT || changeType == ChangeType.HERO_POINTS || changeType == ChangeType.HIT_POINTS);
+    character : CharacterDTO( hero == false )
+    changeRequest : ChangeRequest( changeType == ChangeType.BASE_TRAIT || changeType == ChangeType.HERO_POINTS || changeType == ChangeType.HIT_POINTS)
   then
     changeRequest.setStatusLabel(ChangeStatusLabel.NO_HERO);
     changeRequest.setStatus(ChangeStatus.REJECTED);
@@ -48,10 +48,10 @@ rule "Character change - check hero points"
   no-loop
   ruleflow-group "character-change"
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.BASE_TRAIT );
-    change : Integer() from changeRequest.getModifier;
+    changeRequest : ChangeRequest( changeType == ChangeType.BASE_TRAIT )
+    change : Integer() from changeRequest.getModifier
     cost : Number() from change * 2
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && heroPoints - cost.intValue() < 0);
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && heroPoints - cost.intValue() < 0)
   then
     changeRequest.setStatusLabel(ChangeStatusLabel.INSUFFICIENT_HERO_POINTS);
     changeRequest.setStatus(ChangeStatus.REJECTED);
@@ -61,10 +61,10 @@ rule "Character change - modify base trait"
   no-loop
   ruleflow-group "character-change"
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.BASE_TRAIT );
-    change : Integer() from changeRequest.getModifier;
+    changeRequest : ChangeRequest( changeType == ChangeType.BASE_TRAIT )
+    change : Integer() from changeRequest.getModifier
     cost : Number() from change * 2
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && heroPoints - cost.intValue() >= 0);
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && heroPoints - cost.intValue() >= 0)
   then
     changeRequest.setStatus(ChangeStatus.APPROVED);
     changeRequest.setStatusLabel(ChangeStatusLabel.OK_BASE_TRAIT_MODIFICATION);
@@ -77,9 +77,9 @@ rule "Character change - modify hero points"
   no-loop
   ruleflow-group "character-change"
   when
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && hero == true);
-    changeRequest : ChangeRequest( changeType == ChangeType.HERO_POINTS );
-    change : Integer() from changeRequest.getModifier;
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && hero == true)
+    changeRequest : ChangeRequest( changeType == ChangeType.HERO_POINTS )
+    change : Integer() from changeRequest.getModifier
   then
     changeRequest.setStatus(ChangeStatus.APPROVED);
     changeRequest.setStatusLabel(ChangeStatusLabel.OK_HERO_POINTS_INCREASE);
@@ -90,8 +90,8 @@ rule "Character change - make character ready for play - wrong state"
   no-loop
   ruleflow-group "character-state-change"
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY );
-    character : CharacterDTO( state != CharacterState.INIT_COMPLETE );
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY )
+    character : CharacterDTO( state != CharacterState.INIT_COMPLETE )
   then
     changeRequest.setStatus(ChangeStatus.REJECTED);
     changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
@@ -101,8 +101,8 @@ rule "Character change - make character ready for play - to many BSPs"
   no-loop
   ruleflow-group "character-state-change"
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY );
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints >= 10);
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY )
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints >= 10)
   then
     changeRequest.setStatus(ChangeStatus.REJECTED);
     changeRequest.setStatusLabel(ChangeStatusLabel.TOO_MANY_SKILLS_POINTS);
@@ -112,8 +112,8 @@ rule "Character change - make character ready for play"
   no-loop
   ruleflow-group "character-state-change"
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY );
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints < 10);
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_READY_TO_PLAY )
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE && baseSkillPoints < 10)
   then
     changeRequest.setStatus(ChangeStatus.APPROVED);
     changeRequest.setStatusLabel(ChangeStatusLabel.OK_READY_FOR_PLAY);
@@ -126,8 +126,8 @@ rule "Character change - init complete changes"
   when
     changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_NAME ||
                                     changeType == ChangeType.CHARACTER_CHANGE_HEIGHT ||
-                                    changeType == ChangeType.CHARACTER_CHANGE_WEIGHT);
-    character : CharacterDTO( state != CharacterState.INIT_COMPLETE );
+                                    changeType == ChangeType.CHARACTER_CHANGE_WEIGHT)
+    character : CharacterDTO( state != CharacterState.INIT_COMPLETE )
   then
     changeRequest.setStatus(ChangeStatus.REJECTED);
     changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
@@ -138,8 +138,8 @@ rule "Character name change - validate new Name"
   no-loop
   ruleflow-group "character-change"
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_NAME );
-    ChangeRequest( modifier not matches RegularExpressions.VALID_CHARACTER_NAME );
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_NAME )
+    ChangeRequest( modifier not matches RegularExpressions.VALID_CHARACTER_NAME )
   then
     changeRequest.setStatus(ChangeStatus.REJECTED);
     changeRequest.setStatusLabel(ChangeStatusLabel.INVALID_NAME);
@@ -149,8 +149,8 @@ rule "Character name change - validate new height"
   no-loop
   ruleflow-group "character-change"
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_HEIGHT );
-    ChangeRequest( modifier not matches RegularExpressions.VALID_CHARACTER_HEIGHT );
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_HEIGHT )
+    ChangeRequest( modifier not matches RegularExpressions.VALID_CHARACTER_HEIGHT )
   then
     changeRequest.setStatus(ChangeStatus.REJECTED);
     changeRequest.setStatusLabel(ChangeStatusLabel.INVALID_HEIGHT);
@@ -160,8 +160,8 @@ rule "Character name change - validate new weight"
   no-loop
   ruleflow-group "character-change"
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_WEIGHT );
-    ChangeRequest( modifier not matches RegularExpressions.VALID_CHARACTER_WEIGHT );
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_WEIGHT )
+    ChangeRequest( modifier not matches RegularExpressions.VALID_CHARACTER_WEIGHT )
   then
     changeRequest.setStatus(ChangeStatus.REJECTED);
     changeRequest.setStatusLabel(ChangeStatusLabel.INVALID_WEIGHT);
@@ -172,9 +172,9 @@ rule "Character name change - ok"
   no-loop
   ruleflow-group "character-change"
   when
-    ChangeRequest( modifier matches RegularExpressions.VALID_CHARACTER_NAME );
-    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_NAME );
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE );
+    ChangeRequest( modifier matches RegularExpressions.VALID_CHARACTER_NAME )
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_NAME )
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
   then
     if(changeRequest.getModifier() instanceof String){
       character.setName((String)changeRequest.getModifier());
@@ -190,9 +190,9 @@ rule "Character height change - ok"
   no-loop
   ruleflow-group "character-change"
   when
-    ChangeRequest( modifier matches RegularExpressions.VALID_CHARACTER_HEIGHT );
-    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_HEIGHT );
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE );
+    ChangeRequest( modifier matches RegularExpressions.VALID_CHARACTER_HEIGHT )
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_HEIGHT )
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
   then
     if(changeRequest.getModifier() instanceof String){
       character.getLooks().setHeight(Integer.parseInt((String)changeRequest.getModifier()));
@@ -208,9 +208,9 @@ rule "Character weight change - ok"
   no-loop
   ruleflow-group "character-change"
   when
-    ChangeRequest( modifier matches RegularExpressions.VALID_CHARACTER_WEIGHT );
-    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_WEIGHT );
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE );
+    ChangeRequest( modifier matches RegularExpressions.VALID_CHARACTER_WEIGHT )
+    changeRequest : ChangeRequest( changeType == ChangeType.CHARACTER_CHANGE_WEIGHT )
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
   then
     if(changeRequest.getModifier() instanceof String){
       character.getLooks().setWeight(Integer.parseInt((String)changeRequest.getModifier()));

@@ -105,7 +105,7 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
           name="changeKey"
           control={control}
           render={() => (
-            <SkillSelector charSkills={excludedSkills} selectSkillHandler={selectSkillHandler} />
+            <SkillSelector excludedSkills={excludedSkills} selectSkillHandler={selectSkillHandler} raceName={character.race.name}/>
           )}
         />
         {errors.changeKey?.type === "required" && <div className="error">You must name a skill</div>}
