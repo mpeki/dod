@@ -1,3 +1,10 @@
+# [1.17.0-rc.4](https://github.com/mpeki/dod/compare/v1.17.0-rc.3...v1.17.0-rc.4) (2023-09-23)
+
+
+### Features
+
+* **DOD-353:** I18N introduced ([b3e2a95](https://github.com/mpeki/dod/commit/b3e2a958f70885c394641f41d648020d9a18fbcb))
+
 # [1.17.0-rc.3](https://github.com/mpeki/dod/compare/v1.17.0-rc.2...v1.17.0-rc.3) (2023-09-22)
 
 
