@@ -1,0 +1,13 @@
+{
+  "overviewPage": {
+    "title": "Dine Karakterer",
+    "description": "Her kan du administrere dine karakterer. Du kan oprette nye karakterer, slette gamle og aktivere dem til spil. Tryk på + knappen for at oprette en ny karakter"
+  },
+  "charCard": {
+    "delete": "Slet",
+    "activate": "Aktiver",
+    "deactivate": "Deaktiver",
+    "edit": "Rediger"
+  }
+
+}

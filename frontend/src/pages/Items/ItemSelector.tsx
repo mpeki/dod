@@ -47,7 +47,7 @@ export const ItemSelector = ({ items, onChange, label }: IProps) => {
         </Box>
       )}
       isOptionEqualToValue={(item, value) => item.name === value.name}
-      renderInput={(params) => <TextField {...params} label={label}
+      renderInput={(params) => <TextField label={label}
                                           inputProps={{
                                             ...params.inputProps,
                                             autoComplete: "off" // disable autocomplete and autofill

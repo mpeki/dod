@@ -1,0 +1,47 @@
+{
+  "title": "Velkommen til Drager & Dæmoner",
+  "bodyText": {
+    "part1": "Hvis du har lyst til at prøve spillet skal du først oprette en konto - tryk på låse ikonet og vælg 'Register'.",
+    "part2": "Har du allerede en konto? Så logger du ind ved på låse ikonet.",
+    "part3": "Byg dine karaktere, udforsk verden, kæmp mod andre spillere og ha' det sjovt!"
+  },
+  "homeImgMenu": {
+    "rules" : {
+      "title": "Regler",
+      "text": "Læs spillets regler"
+    },
+    "charCreation" : {
+      "title": "Dine karakterer",
+      "description": "Administrer dine karakterer"
+    },
+    "city" : {
+      "title": "Byen",
+      "description": "Udforsk byens travle gader"
+    },
+    "wilderness" : {
+      "title": "Vildmarken",
+      "description": "Men pas på!"
+    },
+    "dm" : {
+      "title": "Spilleleder",
+      "description": "Shhh!"
+    },
+    "combat" : {
+      "title": "Kamp",
+      "description": "Kæmp mod andre spillere"
+    },
+    "signup" : {
+      "title": "Log på",
+      "description": "Log på eller opret en konto"
+    },
+    "about" : {
+      "title": "Om spillet",
+      "description": "Læs om spillet"
+    },
+    "aboutSettings" : {
+      "title": "Om / Indstillinger",
+      "description": "Læs om spillet eller ændre indstillinger"
+    }
+  },
+  "inter": "interpolated {{val}}"
+}

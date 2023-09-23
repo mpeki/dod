@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Character } from "../../types/character";
 import { CharacterCard } from "./CharacterCard";
 import { AddCharacter } from "./AddCharacter";
-import { Container, Fab, Paper, Stack, Typography } from "@mui/material";
+import { Fab, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Grid from "@mui/system/Unstable_Grid";
 import charCreationImg from "../../img/new_character.png";
@@ -11,6 +11,7 @@ import withFlashing from "../../components/withFlashing";
 import CharacterContext from "../Character/CharacterContext";
 import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const styles = {
   characterContainer: {
@@ -28,11 +29,10 @@ const styles = {
 
 export const CharacterOverview = (): React.JSX.Element => {
 
-  // const [characters, setCharacters] = useState<Character[]>([]);
   const [showCreateCharacter, setShowCreateCharacter] = useState<boolean>();
-
   const FlashingFab = withFlashing(Fab);
   const charContext = useContext(CharacterContext);
+  const { t } = useTranslation("characters");
 
   if (!charContext) {
     throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
@@ -66,39 +66,32 @@ export const CharacterOverview = (): React.JSX.Element => {
 
   return (
     <KeyboardShortcutProvider shortcuts={shortcuts}>
-      <Container disableGutters>
-        {showCreateCharacter &&
-          <AddCharacter fetchCharactersHandler={fetchCharsHandler} onConfirm={showCharacterHandler} />
-        }
-        <Paper elevation={20}>
-          <Stack direction={"row"}>
-            <Stack direction={"column"}>
-              <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
-                Character Overview
-              </Typography>
-              <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
-                This is where you manage your characters. You can create new characters, delete old ones and activate
-                them
-                for play.
-                Press the + button to create a new character.
-              </Typography>
-              <Grid container justifyContent="center" style={styles.characterContainer}>
-                {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} />)}
-                {[...Array(10 - characters.length)].map((_, index) => (
-                  <EmptyCharacterCard key={index}>
-                    {(!showCreateCharacter && index === 0) && (
-                      <FlashingFab onClick={showCharacterHandler} color="success" size="small"
-                                   aria-label="add" skipflash={characterCount > 0}>
-                        <AddIcon style={{ opacity: 1 }} />
-                      </FlashingFab>
-                    )}
-                  </EmptyCharacterCard>
-                ))}
-              </Grid>
-            </Stack>
-          </Stack>
-        </Paper>
-      </Container>
+      {showCreateCharacter &&
+        <AddCharacter fetchCharactersHandler={fetchCharsHandler} onConfirm={showCharacterHandler} />
+      }
+      <Stack direction={"row"}>
+        <Stack direction={"column"}>
+          <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
+            {t("overviewPage.title")}
+          </Typography>
+          <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
+            {t("overviewPage.description")}
+          </Typography>
+          <Grid container justifyContent="center" style={styles.characterContainer}>
+            {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} />)}
+            {[...Array(10 - characters.length)].map((_, index) => (
+              <EmptyCharacterCard key={index}>
+                {(!showCreateCharacter && index === 0) && (
+                  <FlashingFab onClick={showCharacterHandler} color="success" size="small"
+                               aria-label="add" skipflash={characterCount > 0}>
+                    <AddIcon style={{ opacity: 1 }} />
+                  </FlashingFab>
+                )}
+              </EmptyCharacterCard>
+            ))}
+          </Grid>
+        </Stack>
+      </Stack>
     </KeyboardShortcutProvider>
   );
 };
