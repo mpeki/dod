@@ -1,3 +1,10 @@
+# [1.17.0-rc.5](https://github.com/mpeki/dod/compare/v1.17.0-rc.4...v1.17.0-rc.5) (2023-09-25)
+
+
+### Features
+
+* **DOD-278:** Added dwarfs ([0f87f7b](https://github.com/mpeki/dod/commit/0f87f7be02ebe699e7bcfaf537f96f6c0fd616b5))
+
 # [1.17.0-rc.4](https://github.com/mpeki/dod/compare/v1.17.0-rc.3...v1.17.0-rc.4) (2023-09-23)
 
 
