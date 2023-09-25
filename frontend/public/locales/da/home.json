@@ -8,7 +8,7 @@
   "homeImgMenu": {
     "rules" : {
       "title": "Regler",
-      "text": "Læs spillets regler"
+      "description": "Lær spillets regler"
     },
     "charCreation" : {
       "title": "Dine karakterer",
@@ -42,6 +42,5 @@
       "title": "Om / Indstillinger",
       "description": "Læs om spillet eller ændre indstillinger"
     }
-  },
-  "inter": "interpolated {{val}}"
+  }
 }

@@ -38,11 +38,10 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
   const fetchItemsHandler = useCallback(async () => {
     await getMeleeWeapons()
     .then((items) => {
-      console.log(items);
       setItems(items);
     })
     .catch((e) => showWarningSnackbar((e as Error).message));
-  }, []);
+  }, [getMeleeWeapons]);
 
   const doPaymentRequest = useCallback(async () => {
     if (itemSelected) {
@@ -55,7 +54,7 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
       onConfirm();
     }
     onConfirm();
-  }, [fetchCharHandler, changeData, character.id, itemSelected, onConfirm]);
+  }, [itemSelected, onConfirm, character.id, fetchCharHandler, doChange]);
 
   const resetFunds = () => {
     setGold(orgGold);
@@ -66,21 +65,6 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
   useEffect(() => {
     fetchItemsHandler().then();
   }, [fetchItemsHandler]);
-
-  const itemOptions = items
-  .map((item, index) => ({
-    id: index + 1,
-    name: item.itemKey,
-    strengthGroup: item.strengthGroup,
-    damage: item.damage,
-    itemType: item.itemType,
-    price: item.price,
-    weight: item.weight,
-    length: item.length,
-    bepStorage: item.bepStorage,
-    bp: item.bp,
-    handGrip: item.handGrip
-  }));
 
   const handleItemChange = (items: Item[], newInputValue: string) => {
     setInputValue(newInputValue);
@@ -94,38 +78,8 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
     <Paper elevation={3}>
       <Stack>
         <ItemSelector label="Select a Weapon" items={items} onChange={handleItemChange} />
-{/*
-        <Autocomplete
-          fullWidth
-          disablePortal
-          inputValue={inputValue}
-          onInputChange={(event, newInputValue) => {
-            console.log("input changed " + newInputValue);
-            setInputValue(newInputValue);
-            setItemSelected(items.find(item => item.itemKey === newInputValue));
-            setOwed(items.find(item => item.itemKey === newInputValue)?.price || 0);
-            resetFunds();
-          }}
-          id="combo-box-demo"
-          options={itemOptions}
-          sx={{ width: 300 }}
-          autoHighlight
-          getOptionLabel={(option) => option.name}
-          renderOption={(props, itemOption) => (
-            <Box component="li" sx={{ "& > img": { mr: 2, flexShrink: 0 } }} {...props}>
-              {itemOption.name} (cost: {itemOption.price} sp, weight: {itemOption.weight} bep)
-            </Box>
-          )}
-          isOptionEqualToValue={(item, value) => item.name === value.name}
-          renderInput={(params) => <TextField {...params} label="Select a weapon"
-                                              inputProps={{
-                                                ...params.inputProps,
-                                                autoComplete: "new-password" // disable autocomplete and autofill
-                                              }}
-          />}
-        />
-*/}
-        <Payment handleClose={onConfirm} paymentHandler={doPaymentRequest} itemName={itemSelected ? itemSelected.itemKey : "none"} goldOwned={orgGold} silverOwned={orgSilver} copperOwned={orgCopper}
+        <Payment handleClose={onConfirm} paymentHandler={doPaymentRequest} itemName={itemSelected ? itemSelected.itemKey : "none"}
+                 goldOwned={orgGold} silverOwned={orgSilver} copperOwned={orgCopper}
                  silverPrice={itemSelected ? itemSelected.price : owed} />
       </Stack>
     </Paper>

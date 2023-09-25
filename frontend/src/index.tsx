@@ -33,13 +33,13 @@ registerConfig().then(() => {
     // <React.StrictMode>
     <SnackbarProvider dense maxSnack={5} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
       <Suspense fallback={<Loading />}>
-        <I18nextProvider i18n={i18n}>
+        {/*<I18nextProvider i18n={i18n}>*/}
           <AuthProvider {...oidcConfig}>
             <AxiosProvider>
               <App />
             </AxiosProvider>
           </AuthProvider>
-        </I18nextProvider>
+        {/*</I18nextProvider>*/}
       </Suspense>
     </SnackbarProvider>
 

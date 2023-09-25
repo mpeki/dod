@@ -32,7 +32,7 @@ export const CharacterOverview = (): React.JSX.Element => {
   const [showCreateCharacter, setShowCreateCharacter] = useState<boolean>();
   const FlashingFab = withFlashing(Fab);
   const charContext = useContext(CharacterContext);
-  const { t } = useTranslation("characters");
+  const { t } = useTranslation("char");
 
   if (!charContext) {
     throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
@@ -72,10 +72,10 @@ export const CharacterOverview = (): React.JSX.Element => {
       <Stack direction={"row"}>
         <Stack direction={"column"}>
           <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
-            {t("overviewPage.title")}
+            {t("master.title")}
           </Typography>
           <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
-            {t("overviewPage.description")}
+            {t("master.description")}
           </Typography>
           <Grid container justifyContent="center" style={styles.characterContainer}>
             {characters && characters.map((char: Character) => <CharacterCard key={char.id} character={char} />)}

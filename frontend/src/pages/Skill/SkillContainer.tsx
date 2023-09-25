@@ -14,6 +14,7 @@ import CharacterContext from "../Character/CharacterContext";
 import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
 import useKeyboardShortcut from "../../components/KeyboardShortcutContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 
 interface IProps {
@@ -28,6 +29,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
   const FlashingAddButton = withFlashing(Fab);
   const FlashingActivateButton = withFlashing(Fab);
   const charContext = useContext(CharacterContext);
+  const { t } = useTranslation("char");
 
   if (!charContext) {
     throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
@@ -77,7 +79,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
           <List dense={true}>
             <StyledList>
               <ListItem dense={true}>
-                <ListItemText primary={character.state === "READY_TO_PLAY" ? "Bonus Exp." : "Base Skill Points"}
+                <ListItemText primary={character.state === "READY_TO_PLAY" ? t("detail.skills.bonusExp") : t("detail.skills.basisSP")}
                               secondary={character.baseSkillPoints} />
                 {canActivate && (
                   <FlashingActivateButton onClick={handleActivation} aria-label="activate" sx={{ mr: 1 }} size={"small"}

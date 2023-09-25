@@ -6,6 +6,7 @@ import { RemoveCircleOutline } from "@mui/icons-material";
 import { useChangeService } from "../../services/change.service";
 import { Change, createChange } from "../../types/change";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   characterId: string;
@@ -20,6 +21,7 @@ export const CharacterSkill = ({ characterId, skill, fetchCharHandler, canRemove
   const [memSkill, setMemSkill] = useState<Skill>();
   const { doChange } = useChangeService();
   const [changeData, setChangeData] = useState<Change>(createChange());
+  const { t } = useTranslation("skills");
 
   const showSkillDetailsHandler = () => {
     if (showSkillDetails) {
@@ -71,8 +73,12 @@ export const CharacterSkill = ({ characterId, skill, fetchCharHandler, canRemove
             <RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeSkillHandler} />
           </TableCell>
         )}
-        <TableCell
-          onClick={showSkillDetailsHandler}>{memSkill.itemKey ? `${memSkill.itemKey} (${memSkill.key})` : memSkill.key}</TableCell>
+        <TableCell onClick={showSkillDetailsHandler}>
+          {memSkill.itemKey
+            ? `${t(memSkill.itemKey)} (${t(memSkill.key)})`
+            : t(memSkill.key)
+          }
+        </TableCell>
         <TableCell>{skillCategory === "B" ? "B" + memSkill.fv : memSkill.fv}</TableCell>
         <TableCell>{memSkill.experience}</TableCell>
       </TableRow>

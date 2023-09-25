@@ -8,6 +8,7 @@ import { BuyWeapon } from "./BuyWeapon";
 import { Character } from "../../types/character";
 import { CharacterItem, Item } from "../../types/item";
 import { CharacterState } from "../../types/character-state";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   character: Character;
@@ -17,7 +18,7 @@ interface IProps {
 
 export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
 
-
+    const { t } = useTranslation(["char", "items"]);
     const [items, setItems] = useState<Map<string, Item>>(new Map());
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -49,7 +50,7 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
       items.forEach((item, key) => {
         if (item.itemType !== "MELEE_WEAPON" && item.itemType !== "RANGED_WEAPON" && item.itemType !== "SHIELD") return;
         result.push(<TableRow key={item.id}>
-          <TableCell height={12}>{item.itemKey}</TableCell>
+          <TableCell height={12}>{t(`items:${item.itemKey}`)}</TableCell>
           <TableCell></TableCell>
           <TableCell>{item.damage}</TableCell>
           <TableCell>{item.length}</TableCell>
@@ -73,14 +74,14 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: "bold" }}>Weapon/Shield</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Fv</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Dmg</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Vl</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Bv</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Abs</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Range</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Weight</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.item")}</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.fv")}</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.damage")}</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.wLength")}</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.breakPoints")}</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.absorption")}</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.range")}</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.weight")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
