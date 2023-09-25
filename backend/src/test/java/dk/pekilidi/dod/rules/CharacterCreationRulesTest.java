@@ -19,6 +19,7 @@ import dk.pekilidi.dod.items.ItemKey;
 import dk.pekilidi.dod.items.ItemRepository;
 import dk.pekilidi.dod.items.ItemService;
 import dk.pekilidi.dod.items.model.BaseItem;
+import dk.pekilidi.dod.race.model.Race;
 import java.util.List;
 import org.droolsassert.DroolsAssert;
 import org.droolsassert.DroolsSession;
@@ -52,6 +53,7 @@ class CharacterCreationRulesTest {
         .builder()
         .race(RaceDTO
             .builder()
+            .name("human")
             .characterTemplate(CharacterTemplateDTO
                 .builder()
                 .baseTraitRules(List.of(new BaseTraitRuleDTO(BaseTraitName.CONSTITUTION, "3t6", "2t6+6"),
@@ -63,7 +65,7 @@ class CharacterCreationRulesTest {
   }
 
   @Test
-  @TestRules(expected = {"Determine favorite hand", "Determine social status","Initialize movement point", "Set Looks"})
+  @TestRules(expected = {"Determine favorite hand", "Determine social status - Humans","Initialize movement point", "Set Looks"})
   void characterCreationDefaultCharacter() {
     BaseTraitDTO size = BaseTraitDTO.builder()
         .traitName(BaseTraitName.SIZE)
@@ -71,7 +73,7 @@ class CharacterCreationRulesTest {
         .currentValue(10)
         .groupValue(2)
         .build();
-    CharacterDTO character = CharacterDTO.builder().build();
+    CharacterDTO character = CharacterDTO.builder().race(RaceDTO.builder().name("human").build()).build();
     character.addBaseTrait(size);
     drools.insert(character);
     drools.fireAllRules();
@@ -80,13 +82,13 @@ class CharacterCreationRulesTest {
 
   @Test
   @TestRules(expected = {
-      "Initialize base traits and hero points", "Determine social status", "Determine favorite hand", "Initialize movement point", "Set Looks"},
+      "Initialize base traits and hero points", "Determine social status - Dwarfs", "Determine favorite hand", "Initialize movement point", "Set Looks"},
       ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRace() {
     CharacterDTO character = CharacterDTO
         .builder()
         .race(RaceDTO
-            .builder()
+            .builder().name("dwarf")
             .characterTemplate(CharacterTemplateDTO
                 .builder()
                 .baseTraitRules(List.of(
@@ -107,7 +109,7 @@ class CharacterCreationRulesTest {
       "Initialize body - body parts HP - humanoid",
       "Determine favorite hand",
       "Check character completion",
-      "Determine social status",
+      "Determine social status - Humans",
       "Initialize damage bonus",
       "Initialize movement point",
       "Set Looks"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
@@ -149,7 +151,7 @@ class CharacterCreationRulesTest {
   @TestRules(expected = {
       "Check character completion",
       "Determine favorite hand",
-      "Determine social status",
+      "Determine social status - Humans",
       "Initialize damage bonus",
       "Initialize movement point",
       "Set Looks"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})

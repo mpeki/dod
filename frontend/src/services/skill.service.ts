@@ -1,6 +1,6 @@
 import { Skill } from "../types/skill";
 import { Character } from "../types/character";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { AxiosContext } from "./axios/AxiosContext";
 import handleAxiosError from "./axios/axiosErrorHandler";
 
@@ -15,14 +15,14 @@ export const useSkillService = () => {
       handleAxiosError(err);
     }
   };
-  const getAllSkills = async () => {
+  const getAllSkills = useCallback( async () => {
     try {
       const response = await axiosInstance.get('/skill');
       return response.data;
     } catch (err) {
       handleAxiosError(err);
     }
-  };
+  },[axiosInstance]);
 
   return {
     trainSkill,

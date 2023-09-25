@@ -77,8 +77,8 @@ id;skill_key;base_chance;category;skill_group;price;trait_name
 56;camouflage;0;0;5;2;5
 57;animal.training;0;0;5;3;5
 58;fishing;5;0;5;1;5
-59;spelunking.spec;5;0;5;3;5
-60;spelunking.other;0;0;5;5;5
+59;spelunking.1;5;0;5;3;5
+60;spelunking.2;0;0;5;5;5
 61;fast.march;3;0;5;2;3
 62;hunting;0;0;5;2;5
 63;canoeing;4;0;5;2;4
