@@ -1,3 +1,10 @@
+# [1.17.0-rc.6](https://github.com/mpeki/dod/compare/v1.17.0-rc.5...v1.17.0-rc.6) (2023-09-26)
+
+
+### Features
+
+* **DOD-357:** Translating Character Pages ([fa869a0](https://github.com/mpeki/dod/commit/fa869a0f5c3abd9aceab8ecfa1c3f8bb88fe55e6))
+
 # [1.17.0-rc.5](https://github.com/mpeki/dod/compare/v1.17.0-rc.4...v1.17.0-rc.5) (2023-09-25)
 
 
