@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.skill.model;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.skill.SkillKey;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.AttributeOverride;
@@ -10,9 +11,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,14 +47,14 @@ public class Skill implements Serializable {
   private Group group;
   private Integer price;
   private BaseTraitName baseChance;
-  private LocalDateTime lastUsed;
-
+  @OneToMany
+  private List<Race> deniedRaces;
   @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if ( !(o instanceof Skill that) || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+    if (!(o instanceof Skill that) || Hibernate.getClass(this) != Hibernate.getClass(o)) {
       return false;
     }
     return Objects.equals(id, that.id) && Objects.equals(key, that.key);

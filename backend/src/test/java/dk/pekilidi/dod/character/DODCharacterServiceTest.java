@@ -15,6 +15,7 @@ import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.RaceDTO;
+import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.dod.util.character.CharacterMapper;
 import dk.pekilidi.utils.RandomObjectFiller;
 import java.util.List;
@@ -50,7 +51,7 @@ class DODCharacterServiceTest {
   @Test
   void getCharacterReturnChar() throws Exception {
     DODCharacter testChar = new RandomObjectFiller().createAndFill(DODCharacter.class);
-    testChar.setRace(new Race(null, "tiefling", null));
+    testChar.setRace(new Race(null, "tiefling", SkillKey.toSkillKey("common"), null));
     testChar.setName("kyron");
     List<DODCharacter> testChars = List.of(testChar);
     given(charRepo.findAllByName("kyron")).willReturn(testChars);

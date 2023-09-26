@@ -20,7 +20,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-@DroolsSession(resources = {"classpath:/rules/CharacterChangeRules.drl", "classpath:/rules/BuyNewSkillRules.drl"},
+@DroolsSession(resources = {"classpath:/rules/character/CharacterChangeRules.drl", "classpath:/rules/skill/BuyNewSkillRules.drl"},
     ignoreRules = {"before", "after"},
     logResources = true)
 @Tag("regression")

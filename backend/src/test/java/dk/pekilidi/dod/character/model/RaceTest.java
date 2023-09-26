@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.testcontainers.utility.Base58.randomString;
 
 import dk.pekilidi.dod.race.model.Race;
+import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.utils.RandomObjectFiller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -32,7 +33,7 @@ class RaceTest {
   void testConstructors() throws Exception {
 
     assertThrows(NullPointerException.class, () -> {
-      new Race(id, null, characterTemplate);
+      new Race(id, null, SkillKey.toSkillKey("common"), characterTemplate);
     });
   }
 

@@ -4,7 +4,8 @@ import useCharacterService from "../services/character.service";
 
 const raceData: Race = {
   id: "1",
-  name: 'human'
+  name: 'human',
+  motherTongue: 'common',
 }
 const charPostData: Character = {
   name: 'Børge Blåtand',

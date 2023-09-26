@@ -1,0 +1,92 @@
+{
+  "state": {
+    "INIT_COMPLETE": "Ikke færdig",
+    "READY_TO_PLAY": "Klar"
+  },
+  "master": {
+    "title": "Dine Karakterer",
+    "description": "Her kan du administrere dine karakterer. Du kan oprette nye karakterer, slette gamle og aktivere dem til spil. Tryk på + knappen for at oprette en ny karakter"
+  },
+  "detail": {
+    "info": {
+      "name": "Navn",
+      "player": "Spillers Navn",
+      "race": "Race",
+      "socialStatus": {
+        "title": "Social Stand",
+        "DISPOSSESSED": "Hjemløs",
+        "PEASANT": "Bonde",
+        "CITIZEN": "Borger",
+        "NOBLE": "Adelig"
+      },
+      "profession": "Profession",
+      "age": {
+        "title": "Alder",
+        "YOUNG": "Ung",
+        "MATURE": "Moden",
+        "MIDDLE_AGED": "Midaldrende",
+        "OLD": "Gammel"
+      },
+      "looks": "Udseende",
+      "height": "Højde",
+      "weight": "Vægt",
+      "goals": "Livsmål"
+    },
+    "baseTraits": {
+      "value": "Værdi",
+      "group": "Gruppe",
+      "INTELLIGENCE": "Intelligens",
+      "SIZE": "Størrelse",
+      "CONSTITUTION": "Fysik",
+      "DEXTERITY": "Smidighed",
+      "PSYCHE": "Psyke",
+      "STRENGTH": "Styrke",
+      "CHARISMA": "Karisma"
+    },
+    "skills": {
+      "bonusExp": "Bonus Erfaring",
+      "basisSP": "Basis Færdigheds Point",
+      "skills": "Færdigheder",
+      "value": "Værdi",
+      "exp": "Erf."
+    },
+    "weapons": {
+      "header": {
+        "item": "Våben/Skjold",
+        "fv": "Fv",
+        "damage": "Skade",
+        "wLength": "VL",
+        "breakPoints": "Bv",
+        "absorption": "Abs",
+        "range": "Rækkevidde",
+        "weight": "Vægt"
+      }
+    },
+    "body": {
+      "totalHP": "Totale KP",
+      "header": {
+        "hp": "Kropspoint",
+        "armor": "Værn",
+        "bodyPart": "Kropsdel",
+        "maxHP": "Maks",
+        "currentHP": "Nuværende",
+        "armorMat": "Materiale",
+        "abs": "Abs",
+        "weight": "Vægt",
+        "penalty": "-"
+      },
+      "part": {
+        "HEAD": "Hoved",
+        "CHEST": "Bryst",
+        "STOMACH": "Mave",
+        "LEFT_ARM": "Venstre Arm",
+        "RIGHT_ARM": "Højre Arm",
+        "LEFT_LEG": "Venstre Ben",
+        "RIGHT_LEG": "Højre Ben"
+      }
+    },
+    "sanityPoints": "Nerve Point",
+    "psychePoints": "Psyke Point",
+    "movementPoints": "Flytteformåen"
+  }
+}

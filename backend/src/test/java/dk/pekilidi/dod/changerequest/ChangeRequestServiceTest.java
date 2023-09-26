@@ -163,7 +163,14 @@ class ChangeRequestServiceTest {
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_SKILL_BOUGHT);
     assertThat(changeRequest.getObjectAfterChange()).isNotNull();
 
-    changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
+    ChangeRequest changeDup = ChangeRequest
+        .builder()
+        .changeType(ChangeType.NEW_SKILL)
+        .changeKey(skill.getKey())
+        .modifier(11)
+        .build();
+
+    changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), changeDup, TEST_OWNER);
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.SKILL_ALREADY_BOUGHT);
   }
 

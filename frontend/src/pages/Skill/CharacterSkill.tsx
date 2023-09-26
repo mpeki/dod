@@ -1,17 +1,27 @@
 import { Skill } from "../../types/skill";
 import { SkillDetails } from "./SkillDetails";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TableCell, TableRow } from "@mui/material";
+import { RemoveCircleOutline } from "@mui/icons-material";
+import { useChangeService } from "../../services/change.service";
+import { Change, createChange } from "../../types/change";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   characterId: string;
   skill: Skill;
+  fetchCharHandler: () => void;
+  canRemoveSkill: boolean;
 }
 
-export const CharacterSkill = ({ characterId, skill }: IProps): JSX.Element => {
+export const CharacterSkill = ({ characterId, skill, fetchCharHandler, canRemoveSkill}: IProps): JSX.Element => {
 
   const [showSkillDetails, setShowSkillDetails] = useState<boolean>();
   const [memSkill, setMemSkill] = useState<Skill>();
+  const { doChange } = useChangeService();
+  const [changeData, setChangeData] = useState<Change>(createChange());
+  const { t } = useTranslation("skills");
 
   const showSkillDetailsHandler = () => {
     if (showSkillDetails) {
@@ -20,6 +30,16 @@ export const CharacterSkill = ({ characterId, skill }: IProps): JSX.Element => {
       setShowSkillDetails(true);
     }
   };
+
+  const removeSkillHandler = useCallback(async () => {
+    const changePostData: Change = createChange("REMOVE_SKILL", "Remove skill", skill.key, -1);
+    await doChange(characterId, changePostData)
+    .then(() => fetchCharHandler())
+    .catch((e) => showWarningSnackbar((e as Error).message))
+    .finally(() => {
+      setChangeData(createChange())
+    });
+  }, [changeData, characterId, doChange, fetchCharHandler, skill.key]);
 
   useEffect(() => {
     let skillJSON = localStorage.getItem("skills");
@@ -40,16 +60,26 @@ export const CharacterSkill = ({ characterId, skill }: IProps): JSX.Element => {
   if (memSkill === undefined) {
     return <TableRow><TableCell>skill!</TableCell></TableRow>;
   }
-  let skillCategory = JSON.stringify(memSkill.category).replace(/"/g, '')  as string;
+  let skillCategory = JSON.stringify(memSkill.category).replace(/"/g, "") as string;
 
   return (
     <>
       {showSkillDetails && (
         <SkillDetails characterId={characterId} skill={memSkill} onConfirm={showSkillDetailsHandler} />
       )}
-      <TableRow hover key={memSkill.key} onClick={showSkillDetailsHandler} >
-        <TableCell>{memSkill.itemKey ? `${memSkill.itemKey} (${memSkill.key})` : memSkill.key}</TableCell>
-        <TableCell>{skillCategory === "B" ? 'B'+memSkill.fv : memSkill.fv}</TableCell>
+      <TableRow hover key={memSkill.key}>
+        {canRemoveSkill && (
+          <TableCell>
+            <RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeSkillHandler} />
+          </TableCell>
+        )}
+        <TableCell onClick={showSkillDetailsHandler}>
+          {memSkill.itemKey
+            ? `${t(memSkill.itemKey)} (${t(memSkill.key)})`
+            : t(memSkill.key)
+          }
+        </TableCell>
+        <TableCell>{skillCategory === "B" ? "B" + memSkill.fv : memSkill.fv}</TableCell>
         <TableCell>{memSkill.experience}</TableCell>
       </TableRow>
     </>

@@ -2,6 +2,7 @@ import { Character } from "../../types/character";
 import { List, ListItem, ListItemText, Stack } from "@mui/material";
 import { StyledList } from "../shared/List.styled";
 import EditableListItem from "../../UI/EditableListItem";
+import { useTranslation } from "react-i18next";
 
 interface ICharacterProps {
   character: Character;
@@ -10,6 +11,8 @@ interface ICharacterProps {
 }
 
 export const CharacterInfo = ({ character, username, changeHandler }: ICharacterProps) => {
+
+  const { t } = useTranslation(["races","char"]);
 
   if(character == null || character.id == null || character.looks == null) {
     return <><p>Invalid character!</p></>;
@@ -20,7 +23,7 @@ export const CharacterInfo = ({ character, username, changeHandler }: ICharacter
       <StyledList style={{ margin: '2px', marginTop: '15px' }}>
         <List dense={false} disablePadding={true}>
           <EditableListItem changeType="NAME"
-                            label="Name"
+                            label={t("char:detail.info.name")}
                             value={character.name}
                             changeHandler={changeHandler}
                             allowEdit={character.state === "INIT_COMPLETE"}
@@ -29,26 +32,26 @@ export const CharacterInfo = ({ character, username, changeHandler }: ICharacter
 
           />
           <ListItem>
-            <ListItemText primary="Player Name" secondary={username} />
+            <ListItemText primary={t("char:detail.info.player")} secondary={username} />
           </ListItem>
           <ListItem>
-            <ListItemText primary="Race" secondary={character.race.name} />
+            <ListItemText primary={t("char:detail.info.race")} secondary={t(`races:${character.race.name}`)} />
           </ListItem>
           <ListItem>
-            <ListItemText primary="Social Status" secondary={character.socialStatus} />
+            <ListItemText primary={t("char:detail.info.socialStatus.title")} secondary={t(`char:detail.info.socialStatus.${character.socialStatus}`)} />
           </ListItem>
           <ListItem>
-            <ListItemText primary="Profession" secondary="-" />
+            <ListItemText primary={t("char:detail.info.profession")} secondary="-" />
           </ListItem>
           <ListItem>
-            <ListItemText primary="Age" secondary={character.ageGroup} />
+            <ListItemText primary={t("char:detail.info.age.title")} secondary={t(`char:detail.info.age.${character.ageGroup}`)} />
           </ListItem>
           <ListItem>
-            <ListItemText primary="Looks"
+            <ListItemText primary={t("char:detail.info.looks")}
                           secondary={`Has ${character.looks.hairLength} ${character.looks.hairColor} hair and ${character.looks.eyeColor} eyes, a ${character.looks.voice} voice, and a ${character.looks?.beardLength}.`} />
           </ListItem>
           <Stack direction={'row'}>
-            <EditableListItem label="Height"
+            <EditableListItem label={t("char:detail.info.height")}
                               value={character.looks.height}
                               changeType="HEIGHT"
                               changeHandler={changeHandler}
@@ -56,7 +59,7 @@ export const CharacterInfo = ({ character, username, changeHandler }: ICharacter
                               validationPattern={/^\d{2,3}$/}
                               validationErrorMsg={"Invalid height!"}
             />
-            <EditableListItem label="Weight"
+            <EditableListItem label={t("char:detail.info.weight")}
                               value={character.looks.weight}
                               changeType="WEIGHT"
                               changeHandler={changeHandler}
@@ -68,7 +71,7 @@ export const CharacterInfo = ({ character, username, changeHandler }: ICharacter
             <ListItem><ListItemText/></ListItem>
           </Stack>
           <ListItem>
-            <ListItemText primary="Life Goals" secondary="-" />
+            <ListItemText primary={t("char:detail.info.goals")} secondary="-" />
           </ListItem>
         </List>
       </StyledList>

@@ -11,6 +11,7 @@ import dk.pekilidi.dod.skill.model.Group;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,5 +40,7 @@ public class SkillDTO implements Serializable {
   private BaseTraitName baseChance;
   private Integer fv;
   private Integer experience;
+  private Integer skillPointsSpent;
   private LocalDateTime lastUsed;
+  private List<RaceDTO> deniedRaces;
 }

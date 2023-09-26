@@ -1,6 +1,7 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { Item } from "../../types/item";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   items: Item[];
@@ -10,6 +11,7 @@ interface IProps {
 
 export const ItemSelector = ({ items, onChange, label }: IProps) => {
 
+  const { t } = useTranslation("items");
   const [inputValue, setInputValue] = useState("");
 
   const itemOptions = items
@@ -26,6 +28,7 @@ export const ItemSelector = ({ items, onChange, label }: IProps) => {
     bp: item.bp,
     handGrip: item.handGrip
   }));
+  console.log("itemOptions in ItemsSelector: ", itemOptions);
 
   return (
     <Autocomplete
@@ -43,11 +46,11 @@ export const ItemSelector = ({ items, onChange, label }: IProps) => {
       getOptionLabel={(option) => option.name}
       renderOption={(props, itemOption) => (
         <Box component="li" sx={{ "& > img": { mr: 2, flexShrink: 0 } }} {...props}>
-          {itemOption.name} (cost: {itemOption.price} sp, weight: {itemOption.weight} bep)
+          {t(itemOption.name)} (🪙: {itemOption.price} sp, ⚖️: {itemOption.weight} bep)
         </Box>
       )}
       isOptionEqualToValue={(item, value) => item.name === value.name}
-      renderInput={(params) => <TextField {...params} label={label}
+      renderInput={(params) => <TextField {...(params as any)} label={label}
                                           inputProps={{
                                             ...params.inputProps,
                                             autoComplete: "off" // disable autocomplete and autofill

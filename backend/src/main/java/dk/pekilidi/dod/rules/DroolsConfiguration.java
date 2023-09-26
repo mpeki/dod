@@ -17,13 +17,14 @@ public class DroolsConfiguration {
   @Bean
   public KieContainer getKieContainer() {
     KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/CharacterCreationRules.drl"));
-    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/CharacterChangeRules.drl"));
-    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/BuyNewSkillRules.drl"));
-    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/SingleSourceActionRules.drl"));
-    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/AwardExperienceRules.drl"));
-    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/BuySkillFVIncreaseRules.drl"));
-    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/BuyNewItemRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/action/SingleSourceActionRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/character/CharacterCreationRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/character/CharacterChangeRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/skill/AwardExperienceRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/skill/BuyNewSkillRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/skill/RemoveSkillRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/skill/BuySkillFVIncreaseRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/item/BuyNewItemRules.drl"));
     KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
     kb.buildAll();
     KieModule kieModule = kb.getKieModule();

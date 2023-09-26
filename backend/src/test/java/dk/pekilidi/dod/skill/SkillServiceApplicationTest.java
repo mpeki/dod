@@ -1,10 +1,15 @@
 package dk.pekilidi.dod.skill;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dk.pekilidi.dod.DodApplication;
-import dk.pekilidi.dod.character.CharacterNotFoundException;
+import dk.pekilidi.dod.data.RaceDTO;
+import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.race.RaceService;
+import java.util.List;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,8 @@ class SkillServiceApplicationTest {
   @Autowired
   private SkillService service;
 
+  @Autowired
+  RaceService raceService;
 
   @ParameterizedTest
   @CsvSource({
@@ -35,6 +42,13 @@ class SkillServiceApplicationTest {
       service.findSkillByKey(skillKey);
       service.findSkillByKey(SkillKey.builder().value(skillKey).build());
     }
+  }
+
+  @Test
+  void findSkillByRace(){
+    RaceDTO dwarf = raceService.getRaceByName("dwarf");
+    List<SkillDTO> skills = service.findDeniedSkillsForRace(dwarf);
+    assertFalse(skills.isEmpty());
   }
 
 }

@@ -13,7 +13,8 @@ import { showFatalConnectionErrorSnackbar } from "../utils/DODSnackbars";
 
 interface IProps {
   selectSkillHandler: (skill: Skill) => void;
-  charSkills?: Record<string,Skill>;
+  excludedSkills?: Record<string,Skill>;
+  raceName: string;
 }
 
 export interface GroupedOption {
@@ -35,7 +36,7 @@ export const groupedFilterOptions: readonly GroupedOption[] = [
 
 const animatedComponents = makeAnimated();
 
-export const SkillSelector = ({ selectSkillHandler, charSkills }: IProps): JSX.Element => {
+export const SkillSelector = ({ selectSkillHandler, excludedSkills, raceName }: IProps): JSX.Element => {
 
   const { getAllSkills } = useSkillService();
   const [shownSkills, setShownSkills] = useState<Skill[]>([]);
@@ -61,22 +62,29 @@ export const SkillSelector = ({ selectSkillHandler, charSkills }: IProps): JSX.E
   const fetchSkillsHandler = useCallback(async () => {
     let skillJSON = localStorage.getItem("skills");
     if (skillJSON === null) {
-      try {
-        const skills = await getAllSkills();
-        skillJSON = JSON.stringify(skills);
-        localStorage.setItem("skills", skillJSON);
-      } catch (e) {
-        console.log("error: " + e);
-        showFatalConnectionErrorSnackbar("Could not load skills.", false);
-      }
+        await getAllSkills().then((skills) => {
+          skillJSON = JSON.stringify(skills);
+          localStorage.setItem("skills", skillJSON);
+        }).catch((e) => {showFatalConnectionErrorSnackbar("Could not load skills.", false);});
     }
     setSkills(skillJSON === null ? null : JSON.parse(skillJSON));
-  }, []);
+  }, [getAllSkills]);
 
   useEffect(() => {
     fetchSkillsHandler().then();
   }, [fetchSkillsHandler]);
+  console.log("shownSkills: " + JSON.stringify(shownSkills));
 
+  const racialExcludedSkills = skills.filter(skill =>
+    skill.deniedRaces && skill.deniedRaces.length > 0 && skill.deniedRaces.some(race => race.name === raceName)
+  ).reduce((acc, skill) => {
+    acc[skill.key] = skill;
+    return acc;
+  }, {} as Record<string, Skill>);
+
+  console.log("racialExcludedSkills: " + JSON.stringify(racialExcludedSkills));
+  const allExcludedSkills : Record<string,Skill> = { ...excludedSkills, ...racialExcludedSkills };
+  console.log("allExcludedSkills: " + JSON.stringify(allExcludedSkills));
   return (
     <>
       <div>Filter skills:</div>
@@ -88,7 +96,7 @@ export const SkillSelector = ({ selectSkillHandler, charSkills }: IProps): JSX.E
         onChange={filterListHandler}
       />
       <div>Select a skill:</div>
-      <SkillList charSkills={charSkills} skills={shownSkills} selectSkillHandler={selectSkillHandler}/>
+      <SkillList excludedSkills={allExcludedSkills} skills={shownSkills} selectSkillHandler={selectSkillHandler}/>
     </>
   );
 };

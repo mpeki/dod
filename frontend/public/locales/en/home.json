@@ -1,0 +1,46 @@
+{
+  "title": "Welcome to Evolved Dragons and Demons",
+  "bodyText": {
+    "part1": "If you want to try this game, you should create an account - press the lock icon in the top right corner and choose 'Register'.",
+    "part2": "Already a user? Press the lock icon and choose 'Login'.",
+    "part3": "Create Characters, explore the world, fight other players, and have fun!"
+  },
+  "homeImgMenu": {
+    "rules" : {
+      "title": "Game Rules",
+      "description": "Read them and weep"
+    },
+    "charCreation" : {
+      "title": "Character Creation",
+      "description": "View and create characters"
+    },
+    "city" : {
+      "title": "The City",
+      "description": "Wander the streets of the city"
+    },
+    "wilderness" : {
+      "title": "The Wilderness",
+      "description": "Explore the wilderness"
+    },
+    "dm" : {
+      "title": "Dungeon Master",
+      "description": "Hush hush"
+    },
+    "combat" : {
+      "title": "Combat",
+      "description": "Engage in combat with other players"
+    },
+    "signup" : {
+      "title": "Sign in or sigup",
+      "description": "The goblins want you!"
+    },
+    "about" : {
+      "title": "About",
+      "description": "View the about page"
+    },
+    "aboutSettings" : {
+      "title": "About / Settings",
+      "description": "View the about page and change settings"
+    }
+  }
+}

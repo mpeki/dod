@@ -6,6 +6,9 @@ import { config, registerConfig } from "./services/config.service";
 import "./index.css";
 import App from "./App";
 import { SnackbarProvider } from "notistack";
+import "./i18n";
+import i18n from "i18next";
+import { I18nextProvider } from "react-i18next";
 
 
 function Loading() {
@@ -23,18 +26,20 @@ registerConfig().then(() => {
     redirect_uri: `${config.authRedirectUri}`,
     post_logout_redirect_uri: `${config.authRedirectUri}`,
     response_type: "code",
-    grant_type: "authorization_code",
+    grant_type: "authorization_code"
   };
 
   root.render(
     // <React.StrictMode>
     <SnackbarProvider dense maxSnack={5} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
       <Suspense fallback={<Loading />}>
-        <AuthProvider {...oidcConfig}>
-          <AxiosProvider>
-            <App />
-          </AxiosProvider>
-        </AuthProvider>
+        {/*<I18nextProvider i18n={i18n}>*/}
+          <AuthProvider {...oidcConfig}>
+            <AxiosProvider>
+              <App />
+            </AxiosProvider>
+          </AuthProvider>
+        {/*</I18nextProvider>*/}
       </Suspense>
     </SnackbarProvider>
 

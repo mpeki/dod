@@ -16,6 +16,11 @@ enum Values {
 }
 
 export class Category extends FilterType {
+  constructor(value?: string) {
+    super();
+    this.value = value;
+  }
+
   static readonly values = Values;
   value: string | undefined;
 

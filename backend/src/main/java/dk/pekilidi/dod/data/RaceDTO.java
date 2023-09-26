@@ -1,6 +1,7 @@
 package dk.pekilidi.dod.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dk.pekilidi.dod.skill.SkillKey;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class RaceDTO implements Serializable {
   @JsonIgnore
   private String id;
   private String name;
+  private SkillKey motherTongue;
   @JsonIgnore
   private CharacterTemplateDTO characterTemplate;
 }

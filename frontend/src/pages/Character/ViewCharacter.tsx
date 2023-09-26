@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { Character } from "../../types/character";
 import useCharacterService from "../../services/character.service";
@@ -14,14 +14,12 @@ import { WeaponsContainer } from "../Items/WeaponsContainer";
 import { ItemsContainer } from "../Items/ItemsContainer";
 import { FundsContainer } from "../Items/FundsContainer";
 import { useChangeService } from "../../services/change.service";
-import { Change } from "../../types/change";
+import { Change, createChange } from "../../types/change";
 import { MovementStats } from "../../components/Character/MovementStats";
 import Stack from "@mui/material/Stack";
 import { ReputationStats } from "../../components/Character/ReputationStats";
 import { useAuth } from "react-oidc-context";
-import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
-import useKeyboardShortcut from "../../components/KeyboardShortcutContext";
 
 export const ViewCharacter = () => {
 
@@ -30,13 +28,6 @@ export const ViewCharacter = () => {
   const { doChange } = useChangeService();
   const { charId } = useParams();
   const [character, setCharacter] = useState<Character>();
-
-  const [changeData, setChangeData] = useState<Change>({
-    changeType: "",
-    changeDescription: "",
-    changeKey: "",
-    modifier: ""
-  });
 
   const fetchCharHandler = useCallback(async () => {
     getCharacter("" + charId)
@@ -51,22 +42,16 @@ export const ViewCharacter = () => {
   }, [fetchCharHandler]);
 
   const changeHandler = useCallback(async (changeKey: string, mod: any) => {
-    const change: Change = {
-      ...changeData,
-      changeType: "CHARACTER_CHANGE_" + changeKey,
-      changeDescription: "Changed " + changeKey + " to " + mod,
-      changeKey: changeKey,
-      modifier: mod
-    };
+    const change: Change = createChange("CHARACTER_CHANGE_" + changeKey, "Changed " + changeKey + " to " + mod, changeKey, mod);
     doChange("" + charId, change).then();
-  }, [changeData, charId, doChange]);
+  }, [charId, doChange]);
 
   if (character == null || character.id == null) {
     return <><p>Invalid character!</p></>;
   } else {
 
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" >
           <Masonry columns={2} spacing={1}>
             <Paper elevation={3}>
               <BaseTraitList baseTraits={character?.baseTraits} />

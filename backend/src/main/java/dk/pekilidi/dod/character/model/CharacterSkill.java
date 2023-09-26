@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +41,9 @@ public class CharacterSkill implements Serializable {
   private String id;
   private int fv;
   private int experience;
+  private int skillPointsSpent;
+  private LocalDateTime lastUsed;
+
 
   @Transient
   public String getValue() {

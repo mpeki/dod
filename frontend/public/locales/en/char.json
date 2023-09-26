@@ -1,0 +1,92 @@
+{
+  "state": {
+    "INIT_COMPLETE": "Not ready",
+    "READY_TO_PLAY": "Ready for play"
+  },
+  "master": {
+    "title": "Character Overview",
+    "description": "This is where you manage your characters. You can create new characters, delete old ones and activate them for play. Press the + button to create a new character"
+  },
+  "detail": {
+    "info": {
+      "name": "Name",
+      "player": "Player",
+      "race": "Race",
+      "socialStatus": {
+        "title": "Social Status",
+        "DISPOSSESSED": "Homeless",
+        "PEASANT": "Peasant",
+        "CITIZEN": "Citizen",
+        "NOBLE": "Noble"
+      },
+      "profession": "Profession",
+      "age": {
+        "title": "Age",
+        "YOUNG": "Young",
+        "MATURE": "Mature",
+        "MIDDLE_AGED": "Middle Aged",
+        "OLD": "Old"
+      },
+      "looks": "Looks",
+      "height": "Height",
+      "weight": "Weight",
+      "goals": "Life Goals"
+    },
+    "baseTraits": {
+      "value": "Value",
+      "group": "Group",
+      "INTELLIGENCE": "Intelligence",
+      "SIZE": "Size",
+      "CONSTITUTION": "Constitution",
+      "DEXTERITY": "Dexterity",
+      "PSYCHE": "Psyche",
+      "STRENGTH": "Strength",
+      "CHARISMA": "Charisma"
+    },
+    "skills": {
+      "bonusExp": "Bonus Experience",
+      "basisSP": "Base Skill Points",
+      "skills": "Skills",
+      "value": "Value",
+      "exp": "Exp."
+    },
+    "weapons": {
+      "header": {
+        "item": "Weapon/Shield",
+        "fv": "Sv",
+        "damage": "Dmg",
+        "wLength": "WL",
+        "breakPoints": "Bp",
+        "absorption": "Abs",
+        "range": "Range",
+        "weight": "Weight"
+      }
+    },
+    "body": {
+      "totalHP": "Total HP",
+      "header": {
+        "hp": "Hit Points",
+        "armor": "Armor",
+        "bodyPart": "Body Part",
+        "maxHP": "Max",
+        "currentHP": "Current",
+        "armorMat": "Material",
+        "abs": "Abs",
+        "weight": "Weight",
+        "penalty": "-"
+      },
+      "part": {
+        "HEAD": "Head",
+        "CHEST": "Chest",
+        "STOMACH": "Stomach",
+        "LEFT_ARM": "Left Arm",
+        "RIGHT_ARM": "Right Arm",
+        "LEFT_LEG": "Left Leg",
+        "RIGHT_LEG": "Right Leg"
+      }
+    },
+    "sanityPoints": "Sanity Points",
+    "psychePoints": "Psyche Points",
+    "movementPoints": "Movement Points"
+  }
+}

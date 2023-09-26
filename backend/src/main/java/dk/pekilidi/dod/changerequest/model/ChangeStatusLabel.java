@@ -2,6 +2,7 @@ package dk.pekilidi.dod.changerequest.model;
 
 public enum ChangeStatusLabel {
 
+  SKILL_NOT_BOUGHT("skill.not.bought"),
   OK_ITEM_BOUGHT("ok.item.bought"),
   INSUFFICIENT_FUNDS("not.enough.funds"),
   ITEM_DOES_NOT_EXIST("item.does.not.exist"),

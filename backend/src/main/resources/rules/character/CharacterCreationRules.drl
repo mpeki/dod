@@ -81,8 +81,8 @@ dialect "java"
 
 rule "Initialize base traits and hero points"
     when
-        character : CharacterDTO( baseTraits.size == 0 && race != null );
-        characterTemplate : CharacterTemplateDTO() from character.race.characterTemplate;
+        character : CharacterDTO( baseTraits.size == 0 && race != null )
+        characterTemplate : CharacterTemplateDTO() from character.race.characterTemplate
     then
         for(BaseTraitRuleDTO rule : characterTemplate.getBaseTraitRules()) {
             int eyes = Dice.roll(character.isHero() ? rule.getBaseTraitHeroDieRoll() : rule.getBaseTraitDieRoll());
@@ -208,6 +208,9 @@ rule "Initialize damage bonus"
     Integer strength =  character.getBaseTraitValue(BaseTraitName.STRENGTH);
     Integer size = character.getBaseTraitValue(BaseTraitName.SIZE);
     Integer avgVal = IntMath.divide(size + strength, 2, RoundingMode.CEILING);
+    if(character.getRace().getName().equalsIgnoreCase("dwarf")){
+      avgVal = avgVal + 2;
+    }
     if(isBetween(avgVal,1,4)){
       character.setDamageBonus("-1t2");
     } else if(isBetween(avgVal, 5, 8)) {
@@ -248,7 +251,7 @@ end;
 rule "Apply modifiers for age group YOUNG"
     no-loop
     when
-        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.YOUNG);
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.YOUNG)
     then
         character.incrementTrait(BaseTraitName.DEXTERITY, 1);
         character.setBaseSkillPoints(260);
@@ -259,7 +262,7 @@ end;
 rule "Apply modifiers for age group MATURE"
     no-loop
     when
-        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.MATURE);
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.MATURE)
     then
         character.incrementTrait(BaseTraitName.PSYCHE, 1);
         character.setBaseSkillPoints(320);
@@ -270,7 +273,7 @@ end;
 rule "Apply modifiers for age group MIDDLE_AGED"
     no-loop
     when
-        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.MIDDLE_AGED);
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.MIDDLE_AGED)
     then
         character.decrementTrait(BaseTraitName.STRENGTH, 2);
         character.decrementTrait(BaseTraitName.CONSTITUTION, 1);
@@ -286,7 +289,7 @@ end;
 rule "Apply modifiers for age group OLD"
     no-loop
     when
-        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.OLD);
+        character : CharacterDTO( state == CharacterState.BASE_TRAITS_SET && ageGroup == AgeGroup.OLD)
     then
         character.decrementTrait(BaseTraitName.STRENGTH, 5);
         character.decrementTrait(BaseTraitName.CONSTITUTION, 3);
@@ -326,9 +329,9 @@ rule "Initialize movement point"
 end;
 
 
-rule "Determine social status"
+rule "Determine social status - Humans"
   when
-    character : CharacterDTO ( socialStatus == null)
+    character : CharacterDTO ( socialStatus == null && race.name == "human" )
   then
     int eyes = Dice.roll("1t20");
     ItemDTO silver = itemService.findItemByKey("silver");
@@ -356,6 +359,33 @@ rule "Determine social status"
     character.addItem(characterItem);
 end;
 
+rule "Determine social status - Dwarfs"
+  when
+    character : CharacterDTO ( socialStatus == null && race.name == "dwarf" )
+  then
+    int eyes = Dice.roll("1t20");
+    ItemDTO silver = itemService.findItemByKey("silver");
+    ItemDTO gold = itemService.findItemByKey("gold");
+    CharacterItemDTO characterItem = CharacterItemDTO.builder()
+      .itemName("silver").item(silver).build();
+    CharacterItemDTO characterGold = CharacterItemDTO.builder()
+      .itemName("gold").item(gold).build();
+
+    if(isBetween(eyes,1,3)){
+      character.setSocialStatus(SocialStatus.NOBLE);
+      characterItem.setQuantity(Dice.roll("4t3x150"));
+      characterGold.setQuantity(Dice.roll("1t20+20"));
+      character.addItem(characterGold);
+    } else if(isBetween(eyes, 4, 11)){
+      character.setSocialStatus(SocialStatus.CITIZEN);
+      characterItem.setQuantity(Dice.roll("3t3x150"));
+    } else {
+      character.setSocialStatus(SocialStatus.DISPOSSESSED);
+      characterItem.setQuantity(Dice.roll("1t3x100"));
+    }
+    character.addItem(characterItem);
+end;
+
 
 rule "Check character completion"
   when
@@ -364,3 +394,4 @@ rule "Check character completion"
     character.setState(CharacterState.INIT_COMPLETE);
     update(character)
 end;
+

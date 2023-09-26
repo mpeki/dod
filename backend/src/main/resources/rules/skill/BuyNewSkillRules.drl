@@ -9,6 +9,7 @@ import dk.pekilidi.dod.data.SkillDTO
 import dk.pekilidi.dod.skill.SkillKey
 import dk.pekilidi.dod.skill.SkillNotFoundException
 import dk.pekilidi.dod.items.ItemKey
+import dk.pekilidi.dod.util.Dice
 
 global SkillService skillService;
 global SkillDTO skill;
@@ -19,7 +20,7 @@ rule "Validate character state"
   salience 100
   no-loop
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING )
     character : CharacterDTO( state != CharacterState.INIT_COMPLETE)
   then
     changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
@@ -32,7 +33,7 @@ rule "Validate change request"
   salience 100
   no-loop
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING )
     character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
   then
     String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
@@ -55,6 +56,27 @@ rule "Validate change request"
         changeRequest.setStatus(ChangeStatus.REJECTED);
       }
     }
+    if( changeRequest.getStatus() == ChangeStatus.PENDING ){
+      changeRequest.setStatus(ChangeStatus.VALIDATED);
+    }
+    update(changeRequest)
+end;
+
+rule "Add Racial Modifier"
+  ruleflow-group "new-skill"
+  salience 80
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.VALIDATED )
+  then
+    switch(character.getRace().getName()){
+      case "dwarf":
+        if( skill.getKey().getKeyValue().equals("fst") ){
+          int mod = (Integer) changeRequest.getModifier();
+          changeRequest.setModifier( mod + Dice.roll("1t3") );
+        }
+    }
     update(changeRequest)
 end;
 
@@ -64,14 +86,15 @@ rule "Add skill"
   ruleflow-group "new-skill"
   no-loop
   when
-    character : CharacterDTO( state == CharacterState.INIT_COMPLETE );
-    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.PENDING );
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.VALIDATED )
   then
     skillCost = (Integer) drools.getKieRuntime().getGlobal("skillCost");
     skill = (SkillDTO) drools.getKieRuntime().getGlobal("skill");
     if( skill != null && skillCost != null ){
       skill.setFv((Integer) changeRequest.getModifier());
       skill.setItemKey(changeRequest.getSecondaryChangeKey() != null ? ((ItemKey) changeRequest.getSecondaryChangeKey().getChangeKey()) : null);
+      skill.setSkillPointsSpent(skillCost);
       character.setBaseSkillPoints(character.getBaseSkillPoints() - skillCost);
       character.addSkill(skill);
       changeRequest.setStatus(ChangeStatus.APPROVED);

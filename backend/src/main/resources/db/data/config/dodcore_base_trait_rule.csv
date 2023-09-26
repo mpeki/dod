@@ -1,4 +1,6 @@
 id;base_trait_name;base_trait_die_roll;base_trait_hero_die_roll
+
+# Human Trait Rules
 1;STRENGTH;3t6;2t6+6
 2;SIZE;3t6;2t6+6
 3;CONSTITUTION;3t6;2t6+6
@@ -6,3 +8,13 @@ id;base_trait_name;base_trait_die_roll;base_trait_hero_die_roll
 5;INTELLIGENCE;3t6;2t6+6
 6;PSYCHE;3t6;2t6+6
 7;CHARISMA;1t20;1t20
+
+# Dwarven Trait Rules
+# id;base_trait_name;base_trait_die_roll;base_trait_hero_die_roll
+8;STRENGTH;4t6;3t6+6
+9;SIZE;2t4+2;1t4+6
+10;CONSTITUTION;2t6+6;1t6+12
+11;DEXTERITY;3t6;2t6+6
+12;INTELLIGENCE;3t6;2t6+6
+13;PSYCHE;2t6+6;1t6+12
+14;CHARISMA;3t6;2t6+6

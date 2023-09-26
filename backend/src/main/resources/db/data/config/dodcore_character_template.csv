@@ -1,2 +1,3 @@
 id;name;body_type_class
 1;human template;dk.pekilidi.dod.character.model.body.HumanoidBody
+2;dwarven template;dk.pekilidi.dod.character.model.body.HumanoidBody

@@ -1,9 +1,10 @@
 import React, { FC, ReactNode, useCallback, useState } from "react";
-import { Change } from "../../types/change";
+import { Change, createChange } from "../../types/change";
 import CharacterContext from "./CharacterContext";
 import { useChangeService } from "../../services/change.service";
 import useCharacterService from "../../services/character.service";
 import { Character } from "../../types/character";
+import { showSuccessSnackbar } from "../../utils/DODSnackbars";
 
 type CharacterContextProviderProps = {
   children: ReactNode;
@@ -26,16 +27,15 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
   }, [getCharacters]);
 
   const activateCharHandler = useCallback(async (characterId: string) => {
-    const changeData: Change = {
-      changeKey: "READY_TO_PLAY",
-      changeType: "CHARACTER_READY_TO_PLAY",
-      changeDescription: "Character {character.id} is ready to play",
-      modifier: 0
-    };
+    const changeData: Change = createChange("CHARACTER_READY_TO_PLAY",
+      "Character {character.id} is ready to play",
+      "READY_TO_PLAY",
+      0);
     console.log("Activating character: " + characterId);
     if (characterId != null) {
       await doChange(characterId, changeData)
-      .then(() => {
+      .then((change: Change) => {
+        showSuccessSnackbar("Character activated successfully: " + change.statusLabel);
         fetchCharsHandler();
       });
     }

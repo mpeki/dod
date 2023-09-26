@@ -1,31 +1,35 @@
-import { Container, Paper, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { HomeImageMenu } from "../UI/HomeImageMenu";
-
-const styles = {
-  homeContainer: {
-    width: "100%",
-    maxWidth: 1200
-  }
-};
+import { useTranslation } from "react-i18next";
+import { useAuth } from "react-oidc-context";
 
 export const Home = () => {
+  const { t } = useTranslation("home");
+  const auth = useAuth();
+
   return (
-    <Container style={styles.homeContainer} disableGutters>
-      <Paper elevation={20}>
-        <Stack direction={"row"}>
-          <Stack direction={"column"}>
-            <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
-              Welcome to Drager & Dæmoner
+    <Stack direction={"row"}>
+      <Stack direction={"column"}>
+        <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
+          {t("title")}
+        </Typography>
+        {!auth.isAuthenticated && (
+          <>
+            <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
+              {t("bodyText.part1")}
             </Typography>
             <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
-              This is the Home page! Where you can find the latest news and updates about the game. You can also find
-              links to the other pages of the game.
+              {t("bodyText.part2")}
             </Typography>
-            <HomeImageMenu />
-          </Stack>
-        </Stack>
-      </Paper>
-    </Container>
+          </>
+        )}
+        <Typography sx={{ p: 2 }} variant="body2" gutterBottom align={"justify"}>
+          {t("bodyText.part3")}
+          <br />- 🐉&😈 🤘
+        </Typography>
+        <HomeImageMenu />
+      </Stack>
+    </Stack>
   );
 };

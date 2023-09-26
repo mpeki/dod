@@ -2,7 +2,9 @@ package dk.pekilidi.dod.skill;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.CharacterDTO;
+import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.race.model.Race;
 import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.skill.model.Group;
 import dk.pekilidi.dod.skill.model.Skill;
@@ -169,4 +171,11 @@ public class SkillService {
     }
     return modelMapper.map(skill, SkillDTO.class);
   }
+
+  public List<SkillDTO> findDeniedSkillsForRace(RaceDTO raceDTO){
+    Race race = modelMapper.map(raceDTO, Race.class);
+    List<Skill> skills = skillRepository.findDeniedSkillsByRace(race);
+    return modelMapper.map(skills, new TypeToken<List<SkillDTO>>() {}.getType());
+  }
+
 }

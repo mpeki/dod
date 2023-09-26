@@ -6,10 +6,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import { Tooltip } from "@mui/material";
 import { showFatalConnectionErrorSnackbar } from "../../utils/DODSnackbars";
+import { useTranslation } from "react-i18next";
 
 export const AppTabs = () => {
 
   const auth = useAuth();
+  const { t } = useTranslation("tabs");
 
   function useRouteMatch(patterns: readonly string[]) {
     const { pathname } = useLocation();
@@ -52,13 +54,13 @@ export const AppTabs = () => {
 
   return (
     <Tabs value={currentTab || "/home"} centered>
-      <Tab label="Home" value="/home" to="/home" component={Link} />
-      <Tab label="Characters" value="/characters" to="/characters" component={Link}
+      <Tab label={t("homeTab")} value="/home" to="/home" component={Link} />
+      <Tab label={t("charactersTab")} value="/characters" to="/characters" component={Link}
            disabled={!auth.isAuthenticated} />
-      <Tab label="City" value="/city" to="/city" component={Link} disabled={!auth.isAuthenticated} />
-      <Tab label="Wilderness" value="/wilderness" to="/wilderness" component={Link}
+      <Tab label={t("cityTab")} value="/city" to="/city" component={Link} disabled={!auth.isAuthenticated} />
+      <Tab label={t("wildernessTab")} value="/wilderness" to="/wilderness" component={Link}
            disabled={!auth.isAuthenticated} />
-      <Tab label={auth.isAuthenticated ? "Settings / About" : "About"} value="/settings" to="/settings"
+      <Tab label={auth.isAuthenticated ? t("settingsAboutTab") : t("aboutTab")} value="/settings" to="/settings"
            component={Link} />
 
       <Tab icon={auth.isAuthenticated ? <Tooltip title="Logout"><LockOutlinedIcon /></Tooltip> :

@@ -1,10 +1,8 @@
-import { Container, Paper, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { CityImageMenu } from "./CityImageMenu";
 
 export const TheCity = () =>
-  <Container disableGutters>
-    <Paper elevation={3}>
       <Stack direction={"row"}>
         <Stack direction={"column"}>
           <Typography sx={{ p: 2 }} variant="h5" gutterBottom align={"justify"}>
@@ -21,6 +19,4 @@ export const TheCity = () =>
           </Typography>
           <CityImageMenu />
         </Stack>
-      </Stack>
-    </Paper>
-  </Container>;
+      </Stack>;
