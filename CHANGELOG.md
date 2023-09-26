@@ -1,3 +1,10 @@
+## [1.16.1](https://github.com/mpeki/dod/compare/v1.16.0...v1.16.1) (2023-09-26)
+
+
+### Bug Fixes
+
+* **DOD-360:** Security patch ([41e30a7](https://github.com/mpeki/dod/commit/41e30a77856145f9ef5a3d371d2a87aa6c7cf111))
+
 # [1.16.0](https://github.com/mpeki/dod/compare/v1.15.0...v1.16.0) (2023-09-21)
 
 
