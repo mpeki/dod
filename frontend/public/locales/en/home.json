@@ -42,6 +42,5 @@
       "title": "About / Settings",
       "description": "View the about page and change settings"
     }
-  },
-  "inter": "interpolated {{val}}"
+  }
 }

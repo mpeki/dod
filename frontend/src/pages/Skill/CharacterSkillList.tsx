@@ -2,6 +2,7 @@ import { Skill } from "../../types/skill";
 import { CharacterSkill } from "./CharacterSkill";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { StyledTable } from "../../components/shared/Table.styled";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   charId: string;
@@ -11,6 +12,8 @@ interface IProps {
 }
 
 export const CharacterSkillList = ({ charId, skills, fetchCharHandler, canRemoveSkill }: IProps): JSX.Element => {
+
+  const { t } = useTranslation("char");
 
   const charSkillItems = () => {
     const result: JSX.Element[] = [];
@@ -35,9 +38,9 @@ export const CharacterSkillList = ({ charId, skills, fetchCharHandler, canRemove
         <TableHead>
           <TableRow>
             {canRemoveSkill && <TableCell width={1}/>}
-            <TableCell sx={{ fontWeight: 'bold' }}>Skills</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>Value</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>Exp</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>{t("detail.skills.skills")}</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>{t("detail.skills.value")}</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>{t("detail.skills.exp")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

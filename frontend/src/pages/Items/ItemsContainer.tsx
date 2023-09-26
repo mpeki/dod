@@ -29,7 +29,7 @@ export const ItemsContainer = ({character}: IProps) => {
   const itemRows = function(): any[] {
 
     const items = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 3; i++) {
       items.push(<TableRow key={i}>
           <TableCell height={12}> </TableCell>
           <TableCell> </TableCell>

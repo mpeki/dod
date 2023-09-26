@@ -1,5 +1,5 @@
 import { Item } from "../types/item";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { AxiosContext } from "./axios/AxiosContext";
 import handleAxiosError from "./axios/axiosErrorHandler";
 
@@ -16,14 +16,14 @@ export const useItemService = () => {
     }
   };
 
-  const getMeleeWeapons = async () => {
+  const getMeleeWeapons = useCallback(async () => {
     try {
       const response = await axiosInstance.get('/items/type/MELEE_WEAPON');
       return response.data;
     } catch (err) {
       handleAxiosError(err);
     }
-  };
+  }, [axiosInstance]);
 
   const createItem = async (item: Item) => {
     try {

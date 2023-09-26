@@ -51,7 +51,7 @@ export const ViewCharacter = () => {
   } else {
 
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" >
           <Masonry columns={2} spacing={1}>
             <Paper elevation={3}>
               <BaseTraitList baseTraits={character?.baseTraits} />

@@ -20,6 +20,7 @@ import StartIcon from "@mui/icons-material/Start";
 import CharacterContext from "./CharacterContext";
 import withFlashing from "../../components/withFlashing";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   character: Character;
@@ -31,6 +32,7 @@ export const CharacterCard = ({ character }: IProps) => {
   const { deleteCharacter } = useCharacterService();
   const charContext = useContext(CharacterContext);
   const FlashingActivateButton = withFlashing(Fab);
+  const { t } = useTranslation(["races","char"]);
 
   if (!charContext) {
     throw new Error("CharacterCard must be rendered within an ActivateCharContext.Provider");
@@ -71,13 +73,13 @@ export const CharacterCard = ({ character }: IProps) => {
               </Avatar>
             }
             title={`${character.name.substring(0, 15)}${character.name.length > 15 ? "..." : ""}`}
-            subheader={character.race.name}
+            subheader={t(`races:${character.race.name}`)}
           />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               Hero: {character.hero.toString()} <br />
               Base Skill Points left: {character.baseSkillPoints} <br />
-              State: {character.state}
+              State: {t(`char:state.${character.state}`)}
             </Typography>
           </CardContent>
         </CardActionArea>
