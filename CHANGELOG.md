@@ -1,3 +1,14 @@
+# [1.17.0](https://github.com/mpeki/dod/compare/v1.16.1...v1.17.0) (2023-09-26)
+
+
+### Features
+
+* **DOD-277:** Added non-native languages ([31bfaa5](https://github.com/mpeki/dod/commit/31bfaa5a91e1f067f8b9c1e1e0b8bd9aeae80bcd))
+* **DOD-278:** Added dwarfs ([0f87f7b](https://github.com/mpeki/dod/commit/0f87f7be02ebe699e7bcfaf537f96f6c0fd616b5))
+* **DOD-335:** It is now possible to remove skills before activating ([fe94a9d](https://github.com/mpeki/dod/commit/fe94a9d57c15e8f6851378422c4c561844b5efde))
+* **DOD-343:** Blinking buttons now blink less and faster ([ac23236](https://github.com/mpeki/dod/commit/ac23236e04b14a0218b8a06b1e27a0e5993afc66))
+* **DOD-353:** I18N introduced ([b3e2a95](https://github.com/mpeki/dod/commit/b3e2a958f70885c394641f41d648020d9a18fbcb))
+* **DOD-357:** Translating Character Pages ([fa869a0](https://github.com/mpeki/dod/commit/fa869a0f5c3abd9aceab8ecfa1c3f8bb88fe55e6))
 
 ## [1.16.1](https://github.com/mpeki/dod/compare/v1.16.0...v1.16.1) (2023-09-26)
 
