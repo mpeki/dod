@@ -97,7 +97,6 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
 
           <footer className={classes.actions}>
             <button onClick={exchangeXPHandler}>Buy FV</button>
-            <button onClick={trainSkillHandler}>Train Skill</button>
             <button onClick={onConfirm}>Ok</button>
           </footer>
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>

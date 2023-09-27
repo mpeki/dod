@@ -1,3 +1,10 @@
+# [1.18.0-rc.1](https://github.com/mpeki/dod/compare/v1.17.0...v1.18.0-rc.1) (2023-09-26)
+
+
+### Features
+
+* **DOD-350:** remove train skill button ([9124a45](https://github.com/mpeki/dod/commit/9124a458919027ada534317e729d712e7a895a4f))
+
 # [1.17.0](https://github.com/mpeki/dod/compare/v1.16.1...v1.17.0) (2023-09-26)
 
 
