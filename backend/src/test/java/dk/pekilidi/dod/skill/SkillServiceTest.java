@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
+import dk.pekilidi.dod.data.CharacterSkillDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.skill.model.Group;
@@ -131,7 +132,7 @@ class SkillServiceTest {
   void testFvIncreaseCost(int startFv, int buyFv, int cost, int expected){
     SkillKey key = SkillKey.builder().value("primary.weapon").build();
     CharacterDTO testChar = CharacterDTO.builder()
-        .skills(Map.of(key.getKeyValue(), SkillDTO.builder().key(key).fv(startFv).price(cost).build()))
+        .skills(Map.of(key.getKeyValue(), CharacterSkillDTO.builder().skill(SkillDTO.builder().key(key).price(cost).build()).fv(startFv).build()))
         .build();
     assertEquals(expected, SkillService.calculatePriceForFVIncrease(testChar, key.getKeyValue(), buyFv));
   }

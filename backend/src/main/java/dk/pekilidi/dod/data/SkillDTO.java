@@ -38,9 +38,5 @@ public class SkillDTO implements Serializable {
   private Group group;
   private Integer price;
   private BaseTraitName baseChance;
-  private Integer fv;
-  private Integer experience;
-  private Integer skillPointsSpent;
-  private LocalDateTime lastUsed;
   private List<RaceDTO> deniedRaces;
 }

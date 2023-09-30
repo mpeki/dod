@@ -13,6 +13,7 @@ import dk.pekilidi.dod.actions.model.Type;
 import dk.pekilidi.dod.actions.model.SkillTrainingAction;
 import dk.pekilidi.dod.character.model.CharacterState;
 import dk.pekilidi.dod.data.CharacterDTO;
+import dk.pekilidi.dod.data.CharacterSkillDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.SkillKey;
 import dk.pekilidi.dod.skill.SkillService;
@@ -68,12 +69,12 @@ class CharacterActionServiceWithRulesTest {
   @Test
   void testSingleSourceNoTargetAction_training_skill() throws Exception {
     CharacterDTO testSubject = new RandomObjectFiller().createAndFill(CharacterDTO.class);
-    SkillDTO characterSkill = new RandomObjectFiller().createAndFill(SkillDTO.class);
+    CharacterSkillDTO characterSkill = new RandomObjectFiller().createAndFill(CharacterSkillDTO.class);
     SkillKey key = SkillKey.builder().value(TEST_SKILL_KEY).build();
-    characterSkill.setKey(key);
+    characterSkill.setSkill(SkillDTO.builder().key(key).build());;
     characterSkill.setFv(15);
     characterSkill.setExperience(0);
-    Map<String, SkillDTO> skills = Map.of(key.getValue().getKeyValue(), characterSkill);
+    Map<String, CharacterSkillDTO> skills = Map.of(key.getValue().getKeyValue(), characterSkill);
     testSubject.setSkills(skills);
     testSubject.setState(CharacterState.READY_TO_PLAY);
 

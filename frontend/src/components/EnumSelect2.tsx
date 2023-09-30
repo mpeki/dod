@@ -1,11 +1,10 @@
-import { Group } from "../types/group";
+import { GroupType } from "../types/group";
 import { BaseChance } from "../types/basechance";
 import { Category } from "../types/category";
-import Select from 'react-select'
 
 interface IProps {
   onChange : any;
-  selectType : typeof Group | typeof BaseChance | typeof Category
+  selectType : typeof GroupType | typeof BaseChance | typeof Category
 }
 
 export const EnumSelect = ({ selectType, onChange } : IProps ) : JSX.Element => {

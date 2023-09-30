@@ -1,4 +1,4 @@
-import { Skill } from "../../types/skill";
+import { CharacterSkill, Skill } from "../../types/skill";
 import { Action } from "../../types/action";
 import classes from "./SkillDetails.module.css";
 import React, { useCallback, useState } from "react";
@@ -11,7 +11,7 @@ import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 interface IProps {
   characterId: string;
-  skill: Skill;
+  charSkill: CharacterSkill;
   onConfirm: any;
 }
 
@@ -23,12 +23,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 
-export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Element => {
+export const SkillDetails = ({ characterId, charSkill, onConfirm }: IProps): JSX.Element => {
 
   const { doChange } = useChangeService();
   const { trainSkill } = useSkillService();
   const [action , setAction] = useState<Action>();
-  const [skillInput, setSkillInput] = useState<Skill>(skill);
+  const [skillInput, setSkillInput] = useState<CharacterSkill>(charSkill);
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -44,37 +44,37 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
   };
 
   const trainSkillHandler = useCallback(async () => {
-    await trainSkill(characterId, skill.key)
+    await trainSkill(characterId, charSkill.skill.key)
     .then((action) => {
       if (action.actor.skills !== undefined) {
         setAction(action);
-        skillInput.experience = action.actor.skills[skill.key].experience;
-        skillInput.fv = action.actor.skills[skill.key].fv;
+        skillInput.experience = action.actor.skills[charSkill.skill.key].experience;
+        skillInput.fv = action.actor.skills[charSkill.skill.key].fv;
         setSkillInput(skillInput);
         handleClick();
       }
 
     })
     .catch((e) => showWarningSnackbar((e as Error).message));
-  }, [trainSkill, characterId, skill.key, skillInput]);
+  }, [trainSkill, characterId, charSkill.skill.key, skillInput]);
 
 
   const exchangeXPHandler = useCallback(async () => {
-    const changeData: Change = createChange("SKILL_CHANGE", "Increase FV for skill", skill.key, 1);
+    const changeData: Change = createChange("SKILL_CHANGE", "Increase FV for skill", charSkill.skill.key, 1);
 
     if(characterId != null) {
       await doChange(characterId, changeData)
       .then((change: Change) => {
         if (change.objectAfterChange?.skills !== undefined) {
-          console.log(change.objectAfterChange?.skills[skill.key]);
-          skillInput.experience = change.objectAfterChange.skills[skill.key].experience;
-          skillInput.fv = change.objectAfterChange.skills[skill.key].fv;
+          console.log(change.objectAfterChange?.skills[charSkill.skill.key]);
+          skillInput.experience = change.objectAfterChange.skills[charSkill.skill.key].experience;
+          skillInput.fv = change.objectAfterChange.skills[charSkill.skill.key].fv;
           setSkillInput(skillInput);
           handleClick();
         }
       });
     }
-  }, [characterId, doChange, skill.key, skillInput]);
+  }, [characterId, doChange, charSkill.skill.key, skillInput]);
 
   return (
     <>
@@ -85,14 +85,14 @@ export const SkillDetails = ({ characterId, skill, onConfirm }: IProps): JSX.Ele
             <h2>Skill Details</h2>
           </header>
           <div className={classes.content}>
-            <p>Name: {skillInput.key}</p>
+            <p>Name: {skillInput.skill.key}</p>
             <p>FV: {skillInput.fv}</p>
             <p>Skill Points: {skillInput.experience}</p>
-            <p>Base Chance: {skillInput?.baseChance} group</p>
-            <p>Category: {skillInput.category ? skillInput.category.toString() : ''}</p>
-            <p>Group: {skillInput.group ? skillInput.group.toString() : ''}</p>
-            <p>Trait: {skillInput?.traitName}</p>
-            <p>Price: {skillInput?.price}</p>
+            <p>Base Chance: {skillInput?.skill.baseChance} group</p>
+            <p>Category: {skillInput.skill.category ? skillInput.skill.category.toString() : ''}</p>
+            <p>Group: {skillInput.skill.group ? skillInput.skill.group.toString() : ''}</p>
+            <p>Trait: {skillInput?.skill.traitName}</p>
+            <p>Price: {skillInput?.skill.price}</p>
           </div>
 
           <footer className={classes.actions}>

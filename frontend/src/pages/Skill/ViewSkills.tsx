@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Skill } from "../../types/skill";
 import { EnumSelect } from "../../components/EnumSelect";
-import { Group } from "../../types/group";
+import { GroupType } from "../../types/group";
 import { BaseChance } from "../../types/basechance";
 
 export const ViewSkills = () => {
@@ -34,7 +34,7 @@ export const ViewSkills = () => {
 
   return (
     <>
-      <EnumSelect selectType={Group} onChange={handleGroupSelect}/>
+      <EnumSelect selectType={GroupType} onChange={handleGroupSelect}/>
       <EnumSelect selectType={BaseChance} onChange={handleBaseChanceSelect}/>
       {/*<SkillList skills={shownSkills} selectSkillHandler={selectSkillHandler} />*/}
     </>)

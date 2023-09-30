@@ -1,5 +1,5 @@
 import { Race } from "./race";
-import { Skill } from "./skill";
+import { CharacterSkill, Skill } from "./skill";
 import { CharacterState } from "./character-state";
 import { CharacterItem, Item } from "./item";
 
@@ -28,7 +28,7 @@ export interface Character {
   baseTraits?: Record<string,BaseTraitValue>;
   bodyParts?: Record<string,BodyPartValue>;
   baseSkillPoints?: number;
-  skills?: Record<string,Skill>;
+  skills?: Record<string,CharacterSkill>;
   items?: Record<string,CharacterItem>;
   weightCarried?: number;
 }

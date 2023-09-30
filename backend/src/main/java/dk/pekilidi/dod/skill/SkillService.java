@@ -2,6 +2,7 @@ package dk.pekilidi.dod.skill;
 
 import dk.pekilidi.dod.character.model.BaseTraitName;
 import dk.pekilidi.dod.data.CharacterDTO;
+import dk.pekilidi.dod.data.CharacterSkillDTO;
 import dk.pekilidi.dod.data.RaceDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.race.model.Race;
@@ -90,11 +91,12 @@ public class SkillService {
   }
 
   public static int calculatePriceForFVIncrease(CharacterDTO characterDTO, String skillKey, int fvToBuy) {
-    SkillDTO skill = characterDTO.getSkills().get(skillKey);
+    CharacterSkillDTO charSkill = characterDTO.getSkills().get(skillKey);
+    SkillDTO skill = charSkill.getSkill();
     if (skill.getCategory() == Category.B) {
       return calculatePriceForFVIncreaseCatB(characterDTO, skill, fvToBuy);
     }
-    int currentFv = characterDTO.getSkills().get(skillKey).getFv();
+    int currentFv = charSkill.getFv();
     int newFV = currentFv + fvToBuy;
     int cost = 0;
     for (int i = currentFv + 1; i < newFV + 1; i++) {

@@ -10,9 +10,10 @@ import dk.pekilidi.dod.skill.SkillKey
 import dk.pekilidi.dod.skill.SkillNotFoundException
 import dk.pekilidi.dod.items.ItemKey
 import dk.pekilidi.dod.util.Dice
+import dk.pekilidi.dod.data.CharacterSkillDTO
 
 global SkillService skillService;
-global SkillDTO skill;
+global SkillDTO baseSkill;
 global Integer skillCost;
 
 rule "Validate character state"
@@ -38,14 +39,14 @@ rule "Validate change request"
   then
     String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
     try {
-      skill = skillService.findSkillByKey(skillKey);
+      baseSkill = skillService.findSkillByKey(skillKey);
     } catch (SkillNotFoundException e) {
       changeRequest.setStatusLabel(ChangeStatusLabel.SKILL_DOES_NOT_EXIST);
       changeRequest.setStatus(ChangeStatus.REJECTED);
     }
-    if(skill != null){
-      drools.getKieRuntime().setGlobal("skill", skill);
-      skillCost = SkillService.calculateNewSkillPrice(character, skill, (Integer) changeRequest.getModifier());
+    if(baseSkill != null){
+      drools.getKieRuntime().setGlobal("baseSkill", baseSkill);
+      skillCost = SkillService.calculateNewSkillPrice(character, baseSkill, (Integer) changeRequest.getModifier());
       drools.getKieRuntime().setGlobal("skillCost", skillCost);
       if( character.getBaseSkillPoints() < skillCost ){
         changeRequest.setStatusLabel(ChangeStatusLabel.INSUFFICIENT_SKILL_POINTS);
@@ -70,6 +71,7 @@ rule "Add Racial Modifier"
     character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
     changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.VALIDATED )
   then
+    SkillDTO skill = (SkillDTO) drools.getKieRuntime().getGlobal("baseSkill");
     switch(character.getRace().getName()){
       case "dwarf":
         if( skill.getKey().getKeyValue().equals("fst") ){
@@ -78,6 +80,23 @@ rule "Add Racial Modifier"
         }
     }
     update(changeRequest)
+end;
+
+rule "Recalculate Dodge Skill"
+  ruleflow-group "new-skill"
+  salience 80
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.VALIDATED )
+  then
+    String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
+    if(skillKey.equalsIgnoreCase("primary.weapon")){
+        CharacterSkillDTO dodgeSkill = character.getSkills().get("dodge");
+        if(dodgeSkill != null){
+          character.updateFv("dodge", Math.ceilDiv((Integer)changeRequest.getModifier() + dodgeSkill.getFv(), 2));
+        }
+    }
 end;
 
 
@@ -90,13 +109,17 @@ rule "Add skill"
     changeRequest : ChangeRequest( changeType == ChangeType.NEW_SKILL && status == ChangeStatus.VALIDATED )
   then
     skillCost = (Integer) drools.getKieRuntime().getGlobal("skillCost");
-    skill = (SkillDTO) drools.getKieRuntime().getGlobal("skill");
-    if( skill != null && skillCost != null ){
-      skill.setFv((Integer) changeRequest.getModifier());
-      skill.setItemKey(changeRequest.getSecondaryChangeKey() != null ? ((ItemKey) changeRequest.getSecondaryChangeKey().getChangeKey()) : null);
-      skill.setSkillPointsSpent(skillCost);
+    baseSkill = (SkillDTO) drools.getKieRuntime().getGlobal("baseSkill");
+    if( baseSkill != null && skillCost != null ){
+      baseSkill.setItemKey(changeRequest.getSecondaryChangeKey() != null ? ((ItemKey) changeRequest.getSecondaryChangeKey().getChangeKey()) : null);
+
+      CharacterSkillDTO characterSkill = CharacterSkillDTO.builder()
+      .skill(baseSkill)
+      .fv((Integer) changeRequest.getModifier())
+      .skillPointsSpent(skillCost).build();
+
       character.setBaseSkillPoints(character.getBaseSkillPoints() - skillCost);
-      character.addSkill(skill);
+      character.addSkill(characterSkill);
       changeRequest.setStatus(ChangeStatus.APPROVED);
       changeRequest.setStatusLabel(ChangeStatusLabel.OK_SKILL_BOUGHT);
     } else {
@@ -104,7 +127,7 @@ rule "Add skill"
       changeRequest.setStatus(ChangeStatus.REJECTED);
     }
     drools.getKieRuntime().setGlobal("skillCost", null);
-    drools.getKieRuntime().setGlobal("skill", null);
+    drools.getKieRuntime().setGlobal("baseSkill", null);
     update(changeRequest)
 end;
 

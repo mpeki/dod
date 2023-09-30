@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dk.pekilidi.dodgame.selenium.helpers.AuthenticationHelper;
+import dk.pekilidi.dodgame.selenium.helpers.CharacterHelper;
+import dk.pekilidi.dodgame.selenium.helpers.LanguageHelper;
+import dk.pekilidi.dodgame.selenium.helpers.NavigationHelper;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +37,7 @@ class CharacterTest {
   @BeforeAll
   static void setUp() {
     ChromeOptions options = new ChromeOptions();
-    options.addArguments("--headless");
+//    options.addArguments("--headless");
 
     ChromeDriverService service = new ChromeDriverService.Builder().withLogOutput(System.out).build();
 
@@ -49,6 +53,7 @@ class CharacterTest {
     ScreenshotOnFailureExtension.setDriver(driver);
 
     AuthenticationHelper.login(driver, "msp", "msp123");
+    LanguageHelper.setLanguage(driver, LanguageHelper.ENGLISH);
   }
 
   @AfterAll
@@ -66,7 +71,7 @@ class CharacterTest {
   void createAndDeleteCharacter() {
     String charName = CharacterHelper.getRandomBo();
     NavigationHelper.gotoCharacters(driver);
-    CharacterHelper.createCharacter(driver, charName, true, "Old", "human");
+    CharacterHelper.createCharacter(driver, charName, true, "OLD", "human");
     WebElement nameSpan = driver.findElement(By.xpath("//span[text()='" + charName + "']"));
     assertEquals(charName, nameSpan.getText());
     CharacterHelper.deleteCharacter(driver, charName);
@@ -80,7 +85,7 @@ class CharacterTest {
     String oldBo = CharacterHelper.getRandomBo();
     String newBo = CharacterHelper.getRandomBo();
     NavigationHelper.gotoCharacters(driver);
-    CharacterHelper.createCharacter(driver, oldBo, true, "Old", "human");
+    CharacterHelper.createCharacter(driver, oldBo, true, "OLD", "human");
 
     assertEquals(oldBo, driver.findElement(By.xpath("//span[text()='" + oldBo + "']")).getText());
     CharacterHelper.renameCharacter(driver, oldBo, newBo);
@@ -100,7 +105,7 @@ class CharacterTest {
   @Test
   void createCharacterAndBuySkills() {
     String bo = CharacterHelper.getRandomBo();
-    CharacterHelper.createCharacter(driver, bo, true, "Young", "human");
+    CharacterHelper.createCharacter(driver, bo, true, "YOUNG", "human");
     assertEquals(bo, driver.findElement(By.xpath("//span[text()='" + bo + "']")).getText());
     CharacterHelper.selectCharacter(driver, bo);
     assertTrue(CharacterHelper.getRemainingSP(driver) == 260);

@@ -38,9 +38,13 @@ import dk.pekilidi.dod.items.ItemService;
 import dk.pekilidi.dod.items.ItemKey;
 import dk.pekilidi.dod.character.model.CharacterItem;
 import dk.pekilidi.dod.data.CharacterItemDTO
-import dk.pekilidi.dod.character.model.Movement;
+import dk.pekilidi.dod.character.model.Movement
+import dk.pekilidi.dod.data.SkillDTO;
+import dk.pekilidi.dod.skill.SkillService
+import dk.pekilidi.dod.data.CharacterSkillDTO;
 
 global ItemService itemService;
+global SkillService skillService;
 
 function boolean isBetween(int x, int lower, int upper) {
   return lower <= x && x <= upper;
@@ -302,6 +306,18 @@ rule "Apply modifiers for age group OLD"
         update(character)
 end;
 
+rule "Add natural skills"
+  when
+    character : CharacterDTO ( skills.isEmpty() )
+  then
+    CharacterSkillDTO characterSkill = CharacterSkillDTO.builder().build();
+    SkillDTO dodgeSkill = skillService.findSkillByKey("dodge");
+    characterSkill.setSkill(dodgeSkill);
+    characterSkill.setFv(character.getBaseTraitValue(BaseTraitName.DEXTERITY));
+    character.addSkill(characterSkill);
+    update(character);
+end;
+
 rule "Determine favorite hand"
   when
     character : CharacterDTO ( favoriteHand == null)
@@ -385,7 +401,6 @@ rule "Determine social status - Dwarfs"
     }
     character.addItem(characterItem);
 end;
-
 
 rule "Check character completion"
   when

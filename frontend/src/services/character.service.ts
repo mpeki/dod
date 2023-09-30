@@ -1,6 +1,9 @@
-import { useContext, useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { AxiosContext } from "./axios/AxiosContext";
-import axiosErrorHandler from './axios/axiosErrorHandler';
+import axiosErrorHandler from "./axios/axiosErrorHandler";
+import { Character } from "../types/character";
+import { CharacterSkill, Skill } from "../types/skill";
+import { GroupType } from "../types/group";
 
 const useCharacterService = () => {
 
@@ -8,28 +11,32 @@ const useCharacterService = () => {
 
   const getCharacters = useCallback(async () => {
     try {
-      const response = await axiosInstance.get('/char');
+      const response = await axiosInstance.get("/char");
       return response.data;
     } catch (err) {
-      axiosErrorHandler(err)
+      axiosErrorHandler(err);
     }
-  },[axiosInstance]);
+  }, [axiosInstance]);
 
-  const getCharacter = useCallback( async (charId: string) => {
+  const getCharacter = useCallback(async (charId: string): Promise<Character> => {
     try {
       const response = await axiosInstance.get(`/char/${charId}`);
+      Object.keys(response.data.skills).forEach((skillKey) => {
+        const charSkill : CharacterSkill = response.data.skills[skillKey];
+        charSkill.skill = getCachedSkillForKey(charSkill.skill.key);
+      });
       return response.data;
     } catch (err) {
-      axiosErrorHandler(err)
+      axiosErrorHandler(err);
     }
-  },[axiosInstance]);
+  }, [axiosInstance]);
 
   const getCharactersByName = async (charName: string) => {
     try {
       const response = await axiosInstance.get(`/char/name/${charName}`);
       return response.data;
     } catch (err) {
-      axiosErrorHandler(err)
+      axiosErrorHandler(err);
     }
   };
 
@@ -38,7 +45,7 @@ const useCharacterService = () => {
       const response = await axiosInstance.delete(`/char/${charId}`);
       return response.data;
     } catch (err) {
-      axiosErrorHandler(err)
+      axiosErrorHandler(err);
     }
   };
 
@@ -47,7 +54,7 @@ const useCharacterService = () => {
       const response = await axiosInstance.post(`/char`, char);
       return response.data;
     } catch (err) {
-      axiosErrorHandler(err)
+      axiosErrorHandler(err);
     }
   };
 
@@ -57,7 +64,24 @@ const useCharacterService = () => {
     getCharactersByName,
     createCharacter,
     deleteCharacter
-    // ... other methods
   };
 };
 export default useCharacterService;
+
+function getCachedSkillForKey(key: string): Skill {
+  console.log("getCachedSkillForKey " + key);
+  let skillJSON = localStorage.getItem("skills");
+  if (skillJSON !== null) {
+    const skills: Skill[] = JSON.parse(skillJSON);
+    if (skills !== undefined) {
+      const memSkill: Skill = skills.filter(storedSkill => {
+        return storedSkill.key === key;
+      })[0];
+      if (memSkill !== undefined) {
+        memSkill.group = new GroupType(memSkill.group.value);
+        return memSkill;
+      }
+    }
+  }
+  throw new Error(`Skill with key: ${key} not found in cache`);
+}

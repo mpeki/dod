@@ -12,6 +12,7 @@ import dk.pekilidi.dod.util.rules.RulesUtil
 import dk.pekilidi.dod.character.model.BaseTraitName
 import java.time.LocalDate
 import java.time.LocalDateTime
+import dk.pekilidi.dod.data.CharacterSkillDTO
 
 rule "Determine single source action outcome - success"
   ruleflow-group "award-experience"
@@ -19,9 +20,9 @@ rule "Determine single source action outcome - success"
   no-loop
   when
     ssAction : SkillTrainingAction( type == Type.SKILL_TRAINING && actionResult == ActionResult.SUCCESS )
-    character : CharacterDTO( state == CharacterState.READY_TO_PLAY ) from ssAction.actor;
+    character : CharacterDTO( state == CharacterState.READY_TO_PLAY ) from ssAction.actor
   then
-    SkillDTO characterSkill = character.getSkills().get( ssAction.getSkillKey() );
+    CharacterSkillDTO characterSkill = character.getSkills().get( ssAction.getSkillKey() );
     LocalDateTime today = LocalDateTime.now();
     if (characterSkill.getLastUsed() == null || today.isBefore(characterSkill.getLastUsed())){
       int exp = character.getSkills().get( ssAction.getSkillKey() ).getExperience();
@@ -36,9 +37,9 @@ rule "Determine single source action outcome - masterful success"
   no-loop
   when
     ssAction : SkillTrainingAction( type == Type.SKILL_TRAINING && actionResult == ActionResult.MASTERFUL )
-    character : CharacterDTO( state == CharacterState.READY_TO_PLAY ) from ssAction.actor;
+    character : CharacterDTO( state == CharacterState.READY_TO_PLAY ) from ssAction.actor
   then
-    SkillDTO characterSkill = character.getSkills().get( ssAction.getSkillKey() );
+    CharacterSkillDTO characterSkill = character.getSkills().get( ssAction.getSkillKey() );
     int exp = character.getSkills().get( ssAction.getSkillKey() ).getExperience();
     character.getSkills().get( ssAction.getSkillKey() ).setExperience( exp + Dice.roll("1t3") );
     update(ssAction);
@@ -50,9 +51,9 @@ rule "Determine single source action outcome - perfect success"
   no-loop
   when
     ssAction : SkillTrainingAction( type == Type.SKILL_TRAINING && actionResult == ActionResult.PERFECT )
-    character : CharacterDTO( state == CharacterState.READY_TO_PLAY ) from ssAction.actor;
+    character : CharacterDTO( state == CharacterState.READY_TO_PLAY ) from ssAction.actor
   then
-    SkillDTO characterSkill = character.getSkills().get( ssAction.getSkillKey() );
+    CharacterSkillDTO characterSkill = character.getSkills().get( ssAction.getSkillKey() );
     int exp = character.getSkills().get( ssAction.getSkillKey() ).getExperience();
     character.getSkills().get( ssAction.getSkillKey() ).setExperience( exp + Dice.roll("1t4") );
     update(ssAction);

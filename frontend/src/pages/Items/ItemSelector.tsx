@@ -28,7 +28,6 @@ export const ItemSelector = ({ items, onChange, label }: IProps) => {
     bp: item.bp,
     handGrip: item.handGrip
   }));
-  console.log("itemOptions in ItemsSelector: ", itemOptions);
 
   return (
     <Autocomplete

@@ -21,14 +21,17 @@ enum Values {
   COMMUNICATION = "communication",
   THIEVING = "thieving",
   PERCEPTION = "perception",
-  OUTDOOR = "outdoor"
+  OUTDOOR = "outdoor",
+  NATURAL = "NATURAL"
 }
 
-export class Group extends FilterType {
+export class GroupType extends FilterType {
 
   constructor(value?: string) {
     super();
-    this.value = value;
+    if(value) {
+      this.value = value;
+    }
   }
 
   static readonly values = Values;
@@ -37,7 +40,7 @@ export class Group extends FilterType {
     return "Group";
   }
   getValues(): any {
-    return Group.values;
+    return GroupType.values;
   }
 
   getValue(): string | number | undefined {

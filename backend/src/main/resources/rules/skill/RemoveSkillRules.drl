@@ -9,6 +9,7 @@ import dk.pekilidi.dod.data.SkillDTO
 import dk.pekilidi.dod.skill.SkillKey
 import dk.pekilidi.dod.skill.SkillNotFoundException
 import dk.pekilidi.dod.items.ItemKey
+import dk.pekilidi.dod.data.CharacterSkillDTO
 
 global SkillService skillService;
 
@@ -50,7 +51,7 @@ rule "Remove skill"
     changeRequest : ChangeRequest( changeType == ChangeType.REMOVE_SKILL && status == ChangeStatus.PENDING )
   then
     String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
-    SkillDTO skillToRemove = character.getSkills().get(skillKey);
+    CharacterSkillDTO skillToRemove = character.getSkills().get(skillKey);
     character.setBaseSkillPoints(character.getBaseSkillPoints() + skillToRemove.getSkillPointsSpent());
     character.removeSkill(skillKey);
     changeRequest.setStatus(ChangeStatus.APPROVED);

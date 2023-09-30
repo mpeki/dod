@@ -4,6 +4,7 @@ import static java.lang.Math.ceil;
 
 import dk.pekilidi.dod.actions.model.ActionResult;
 import dk.pekilidi.dod.actions.model.Difficulty;
+import dk.pekilidi.dod.data.CharacterSkillDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.util.Dice;
@@ -45,8 +46,9 @@ public class RulesUtil {
       return ActionResult.SUCCESS;
     }
   }
-  public static ActionResult testSkill(SkillDTO skill, int roll, Difficulty difficulty) {
-    int fv = skill.getCategory() == Category.A ? skill.getFv() : getSkillCatBFV(skill.getFv());
+  public static ActionResult testSkill(CharacterSkillDTO charSkill, int roll, Difficulty difficulty) {
+    SkillDTO skill = charSkill.getSkill();
+    int fv = skill.getCategory() == Category.A ? charSkill.getFv() : getSkillCatBFV(charSkill.getFv());
     return testSkill(fv, roll, difficulty);
   }
   private static int getSkillCatBFV(int fv) {
