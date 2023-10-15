@@ -48,11 +48,6 @@ export const CharacterSkillItem = ({ characterId, charSkill, fetchCharHandler, c
         <SkillDetails characterId={characterId} charSkill={charSkill} onConfirm={showSkillDetailsHandler} />
       )}
       <TableRow hover key={charSkill.skill.key}>
-        <TableCell>
-        { (canRemoveSkill && (charSkill.skill.key !== "dodge")) && (
-            <RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeSkillHandler} />
-        )}
-        </TableCell>
         <TableCell onClick={showSkillDetailsHandler}>
           {charSkill.skill.itemKey
             ? `${t(charSkill.skill.itemKey)} (${t(charSkill.skill.key)})`
@@ -61,6 +56,11 @@ export const CharacterSkillItem = ({ characterId, charSkill, fetchCharHandler, c
         </TableCell>
         <TableCell>{skillCategory === "B" ? "B" + charSkill.fv : charSkill.fv}</TableCell>
         <TableCell>{charSkill.experience}</TableCell>
+        <TableCell>
+          { (canRemoveSkill && (charSkill.skill.key !== "dodge")) && (
+            <RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeSkillHandler} />
+          )}
+        </TableCell>
       </TableRow>
     </>
   );

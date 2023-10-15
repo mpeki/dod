@@ -87,6 +87,13 @@
     },
     "sanityPoints": "Nerve Point",
     "psychePoints": "Psyke Point",
-    "movementPoints": "Flytteformåen"
+    "movementPoints": "Flytteformåen",
+    "favoriteHand": {
+      "title": "Favorit Hånd",
+      "LEFT": "Venstre",
+      "RIGHT": "Højre",
+      "DOUBLE": "Dobbelt",
+      "AMBIDEXTROUS": "Ambideksrøs"
+    }
   }
 }

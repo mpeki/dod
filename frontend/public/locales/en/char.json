@@ -87,6 +87,13 @@
     },
     "sanityPoints": "Sanity Points",
     "psychePoints": "Psyche Points",
-    "movementPoints": "Movement Points"
+    "movementPoints": "Movement Points",
+    "favoriteHand": {
+      "title": "Favorite Hand",
+      "LEFT": "Left",
+      "RIGHT": "Right",
+      "DOUBLE": "Double",
+      "AMBIDEXTROUS": "Ambidextrous"
+    }
   }
 }
