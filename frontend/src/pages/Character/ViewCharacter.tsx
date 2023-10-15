@@ -52,7 +52,7 @@ export const ViewCharacter = () => {
   } else {
 
     return (
-        <Container maxWidth="lg" >
+        <Container maxWidth="lg" style={{ paddingTop: 2}}>
           <Masonry columns={2} spacing={1}>
             <Paper elevation={3}>
               <BaseTraitList baseTraits={character?.baseTraits} />
@@ -64,23 +64,21 @@ export const ViewCharacter = () => {
             <Paper>
               <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler} />
             </Paper>
-            {character.state === "READY_TO_PLAY" && (
-              <Paper elevation={3}>
-                <Stack direction={"row"}>
-                  <SanityStats character={character} />
-                  {character.hero && (
-                    <>
-                      <Divider orientation="vertical" flexItem />
-                      <ReputationStats character={character} />
-                      <Divider orientation="vertical" flexItem />
-                      <HeroStats character={character} />
-                    </>
-                  )}
-                  <Divider orientation="vertical" flexItem />
-                  <MovementStats character={character} />
-                </Stack>
-              </Paper>
-            )}
+            <Paper elevation={3}>
+              <Stack direction={"row"}>
+                <SanityStats character={character} />
+                {character.hero && (
+                  <>
+                    <Divider orientation="vertical" flexItem />
+                    <ReputationStats character={character} />
+                    <Divider orientation="vertical" flexItem />
+                    <HeroStats character={character} />
+                  </>
+                )}
+                <Divider orientation="vertical" flexItem />
+                <MovementStats character={character} />
+              </Stack>
+            </Paper>
             <Paper elevation={3}>
               <BodyContainer parts={character.bodyParts} />
             </Paper>

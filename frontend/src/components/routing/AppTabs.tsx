@@ -53,7 +53,7 @@ export const AppTabs = () => {
   const currentTab = useRouteMatch(["/home", "/characters", "/city", "/wilderness", "/settings"]);
 
   return (
-    <Tabs value={currentTab || "/home"} centered>
+    <Tabs value={currentTab || "/home"} centered style={{ paddingBottom: 2}}>
       <Tab label={t("homeTab")} value="/home" to="/home" component={Link} />
       <Tab label={t("charactersTab")} value="/characters" to="/characters" component={Link}
            disabled={!auth.isAuthenticated} />
