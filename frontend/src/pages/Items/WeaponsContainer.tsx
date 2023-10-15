@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 
 interface IProps {
   character: Character;
-  fetchCharHandler: () => void;
+  fetchCharHandler: (charId: string) => Promise<Character>;
 }
 
 
@@ -60,6 +60,24 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
           <TableCell>{item.weight}</TableCell>
         </TableRow>);
       });
+      // Add empty rows to fill the table - if we are printing, we need 10 rows, otherwise 3
+/*
+      let emptyRows = isPrinting ? 5 - result.length : 3 - result.length < 1 ? 0 : 3 - result.length
+      for(let i = 0; i < emptyRows; i++) {
+        result.push(<TableRow key={i} style={{ height: "25px" }}>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
+        </TableRow>);
+      }
+*/
+
+
       return result;
     };
 

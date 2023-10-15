@@ -1,9 +1,9 @@
-import { CharacterSkill } from "../../types/skill";
-import { CharacterSkillItem } from "./CharacterSkillItem";
+import { CharacterSkill } from "../../../../types/skill";
+import { CharacterSkillItem } from "../../../Skill/CharacterSkillItem";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { StyledTable } from "../../components/shared/Table.styled";
+import { StyledTable } from "../../../../components/shared/Table.styled";
 import { useTranslation } from "react-i18next";
-import { Character } from "../../types/character";
+import { Character } from "../../../../types/character";
 
 interface IProps {
   charId: string;
@@ -13,7 +13,7 @@ interface IProps {
   isPrinting: boolean;
 }
 
-export const CharacterSkillList = ({ charId, skills, fetchCharHandler, canRemoveSkill, isPrinting }: IProps): JSX.Element => {
+export const PrintCharacterSkillList = ({ charId, skills, fetchCharHandler, canRemoveSkill, isPrinting }: IProps): JSX.Element => {
 
   const { t } = useTranslation("char");
   const charSkillItems = () => {
@@ -30,14 +30,13 @@ export const CharacterSkillList = ({ charId, skills, fetchCharHandler, canRemove
       });
     }
     // Add empty rows to fill the table
-    let extraRows = isPrinting ? 35 : 3;
+    let extraRows = 27;
     let emptyRows = extraRows - result.length < 1 ? 0 : extraRows - result.length
     for(let i = 0; i < emptyRows; i++) {
-      result.push(<TableRow key={i} style={{ height: "28px" }}>
-        <TableCell sx={{ borderRight: isPrinting ? 1 : 0, borderColor: "lightgray" }}></TableCell>
-        <TableCell sx={{ borderRight: isPrinting ? 1 : 0, borderColor: "lightgray" }}></TableCell>
-        <TableCell></TableCell>
-        <TableCell></TableCell>
+      result.push(<TableRow key={i} style={{ height: "26px" }}>
+        <TableCell sx={{ borderRight: 1, borderColor: "darkgray" }}></TableCell>
+        <TableCell sx={{ borderRight: 1, borderColor: "darkgray" }}></TableCell>
+        <TableCell sx={{ borderColor: "darkgray" }}></TableCell>
       </TableRow>);
     }
 
@@ -46,14 +45,13 @@ export const CharacterSkillList = ({ charId, skills, fetchCharHandler, canRemove
 
 
   return (
-    <StyledTable>
+    <StyledTable style={{ marginTop: '15px' }}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell sx={{ fontWeight: 'bold' }}>{t("detail.skills.skills")}</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>{t("detail.skills.value")}</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>{t("detail.skills.exp")}</TableCell>
-            <TableCell width={1}/>
+            <TableCell sx={{ borderBottom: 1, borderColor: "darkgray", width: 200, fontWeight: 'bold' }}>{t("detail.skills.skills")}</TableCell>
+            <TableCell sx={{ borderBottom: 1, borderColor: "darkgray", fontWeight: 'bold' }}>{t("detail.skills.value").charAt(0)}</TableCell>
+            <TableCell sx={{ borderBottom: 1, borderColor: "darkgray", width: 130, fontWeight: 'bold' }}>{t("detail.skills.exp")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

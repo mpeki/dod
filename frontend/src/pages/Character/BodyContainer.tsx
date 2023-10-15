@@ -58,7 +58,7 @@ export const BodyContainer = ({ parts }: IProps): JSX.Element => {
             </TableHead>
             <TableHead>
               <TableRow>
-                <TableCell>{t("detail.body.header.hp")}</TableCell>
+                <TableCell>{t("detail.body.header.bodyPart")}</TableCell>
                 <TableCell>{t("detail.body.header.maxHP")}</TableCell>
                 <TableCell>{t("detail.body.header.currentHP")}</TableCell>
                 <TableCell>{t("detail.body.header.armorMat")}</TableCell>

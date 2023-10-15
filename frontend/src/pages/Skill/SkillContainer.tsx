@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 interface IProps {
   character: Character;
   skills: Record<string, CharacterSkill> | undefined;
-  fetchCharHandler: () => void;
+  fetchCharHandler: (charId: string) => Promise<Character>;
 }
 
 export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps): JSX.Element => {
@@ -52,7 +52,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
 
   const handleActivation = () => {
     const characterId = character.id ? character.id : "";
-    activateCharHandler(characterId).then(() => fetchCharHandler());
+    activateCharHandler(characterId).then(() => fetchCharHandler(characterId));
   };
 
   const navigate = useNavigate();
@@ -112,7 +112,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
               buySkillHandler={fetchCharHandler}
             />
           )}
-          <CharacterSkillList charId={character.id || ""} skills={skills || {}} fetchCharHandler={fetchCharHandler} canRemoveSkill={canRemoveSkill} />
+          <CharacterSkillList charId={character.id || ""} skills={skills || {}} fetchCharHandler={fetchCharHandler} canRemoveSkill={canRemoveSkill} isPrinting={false}/>
         </Paper>
       </KeyboardShortcutProvider>
     </>

@@ -4,6 +4,8 @@
   border: none;
   background-image: none;
   box-shadow: none;
+  padding-right: 5px;
+  padding-left: 1px;
 }
 
 .languageSwitcher button:hover {
