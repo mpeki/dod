@@ -16,11 +16,11 @@ import dk.pekilidi.dod.data.BaseTraitDTO;
 import dk.pekilidi.dod.data.BodyPartDTO;
 import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.CharacterItemDTO;
+import dk.pekilidi.dod.data.CharacterSkillDTO;
 import dk.pekilidi.dod.data.ItemDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.items.InsufficientFundsException;
 import dk.pekilidi.dod.items.ItemKey;
-import dk.pekilidi.dod.items.model.Coin;
 import dk.pekilidi.dod.items.model.Projectile;
 import dk.pekilidi.dod.skill.SkillKey;
 import org.junit.jupiter.api.BeforeEach;
@@ -213,13 +213,14 @@ class CharacterDTOTest {
     assertEquals(0, characterDTO.getSkills().size());
 
     //Test adding an non skill - a NullPointer should be thrown and no skill should be added
-    assertThrows(NullPointerException.class, () -> characterDTO.addSkill(SkillDTO.builder().build()));
+    assertThrows(NullPointerException.class, () -> characterDTO.addSkill(CharacterSkillDTO.builder().build()));
     assertEquals(0, characterDTO.getSkills().size());
 
     //Test adding a skill - the skill should be added
-    SkillDTO acrobatics = SkillDTO
+    CharacterSkillDTO acrobatics = CharacterSkillDTO
         .builder()
-        .key(SkillKey.toSkillKey("acrobatics"))
+        .skillName("acrobatics")
+        .skill(SkillDTO.builder().key(SkillKey.toSkillKey("acrobatics")).build())
         .build();
     characterDTO.addSkill(acrobatics);
     assertEquals(1, characterDTO.getSkills().size());

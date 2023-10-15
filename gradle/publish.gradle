@@ -14,7 +14,7 @@ jib {
     //Why this? https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#why-is-my-image-created-48-years-ago
     jib.container.creationTime = 'USE_CURRENT_TIMESTAMP'
     from {
-        image = 'eclipse-temurin:18.0.2.1_1-jre-alpine@sha256:0459336ad1b561fa60e7f71ab00aba9039acf30e8d7e1b1ff883e1f8a6aaba95'
+        image = 'eclipse-temurin:20.0.2_9-jre-alpine@sha256:7ebbe07fff751864f213e0d5a00948c118165b830e5bebc4f5cd793449dc2711'
     }
     to {
         image = "macp/dod:${project.version}"

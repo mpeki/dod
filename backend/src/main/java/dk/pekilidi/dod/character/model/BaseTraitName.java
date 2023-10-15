@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 @JsonDeserialize(using = ChangeKeyDeserializer.class)
 public enum BaseTraitName implements ChangeKey, Serializable {
 
-  NONE, STRENGTH, SIZE, CONSTITUTION, DEXTERITY, INTELLIGENCE, PSYCHE, CHARISMA;
+  NONE, STRENGTH, SIZE, CONSTITUTION, DEXTERITY, INTELLIGENCE, PSYCHE, CHARISMA, SPECIAL;
 
   private static final long serialVersionUID = -4787939824473814512L;
 }

@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /dodgame
 spring:
+  mvc:
+    static-path-pattern: /docs/**
   output:
     ansi:
       enabled: DETECT
@@ -76,6 +78,8 @@ logging:
   level:
     root: INFO
     org.springframework.web.cors: DEBUG
+    org.springframework.security: DEBUG
+    dk.pekilidi.dod.rules: DEBUG
 dodgame:
   player:
     max-characters: 10

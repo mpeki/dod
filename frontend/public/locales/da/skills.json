@@ -1,4 +1,5 @@
 {
+  "dodge": "Undvige",
   "hiding": "Skjule Sig",
   "acrobatics": "Akrobatik",
   "city.knowledge": "Bykundskab",
@@ -17,8 +18,8 @@
   "karate": "Karate",
   "tactics": "Taktik",
   "fast.draw" : "Trække Våben",
-  "primary.weapon": "Primært Våben",
-  "secondary.weapon": "Sekundært Våben",
+  "primary.weapon": "Primære Våben",
+  "secondary.weapon": "Sekundære Våben",
   "fst": "Finde Skjulte Ting",
   "listen": "Lytte",
   "sense.danger": "Opdage Fare",

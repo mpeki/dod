@@ -112,3 +112,7 @@ id;skill_key;base_chance;category;skill_group;price;trait_name
 88;rw.dragon;0;1;6;20;5
 89;speak.insect;0;1;6;20;5
 90;rw.insect;0;1;6;20;5
+
+# Natural skills
+# skill_key;base_chance;category;skill_group;price;trait_name
+91;dodge;8;0;7;0;4

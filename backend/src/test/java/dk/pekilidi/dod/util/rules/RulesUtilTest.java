@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import dk.pekilidi.dod.actions.model.ActionResult;
 import dk.pekilidi.dod.actions.model.Difficulty;
+import dk.pekilidi.dod.data.CharacterSkillDTO;
 import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.skill.model.Category;
 import java.lang.reflect.Constructor;
@@ -87,8 +88,8 @@ class RulesUtilTest {
   @ParameterizedTest()
   @CsvFileSource(resources = "/testSkillData.csv", numLinesToSkip = 1)
   void testCatASkill(int fv, int roll, Difficulty difficulty, ActionResult expectedResult) {
-    SkillDTO skill = SkillDTO.builder()
-        .category(Category.A)
+    CharacterSkillDTO skill = CharacterSkillDTO.builder()
+        .skill(SkillDTO.builder().category(Category.A).build())
         .fv(fv)
         .build();
     assertThat(RulesUtil.testSkill(skill, roll, difficulty)).isEqualTo(expectedResult);
@@ -96,8 +97,8 @@ class RulesUtilTest {
 
   @Test
   void testCatBSkill(){
-    SkillDTO skill = SkillDTO.builder()
-        .category(Category.B)
+    CharacterSkillDTO skill = CharacterSkillDTO.builder()
+        .skill(SkillDTO.builder().category(Category.B).build())
         .fv(5)
         .build();
     assertThat(RulesUtil.testSkill(skill, 19, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);

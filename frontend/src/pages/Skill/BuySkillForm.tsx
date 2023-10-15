@@ -4,14 +4,14 @@ import { Change, createChange } from "../../types/change";
 import { useChangeService } from "../../services/change.service";
 import classes from "../Character/AddCharacter.module.css";
 import { SkillSelector } from "../../components/SkillSelector";
-import { Skill } from "../../types/skill";
+import { CharacterSkill, createSkill, Skill } from "../../types/skill";
 import { SkillUtil } from "../../services/skill.service";
 import { Character } from "../../types/character";
 import { Item } from "../../types/item";
 import { ItemSelector } from "../Items/ItemSelector";
 import { showInfoSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
 import { SecondaryChangeKey } from "../../types/secondary-change-key";
-import { Group } from "../../types/group";
+import { GroupType } from "../../types/group";
 import { Category } from "../../types/category";
 
 interface IProps {
@@ -87,14 +87,25 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
     fetchWeaponsHandler().then();
   }, [fetchWeaponsHandler]);
 
+  function characterSkillsToSkills(characterSkills: Record<string, CharacterSkill>): Record<string, Skill> {
+    const skills: Record<string, Skill> = {};
+
+    for (let key in characterSkills) {
+      skills[key] = characterSkills[key].skill;
+    }
+
+    return skills;
+  }
+
+
   // const excludedSkills: Record<string,Skill> | undefined = character.skills;
-  const langGroup = new Group(Group.values.LANGUAGES);
+  const langGroup = new GroupType(GroupType.values.LANGUAGES);
   const langCategory = new Category(Category.values.B);
   const languageSkills: Record<string,Skill> = {
-    [`speak.${character.race.motherTongue}`] : { key:`speak.${character.race.motherTongue}`, group: langGroup, category: langCategory },
-    [`rw.${character.race.motherTongue}`] : { key:`speak.${character.race.motherTongue}`, group: langGroup, category: langCategory }
+    [`speak.${character.race.motherTongue}`] : createSkill(`speak.${character.race.motherTongue}`, langGroup, langCategory ),
+    [`rw.${character.race.motherTongue}`] : createSkill(`speak.${character.race.motherTongue}`, langGroup, langCategory)
   };
-  const excludedSkills = { ...character.skills, ...languageSkills };
+  const excludedSkills = { ...characterSkillsToSkills(character.skills || {}), ...languageSkills };
 
   //create form that buys a skill and adds it to the character
   return (

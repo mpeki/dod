@@ -11,6 +11,7 @@ import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.AgendaFilter;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,10 +38,11 @@ public class DroolsService {
     KieBase kieBase = kieContainer.getKieBase();
     for (KiePackage kp : kieBase.getKiePackages()) {
       for (Rule rule : kp.getRules()) {
-        log.debug("kp " + kp + " rule " + rule.getName());
+        log.debug("Package " + kp + " rule " + rule.getName());
       }
     }
     KieSession kieSession = kieContainer.newKieSession();
+    kieSession.addEventListener(new LoggingAgendaEventListener());
     kieSession.setGlobal("skillService", skillService);
     kieSession.setGlobal("itemService", itemService);
 
@@ -57,7 +59,15 @@ public class DroolsService {
 
   public int executeRulesFor(List<DODFact> dodFacts, AgendaFilter filter) {
     KieSession kieSession = kieContainer.newKieSession();
+    log.debug("KieSession created - listing rules in session: ");
+    for (KiePackage kiePackage : kieSession.getKieBase().getKiePackages()) {
+      for (Rule rule : kiePackage.getRules()) {
+        log.debug("Package: " + kiePackage + " rule: " + rule.getName());
+      }
+    }
+    kieSession.addEventListener(new LoggingAgendaEventListener());
     kieSession.setGlobal("itemService", itemService);
+    kieSession.setGlobal("skillService", skillService);
     for (DODFact dodFact : dodFacts) {
       kieSession.insert(dodFact);
     }

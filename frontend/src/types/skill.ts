@@ -1,17 +1,40 @@
-import { Group } from "./group";
+import { GroupType } from "./group";
 import { Category } from "./category";
 import { Race } from "./race";
 export interface Skill {
-  id?: number;
   key: string;
   itemKey?: string;
-  price?: number;
-  traitName?: string;
-  group: Group;
+  traitName: string;
   category: Category;
-  baseChance?: string;
-  fv?: number;
-  experience?: number;
-  allowedRaces?: Race[];
-  deniedRaces?: Race[];
+  group: GroupType;
+  price: number;
+  baseChance: string;
+  deniedRaces: Race[];
+}
+
+export interface CharacterSkill {
+  skill: Skill;
+  fv: number;
+  experience: number;
+  skillPointsSpent: number;
+  lastUsed: Date;
+}
+
+export function createSkill(key: string, group: GroupType, category: Category): Skill;
+
+// Function implementation
+export function createSkill(
+  key: string,
+  group: GroupType,
+  category: Category,
+): Skill {
+  return {
+      key: key,
+      traitName: 'NONE',
+      group: group,
+      category: category,
+      price: 0,
+      baseChance: 'SPECIAL',
+      deniedRaces: []
+  };
 }

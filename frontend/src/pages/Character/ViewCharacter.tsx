@@ -33,6 +33,7 @@ export const ViewCharacter = () => {
     getCharacter("" + charId)
     .then((character) => {
       setCharacter(character);
+      console.log("character", character);
     })
     .catch((e) => showWarningSnackbar((e as Error).message));
   }, [charId, getCharacter]);

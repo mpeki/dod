@@ -59,8 +59,17 @@ class DODCharacterServiceWithRulesTest {
     assertThat(newBeing.getRace().getName()).isEqualTo("human");
   }
 
-
-
+  @Test
+  void createCharacterReturnCharWithFreeSkill() {
+    CharacterDTO testChar = CharacterDTO.builder().name("bilbo").race(new RaceDTO("human")).build();
+    CharacterDTO newBeing = charService.createCharacter(testChar, TEST_OWNER);
+    assertThat(newBeing.getBaseTraits()).isNotNull();
+    assertThat(newBeing.getBaseTraits()).isNotEmpty();
+    assertThat(newBeing.getBaseTraits().get(STRENGTH).getCurrentValue()).isGreaterThanOrEqualTo(3);
+    assertThat(newBeing.getBaseTraits().get(STRENGTH).getCurrentValue()).isLessThanOrEqualTo(18);
+    assertThat(newBeing.getHeroPoints()).isEqualTo(-1);
+    assertThat(newBeing.getRace().getName()).isEqualTo("human");
+  }
 
   @Test
   void createdCharacterHasBody() {

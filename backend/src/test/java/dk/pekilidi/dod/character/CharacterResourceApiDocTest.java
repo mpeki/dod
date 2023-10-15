@@ -77,8 +77,6 @@ class CharacterResourceApiDocTest extends BaseControllerTest {
 
   @Test
   @WithMockUser(username = TEST_OWNER, password = "player", roles = {"player"})
-
-
   void getCharacterById() throws Exception {
 
     when(service.findCharacterByIdAndOwner(anyString(), anyString())).thenReturn(testCharacter);

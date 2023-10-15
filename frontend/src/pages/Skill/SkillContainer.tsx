@@ -1,4 +1,4 @@
-import { Skill } from "../../types/skill";
+import { CharacterSkill, Skill } from "../../types/skill";
 import { useContext, useState } from "react";
 import { BuySkill } from "./BuySkill";
 import { CharacterSkillList } from "./CharacterSkillList";
@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 
 interface IProps {
   character: Character;
-  skills: Record<string, Skill> | undefined;
+  skills: Record<string, CharacterSkill> | undefined;
   fetchCharHandler: () => void;
 }
 

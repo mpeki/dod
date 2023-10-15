@@ -21,16 +21,16 @@ jobs:
   build-backend:
     runs-on: ubuntu-latest
     steps:
-      - uses: mpeki/build-env/pre-build@v0
+      - uses: mpeki/build-env/pre-build@v1.0.1
         with:
           use-docker: false
       - name: Build backend
-        run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build
+        run: ./gradlew :b:build jDB -x test -x asciidoctor
 
   build-frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: mpeki/build-env@v0
+      - uses: mpeki/build-env/pre-build@v1.0.1
         with:
           use-java: false
       - name: Build UI docker image
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-backend]
     steps:
-      - uses: mpeki/build-env@v0
+      - uses: mpeki/build-env/pre-build@v1.0.1
       - name: run regression tests
         run: ./gradlew :b:test
       - name: Cache SonarCloud packages
@@ -63,12 +63,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-backend-regression]
     steps:
-      - uses: mpeki/build-env@v0
+      - uses: mpeki/build-env/pre-build@v1.0.1
       - name: Build
         run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
       - name: Integration Test
         if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
-        run: ./gradlew :b:test -DincludeTests="integration" -DexcludeTests="all()"
+        run: ./gradlew :b:test -DincludeTests="integration" --info
       - name: JUnit Report - Integration Tests
         if: success() || failure() && github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v1.6.0
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-backend-integration]
     steps:
-    - uses: mpeki/build-env@v0
+    - uses: mpeki/build-env/pre-build@v1.0.1
       with:
         use-docker: true
         docker-user: ${{ secrets.DOCKERHUB_USER }}
@@ -95,7 +95,7 @@ jobs:
     - name: Do semantic-release
       run: npx semantic-release
     - name: Build and push API Docker image
-      run: ./gradlew jib -Djib.console=plain
+      run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
     - name: Build and push UI Docker image
       run: ./gradlew :f:pushUIC
     - name: Merge back to develop
