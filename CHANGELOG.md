@@ -1,3 +1,10 @@
+# [1.18.0-rc.3](https://github.com/mpeki/dod/compare/v1.18.0-rc.2...v1.18.0-rc.3) (2023-10-15)
+
+
+### Bug Fixes
+
+* **DOD-348:** Dodge added as free skill ([0f99795](https://github.com/mpeki/dod/commit/0f99795b4020e1eba43e62c76b9b444a5e2942a7))
+
 # [1.18.0-rc.2](https://github.com/mpeki/dod/compare/v1.18.0-rc.1...v1.18.0-rc.2) (2023-09-27)
 
 
