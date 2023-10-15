@@ -1,3 +1,10 @@
+# [1.18.0-rc.4](https://github.com/mpeki/dod/compare/v1.18.0-rc.3...v1.18.0-rc.4) (2023-10-15)
+
+
+### Features
+
+* **DOD-378:** add favorite hand to character sheet ([03c8f1a](https://github.com/mpeki/dod/commit/03c8f1a5ce3105c6cf2359b0fea6c471d1fc80cd))
+
 # [1.18.0-rc.3](https://github.com/mpeki/dod/compare/v1.18.0-rc.2...v1.18.0-rc.3) (2023-10-15)
 
 
