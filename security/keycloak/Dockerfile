@@ -1,4 +1,4 @@
-FROM keycloak/keycloak:22.0.1 AS builder
+FROM keycloak/keycloak:22.0.4 AS builder
 
 # Enable health and metrics support
 ENV KC_HEALTH_ENABLED=true
@@ -33,7 +33,10 @@ RUN chmod +x /opt/keycloak/providers/standalone-keycloak-theme.jar
 ENV KC_DB=mysql
 ENV KC_DB_URL_HOST=db
 ENV KC_DB_URL_PORT=3306
-#ENV KC_DB_USERNAME=${KC_DB_USERNAME}
-#ENV KC_DB_PASSWORD=${KC_DB_PASSWORD}
 ENV KC_HOSTNAME=localhost
+ENV KC_HEALTH_ENABLED=true
+ENV QUARKUS_TRANSACTION_MANAGER_ENABLE_RECOVERY=true
+ENV QUARKUS_DATASOURCE_JDBC_ACQUISITION_TIMEOUT=300000
+
+
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]

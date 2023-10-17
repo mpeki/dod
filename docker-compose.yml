@@ -21,8 +21,11 @@ services:
     depends_on:
       - db
       - security
+#    entrypoint: ["/__cacert_entrypoint.sh"]
+#    command: ["sh -c 'java -cp $$( cat /app/jib-classpath-file ) $$( cat /app/jib-main-class-file )'"]
     environment:
       SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE:-default,prod}"
+      USE_SYSTEM_CA_CERTS: 1
     healthcheck:
       test: "wget --quiet --tries=1 --spider http://localhost:8090/dodgame/health || exit 1"
       start_period: "200s"
@@ -44,16 +47,12 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KEYCLOAK_LOGLEVEL: DEBUG
-      QUARKUS_TRANSACTION_MANAGER_ENABLE_RECOVERY: "true"
-      QUARKUS_DATASOURCE_JDBC_ACQUISITION_TIMEOUT: 300000
       ROOT_LOGLEVEL: DEBUG
       KC_DB_URL_DATABASE: keycloakDB
       KC_DB_USERNAME: sa
       KC_DB_PASSWORD: example
       KC_DB_TIMEOUT_WAIT_SECONDS: 600
       KC_HEALTH_ENABLED: "true"
-#      KC_SPI_CONNECTIONS_JPA_LEGACY_MIGRATION_STRATEGY: manual
-#      KC_SPI_IMPORT_DIR_STRATEGY: OVERWRITE_EXISTING
     volumes:
       - "./security/keycloak/new-realm-export:/tmp/keycloak-export"
     healthcheck:

@@ -30,11 +30,12 @@ public class WebSecurityConfig {
     this.jwtAuthConverter = jwtAuthConverter;
   }
 
+
+
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)  // Disable CSRF
-        .cors(cors -> cors.configurationSource(
-            request -> new CorsConfiguration().applyPermitDefaultValues()))  // Apply default CORS configuration
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // Apply CORS configuration
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(requestMatcher("GET", "/docs/**")).permitAll()
             .requestMatchers(requestMatcher("OPTIONS", "/**")).permitAll()
@@ -44,6 +45,7 @@ public class WebSecurityConfig {
             .requestMatchers(requestMatcher("POST", "/api/items/**")).hasAnyRole(DUNGEON_MASTER, SYSTEM)
             .requestMatchers(requestMatcher("GET", "/api/race/**")).hasAnyRole(DUNGEON_MASTER, PLAYER)
             .requestMatchers(requestMatcher("GET", "/api/char", "/api/char/**")).hasAnyRole(DUNGEON_MASTER, PLAYER)
+            .requestMatchers(requestMatcher("DELETE", "/api/char/**")).hasAnyRole(DUNGEON_MASTER, PLAYER)
             .requestMatchers(requestMatcher("POST", "/api/char")).hasAnyRole(DUNGEON_MASTER, PLAYER)
             .requestMatchers(requestMatcher("POST", "/api/char/bulk/**")).hasAnyRole(DUNGEON_MASTER, SYSTEM)
             .requestMatchers(requestMatcher("POST", "/api/change/char/*")).hasAnyRole(DUNGEON_MASTER, PLAYER)
