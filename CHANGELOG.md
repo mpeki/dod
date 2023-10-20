@@ -1,3 +1,10 @@
+# [1.18.0-rc.5](https://github.com/mpeki/dod/compare/v1.18.0-rc.4...v1.18.0-rc.5) (2023-10-20)
+
+
+### Features
+
+* **DOD-388:** Prepare project for AWS ([ac59225](https://github.com/mpeki/dod/commit/ac592251093316c312b7b032ab82905815d61996))
+
 # [1.18.0-rc.4](https://github.com/mpeki/dod/compare/v1.18.0-rc.3...v1.18.0-rc.4) (2023-10-15)
 
 
