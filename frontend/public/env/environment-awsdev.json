@@ -1,0 +1,6 @@
+{
+  "contextPath": "%contextPath%",
+  "gameApiUri": "https://services.dod-game.com/dodgame/api",
+  "authRedirectUri": "https://www.dod-game.com/",
+  "authority": "https://services.dod-game.com/auth/realms/dodgame"
+}

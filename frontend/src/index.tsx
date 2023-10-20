@@ -19,7 +19,7 @@ registerConfig().then(() => {
   );
 
   const oidcConfig = {
-    authority: "http://security:8181/realms/dodgame",
+    authority: `${config.authority}`,
     client_id: "dodgame-api",
     redirect_uri: `${config.authRedirectUri}`,
     post_logout_redirect_uri: `${config.authRedirectUri}`,

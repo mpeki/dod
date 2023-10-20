@@ -24,9 +24,12 @@ dependencies {
     implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.5.3'
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    // https://mvnrepository.com/artifact/io.awspring.cloud/spring-cloud-aws-starter-secrets-manager
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-secrets-manager:3.0.2'
+
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 //    implementation 'org.keycloak:keycloak-policy-enforcer:22.0.1'
-    implementation 'org.keycloak:keycloak-core:22.0.3'
+    implementation 'org.keycloak:keycloak-core:22.0.4'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -64,8 +67,8 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
     testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
 
-    testImplementation "org.keycloak:keycloak-test-helper:22.0.3"
-    testImplementation "org.keycloak:keycloak-admin-client:22.0.3"
+    testImplementation "org.keycloak:keycloak-test-helper:22.0.4"
+    testImplementation "org.keycloak:keycloak-admin-client:22.0.4"
     testImplementation "org.springframework.security:spring-security-test"
 
     developmentOnly "org.springframework.boot:spring-boot-devtools"

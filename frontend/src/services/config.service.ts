@@ -5,12 +5,14 @@ export interface UIOptions {
   contextPath: string;
   gameApiUri: string;
   authRedirectUri: string;
+  authority: string;
 }
 
 export let config: UIOptions = {
   contextPath: "",
   gameApiUri: "",
-  authRedirectUri: ""
+  authRedirectUri: "",
+  authority: ""
 };
 
 /**
@@ -44,7 +46,8 @@ export const registerConfig = async (): Promise<void> => {
     config = {
       contextPath: process.env.REACT_APP_CONTEXT_PATH || "",
       gameApiUri: process.env.REACT_APP_GAME_API_URI || "",
-      authRedirectUri: process.env.REACT_APP_AUTH_REDIRECT_URI || ""
+      authRedirectUri: process.env.REACT_APP_AUTH_REDIRECT_URI || "",
+      authority: process.env.REACT_APP_AUTHORITY || ""
     };
   }
   console.log(`Application configuration: ${JSON.stringify(config)}`);
