@@ -1,3 +1,16 @@
+# [1.19.0](https://github.com/mpeki/dod/compare/v1.18.1...v1.19.0) (2023-10-23)
+
+
+### Bug Fixes
+
+* **DOD-348:** Dodge added as free skill ([0f99795](https://github.com/mpeki/dod/commit/0f99795b4020e1eba43e62c76b9b444a5e2942a7))
+
+
+### Features
+
+* **DOD-378:** add favorite hand to character sheet ([03c8f1a](https://github.com/mpeki/dod/commit/03c8f1a5ce3105c6cf2359b0fea6c471d1fc80cd))
+* **DOD-388:** Prepare project for AWS ([ac59225](https://github.com/mpeki/dod/commit/ac592251093316c312b7b032ab82905815d61996))
+
 ## [1.18.1](https://github.com/mpeki/dod/compare/v1.18.0...v1.18.1) (2023-10-23)
 
 
