@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/mpeki/dod/compare/v1.18.0...v1.18.1) (2023-10-23)
+
+
+### Bug Fixes
+
+* **DOD-396:** Security Patch ([c1c3fb0](https://github.com/mpeki/dod/commit/c1c3fb05eeff8bdd467759e6dad7b0d296ff3021))
+
 # [1.18.0](https://github.com/mpeki/dod/compare/v1.17.0...v1.18.0) (2023-09-27)
 
 
