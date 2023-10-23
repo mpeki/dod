@@ -7,6 +7,22 @@
 
 # [1.18.0](https://github.com/mpeki/dod/compare/v1.17.0...v1.18.0) (2023-09-27)
 
+# [1.18.0-rc.5](https://github.com/mpeki/dod/compare/v1.18.0-rc.4...v1.18.0-rc.5) (2023-10-20)
+
+
+### Features
+
+* **DOD-388:** Prepare project for AWS ([ac59225](https://github.com/mpeki/dod/commit/ac592251093316c312b7b032ab82905815d61996))
+
+# [1.18.0-rc.4](https://github.com/mpeki/dod/compare/v1.18.0-rc.3...v1.18.0-rc.4) (2023-10-15)
+
+
+### Features
+
+* **DOD-378:** add favorite hand to character sheet ([03c8f1a](https://github.com/mpeki/dod/commit/03c8f1a5ce3105c6cf2359b0fea6c471d1fc80cd))
+
+# [1.18.0-rc.3](https://github.com/mpeki/dod/compare/v1.18.0-rc.2...v1.18.0-rc.3) (2023-10-15)
+
 
 ### Bug Fixes
 
@@ -16,6 +32,14 @@
 ### Features
 
 * **DOD-350:** remove train skill button ([9124a45](https://github.com/mpeki/dod/commit/9124a458919027ada534317e729d712e7a895a4f))
+* **DOD-348:** Dodge added as free skill ([0f99795](https://github.com/mpeki/dod/commit/0f99795b4020e1eba43e62c76b9b444a5e2942a7))
+
+# [1.18.0-rc.2](https://github.com/mpeki/dod/compare/v1.18.0-rc.1...v1.18.0-rc.2) (2023-09-27)
+
+
+### Bug Fixes
+
+* **DOD-371:** Security Patch ([c928db7](https://github.com/mpeki/dod/commit/c928db783909c14e2b74a547090cba064029fc44))
 
 # [1.18.0-rc.1](https://github.com/mpeki/dod/compare/v1.17.0...v1.18.0-rc.1) (2023-09-26)
 

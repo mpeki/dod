@@ -7,8 +7,6 @@ import "./index.css";
 import App from "./App";
 import { SnackbarProvider } from "notistack";
 import "./i18n";
-import i18n from "i18next";
-import { I18nextProvider } from "react-i18next";
 
 
 function Loading() {
@@ -21,7 +19,7 @@ registerConfig().then(() => {
   );
 
   const oidcConfig = {
-    authority: "http://security:8181/realms/dodgame",
+    authority: `${config.authority}`,
     client_id: "dodgame-api",
     redirect_uri: `${config.authRedirectUri}`,
     post_logout_redirect_uri: `${config.authRedirectUri}`,
@@ -33,13 +31,11 @@ registerConfig().then(() => {
     // <React.StrictMode>
     <SnackbarProvider dense maxSnack={5} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
       <Suspense fallback={<Loading />}>
-        {/*<I18nextProvider i18n={i18n}>*/}
-          <AuthProvider {...oidcConfig}>
-            <AxiosProvider>
-              <App />
-            </AxiosProvider>
-          </AuthProvider>
-        {/*</I18nextProvider>*/}
+        <AuthProvider {...oidcConfig}>
+          <AxiosProvider>
+            <App />
+          </AxiosProvider>
+        </AuthProvider>
       </Suspense>
     </SnackbarProvider>
 

@@ -15,6 +15,9 @@ export const MovementStats = ({ character }: ICharacterProps) => {
         <ListItem>
           <ListItemText primary={t("detail.movementPoints")} secondary="L10 S05" />
         </ListItem>
+        <ListItem>
+          <ListItemText primary={t("detail.favoriteHand.title")} secondary={t(`detail.favoriteHand.${character.favoriteHand}`)} />
+        </ListItem>
       </List>
     </StyledList>
   );

@@ -19,8 +19,6 @@ const LanguageSwitcher: React.FC = () => {
     // console.log("changeLanguage", lng);
     i18n.changeLanguage(lng).then();
   }, [i18n]);
-
-  console.log(selected);
   useEffect(() => {
     changeLanguage(selected === 'GB' ? 'en' : 'da');
   }, [changeLanguage, selected]);

@@ -19,5 +19,5 @@
                       &@@   @,  &@
                       /@@  @     @&  Drager & Dæmoner
                        %@@@    .@@    v. ${version}
-                          @@@@@
+                          @@@@@       ${buildTime}
 

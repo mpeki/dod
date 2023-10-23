@@ -70,7 +70,7 @@ public class CharacterDTO implements DODFact, Serializable {
   @Default
   @EqualsAndHashCode.Exclude
   @JsonInclude(Include.NON_EMPTY)
-  private Map<String, SkillDTO> skills = new HashMap<>();
+  private Map<String, CharacterSkillDTO> skills = new HashMap<>();
   @Default
   @EqualsAndHashCode.Exclude
   @JsonInclude(Include.NON_EMPTY)
@@ -94,8 +94,18 @@ public class CharacterDTO implements DODFact, Serializable {
     return -1;
   }
 
-  public void addSkill(@NotNull SkillDTO skillDTO) {
-    skills.putIfAbsent(skillDTO.getKey().getKeyValue(), skillDTO);
+  public void addSkill(@NotNull CharacterSkillDTO skillDTO) {
+    skills.putIfAbsent(skillDTO.getSkill().getKey().getKeyValue(), skillDTO);
+  }
+
+  public void updateFv(@NotNull String skillKey, @NotNull int newValue) {
+    CharacterSkillDTO skillDTO = skills.get(skillKey);
+    skillDTO.setFv(newValue);
+    skills.put(skillKey, skillDTO);
+  }
+
+  public CharacterSkillDTO getSkill(String skillKey) {
+    return skills.get(skillKey);
   }
 
   public void addBaseTrait(BaseTraitDTO baseTrait) {

@@ -1,0 +1,26 @@
+spring:
+  config:
+    import: aws-secretsmanager:dev/dodgame-api/mysql
+  devtools:
+    add-properties: false
+  banner:
+    location: classpath:aws-banner.txt
+  ###
+  #   Database Settings
+  ###
+  datasource:
+    url: jdbc:mysql://dodgame-api-db.cjhxdvvnmntx.eu-north-1.rds.amazonaws.com:3306/dodgameapiDB
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${username}
+    password: ${password}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://services.dod-game.com/auth/realms/dodgame
+logging:
+  level:
+    root: INFO
+    org.springframework.web.cors: INFO
+    org.springframework.security: INFO
+    dk.pekilidi.dod.rules: INFO

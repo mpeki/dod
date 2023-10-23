@@ -23,7 +23,7 @@ rule "Validate character state (item)"
   salience 100
   no-loop
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.NEW_ITEM && status == ChangeStatus.PENDING );
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_ITEM && status == ChangeStatus.PENDING )
     character : CharacterDTO( state != CharacterState.READY_TO_PLAY)
   then
     changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
@@ -36,7 +36,7 @@ rule "Validate item change request"
   salience 100
   no-loop
   when
-    changeRequest : ChangeRequest( changeType == ChangeType.NEW_ITEM && status == ChangeStatus.PENDING );
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_ITEM && status == ChangeStatus.PENDING )
     character : CharacterDTO( state == CharacterState.READY_TO_PLAY )
   then
     String itemKey = ((ItemKey) changeRequest.getChangeKey()).getKeyValue();
@@ -64,8 +64,8 @@ rule "Add Item"
   ruleflow-group "new-item"
   no-loop
   when
-    character : CharacterDTO( state == CharacterState.READY_TO_PLAY );
-    changeRequest : ChangeRequest( changeType == ChangeType.NEW_ITEM && status == ChangeStatus.PENDING );
+    character : CharacterDTO( state == CharacterState.READY_TO_PLAY )
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_ITEM && status == ChangeStatus.PENDING )
   then
     itemCost = (Integer) drools.getKieRuntime().getGlobal("itemCost");
     storeItem = (ItemDTO) drools.getKieRuntime().getGlobal("storeItem");

@@ -1,5 +1,5 @@
 import { Category } from "../types/category";
-import { Group } from "../types/group";
+import { GroupType } from "../types/group";
 import { useCallback, useEffect, useState } from "react";
 import { useSkillService } from "../services/skill.service";
 import { Skill } from "../types/skill";
@@ -30,7 +30,7 @@ export const groupedFilterOptions: readonly GroupedOption[] = [
   },
   {
     label: "Group",
-    options: EnumHelpers.getLabelAndValues(new Group())
+    options: EnumHelpers.getLabelAndValues(new GroupType())
   }
 ];
 

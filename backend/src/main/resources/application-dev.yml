@@ -1,0 +1,14 @@
+spring:
+  liquibase:
+    contexts: test
+    drop-first: false
+  ###
+  #   Database Settings
+  ###
+  datasource:
+    url: jdbc:mysql://localhost:3306/dodcoreDB
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/dodgame

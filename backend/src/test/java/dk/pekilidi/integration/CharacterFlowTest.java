@@ -39,6 +39,8 @@ public class CharacterFlowTest {
   public static final String DB_SERVICE_NAME = "db_1";
   private static final Integer DATABASE_PORT = 3306;
 
+  public static final Integer NUM_FREE_SKILLS = 1;
+
   private static final WaitStrategy waitStrategy = Wait.forHealthcheck().withStartupTimeout(Duration.ofMinutes(5));
 
   @ClassRule
@@ -106,7 +108,7 @@ public class CharacterFlowTest {
     assertEquals(createdChar.getBaseTraitValue(STRENGTH) + 1, fetchedChar.getBaseTraitValue(STRENGTH));
 
     //Fetch available skills - and buy some
-    int numSkillsBought = flowHelper.buySkills(createdChar.getId());
+    int numSkillsBought = flowHelper.buySkills(createdChar.getId()) + NUM_FREE_SKILLS;
 
     //Check skills of fetched character
     fetchedChar = flowHelper.getCharById(createdChar.getId());
@@ -140,7 +142,7 @@ public class CharacterFlowTest {
       CharacterDTO createdChar = flowHelper.createNewCharacter("tester_" + i, true);
       assertNotNull(createdChar.getId());
       //Fetch available skills - and buy some
-      int numSkillsBought = flowHelper.buySkills(createdChar.getId());
+      int numSkillsBought = flowHelper.buySkills(createdChar.getId()) + NUM_FREE_SKILLS;
       //Check skills of fetched character
       CharacterDTO fetchedChar = flowHelper.getCharById(createdChar.getId());
       assertEquals(numSkillsBought, fetchedChar.getSkills().size());

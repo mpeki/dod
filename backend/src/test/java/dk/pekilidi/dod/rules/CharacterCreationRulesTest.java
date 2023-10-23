@@ -15,11 +15,11 @@ import dk.pekilidi.dod.data.CharacterDTO;
 import dk.pekilidi.dod.data.CharacterTemplateDTO;
 import dk.pekilidi.dod.data.ItemDTO;
 import dk.pekilidi.dod.data.RaceDTO;
+import dk.pekilidi.dod.data.SkillDTO;
 import dk.pekilidi.dod.items.ItemKey;
-import dk.pekilidi.dod.items.ItemRepository;
 import dk.pekilidi.dod.items.ItemService;
-import dk.pekilidi.dod.items.model.BaseItem;
-import dk.pekilidi.dod.race.model.Race;
+import dk.pekilidi.dod.skill.SkillKey;
+import dk.pekilidi.dod.skill.SkillService;
 import java.util.List;
 import org.droolsassert.DroolsAssert;
 import org.droolsassert.DroolsSession;
@@ -30,7 +30,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
 
 @DroolsSession(resources = {"classpath:/rules/character/CharacterCreationRules.drl"},
     ignoreRules = {"before", "after"},
@@ -46,9 +45,13 @@ class CharacterCreationRulesTest {
   @BeforeEach
   void setup() {
     ItemService itemService = mock(ItemService.class);
+    SkillService skillService = mock(SkillService.class);
     when(itemService.findItemByKey("gold")).thenReturn(ItemDTO.builder().itemKey(ItemKey.toItemKey("gold")).build());
-    when(itemService.findItemByKey("silver")).thenReturn(ItemDTO.builder().itemKey(ItemKey.toItemKey("silver")).build());
+    when(itemService.findItemByKey("silver")).thenReturn(
+        ItemDTO.builder().itemKey(ItemKey.toItemKey("silver")).build());
+    when(skillService.findSkillByKey("dodge")).thenReturn(SkillDTO.builder().key(SkillKey.toSkillKey("dodge")).build());
     drools.setGlobal("itemService", itemService);
+    drools.setGlobal("skillService", skillService);
     validNonHero = CharacterDTO
         .builder()
         .race(RaceDTO
@@ -65,9 +68,15 @@ class CharacterCreationRulesTest {
   }
 
   @Test
-  @TestRules(expected = {"Determine favorite hand", "Determine social status - Humans","Initialize movement point", "Set Looks"})
+  @TestRules(expected = {
+      "Determine favorite hand",
+      "Determine social status - Humans",
+      "Initialize movement point",
+      "Add natural skills",
+      "Set Looks"})
   void characterCreationDefaultCharacter() {
-    BaseTraitDTO size = BaseTraitDTO.builder()
+    BaseTraitDTO size = BaseTraitDTO
+        .builder()
         .traitName(BaseTraitName.SIZE)
         .startValue(10)
         .currentValue(10)
@@ -82,24 +91,54 @@ class CharacterCreationRulesTest {
 
   @Test
   @TestRules(expected = {
-      "Initialize base traits and hero points", "Determine social status - Dwarfs", "Determine favorite hand", "Initialize movement point", "Set Looks"},
-      ignore = {"Set Group Value *", "Apply modifiers for age group *"})
+      "Initialize base traits and hero points",
+      "Determine social status - Dwarfs",
+      "Determine favorite hand",
+      "Initialize movement point",
+      "Set Looks",
+      "Add natural skills"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRace() {
     CharacterDTO character = CharacterDTO
         .builder()
         .race(RaceDTO
-            .builder().name("dwarf")
-            .characterTemplate(CharacterTemplateDTO
-                .builder()
-                .baseTraitRules(List.of(
-                    BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.STRENGTH).baseTraitDieRoll("1t20").build(),
-                    BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.SIZE).baseTraitDieRoll("1t20").build()))
-                .build())
+            .builder()
+            .name("dwarf")
+            .characterTemplate(CharacterTemplateDTO.builder().baseTraitRules(List.of(
+                BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.STRENGTH).baseTraitDieRoll("1t20").build(),
+                BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.SIZE).baseTraitDieRoll("1t20").build())).build())
             .build())
         .build();
     drools.insert(character);
     drools.fireAllRules();
     drools.assertFactsCount(3);
+  }
+
+  @Test
+  @TestRules(expected = {
+      "Initialize base traits and hero points",
+      "Determine social status - Dwarfs",
+      "Determine favorite hand",
+      "Initialize movement point",
+      "Set Looks",
+      "Apply modifiers for age group MATURE",
+      "Add natural skills"})
+  void characterCreationCharacterWithFreeSkills() {
+    CharacterDTO character = CharacterDTO
+        .builder()
+        .race(RaceDTO
+            .builder()
+            .name("dwarf")
+            .characterTemplate(CharacterTemplateDTO.builder().baseTraitRules(List.of(
+                BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.STRENGTH).baseTraitDieRoll("1t20").build(),
+                BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.DEXTERITY).baseTraitDieRoll("1t20").build(),
+                BaseTraitRuleDTO.builder().baseTraitName(BaseTraitName.SIZE).baseTraitDieRoll("1t20").build())).build())
+            .build())
+        .build();
+    drools.insert(character);
+    drools.fireAllRules();
+    drools.assertFactsCount(4);
+    CharacterDTO characterDTO = drools.getObject(CharacterDTO.class);
+    assertEquals(1, characterDTO.getSkills().size());
   }
 
   @Test
@@ -112,6 +151,7 @@ class CharacterCreationRulesTest {
       "Determine social status - Humans",
       "Initialize damage bonus",
       "Initialize movement point",
+      "Add natural skills",
       "Set Looks"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterWithRaceAndAbleToCalculateTotalHP() {
     drools.insert(validNonHero);
@@ -122,9 +162,11 @@ class CharacterCreationRulesTest {
     assertEquals(8, drools.getObjects(CharacterDTO.class).get(0).getBodyParts().size());
     CharacterDTO characterDTO = drools.getObject(CharacterDTO.class);
     //Prove DOD-286 is fixed
-    assertEquals(characterDTO.getBodyParts().get(BodyPartName.LEFT_LEG).getMaxHP(),
+    assertEquals(
+        characterDTO.getBodyParts().get(BodyPartName.LEFT_LEG).getMaxHP(),
         characterDTO.getBodyParts().get(BodyPartName.RIGHT_LEG).getMaxHP());
-    assertEquals(characterDTO.getBodyParts().get(BodyPartName.LEFT_ARM).getMaxHP(),
+    assertEquals(
+        characterDTO.getBodyParts().get(BodyPartName.LEFT_ARM).getMaxHP(),
         characterDTO.getBodyParts().get(BodyPartName.RIGHT_ARM).getMaxHP());
     assertEquals(CharacterState.INIT_COMPLETE, characterDTO.getState());
   }
@@ -154,11 +196,10 @@ class CharacterCreationRulesTest {
       "Determine social status - Humans",
       "Initialize damage bonus",
       "Initialize movement point",
+      "Add natural skills",
       "Set Looks"}, ignore = {"Set Group Value *", "Apply modifiers for age group *"})
   void characterCreationCharacterTestDamageBonusLimits(int averageVal, String damageBonus) {
-    validNonHero
-        .getBaseTraits()
-        .put(BaseTraitName.STRENGTH, new BaseTraitDTO(BaseTraitName.STRENGTH, averageVal, 1));
+    validNonHero.getBaseTraits().put(BaseTraitName.STRENGTH, new BaseTraitDTO(BaseTraitName.STRENGTH, averageVal, 1));
     validNonHero.getBaseTraits().put(BaseTraitName.SIZE, new BaseTraitDTO(BaseTraitName.SIZE, averageVal, 1));
     validNonHero.setState(BODY_PART_HP_SET);
     drools.insert(validNonHero);

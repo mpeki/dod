@@ -4,7 +4,7 @@ import CharacterContext from "./CharacterContext";
 import { useChangeService } from "../../services/change.service";
 import useCharacterService from "../../services/character.service";
 import { Character } from "../../types/character";
-import { showSuccessSnackbar } from "../../utils/DODSnackbars";
+import { showSuccessSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
 
 type CharacterContextProviderProps = {
   children: ReactNode;
@@ -17,13 +17,11 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
   const [characters, setCharacters] = useState<Character[]>([]);
 
   const fetchCharsHandler = useCallback(async () => {
-    try {
-      const characters = await getCharacters();
-      setCharacters(prevChars => characters)
-    } catch (e) {
-      const error = e as Error;
-      console.log(error.message);
-    }
+      await getCharacters()
+        .then(characters => setCharacters(prevChars => characters))
+        .catch((e) => {
+          showWarningSnackbar(e);
+        });
   }, [getCharacters]);
 
   const activateCharHandler = useCallback(async (characterId: string) => {

@@ -1,0 +1,1 @@
+We are running Drager & Dæmoner v. ${version} - ${buildTime}
