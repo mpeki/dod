@@ -1,3 +1,10 @@
+## [1.19.1](https://github.com/mpeki/dod/compare/v1.19.0...v1.19.1) (2023-10-25)
+
+
+### Bug Fixes
+
+* **DOD-405:** Security patch ([805d22a](https://github.com/mpeki/dod/commit/805d22a00990e41d29b54ad014016aff7a4270c1))
+
 # [1.19.0](https://github.com/mpeki/dod/compare/v1.18.1...v1.19.0) (2023-10-23)
 
 
