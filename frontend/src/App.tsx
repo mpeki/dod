@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider } from "styled-components";
 import { useTheme } from "./Theme/useTheme";
 import { GlobalStyles } from "./App.styled";
 import { Backdrop, Box, Container, LinearProgress, Paper } from "@mui/material";
-import { AppRouter } from "./components/routing/AppRouter";
 import { AppTabs } from "./components/routing/AppTabs";
 import { Home } from "./pages/Home";
 import { CharacterOverview } from "./pages/Character/CharacterOverview";
@@ -18,6 +17,12 @@ import { AboutSettings } from "./pages/Settings/AboutSettings";
 import { CharacterContextProvider } from "./pages/Character/CharacterContextProvider";
 import { TheWilderness } from "./pages/Wilderness/TheWilderness";
 import LanguageSwitcher from "./components/LanguageSwitcher";
+import { showWarningSnackbar } from "./utils/DODSnackbars";
+import useCharacterService from "./services/character.service";
+import { Character } from "./types/character";
+import { PrintComponent } from "./components/print/PrintComponent";
+import { PrintCharacter } from "./pages/Character/print/PrintCharacter";
+import PrintButtonWithModal from "./components/print/PrintButtonWithModal";
 
 function App() {
 
@@ -25,6 +30,8 @@ function App() {
   const { loading: loadingSkills, error: skillsLoadingError } = useLoadAppDataWithRetry("skills", "/skill");
   const [itemsEndpoint, setItemsEndpoint] = useState("/no-call");
   const [racesEndpoint, setRacesEndpoint] = useState("/no-call");
+  const { getCharacter } = useCharacterService();
+  const location = useLocation();
 
   const styles = {
     mainContainer: {
@@ -33,6 +40,14 @@ function App() {
     }
   };
 
+  const fetchCharHandler = useCallback(async (charId: string): Promise<Character> => {
+    try {
+      return await getCharacter("" + charId);
+    } catch (e) {
+      showWarningSnackbar((e as Error).message);
+    }
+    return {} as Character;
+  }, [getCharacter]);
 
   useEffect(() => {
     if (skillsLoadingError === null) {
@@ -63,7 +78,6 @@ function App() {
             </Box>
           </Backdrop>
           <GlobalStyles />
-          <AppRouter>
             <Box sx={{ p: 12 }}>
               <AppTabs />
               <Container style={styles.mainContainer} disableGutters>
@@ -75,17 +89,25 @@ function App() {
                     <Route path="/city" element={<TheCity />} />
                     <Route path="/items" element={<ViewItems />} />
                     <Route path="/skill/:skillKey" element={<ViewSkill />} />
-                    <Route path="/characters/:charId" element={<ViewCharacter />} />
+                    <Route path="/characters/:charId" element={<ViewCharacter {...{fetchCharHandler}} />} />
                     <Route path="/wilderness" element={<TheWilderness />} />
                     <Route path="/settings" element={<AboutSettings />} />
                   </Routes>
-                  <Box display="flex" justifyContent="flex-end" >
+                  <Box display="flex" justifyContent="flex-end"  >
+                    {
+                      // Multi-line expression using a function
+                      (() => {
+                        if(location.pathname.startsWith('/characters/')){
+                          const charId = location.pathname.split('/')[2];
+                          return <PrintButtonWithModal component={<PrintCharacter fetchCharHandler={fetchCharHandler} charId={charId} />} />;
+                        }
+                      })()
+                    }
                     <LanguageSwitcher />
                   </Box>
                 </Paper>
               </Container>
             </Box>
-          </AppRouter>
         </ThemeProvider>
       )}
     </CharacterContextProvider>

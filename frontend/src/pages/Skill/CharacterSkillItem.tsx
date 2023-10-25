@@ -1,22 +1,29 @@
-import { CharacterSkill, Skill } from "../../types/skill";
+import { CharacterSkill } from "../../types/skill";
 import { SkillDetails } from "./SkillDetails";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { TableCell, TableRow } from "@mui/material";
 import { RemoveCircleOutline } from "@mui/icons-material";
 import { useChangeService } from "../../services/change.service";
 import { Change, createChange } from "../../types/change";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
 import { useTranslation } from "react-i18next";
-import { GroupType } from "../../types/group";
+import { Character } from "../../types/character";
 
 interface IProps {
   characterId: string;
   charSkill: CharacterSkill;
-  fetchCharHandler: () => void;
+  fetchCharHandler: (charId: string) => Promise<Character>;
   canRemoveSkill: boolean;
+  isPrinting: boolean;
 }
 
-export const CharacterSkillItem = ({ characterId, charSkill, fetchCharHandler, canRemoveSkill}: IProps): JSX.Element => {
+export const CharacterSkillItem = ({
+                                     characterId,
+                                     charSkill,
+                                     fetchCharHandler,
+                                     canRemoveSkill,
+                                     isPrinting
+                                   }: IProps): JSX.Element => {
 
   const [showSkillDetails, setShowSkillDetails] = useState<boolean>();
   const { doChange } = useChangeService();
@@ -34,10 +41,10 @@ export const CharacterSkillItem = ({ characterId, charSkill, fetchCharHandler, c
   const removeSkillHandler = useCallback(async () => {
     const changePostData: Change = createChange("REMOVE_SKILL", "Remove skill", charSkill.skill.key, -1);
     await doChange(characterId, changePostData)
-    .then(() => fetchCharHandler())
+    .then(() => fetchCharHandler(characterId))
     .catch((e) => showWarningSnackbar((e as Error).message))
     .finally(() => {
-      setChangeData(createChange())
+      setChangeData(createChange());
     });
   }, [characterId, doChange, fetchCharHandler, charSkill.skill.key]);
 
@@ -47,20 +54,33 @@ export const CharacterSkillItem = ({ characterId, charSkill, fetchCharHandler, c
       {showSkillDetails && (
         <SkillDetails characterId={characterId} charSkill={charSkill} onConfirm={showSkillDetailsHandler} />
       )}
-      <TableRow hover key={charSkill.skill.key}>
-        <TableCell onClick={showSkillDetailsHandler}>
+      <TableRow hover key={charSkill.skill.key} style={{ height: "20px" }}>
+        <TableCell onClick={showSkillDetailsHandler} sx={{
+          fontSize: 13,
+          borderRight: isPrinting ? 1 : 0,
+          borderColor: isPrinting ? "darkgray" : "lightgray"
+        }}>
           {charSkill.skill.itemKey
             ? `${t(charSkill.skill.itemKey)} (${t(charSkill.skill.key)})`
             : t(charSkill.skill.key)
           }
         </TableCell>
-        <TableCell>{skillCategory === "B" ? "B" + charSkill.fv : charSkill.fv}</TableCell>
-        <TableCell>{charSkill.experience}</TableCell>
-        <TableCell>
-          { (canRemoveSkill && (charSkill.skill.key !== "dodge")) && (
-            <RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeSkillHandler} />
-          )}
-        </TableCell>
+        <TableCell sx={{
+          fontSize: 13,
+          borderRight: isPrinting ? 1 : 0,
+          borderColor: isPrinting ? "darkgray" : "lightgray"
+        }}>{skillCategory === "B" ? "B" + charSkill.fv : charSkill.fv}</TableCell>
+        <TableCell sx={{
+          fontSize: 13,
+          borderColor: isPrinting ? "darkgray" : "lightgray"
+        }}>{isPrinting ? "" : charSkill.experience}</TableCell>
+        {!isPrinting && (
+          <TableCell>
+            {(canRemoveSkill && (charSkill.skill.key !== "dodge")) && (
+              <RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeSkillHandler} />
+            )}
+          </TableCell>
+        )}
       </TableRow>
     </>
   );

@@ -10,7 +10,7 @@
   "detail": {
     "info": {
       "name": "Navn",
-      "player": "Spillers Navn",
+      "player": "Spiller",
       "race": "Race",
       "socialStatus": {
         "title": "Social Stand",
@@ -47,6 +47,8 @@
       "bonusExp": "Bonus Erfaring",
       "basisSP": "Basis Færdigheds Point",
       "skills": "Færdigheder",
+      "magicSchools": "Magiskoler",
+      "spells": "Besværgelser",
       "value": "Værdi",
       "exp": "Erf."
     },

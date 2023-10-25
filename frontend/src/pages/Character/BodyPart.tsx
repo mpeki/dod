@@ -11,7 +11,7 @@ export const BodyPartItem = ({ bodyPartName, bodyPartValue }: IProps) => {
   const { t } = useTranslation("char");
   return (
     <TableRow key={bodyPartName} >
-      <TableCell>{t(`detail.body.part.${bodyPartName}`)}</TableCell>
+      <TableCell sx={{ borderRight: 1, borderBottom: 1, borderRightColor: "darkgray", borderBottomColor: "lightgray" }}>{t(`detail.body.part.${bodyPartName}`)}</TableCell>
       <TableCell>{bodyPartValue?.maxHP}</TableCell>
       <TableCell>{bodyPartValue?.currentHP} </TableCell>
       <TableCell></TableCell>

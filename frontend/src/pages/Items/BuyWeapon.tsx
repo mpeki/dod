@@ -12,7 +12,7 @@ import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
 interface IProps {
   onConfirm: any;
-  fetchCharHandler: () => void;
+  fetchCharHandler: (charId: string) => Promise<Character>;
   character: Character;
 }
 
@@ -46,12 +46,14 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
   const doPaymentRequest = useCallback(async () => {
     if (itemSelected) {
       const changePostData: Change = createChange("NEW_ITEM", "Buy new item", itemSelected.itemKey, 1);
-      if (character.id != null) {
-        await doChange(character.id, changePostData);
+      if ( character.id != null ) {
+        await doChange(character.id, changePostData).then(() => {
+            setChangeData(createChange());
+            fetchCharHandler(character.id as string);
+            onConfirm();
+          }
+        );
       }
-      setChangeData(createChange());
-      fetchCharHandler();
-      onConfirm();
     }
     onConfirm();
   }, [itemSelected, onConfirm, character.id, fetchCharHandler, doChange]);

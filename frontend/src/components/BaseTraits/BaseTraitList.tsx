@@ -23,7 +23,7 @@ export const BaseTraitList = ({ baseTraits }: IProps): JSX.Element => {
 
     return (
       <>
-        <StyledTable style={{ margin: '2px', marginTop: '15px' }}>
+        <StyledTable style={{ margin: '2px', marginTop: '15px' }} >
           <Table>
             <TableHead>
               <TableRow>
