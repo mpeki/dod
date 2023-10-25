@@ -29,7 +29,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 //    implementation 'org.keycloak:keycloak-policy-enforcer:22.0.1'
-    implementation 'org.keycloak:keycloak-core:22.0.4'
+    implementation 'org.keycloak:keycloak-core:22.0.5'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -39,11 +39,11 @@ dependencies {
     implementation "org.drools:drools-mvel:${droolsVersion}"
 
     implementation 'mysql:mysql-connector-java:8.0.33'
-    implementation 'org.modelmapper:modelmapper:3.1.1'
+    implementation 'org.modelmapper:modelmapper:3.2.0'
     implementation 'com.google.guava:guava:32.1.3-jre'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.retry:spring-retry:2.0.3'
+    implementation 'org.springframework.retry:spring-retry:2.0.4'
     implementation 'ch.qos.logback:logback-classic:1.4.11'
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -67,8 +67,8 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
     testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
 
-    testImplementation "org.keycloak:keycloak-test-helper:22.0.4"
-    testImplementation "org.keycloak:keycloak-admin-client:22.0.4"
+    testImplementation "org.keycloak:keycloak-test-helper:22.0.5"
+    testImplementation "org.keycloak:keycloak-admin-client:22.0.5"
     testImplementation "org.springframework.security:spring-security-test"
 
     developmentOnly "org.springframework.boot:spring-boot-devtools"
