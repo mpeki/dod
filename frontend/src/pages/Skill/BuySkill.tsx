@@ -5,10 +5,9 @@ import { Character } from "../../types/character";
 interface IProps {
   character: Character;
   onConfirm: any;
-  buySkillHandler: any;
 }
 
-export const BuySkill = ({ character, buySkillHandler, onConfirm }: IProps) => {
+export const BuySkill = ({ character, onConfirm }: IProps) => {
   return <div>
     <div className={classes.backdrop} onClick={onConfirm}></div>
     <div className={classes.modal}>
@@ -16,7 +15,7 @@ export const BuySkill = ({ character, buySkillHandler, onConfirm }: IProps) => {
         <h2>Buy Skills</h2>
       </header>
       <div className={classes.content}>
-        <BuySkillForm character={character} buySkillHandler={buySkillHandler} onConfirm={onConfirm}/>
+        <BuySkillForm character={character} onConfirm={onConfirm}/>
       </div>
       <footer className={classes.actions}>
       </footer>

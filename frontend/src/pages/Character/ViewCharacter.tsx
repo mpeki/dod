@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Character } from "../../types/character";
 import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
 import { CharacterInfo } from "../../components/Character/CharacterInfo";
@@ -18,21 +18,26 @@ import { MovementStats } from "../../components/Character/MovementStats";
 import Stack from "@mui/material/Stack";
 import { ReputationStats } from "../../components/Character/ReputationStats";
 import { useAuth } from "react-oidc-context";
+import CharacterContext from "./CharacterContext";
+import { ErrorMain } from "../Error/ErrorMain";
 
-interface IProps {
-  fetchCharHandler: (charId: string) => Promise<Character>;
-}
-
-export const ViewCharacter = ({ fetchCharHandler }: IProps) => {
+export const ViewCharacter = () => {
 
   const auth = useAuth();
 
   const { doChange } = useChangeService();
   const { charId } = useParams();
-  const [character, setCharacter] = useState<Character>();
+  // const [character, setCharacter] = useState<Character>();
+  const charContext = useContext(CharacterContext);
+
+  if (!charContext) {
+    throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+  }
+
+  const { fetchCharHandler, currentCharacter, errorCode } = charContext;
 
   useEffect(() => {
-    fetchCharHandler(charId || "").then((character) => { setCharacter(character) });
+    fetchCharHandler(charId || "").then();
   }, [charId, fetchCharHandler]);
 
   const changeHandler = useCallback(async (changeKey: string, mod: any) => {
@@ -40,8 +45,9 @@ export const ViewCharacter = ({ fetchCharHandler }: IProps) => {
     doChange("" + charId, change).then();
   }, [charId, doChange]);
 
-  if (character == null || character.id == null) {
-    return <><p>Invalid character!</p></>;
+  if (currentCharacter == null || currentCharacter.id == null) {
+    console.log('errorCode:', errorCode)
+    return <ErrorMain errorCode={errorCode} />;
   } else {
 
     return (
@@ -50,44 +56,43 @@ export const ViewCharacter = ({ fetchCharHandler }: IProps) => {
           <div>
             <Masonry columns={2} spacing={1}>
               <Paper elevation={3}>
-                <BaseTraitList baseTraits={character?.baseTraits} />
+                <BaseTraitList baseTraits={currentCharacter?.baseTraits} />
               </Paper>
               <Paper elevation={3}>
-                <CharacterInfo character={character} username={auth.user?.profile.name ? auth.user.profile.name : ""}
+                <CharacterInfo character={currentCharacter} username={auth.user?.profile.name ? auth.user.profile.name : ""}
                                changeHandler={changeHandler} />
               </Paper>
               <Paper>
-                <SkillContainer character={character} skills={character?.skills} fetchCharHandler={fetchCharHandler}
-                />
+                <SkillContainer character={currentCharacter} skills={currentCharacter?.skills} />
               </Paper>
               <Paper elevation={3}>
                 <Stack direction={"row"}>
-                  <SanityStats character={character} />
-                  {character.hero && (
+                  <SanityStats character={currentCharacter} />
+                  {currentCharacter.hero && (
                     <>
                       <Divider orientation="vertical" flexItem />
-                      <ReputationStats character={character} />
+                      <ReputationStats character={currentCharacter} />
                       <Divider orientation="vertical" flexItem />
-                      <HeroStats character={character} />
+                      <HeroStats character={currentCharacter} />
                     </>
                   )}
                   <Divider orientation="vertical" flexItem />
-                  <MovementStats character={character} />
+                  <MovementStats character={currentCharacter} />
                 </Stack>
               </Paper>
               <Paper elevation={3}>
-                <BodyContainer parts={character.bodyParts} />
+                <BodyContainer parts={currentCharacter.bodyParts} />
               </Paper>
               <Paper elevation={3} >
-                <WeaponsContainer character={character} fetchCharHandler={fetchCharHandler} />
+                <WeaponsContainer />
               </Paper>
               <Paper elevation={3}>
-                {character.items && (
-                  <FundsContainer character={character} />
+                {currentCharacter.items && (
+                  <FundsContainer character={currentCharacter} />
                 )}
               </Paper>
               <Paper elevation={3}>
-                <ItemsContainer character={character} />
+                <ItemsContainer character={currentCharacter} />
               </Paper>
             </Masonry>
           </div>

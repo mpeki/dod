@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider } from "styled-components";
@@ -17,10 +17,7 @@ import { AboutSettings } from "./pages/Settings/AboutSettings";
 import { CharacterContextProvider } from "./pages/Character/CharacterContextProvider";
 import { TheWilderness } from "./pages/Wilderness/TheWilderness";
 import LanguageSwitcher from "./components/LanguageSwitcher";
-import { showWarningSnackbar } from "./utils/DODSnackbars";
 import useCharacterService from "./services/character.service";
-import { Character } from "./types/character";
-import { PrintComponent } from "./components/print/PrintComponent";
 import { PrintCharacter } from "./pages/Character/print/PrintCharacter";
 import PrintButtonWithModal from "./components/print/PrintButtonWithModal";
 
@@ -30,7 +27,6 @@ function App() {
   const { loading: loadingSkills, error: skillsLoadingError } = useLoadAppDataWithRetry("skills", "/skill");
   const [itemsEndpoint, setItemsEndpoint] = useState("/no-call");
   const [racesEndpoint, setRacesEndpoint] = useState("/no-call");
-  const { getCharacter } = useCharacterService();
   const location = useLocation();
 
   const styles = {
@@ -39,15 +35,6 @@ function App() {
       maxWidth: 1200
     }
   };
-
-  const fetchCharHandler = useCallback(async (charId: string): Promise<Character> => {
-    try {
-      return await getCharacter("" + charId);
-    } catch (e) {
-      showWarningSnackbar((e as Error).message);
-    }
-    return {} as Character;
-  }, [getCharacter]);
 
   useEffect(() => {
     if (skillsLoadingError === null) {
@@ -89,7 +76,7 @@ function App() {
                     <Route path="/city" element={<TheCity />} />
                     <Route path="/items" element={<ViewItems />} />
                     <Route path="/skill/:skillKey" element={<ViewSkill />} />
-                    <Route path="/characters/:charId" element={<ViewCharacter {...{fetchCharHandler}} />} />
+                    <Route path="/characters/:charId" element={<ViewCharacter />} />
                     <Route path="/wilderness" element={<TheWilderness />} />
                     <Route path="/settings" element={<AboutSettings />} />
                   </Routes>
@@ -98,8 +85,7 @@ function App() {
                       // Multi-line expression using a function
                       (() => {
                         if(location.pathname.startsWith('/characters/')){
-                          const charId = location.pathname.split('/')[2];
-                          return <PrintButtonWithModal component={<PrintCharacter fetchCharHandler={fetchCharHandler} charId={charId} />} />;
+                          return <PrintButtonWithModal component={<PrintCharacter />} />;
                         }
                       })()
                     }

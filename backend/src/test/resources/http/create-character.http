@@ -254,7 +254,7 @@ Authorization: Bearer {{auth_token}}
 {
   "changeType": "NEW_SKILL",
   "changeDescription": "Buy Skill",
-  "changeKey": "read.write.forn",
+  "changeKey": "rw.common",
   "modifier": {{$random.integer(2, 3)}}
 }
 > {%

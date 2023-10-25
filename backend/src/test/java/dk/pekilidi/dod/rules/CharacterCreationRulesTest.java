@@ -50,6 +50,7 @@ class CharacterCreationRulesTest {
     when(itemService.findItemByKey("silver")).thenReturn(
         ItemDTO.builder().itemKey(ItemKey.toItemKey("silver")).build());
     when(skillService.findSkillByKey("dodge")).thenReturn(SkillDTO.builder().key(SkillKey.toSkillKey("dodge")).build());
+    when(skillService.findSkillByKey("hand.to.hand")).thenReturn(SkillDTO.builder().key(SkillKey.toSkillKey("hand.to.hand")).build());
     drools.setGlobal("itemService", itemService);
     drools.setGlobal("skillService", skillService);
     validNonHero = CharacterDTO
@@ -138,7 +139,7 @@ class CharacterCreationRulesTest {
     drools.fireAllRules();
     drools.assertFactsCount(4);
     CharacterDTO characterDTO = drools.getObject(CharacterDTO.class);
-    assertEquals(1, characterDTO.getSkills().size());
+    assertEquals(2, characterDTO.getSkills().size());
   }
 
   @Test

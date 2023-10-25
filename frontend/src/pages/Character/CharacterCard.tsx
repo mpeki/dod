@@ -38,7 +38,7 @@ export const CharacterCard = ({ character }: IProps) => {
     throw new Error("CharacterCard must be rendered within an ActivateCharContext.Provider");
   }
 
-  const { activateCharHandler, fetchCharsHandler } = charContext;
+  const { activateCharHandler, fetchAllCharsHandler } = charContext;
   const handleActivation = () => {
     const characterId = character.id ? character.id : "";
     activateCharHandler(characterId).then();
@@ -49,11 +49,11 @@ export const CharacterCard = ({ character }: IProps) => {
     if (character.id != null) {
       await deleteCharacter(character.id)
       .then(() => {
-        fetchCharsHandler();
+        fetchAllCharsHandler();
       })
       .catch((e) => showWarningSnackbar((e as Error).message));
     }
-  }, [character.id, deleteCharacter, fetchCharsHandler]);
+  }, [character.id, deleteCharacter, fetchAllCharsHandler]);
 
   if (character.state == null || character.baseSkillPoints == null) {
     return <>

@@ -9,6 +9,7 @@ public enum ChangeStatusLabel {
   SKILL_DOES_NOT_EXIST("skill.does.not.exist"),
   SKILL_ALREADY_BOUGHT("skill.already.bought"),
   OK_SKILL_BOUGHT("ok.skill.bought"),
+  OK_SKILL_REMOVED("ok.skill.removed"),
   OK_READY_FOR_PLAY("ok.ready.for.play"),
   TOO_MANY_SKILLS_POINTS("too.many.skills.points"),
   WRONG_CHARACTER_STATE("wrong.character.state"),
