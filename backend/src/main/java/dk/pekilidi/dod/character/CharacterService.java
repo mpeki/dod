@@ -112,7 +112,7 @@ public class CharacterService {
     List<String> result = new ArrayList<>();
     String nameBase = "bulk";
     for (int i = 0; i < bulkSize; i++) {
-      result.add(createRandomCharacter(nameBase+"_1", raceName, owner));
+      result.add(this.createRandomCharacter(nameBase+"_1", raceName, owner));
     }
     return result;
   }
