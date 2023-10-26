@@ -117,6 +117,7 @@ public class CharacterService {
     return result;
   }
 
+  @Transactional
   public String createRandomCharacter(String characterName, String raceName, String owner) {
     Race race = getRaceByName(raceName);
 
