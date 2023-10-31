@@ -1,3 +1,10 @@
+# [1.20.0-rc.2](https://github.com/mpeki/dod/compare/v1.20.0-rc.1...v1.20.0-rc.2) (2023-10-31)
+
+
+### Bug Fixes
+
+* **DOD-384:** fix dodge skill removal ([67ce7e4](https://github.com/mpeki/dod/commit/67ce7e47dd5ef535bf284c36d38f252cb6343664))
+
 # [1.20.0-rc.1](https://github.com/mpeki/dod/compare/v1.19.1...v1.20.0-rc.1) (2023-10-25)
 
 
