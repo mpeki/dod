@@ -27,28 +27,6 @@ export const WeaponsContainer = () => {
     showWarningSnackbar("No character selected!");
   }
 
-/*
-    useEffect(() => {
-      let itemJSON = localStorage.getItem("items");
-      if (itemJSON !== null && currentCharacter && currentCharacter.items) {
-        const items: Item[] = JSON.parse(itemJSON);
-        const itemsMap = new Map(items.map((item) => [item.itemKey, item]));
-        const charItems: Map<string, CharacterItem> = new Map(Object.entries(currentCharacter.items));
-        console.log("charItems", charItems);
-        const filteredMap = new Map([...itemsMap].filter(([key, item]) => {
-          let result = false;
-          charItems.forEach((charItem) => {
-            if (charItem.item.itemKey === key) {
-              result = true;
-            }
-          });
-          return result;
-        }));
-        setItems(filteredMap);
-      }
-    }, [currentCharacter]);
-*/
-
   useEffect(() => {
     let itemJSON = localStorage.getItem("items");
     if (itemJSON !== null && currentCharacter && currentCharacter.items) {
@@ -67,7 +45,7 @@ export const WeaponsContainer = () => {
       });
 
       // Now charItems has been updated with the relevant items from itemsMap
-      console.log("Updated charItems", charItems);
+      // console.log("Updated charItems", charItems);
 
 /*
       // Optionally, update the state or perform other actions with the updated charItems
@@ -81,14 +59,11 @@ export const WeaponsContainer = () => {
     }
   }, [currentCharacter]);
 
-
-
     if (currentCharacter == null) {
       return <></>;
     }
 
     const canBuy: boolean = (currentCharacter.state === CharacterState.READY_TO_PLAY);
-    console.log("currentCharacter: ", currentCharacter);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
