@@ -38,7 +38,6 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
   const fetchCharHandler = useCallback(async (characterId: string) => {
     await getCharacter(characterId)
     .then((character) => {
-      showInfoSnackbar("Showing character: " + character.name);
       setCurrentCharacter(character);
     })
     .catch((e) => {

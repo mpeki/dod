@@ -51,7 +51,8 @@ export const BuyWeapon = ({ onConfirm }: IProps) => {
 
   const doPaymentRequest = useCallback(async () => {
     if (itemSelected) {
-      const changePostData: Change = createChange("NEW_ITEM", "Buy new item", itemSelected.itemKey, 1);
+      const changeType = currentCharacter?.state === "INIT_COMPLETE" ? "NEW_ITEM_INIT_COMPLETE" : "NEW_ITEM";
+      const changePostData: Change = createChange(changeType, "Buy new item", itemSelected.itemKey, 1);
       if ( currentCharacter.id != null ) {
         await doChange(currentCharacter.id, changePostData).then(() => {
             setChangeData(createChange());
