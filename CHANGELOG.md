@@ -1,3 +1,10 @@
+# [1.20.0-rc.4](https://github.com/mpeki/dod/compare/v1.20.0-rc.3...v1.20.0-rc.4) (2023-10-31)
+
+
+### Features
+
+* **DOD-418:** Makes it possible to delete a character from the details page ([bbc11e4](https://github.com/mpeki/dod/commit/bbc11e492e8103c4e38a0011d96d63d8d0595e79))
+
 # [1.20.0-rc.3](https://github.com/mpeki/dod/compare/v1.20.0-rc.2...v1.20.0-rc.3) (2023-10-31)
 
 
