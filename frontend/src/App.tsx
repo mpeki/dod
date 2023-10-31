@@ -20,6 +20,7 @@ import LanguageSwitcher from "./components/LanguageSwitcher";
 import useCharacterService from "./services/character.service";
 import { PrintCharacter } from "./pages/Character/print/PrintCharacter";
 import PrintButtonWithModal from "./components/print/PrintButtonWithModal";
+import { DeleteCharacterButton } from "./components/Character/DeleteCharacterButton";
 
 function App() {
 
@@ -82,10 +83,14 @@ function App() {
                   </Routes>
                   <Box display="flex" justifyContent="flex-end"  >
                     {
-                      // Multi-line expression using a function
                       (() => {
                         if(location.pathname.startsWith('/characters/')){
-                          return <PrintButtonWithModal component={<PrintCharacter />} />;
+                          return (
+                            <>
+                              <DeleteCharacterButton inGutter={true}/>
+                              <PrintButtonWithModal component={<PrintCharacter />} />
+                            </>
+                          );
                         }
                       })()
                     }

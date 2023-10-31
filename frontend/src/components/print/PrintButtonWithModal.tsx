@@ -20,7 +20,7 @@ const PrintButtonWithModal: React.FC<PrintComponentProps> = ({ component }) => {
 
   return (
     <div style={{ marginTop: '5px' }}>
-      <IconButton size="small" onClick={handleOpen}>
+      <IconButton size="small" onClick={handleOpen} title="print">
         <PrintIcon style={{ fontSize: '14px' }}/>
       </IconButton>
       <Dialog fullScreen open={open} onClose={handleClose}>

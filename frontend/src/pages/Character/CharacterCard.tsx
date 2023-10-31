@@ -21,6 +21,7 @@ import CharacterContext from "./CharacterContext";
 import withFlashing from "../../components/withFlashing";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
 import { useTranslation } from "react-i18next";
+import { DeleteCharacterButton } from "../../components/Character/DeleteCharacterButton";
 
 interface IProps {
   character: Character;
@@ -29,7 +30,7 @@ interface IProps {
 
 export const CharacterCard = ({ character }: IProps) => {
 
-  const { deleteCharacter } = useCharacterService();
+  // const { deleteCharacter } = useCharacterService();
   const charContext = useContext(CharacterContext);
   const FlashingActivateButton = withFlashing(Fab);
   const { t } = useTranslation(["races","char"]);
@@ -38,22 +39,22 @@ export const CharacterCard = ({ character }: IProps) => {
     throw new Error("CharacterCard must be rendered within an ActivateCharContext.Provider");
   }
 
-  const { activateCharHandler, fetchAllCharsHandler } = charContext;
+  const { activateCharHandler } = charContext;
   const handleActivation = () => {
     const characterId = character.id ? character.id : "";
     activateCharHandler(characterId).then();
   };
 
 
-  const deleteCharHandler = useCallback(async () => {
-    if (character.id != null) {
-      await deleteCharacter(character.id)
-      .then(() => {
-        fetchAllCharsHandler();
-      })
-      .catch((e) => showWarningSnackbar((e as Error).message));
-    }
-  }, [character.id, deleteCharacter, fetchAllCharsHandler]);
+  // const deleteCharHandler = useCallback(async () => {
+  //   if (character.id != null) {
+  //     await deleteCharacter(character.id)
+  //     .then(() => {
+  //       fetchAllCharsHandler();
+  //     })
+  //     .catch((e) => showWarningSnackbar((e as Error).message));
+  //   }
+  // }, [character.id, deleteCharacter, fetchAllCharsHandler]);
 
   if (character.state == null || character.baseSkillPoints == null) {
     return <>
@@ -90,9 +91,7 @@ export const CharacterCard = ({ character }: IProps) => {
               <StartIcon />
             </FlashingActivateButton>
           )}
-          <IconButton onClick={deleteCharHandler} aria-label="delete" title="delete">
-            <DeleteForeverIcon />
-          </IconButton>
+          <DeleteCharacterButton characterId={character.id} inGutter={false}/>
         </CardActions>
       </Card>
     </Grid>
