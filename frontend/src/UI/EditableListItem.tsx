@@ -26,6 +26,10 @@ const EditableListItem: React.FC<ListItemProps> = ({ label, value, changeType, c
   const [inputError, setInputError] = useState(false);
   const validNameRegExp = validationPattern || /(?:)/;
 
+  useEffect(() => {
+    setTextValue(value);
+  }, [value]);
+
   const handleClick = () => {
     setIsEditing(true);
   };

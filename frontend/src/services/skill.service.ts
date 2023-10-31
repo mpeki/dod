@@ -38,7 +38,7 @@ export const SkillUtil = {
     fvToBuy: number
   ): number {
     let freePoints = 0;
-    console.log("skill: " + JSON.stringify(skill) + " fvToBuy: " + fvToBuy);
+    // console.log("skill: " + JSON.stringify(skill) + " fvToBuy: " + fvToBuy);
     if (
       skill === null ||
       skill === undefined ||

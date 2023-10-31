@@ -1,7 +1,6 @@
 import { Character } from "../../types/character";
 import { Link } from "react-router-dom";
-import { useCallback, useContext } from "react";
-import useCharacterService from "../../services/character.service";
+import { useContext } from "react";
 import { CharacterState } from "../../types/character-state";
 import {
   Avatar,
@@ -12,14 +11,11 @@ import {
   CardHeader,
   Fab,
   Grid,
-  IconButton,
   Typography
 } from "@mui/material";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import StartIcon from "@mui/icons-material/Start";
 import CharacterContext from "./CharacterContext";
 import withFlashing from "../../components/withFlashing";
-import { showWarningSnackbar } from "../../utils/DODSnackbars";
 import { useTranslation } from "react-i18next";
 import { DeleteCharacterButton } from "../../components/Character/DeleteCharacterButton";
 
@@ -44,17 +40,6 @@ export const CharacterCard = ({ character }: IProps) => {
     const characterId = character.id ? character.id : "";
     activateCharHandler(characterId).then();
   };
-
-
-  // const deleteCharHandler = useCallback(async () => {
-  //   if (character.id != null) {
-  //     await deleteCharacter(character.id)
-  //     .then(() => {
-  //       fetchAllCharsHandler();
-  //     })
-  //     .catch((e) => showWarningSnackbar((e as Error).message));
-  //   }
-  // }, [character.id, deleteCharacter, fetchAllCharsHandler]);
 
   if (character.state == null || character.baseSkillPoints == null) {
     return <>

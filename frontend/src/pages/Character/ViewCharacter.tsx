@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { Character } from "../../types/character";
+import { useCallback, useContext, useEffect } from "react";
 import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
 import { CharacterInfo } from "../../components/Character/CharacterInfo";
 import { Container, Divider, Paper } from "@mui/material";
@@ -27,7 +26,6 @@ export const ViewCharacter = () => {
 
   const { doChange } = useChangeService();
   const { charId } = useParams();
-  // const [character, setCharacter] = useState<Character>();
   const charContext = useContext(CharacterContext);
 
   if (!charContext) {
