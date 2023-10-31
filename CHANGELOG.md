@@ -1,3 +1,10 @@
+# [1.20.0-rc.6](https://github.com/mpeki/dod/compare/v1.20.0-rc.5...v1.20.0-rc.6) (2023-10-31)
+
+
+### Features
+
+* **DOD-417:** It is now possible to buy weapons during character creation ([1454a03](https://github.com/mpeki/dod/commit/1454a038fcf15314ebe8c3c148d8a19d905b2b21))
+
 # [1.20.0-rc.5](https://github.com/mpeki/dod/compare/v1.20.0-rc.4...v1.20.0-rc.5) (2023-10-31)
 
 
