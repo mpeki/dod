@@ -63,7 +63,7 @@ export const WeaponsContainer = () => {
       return <></>;
     }
 
-    const canBuy: boolean = (currentCharacter.state === CharacterState.READY_TO_PLAY);
+    const canBuy: boolean = (currentCharacter.state === CharacterState.INIT_COMPLETE);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
