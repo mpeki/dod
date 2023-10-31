@@ -17,7 +17,6 @@ import { AboutSettings } from "./pages/Settings/AboutSettings";
 import { CharacterContextProvider } from "./pages/Character/CharacterContextProvider";
 import { TheWilderness } from "./pages/Wilderness/TheWilderness";
 import LanguageSwitcher from "./components/LanguageSwitcher";
-import useCharacterService from "./services/character.service";
 import { PrintCharacter } from "./pages/Character/print/PrintCharacter";
 import PrintButtonWithModal from "./components/print/PrintButtonWithModal";
 import { DeleteCharacterButton } from "./components/Character/DeleteCharacterButton";
