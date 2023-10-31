@@ -29,6 +29,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
   const [races, setRaces] = useState<Race[]>([]);
 
   const [charData, setCharData] = useState<Character>({
+    id: "",
     name: "",
     ageGroup: "MATURE",
     race: { name: "human" },
@@ -54,6 +55,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
 
   const submitHandler = useCallback(async () => {
     const charPostData: Character = {
+      id: "",
       name: getValues('characterName'),
       ageGroup: getValues('ageGroup'),
       race: { name: getValues('raceName') },
@@ -64,7 +66,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
     } catch (e) {
       showWarningSnackbar((e as Error).message);
     } finally {
-      setCharData({ name: "", ageGroup: "MATURE", race: { name: "human" }, hero: false });
+      setCharData({ id: "", name: "", ageGroup: "MATURE", race: { name: "human" }, hero: false });
       fetchCharactersHandler();
       reset();
       onConfirm();

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useItemService } from "../../services/item.service";
 import { Item } from "../../types/item";
 import { Paper } from "@mui/material";
@@ -9,18 +9,24 @@ import { Change, createChange } from "../../types/change";
 import { useChangeService } from "../../services/change.service";
 import { ItemSelector } from "./ItemSelector";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import CharacterContext from "../Character/CharacterContext";
 
 interface IProps {
   onConfirm: any;
-  fetchCharHandler: (charId: string) => Promise<Character>;
-  character: Character;
 }
 
-export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) => {
+export const BuyWeapon = ({ onConfirm }: IProps) => {
 
-  const orgGold = character?.items?.gold ? character.items.gold.quantity : 0;
-  const orgSilver = character?.items?.silver ? character.items.silver.quantity : 0;
-  const orgCopper = character?.items?.copper ? character.items.copper.quantity : 0;
+  const charContext = useContext(CharacterContext);
+  if (!charContext || !charContext.currentCharacter) {
+    throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+  }
+
+  const { currentCharacter, fetchCharHandler } = charContext;
+
+  const orgGold = currentCharacter?.items?.gold ? currentCharacter.items.gold.quantity : 0;
+  const orgSilver = currentCharacter?.items?.silver ? currentCharacter.items.silver.quantity : 0;
+  const orgCopper = currentCharacter?.items?.copper ? currentCharacter.items.copper.quantity : 0;
 
   const { doChange } = useChangeService();
   const { getMeleeWeapons } = useItemService();
@@ -46,17 +52,17 @@ export const BuyWeapon = ({ onConfirm, character, fetchCharHandler }: IProps) =>
   const doPaymentRequest = useCallback(async () => {
     if (itemSelected) {
       const changePostData: Change = createChange("NEW_ITEM", "Buy new item", itemSelected.itemKey, 1);
-      if ( character.id != null ) {
-        await doChange(character.id, changePostData).then(() => {
+      if ( currentCharacter.id != null ) {
+        await doChange(currentCharacter.id, changePostData).then(() => {
             setChangeData(createChange());
-            fetchCharHandler(character.id as string);
+            fetchCharHandler(currentCharacter.id as string);
             onConfirm();
           }
         );
       }
     }
     onConfirm();
-  }, [itemSelected, onConfirm, character.id, fetchCharHandler, doChange]);
+  }, [itemSelected, onConfirm, currentCharacter.id, fetchCharHandler, doChange]);
 
   const resetFunds = () => {
     setGold(orgGold);

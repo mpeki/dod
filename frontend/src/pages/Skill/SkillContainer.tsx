@@ -1,4 +1,4 @@
-import { CharacterSkill, Skill } from "../../types/skill";
+import { CharacterSkill } from "../../types/skill";
 import { useContext, useState } from "react";
 import { BuySkill } from "./BuySkill";
 import { CharacterSkillList } from "./CharacterSkillList";
@@ -20,10 +20,9 @@ import { useTranslation } from "react-i18next";
 interface IProps {
   character: Character;
   skills: Record<string, CharacterSkill> | undefined;
-  fetchCharHandler: (charId: string) => Promise<Character>;
 }
 
-export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps): JSX.Element => {
+export const SkillContainer = ({ character, skills }: IProps): JSX.Element => {
 
   const [showBuySkill, setShowBuySkill] = useState<boolean>();
   const FlashingAddButton = withFlashing(Fab);
@@ -35,7 +34,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
     throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
   }
 
-  const { activateCharHandler } = charContext;
+  const { activateCharHandler, fetchCharHandler } = charContext;
 
   const showBuySkillHandler = () => {
     if (showBuySkill) {
@@ -54,6 +53,8 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
     const characterId = character.id ? character.id : "";
     activateCharHandler(characterId).then(() => fetchCharHandler(characterId));
   };
+
+
 
   const navigate = useNavigate();
   useKeyboardShortcut(['Escape'], (event) => {
@@ -109,10 +110,9 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
             <BuySkill
               character={character}
               onConfirm={showBuySkillHandler}
-              buySkillHandler={fetchCharHandler}
             />
           )}
-          <CharacterSkillList charId={character.id || ""} skills={skills || {}} fetchCharHandler={fetchCharHandler} canRemoveSkill={canRemoveSkill} isPrinting={false}/>
+          <CharacterSkillList charId={character.id || ""} skills={skills || {}} canRemoveSkill={canRemoveSkill} isPrinting={false}/>
         </Paper>
       </KeyboardShortcutProvider>
     </>

@@ -1,34 +1,37 @@
 import { CharacterSkill } from "../../types/skill";
 import { SkillDetails } from "./SkillDetails";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { TableCell, TableRow } from "@mui/material";
 import { RemoveCircleOutline } from "@mui/icons-material";
 import { useChangeService } from "../../services/change.service";
 import { Change, createChange } from "../../types/change";
-import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import { showSuccessSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
 import { useTranslation } from "react-i18next";
-import { Character } from "../../types/character";
+import CharacterContext from "../Character/CharacterContext";
+import { ErrorMain } from "../Error/ErrorMain";
 
 interface IProps {
-  characterId: string;
   charSkill: CharacterSkill;
-  fetchCharHandler: (charId: string) => Promise<Character>;
   canRemoveSkill: boolean;
   isPrinting: boolean;
 }
 
-export const CharacterSkillItem = ({
-                                     characterId,
-                                     charSkill,
-                                     fetchCharHandler,
+export const CharacterSkillItem = ({ charSkill,
                                      canRemoveSkill,
                                      isPrinting
                                    }: IProps): JSX.Element => {
 
   const [showSkillDetails, setShowSkillDetails] = useState<boolean>();
-  const { doChange } = useChangeService();
+  const { doCharacterChange } = useChangeService();
   const [changeData, setChangeData] = useState<Change>(createChange());
   const { t } = useTranslation("skills");
+  const charContext = useContext(CharacterContext);
+
+  if (!charContext) {
+    throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+  }
+
+  const { fetchCharHandler, currentCharacter } = charContext;
 
   const showSkillDetailsHandler = () => {
     if (showSkillDetails) {
@@ -39,20 +42,29 @@ export const CharacterSkillItem = ({
   };
 
   const removeSkillHandler = useCallback(async () => {
+    if (!currentCharacter) {
+      showWarningSnackbar('Character is not defined');
+      return;
+    }
     const changePostData: Change = createChange("REMOVE_SKILL", "Remove skill", charSkill.skill.key, -1);
-    await doChange(characterId, changePostData)
-    .then(() => fetchCharHandler(characterId))
-    .catch((e) => showWarningSnackbar((e as Error).message))
-    .finally(() => {
-      setChangeData(createChange());
-    });
-  }, [characterId, doChange, fetchCharHandler, charSkill.skill.key]);
+      await doCharacterChange(currentCharacter, changePostData)
+      .then(() => {
+        fetchCharHandler(currentCharacter.id).then((character) => showSuccessSnackbar("Removed skill! "));
+      })
+      .catch((e) => showWarningSnackbar((e as Error).message))
+      .finally(() => {
+        setChangeData(createChange());
+      });
+  }, [currentCharacter, doCharacterChange, fetchCharHandler, charSkill.skill.key]);
 
   let skillCategory = JSON.stringify(charSkill.skill.category).replace(/"/g, "") as string;
+  if(!currentCharacter){
+    return <ErrorMain errorCode={-1} />;
+  }
   return (
     <>
       {showSkillDetails && (
-        <SkillDetails characterId={characterId} charSkill={charSkill} onConfirm={showSkillDetailsHandler} />
+        <SkillDetails characterId={currentCharacter.id} charSkill={charSkill} onConfirm={showSkillDetailsHandler} />
       )}
       <TableRow hover key={charSkill.skill.key} style={{ height: "20px" }}>
         <TableCell onClick={showSkillDetailsHandler} sx={{
@@ -76,7 +88,7 @@ export const CharacterSkillItem = ({
         }}>{isPrinting ? "" : charSkill.experience}</TableCell>
         {!isPrinting && (
           <TableCell>
-            {(canRemoveSkill && (charSkill.skill.key !== "dodge")) && (
+            {(canRemoveSkill && (charSkill.skill.key !== "dodge" && charSkill.skill.key !== "hand.to.hand")) && (
               <RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeSkillHandler} />
             )}
           </TableCell>

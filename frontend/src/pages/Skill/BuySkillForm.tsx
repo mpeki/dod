@@ -1,5 +1,5 @@
 import { Controller, useForm } from "react-hook-form";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Change, createChange } from "../../types/change";
 import { useChangeService } from "../../services/change.service";
 import classes from "../Character/AddCharacter.module.css";
@@ -13,10 +13,10 @@ import { showInfoSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars"
 import { SecondaryChangeKey } from "../../types/secondary-change-key";
 import { GroupType } from "../../types/group";
 import { Category } from "../../types/category";
+import CharacterContext from "../Character/CharacterContext";
 
 interface IProps {
   character: Character;
-  buySkillHandler: any;
   onConfirm: any;
 }
 
@@ -27,7 +27,7 @@ interface FormData {
   modifier: number;
 }
 
-export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) => {
+export const BuySkillForm = ({ character, onConfirm }: IProps) => {
 
   const { doChange } = useChangeService();
 
@@ -38,26 +38,36 @@ export const BuySkillForm = ({ character, buySkillHandler, onConfirm }: IProps) 
   const [changeData, setChangeData] = useState<Change>(createChange("NEW_SKILL", "Buy new skill", "", -1));
   const [weapons, setWeapons] = useState<Item[]>([]);
   const [weaponSelected, setWeaponSelected] = useState("");
+  const charContext = useContext(CharacterContext);
+
+  if (!charContext) {
+    throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+  }
+
+  const { fetchCharHandler, currentCharacter } = charContext;
+
 
   const submitHandler = useCallback(async () => {
     if (selected) {
       let secondaryChange: SecondaryChangeKey | undefined = weaponSelected ? { changeType: "SKILL_FOR_ITEM_USE", changeKey: weaponSelected } : undefined;
       const changePostData: Change = createChange("NEW_SKILL", "Buy new skill", selected.key, secondaryChange, getValues("modifier"));
 
-      if (character.id != null) {
-        await doChange(character.id, changePostData).then((change: Change) => {
+      if (currentCharacter != null && currentCharacter.id != null) {
+        await doChange(currentCharacter.id, changePostData).then((change: Change) => {
           showInfoSnackbar("Skill bought successfully")
         })
         .catch((e) => showWarningSnackbar((e as Error).message))
         .finally(() => {
           setChangeData(createChange());
-          buySkillHandler();
+          if(currentCharacter.id != null){
+            fetchCharHandler(currentCharacter.id);
+          }
           reset();
           onConfirm();
         });
       }
     }
-  }, [selected, weaponSelected, changeData, getValues, character.id, buySkillHandler, reset, onConfirm, doChange]);
+  }, [selected, weaponSelected, changeData, getValues, character.id, fetchCharHandler, reset, onConfirm, doChange]);
 
   const onSubmit = handleSubmit(submitHandler);
 

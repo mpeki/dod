@@ -4,16 +4,16 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import { StyledTable } from "../../../../components/shared/Table.styled";
 import { useTranslation } from "react-i18next";
 import { Character } from "../../../../types/character";
+import { useContext } from "react";
+import CharacterContext from "../../CharacterContext";
 
 interface IProps {
-  charId: string;
   skills: Record<string, CharacterSkill>;
-  fetchCharHandler: (charId: string) => Promise<Character>;
   canRemoveSkill: boolean;
   isPrinting: boolean;
 }
 
-export const PrintCharacterSkillList = ({ charId, skills, fetchCharHandler, canRemoveSkill, isPrinting }: IProps): JSX.Element => {
+export const PrintCharacterSkillList = ({ skills, canRemoveSkill, isPrinting }: IProps): JSX.Element => {
 
   const { t } = useTranslation("char");
   const charSkillItems = () => {
@@ -24,7 +24,7 @@ export const PrintCharacterSkillList = ({ charId, skills, fetchCharHandler, canR
         if (value != null) {
           let charSkill = skillMap.get(key);
           if (charSkill != null) {
-            result.push(<CharacterSkillItem key={charSkill.skill.key} characterId={charId} charSkill={charSkill} fetchCharHandler={fetchCharHandler} canRemoveSkill={canRemoveSkill} isPrinting={isPrinting}/>);
+            result.push(<CharacterSkillItem key={charSkill.skill.key} charSkill={charSkill} canRemoveSkill={canRemoveSkill} isPrinting={isPrinting}/>);
           }
         }
       });

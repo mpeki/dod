@@ -10,7 +10,6 @@ import { StyledTable } from "../../../../components/shared/Table.styled";
 interface ICharacterProps {
   character: Character;
   username: string;
-  changeHandler: (changeKey: string, mod: any) => void;
 }
 
 export const PrintCharacterInfo = ({ character, username }: ICharacterProps) => {

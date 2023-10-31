@@ -82,7 +82,7 @@ rule "Add Racial Modifier"
     update(changeRequest)
 end;
 
-rule "Recalculate Dodge Skill"
+rule "Recalculate Dodge Skill - add primary weapon skill"
   ruleflow-group "new-skill"
   salience 80
   no-loop
@@ -92,10 +92,12 @@ rule "Recalculate Dodge Skill"
   then
     String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
     if(skillKey.equalsIgnoreCase("primary.weapon")){
-        CharacterSkillDTO dodgeSkill = character.getSkills().get("dodge");
-        if(dodgeSkill != null){
-          character.updateFv("dodge", Math.ceilDiv((Integer)changeRequest.getModifier() + dodgeSkill.getFv(), 2));
-        }
+        int primaryWeaponFv = (Integer) changeRequest.getModifier();
+        int h2hFv = character.getSkills().get("hand.to.hand").getFv();
+        int dodgeFv = character.getSkills().get("dodge").getFv();
+        int newDodgeFv = h2hFv > primaryWeaponFv ? Math.ceilDiv(h2hFv + dodgeFv, 2) : Math.ceilDiv(primaryWeaponFv + dodgeFv, 2);
+        character.updateFv("dodge", newDodgeFv );
+
     }
 end;
 

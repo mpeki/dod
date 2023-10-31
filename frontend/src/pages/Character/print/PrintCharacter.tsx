@@ -1,5 +1,4 @@
-import { ForwardedRef, useEffect, useState } from "react";
-import { Character } from "../../../types/character";
+import { ForwardedRef, useContext, useEffect, useState } from "react";
 import { Container, Grid } from "@mui/material";
 import { BaseTraitList } from "../../../components/BaseTraits/BaseTraitList";
 import { PrintCharacterInfo } from "./pageOne/PrintCharacterInfo";
@@ -14,60 +13,55 @@ import { PrintBonusXpHp } from "./pageOne/PrintBonusXpHp";
 import { PrintCharacterBody } from "./pageTwo/PrintCharacterBody";
 import { PrintWeapons } from "./pageTwo/PrintWeapons";
 import { PrintItems } from "./pageTwo/PrintItems";
+import CharacterContext from "../CharacterContext";
 
-interface IProps {
-  fetchCharHandler: (charId: string) => Promise<Character>;
-  charId: string;
-}
 
-export const PrintCharacter = (props: IProps, ref: ForwardedRef<HTMLDivElement>) => {
+export const PrintCharacter = () => {
 
-  const { fetchCharHandler, charId } = props;
   const auth = useAuth();
   const username = auth.user?.profile?.name || "";
-  const [character, setCharacter] = useState<Character>();
+  const charContext = useContext(CharacterContext);
+  if (!charContext || !charContext.currentCharacter) {
+    throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+  }
 
-  useEffect(() => {
-    fetchCharHandler(charId || "").then((character) => {
-      setCharacter(character);
-    });
-  }, [charId, fetchCharHandler]);
+  const { currentCharacter } = charContext;
 
-  if (character == null || character.id == null || character.looks == null) {
+  if (currentCharacter == null || currentCharacter.id == null || currentCharacter.looks == null) {
     return <><p>Invalid character!</p></>;
   }
   return (
     <Container maxWidth="md">
       <Grid container spacing={2}>
         <Grid item xs={5}>
-          <BaseTraitList baseTraits={character.baseTraits} />
+          <BaseTraitList baseTraits={currentCharacter.baseTraits} />
           <Grid container direction={"row"} spacing={2}>
-            <PrintBonusXpHp character={character} />
+            <PrintBonusXpHp character={currentCharacter} />
           </Grid>
-          <PrintCharacterSkillList charId={character.id || ""} skills={character?.skills || {}}
-                                   fetchCharHandler={fetchCharHandler} canRemoveSkill={false} isPrinting={true} />
+          <PrintCharacterSkillList skills={currentCharacter?.skills || {}}
+                                   canRemoveSkill={false} isPrinting={true} />
         </Grid>
         <Grid item xs={7} style={{ marginTop: '10px' }}>
-          <PrintCharacterInfo character={character} username={username} changeHandler={fetchCharHandler} />
-          <PrintHeroDetails character={character} />
+          <PrintCharacterInfo character={currentCharacter} username={username}  />
+          <PrintHeroDetails character={currentCharacter} />
           <Grid container>
-            <PrintStatusStats character={character} />
+            <PrintStatusStats character={currentCharacter} />
           </Grid>
           <Grid container style={{ marginTop: '15px' }}>
-            <PrintPsycheStats character={character} />
+            <PrintPsycheStats character={currentCharacter} />
           </Grid>
 
-          <PrintMagicSchools character={character} />
-          <PrintSpells character={character} />
+          <PrintMagicSchools character={currentCharacter} />
+          <PrintSpells character={currentCharacter} />
         </Grid>
       </Grid>
       <div className="page-break" />
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <PrintCharacterBody parts={character.bodyParts}/>
-          <PrintWeapons character={character}/>
+          <PrintCharacterBody parts={currentCharacter.bodyParts}/>
+          <PrintWeapons character={currentCharacter}/>
           <Grid container spacing={2}>
-            <PrintItems character={character} />
+            <PrintItems character={currentCharacter} />
           </Grid>
         </Grid>
       </Grid>

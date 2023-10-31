@@ -2,36 +2,37 @@ import { Box, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRo
 import { StyledTable } from "../../components/shared/Table.styled";
 import Stack from "@mui/material/Stack";
 import AddIcon from "@mui/icons-material/Add";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import { BuyWeapon } from "./BuyWeapon";
-import { Character } from "../../types/character";
 import { CharacterItem, Item } from "../../types/item";
 import { CharacterState } from "../../types/character-state";
 import { useTranslation } from "react-i18next";
+import CharacterContext from "../Character/CharacterContext";
+import { showWarningSnackbar } from "../../utils/DODSnackbars";
 
-interface IProps {
-  character: Character;
-  fetchCharHandler: (charId: string) => Promise<Character>;
-}
-
-
-export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
+export const WeaponsContainer = () => {
 
     const { t } = useTranslation(["char", "items"]);
     const [items, setItems] = useState<Map<string, Item>>(new Map());
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const charContext = useContext(CharacterContext);
+    if (!charContext || !charContext.currentCharacter) {
+      throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+    }
 
-    const canBuy: boolean = (character.state === CharacterState.READY_TO_PLAY);
+    const { currentCharacter } = charContext;
+
+  if (currentCharacter == null) {
+    showWarningSnackbar("No character selected!");
+  }
 
     useEffect(() => {
       let itemJSON = localStorage.getItem("items");
-      if (itemJSON !== null && character.items) {
+      if (itemJSON !== null && currentCharacter && currentCharacter.items) {
         const items: Item[] = JSON.parse(itemJSON);
         const itemsMap = new Map(items.map((item) => [item.itemKey, item]));
-        const charItems: Map<string, CharacterItem> = new Map(Object.entries(character.items));
+        const charItems: Map<string, CharacterItem> = new Map(Object.entries(currentCharacter.items));
         const filteredMap = new Map([...itemsMap].filter(([key, item]) => {
           let result = false;
           charItems.forEach((charItem) => {
@@ -43,7 +44,17 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
         }));
         setItems(filteredMap);
       }
-    }, [character.items]);
+    }, [currentCharacter]);
+
+
+    if (currentCharacter == null) {
+      return <></>;
+    }
+
+    const canBuy: boolean = (currentCharacter.state === CharacterState.READY_TO_PLAY);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const itemRows = () => {
       const result: JSX.Element[] = [];
@@ -61,21 +72,21 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
         </TableRow>);
       });
       // Add empty rows to fill the table - if we are printing, we need 10 rows, otherwise 3
-/*
-      let emptyRows = isPrinting ? 5 - result.length : 3 - result.length < 1 ? 0 : 3 - result.length
-      for(let i = 0; i < emptyRows; i++) {
-        result.push(<TableRow key={i} style={{ height: "25px" }}>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-          <TableCell></TableCell>
-        </TableRow>);
-      }
-*/
+      /*
+            let emptyRows = isPrinting ? 5 - result.length : 3 - result.length < 1 ? 0 : 3 - result.length
+            for(let i = 0; i < emptyRows; i++) {
+              result.push(<TableRow key={i} style={{ height: "25px" }}>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>);
+            }
+      */
 
 
       return result;
@@ -119,7 +130,7 @@ export const WeaponsContainer = ({ character, fetchCharHandler }: IProps) => {
               Buy a new Weapon or Shield
             </Typography>
             <Box>
-              <BuyWeapon onConfirm={handleClose} character={character} fetchCharHandler={fetchCharHandler} />
+              <BuyWeapon onConfirm={handleClose} />
             </Box>
           </Paper>
         </Modal>

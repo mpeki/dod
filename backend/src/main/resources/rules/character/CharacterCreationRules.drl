@@ -310,11 +310,22 @@ rule "Add natural skills"
   when
     character : CharacterDTO ( skills.isEmpty() )
   then
-    CharacterSkillDTO characterSkill = CharacterSkillDTO.builder().build();
-    SkillDTO dodgeSkill = skillService.findSkillByKey("dodge");
-    characterSkill.setSkill(dodgeSkill);
-    characterSkill.setFv(character.getBaseTraitValue(BaseTraitName.DEXTERITY));
-    character.addSkill(characterSkill);
+
+    int h2hFv =  Math.ceilDiv(character.getBaseTraitValue(BaseTraitName.DEXTERITY) + character.getBaseTraitValue(BaseTraitName.SIZE), 2);
+    CharacterSkillDTO handToHandSkill = CharacterSkillDTO.builder()
+      .skill(skillService.findSkillByKey("hand.to.hand"))
+      .fv(h2hFv)
+      .build();
+    character.addSkill(handToHandSkill);
+
+    int dodgeFv = Math.ceilDiv(character.getBaseTraitValue(BaseTraitName.DEXTERITY) + h2hFv, 2);
+    CharacterSkillDTO dodgeSkill = CharacterSkillDTO.builder()
+      .skill(skillService.findSkillByKey("dodge"))
+      .fv(dodgeFv)
+      .build();
+    character.addSkill(dodgeSkill);
+
+
     update(character);
 end;
 

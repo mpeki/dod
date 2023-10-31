@@ -39,7 +39,7 @@ public class CharacterFlowTest {
   public static final String DB_SERVICE_NAME = "db_1";
   private static final Integer DATABASE_PORT = 3306;
 
-  public static final Integer NUM_FREE_SKILLS = 1;
+  public static final Integer NUM_FREE_SKILLS = 2;
 
   private static final WaitStrategy waitStrategy = Wait.forHealthcheck().withStartupTimeout(Duration.ofMinutes(5));
 
@@ -145,7 +145,7 @@ public class CharacterFlowTest {
       int numSkillsBought = flowHelper.buySkills(createdChar.getId()) + NUM_FREE_SKILLS;
       //Check skills of fetched character
       CharacterDTO fetchedChar = flowHelper.getCharById(createdChar.getId());
-      assertEquals(numSkillsBought, fetchedChar.getSkills().size());
+      assertEquals(numSkillsBought, fetchedChar.getSkills().size() );
     }
     int newCharCount = flowHelper.fetchAllCharacters().length;
     assertNotEquals(initalCharCount, newCharCount);
