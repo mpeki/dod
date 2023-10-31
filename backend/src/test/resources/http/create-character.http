@@ -1,7 +1,7 @@
-POST http://localhost:32866/realms/dodgame/protocol/openid-connect/token
-Content-Type: application/x-www-form-urlencoded
-
-username=msp&password=msp123&client_id=dodgame-api&grant_type=password
+#POST http://localhost:32866/realms/dodgame/protocol/openid-connect/token
+#Content-Type: application/x-www-form-urlencoded
+#
+#username=msp&password=msp123&client_id=dodgame-api&grant_type=password
 
 ###
 
