@@ -1,3 +1,10 @@
+# [1.20.0-rc.3](https://github.com/mpeki/dod/compare/v1.20.0-rc.2...v1.20.0-rc.3) (2023-10-31)
+
+
+### Bug Fixes
+
+* **DOD-344:** This fixes an issue where weapons bought are not shown ([0d7a2c1](https://github.com/mpeki/dod/commit/0d7a2c157c9d9be25c764fb30cf96e65f6d1f587))
+
 # [1.20.0-rc.2](https://github.com/mpeki/dod/compare/v1.20.0-rc.1...v1.20.0-rc.2) (2023-10-31)
 
 
