@@ -1,3 +1,10 @@
+# [1.20.0-rc.5](https://github.com/mpeki/dod/compare/v1.20.0-rc.4...v1.20.0-rc.5) (2023-10-31)
+
+
+### Bug Fixes
+
+* **DOD-419:** Fixes issue where editable elements would not update correctly ([3c96c4f](https://github.com/mpeki/dod/commit/3c96c4f1b3c61a14edd168732822786a9adb9627))
+
 # [1.20.0-rc.4](https://github.com/mpeki/dod/compare/v1.20.0-rc.3...v1.20.0-rc.4) (2023-10-31)
 
 
