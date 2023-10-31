@@ -14,7 +14,7 @@ type CharacterContextProviderProps = {
 export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ children }) => {
 
   const { doChange } = useChangeService();
-  const { getCharacters, getCharacter } = useCharacterService();
+  const { getCharacters, getCharacter, deleteCharacter } = useCharacterService();
   const [characters, setCharacters] = useState<Character[]>([]);
   const [currentCharacter, setCurrentCharacter] = useState<Character>();
   const [errorCode, setErrorCode] = useState<number>(0);
@@ -66,10 +66,20 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
     }
   }, [doChange, fetchAllCharsHandler]);
 
+  const deleteCharHandler = useCallback(async (characterId: string) => {
+    if (characterId != null) {
+      await deleteCharacter(characterId)
+      .then(() => {
+        fetchAllCharsHandler();
+      })
+      .catch((e) => showWarningSnackbar((e as Error).message));
+    }
+  }, [deleteCharacter, fetchAllCharsHandler]);
+
 
   return (
     <CharacterContext.Provider
-      value={{ activateCharHandler, fetchCharHandler, fetchAllCharsHandler, currentCharacter, characters, errorCode }}>
+      value={{ activateCharHandler, fetchCharHandler, fetchAllCharsHandler, deleteCharHandler, currentCharacter, characters, errorCode }}>
       {children}
     </CharacterContext.Provider>
   );

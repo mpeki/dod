@@ -10,7 +10,6 @@ import dk.pekilidi.dod.skill.model.Category;
 import dk.pekilidi.dod.skill.model.Group;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
