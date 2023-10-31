@@ -14,7 +14,7 @@ import { showWarningSnackbar } from "../../utils/DODSnackbars";
 export const WeaponsContainer = () => {
 
     const { t } = useTranslation(["char", "items"]);
-    const [items, setItems] = useState<Map<string, Item>>(new Map());
+    const [items, setItems] = useState<Map<string, CharacterItem>>(new Map());
     const [open, setOpen] = useState(false);
     const charContext = useContext(CharacterContext);
     if (!charContext || !charContext.currentCharacter) {
@@ -27,12 +27,14 @@ export const WeaponsContainer = () => {
     showWarningSnackbar("No character selected!");
   }
 
+/*
     useEffect(() => {
       let itemJSON = localStorage.getItem("items");
       if (itemJSON !== null && currentCharacter && currentCharacter.items) {
         const items: Item[] = JSON.parse(itemJSON);
         const itemsMap = new Map(items.map((item) => [item.itemKey, item]));
         const charItems: Map<string, CharacterItem> = new Map(Object.entries(currentCharacter.items));
+        console.log("charItems", charItems);
         const filteredMap = new Map([...itemsMap].filter(([key, item]) => {
           let result = false;
           charItems.forEach((charItem) => {
@@ -45,6 +47,40 @@ export const WeaponsContainer = () => {
         setItems(filteredMap);
       }
     }, [currentCharacter]);
+*/
+
+  useEffect(() => {
+    let itemJSON = localStorage.getItem("items");
+    if (itemJSON !== null && currentCharacter && currentCharacter.items) {
+      const items: Item[] = JSON.parse(itemJSON);
+      const itemsMap = new Map(items.map((item) => [item.itemKey, item]));
+      const charItems: Map<string, CharacterItem> = new Map(Object.entries(currentCharacter.items));
+
+      // Iterate through each charItem in charItems
+      charItems.forEach((charItem, key) => {
+        // Look up the corresponding item from itemsMap using the itemKey from charItem.item
+        const matchingItem = itemsMap.get(charItem.item.itemKey);
+        if (matchingItem) {
+          // Assign the matching item to charItem.item
+          charItem.item = matchingItem;
+        }
+      });
+
+      // Now charItems has been updated with the relevant items from itemsMap
+      console.log("Updated charItems", charItems);
+
+/*
+      // Optionally, update the state or perform other actions with the updated charItems
+      // For example:
+      setCurrentCharacter(prevState => ({
+        ...prevState,
+        items: Object.fromEntries(charItems),
+      }));
+*/
+      setItems(charItems);
+    }
+  }, [currentCharacter]);
+
 
 
     if (currentCharacter == null) {
@@ -52,23 +88,25 @@ export const WeaponsContainer = () => {
     }
 
     const canBuy: boolean = (currentCharacter.state === CharacterState.READY_TO_PLAY);
+    console.log("currentCharacter: ", currentCharacter);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const itemRows = () => {
       const result: JSX.Element[] = [];
-      items.forEach((item, key) => {
-        if (item.itemType !== "MELEE_WEAPON" && item.itemType !== "RANGED_WEAPON" && item.itemType !== "SHIELD") return;
-        result.push(<TableRow key={item.id}>
-          <TableCell height={12}>{t(`items:${item.itemKey}`)}</TableCell>
+      items.forEach((charItem, key) => {
+        if (charItem.item.itemType !== "MELEE_WEAPON" && charItem.item.itemType !== "RANGED_WEAPON" && charItem.item.itemType !== "SHIELD") return;
+        console.log("item", charItem);
+        result.push(<TableRow key={charItem.itemName}>
+          <TableCell height={12}>{t(`items:${charItem.item.itemKey}`)}</TableCell>
           <TableCell></TableCell>
-          <TableCell>{item.damage}</TableCell>
-          <TableCell>{item.length}</TableCell>
-          <TableCell>{item.bp}</TableCell>
+          <TableCell>{charItem.item.damage}</TableCell>
+          <TableCell>{charItem.item.length}</TableCell>
+          <TableCell>{charItem.item.bp}</TableCell>
           <TableCell></TableCell>
-          <TableCell>{item.bowCast}</TableCell>
-          <TableCell>{item.weight}</TableCell>
+          <TableCell>{charItem.item.bowCast}</TableCell>
+          <TableCell>{charItem.item.weight}</TableCell>
         </TableRow>);
       });
       // Add empty rows to fill the table - if we are printing, we need 10 rows, otherwise 3
