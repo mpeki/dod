@@ -44,6 +44,16 @@ public class Coin extends ManyPiece {
     }
   }
 
+  public static Coin fromKey(String key) {
+    return switch (key) {
+      case "gold" -> GOLD_PIECE;
+      case "silver" -> SILVER_PIECE;
+      case "copper" -> COPPER_PIECE;
+      default -> throw new IllegalArgumentException("Unknown coin type: " + key);
+    };
+  }
+
+
 }
 
 

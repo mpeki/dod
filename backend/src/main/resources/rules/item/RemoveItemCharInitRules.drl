@@ -1,0 +1,83 @@
+import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
+import dk.pekilidi.dod.changerequest.model.ChangeStatus
+import dk.pekilidi.dod.changerequest.model.ChangeRequest
+import dk.pekilidi.dod.changerequest.model.ChangeType
+import dk.pekilidi.dod.character.model.CharacterState
+import dk.pekilidi.dod.data.CharacterDTO
+import dk.pekilidi.dod.items.ItemService
+import dk.pekilidi.dod.items.ItemKey
+import dk.pekilidi.dod.data.ItemDTO
+import dk.pekilidi.dod.items.ItemNotFoundException
+import dk.pekilidi.dod.data.CharacterItemDTO
+import java.util.stream.Collectors
+import java.util.Set
+import dk.pekilidi.dod.items.model.Coin
+
+global ItemService itemService;
+global CharacterItemDTO charItem;
+global ItemDTO storeItem;
+global Integer itemCost;
+
+rule "Validate character state (item) - character init"
+  ruleflow-group "remove-item"
+  salience 100
+  no-loop
+  when
+    character : CharacterDTO( state != CharacterState.INIT_COMPLETE)
+    changeRequest : ChangeRequest( changeType == ChangeType.REMOVE_ITEM_INIT_COMPLETE && status == ChangeStatus.PENDING )
+  then
+    changeRequest.setStatusLabel(ChangeStatusLabel.WRONG_CHARACTER_STATE);
+    changeRequest.setStatus(ChangeStatus.REJECTED);
+    update(changeRequest)
+end;
+
+rule "Validate item removal request - character init"
+  ruleflow-group "remove-item"
+  salience 100
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
+    changeRequest : ChangeRequest( changeType == ChangeType.REMOVE_ITEM_INIT_COMPLETE && status == ChangeStatus.PENDING )
+  then
+    String itemKey = ((ItemKey) changeRequest.getChangeKey()).getKeyValue();
+    try {
+      storeItem = itemService.findItemByKey(itemKey);
+    } catch (ItemNotFoundException e) {
+      changeRequest.setStatusLabel(ChangeStatusLabel.ITEM_DOES_NOT_EXIST);
+      changeRequest.setStatus(ChangeStatus.REJECTED);
+    }
+    if(storeItem != null){
+      drools.getKieRuntime().setGlobal("storeItem", storeItem);
+      itemCost = storeItem.getPrice();
+      drools.getKieRuntime().setGlobal("itemCost", itemCost);
+    }
+    update(changeRequest)
+end;
+
+
+rule "Remove Item - character init"
+  salience 50
+  ruleflow-group "remove-item"
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
+    changeRequest : ChangeRequest( changeType == ChangeType.REMOVE_ITEM_INIT_COMPLETE && status == ChangeStatus.PENDING )
+  then
+    itemCost = (Integer) drools.getKieRuntime().getGlobal("itemCost");
+    storeItem = (ItemDTO) drools.getKieRuntime().getGlobal("storeItem");
+    if( storeItem != null && itemCost != null ){
+      character.addCoins(itemCost, Coin.SILVER_PIECE);
+      character.removeItem(CharacterItemDTO.builder()
+        .itemName((String)changeRequest.getModifier())
+        .item(ItemDTO.builder().itemKey((ItemKey) changeRequest.getChangeKey()).build()).build());
+      changeRequest.setStatus(ChangeStatus.APPROVED);
+      changeRequest.setStatusLabel(ChangeStatusLabel.OK_ITEM_REMOVED);
+    } else {
+      changeRequest.setStatusLabel(ChangeStatusLabel.CHANGE_REJECTED_UNKNOWN_REASON);
+      changeRequest.setStatus(ChangeStatus.REJECTED);
+    }
+    drools.getKieRuntime().setGlobal("itemCost", null);
+    drools.getKieRuntime().setGlobal("storeItem", null);
+    update(changeRequest)
+end;
+

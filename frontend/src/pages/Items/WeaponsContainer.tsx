@@ -2,68 +2,80 @@ import { Box, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRo
 import { StyledTable } from "../../components/shared/Table.styled";
 import Stack from "@mui/material/Stack";
 import AddIcon from "@mui/icons-material/Add";
-import { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import { BuyWeapon } from "./BuyWeapon";
 import { CharacterItem, Item } from "../../types/item";
 import { CharacterState } from "../../types/character-state";
 import { useTranslation } from "react-i18next";
 import CharacterContext from "../Character/CharacterContext";
-import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import { showSuccessSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
+import { RemoveCircleOutline } from "@mui/icons-material";
+import { Change, createChange } from "../../types/change";
+import { useChangeService } from "../../services/change.service";
 
 export const WeaponsContainer = () => {
 
     const { t } = useTranslation(["char", "items"]);
     const [items, setItems] = useState<Map<string, CharacterItem>>(new Map());
     const [open, setOpen] = useState(false);
+    const [changeData, setChangeData] = useState<Change>(createChange());
+    const { doCharacterChange } = useChangeService();
     const charContext = useContext(CharacterContext);
     if (!charContext || !charContext.currentCharacter) {
       throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
     }
 
-    const { currentCharacter } = charContext;
+    const { currentCharacter, fetchCharHandler } = charContext;
 
-  if (currentCharacter == null) {
-    showWarningSnackbar("No character selected!");
-  }
-
-  useEffect(() => {
-    let itemJSON = localStorage.getItem("items");
-    if (itemJSON !== null && currentCharacter && currentCharacter.items) {
-      const items: Item[] = JSON.parse(itemJSON);
-      const itemsMap = new Map(items.map((item) => [item.itemKey, item]));
-      const charItems: Map<string, CharacterItem> = new Map(Object.entries(currentCharacter.items));
-
-      // Iterate through each charItem in charItems
-      charItems.forEach((charItem, key) => {
-        // Look up the corresponding item from itemsMap using the itemKey from charItem.item
-        const matchingItem = itemsMap.get(charItem.item.itemKey);
-        if (matchingItem) {
-          // Assign the matching item to charItem.item
-          charItem.item = matchingItem;
-        }
-      });
-
-      // Now charItems has been updated with the relevant items from itemsMap
-      // console.log("Updated charItems", charItems);
-
-/*
-      // Optionally, update the state or perform other actions with the updated charItems
-      // For example:
-      setCurrentCharacter(prevState => ({
-        ...prevState,
-        items: Object.fromEntries(charItems),
-      }));
-*/
-      setItems(charItems);
+    if (currentCharacter == null) {
+      showWarningSnackbar("No character selected!");
     }
-  }, [currentCharacter]);
+
+    const removeWeaponHandler = (charItem: CharacterItem) => ( event: React.MouseEvent<SVGSVGElement>) => {
+      if (!currentCharacter) {
+        showWarningSnackbar("Character is not defined");
+        return;
+      }
+      const changePostData: Change = createChange("REMOVE_ITEM_INIT_COMPLETE", "Remove item", charItem.item.itemKey, charItem.itemName);
+      doCharacterChange(currentCharacter, changePostData)
+      .then(() => {
+        fetchCharHandler(currentCharacter.id).then((character) => showSuccessSnackbar("Removed Weapon! "));
+      })
+      .catch((e) => showWarningSnackbar((e as Error).message))
+      .finally(() => {
+        setChangeData(createChange());
+      });
+    };
+
+
+    useEffect(() => {
+      let itemJSON = localStorage.getItem("items");
+      if (itemJSON !== null && currentCharacter && currentCharacter.items) {
+        const items: Item[] = JSON.parse(itemJSON);
+        const itemsMap = new Map(items.map((item) => [item.itemKey, item]));
+        const charItems: Map<string, CharacterItem> = new Map(Object.entries(currentCharacter.items));
+
+        // Iterate through each charItem in charItems
+        charItems.forEach((charItem, key) => {
+          // Look up the corresponding item from itemsMap using the itemKey from charItem.item
+          const matchingItem = itemsMap.get(charItem.item.itemKey);
+          if (matchingItem) {
+            // Assign the matching item to charItem.item
+            charItem.item = matchingItem;
+          }
+        });
+
+        setItems(charItems);
+      }
+    }, [currentCharacter]);
 
     if (currentCharacter == null) {
       return <></>;
     }
 
     const canBuy: boolean = (currentCharacter.state === CharacterState.INIT_COMPLETE);
+    const canSell: boolean = (currentCharacter.state === CharacterState.INIT_COMPLETE);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -72,7 +84,6 @@ export const WeaponsContainer = () => {
       const result: JSX.Element[] = [];
       items.forEach((charItem, key) => {
         if (charItem.item.itemType !== "MELEE_WEAPON" && charItem.item.itemType !== "RANGED_WEAPON" && charItem.item.itemType !== "SHIELD") return;
-        console.log("item", charItem);
         result.push(<TableRow key={charItem.itemName}>
           <TableCell height={12}>{t(`items:${charItem.item.itemKey}`)}</TableCell>
           <TableCell></TableCell>
@@ -82,26 +93,9 @@ export const WeaponsContainer = () => {
           <TableCell></TableCell>
           <TableCell>{charItem.item.bowCast}</TableCell>
           <TableCell>{charItem.item.weight}</TableCell>
+          { canSell && (<TableCell><RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeWeaponHandler(charItem)} /></TableCell>)}
         </TableRow>);
       });
-      // Add empty rows to fill the table - if we are printing, we need 10 rows, otherwise 3
-      /*
-            let emptyRows = isPrinting ? 5 - result.length : 3 - result.length < 1 ? 0 : 3 - result.length
-            for(let i = 0; i < emptyRows; i++) {
-              result.push(<TableRow key={i} style={{ height: "25px" }}>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>);
-            }
-      */
-
-
       return result;
     };
 
@@ -124,6 +118,9 @@ export const WeaponsContainer = () => {
                 <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.absorption")}</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.range")}</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>{t("char:detail.weapons.header.weight")}</TableCell>
+                {canSell && (
+                  <TableCell />
+                )}
               </TableRow>
             </TableHead>
             <TableBody>

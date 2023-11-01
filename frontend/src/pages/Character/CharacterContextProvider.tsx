@@ -4,7 +4,7 @@ import CharacterContext from "./CharacterContext";
 import { useChangeService } from "../../services/change.service";
 import useCharacterService from "../../services/character.service";
 import { Character } from "../../types/character";
-import { showInfoSnackbar, showSuccessSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
+import { showSuccessSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
 import { ApiError } from "../../services/axios/axiosErrorHandler";
 
 type CharacterContextProviderProps = {

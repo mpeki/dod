@@ -25,6 +25,7 @@ public class DroolsConfiguration {
     kieFileSystem.write(ResourceFactory.newClassPathResource("rules/skill/RemoveSkillRules.drl"));
     kieFileSystem.write(ResourceFactory.newClassPathResource("rules/skill/BuySkillFVIncreaseRules.drl"));
     kieFileSystem.write(ResourceFactory.newClassPathResource("rules/item/BuyNewItemCharInitRules.drl"));
+    kieFileSystem.write(ResourceFactory.newClassPathResource("rules/item/RemoveItemCharInitRules.drl"));
     KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
     kb.buildAll();
     KieModule kieModule = kb.getKieModule();

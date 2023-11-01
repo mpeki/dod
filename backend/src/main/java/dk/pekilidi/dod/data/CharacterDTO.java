@@ -204,12 +204,26 @@ public class CharacterDTO implements DODFact, Serializable {
     if (items.containsKey(item.getItemName())) {
       CharacterItemDTO existingItem = items.get(item.getItemName());
       if (existingItem.getItem().getItemType() == ItemType.PROJECTILE
-          && item.getItem().getItemType() == ItemType.COIN) {
-        existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
+          || existingItem.getItem().getItemType() == ItemType.COIN) {
+        addCoins(item.getQuantity(), Coin.fromKey(item.getItem().getItemKey().getKeyValue()));
       }
       return;
     }
     items.putIfAbsent(item.getItemName(), item);
+  }
+
+  public void removeItem(@NotNull CharacterItemDTO item) {
+    ItemDTO itemToRemove = item.getItem();
+    if(itemToRemove.getItemType() == ItemType.COIN || itemToRemove.getItemType() == ItemType.PROJECTILE) {
+      subtractCoins(item.getQuantity(), Coin.fromKey(itemToRemove.getItemKey().getKeyValue()));
+      return;
+    }
+    if (items.containsKey(item.getItemName())) {
+      CharacterItemDTO existingItem = items.get(item.getItemName());
+      if (existingItem.getQuantity() == 1) {
+        items.remove(item.getItemName());
+      }
+    }
   }
 
   public int getNumberOf(ManyPiece type) {
