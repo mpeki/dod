@@ -4,6 +4,7 @@ public enum ChangeStatusLabel {
 
   SKILL_NOT_BOUGHT("skill.not.bought"),
   OK_ITEM_BOUGHT("ok.item.bought"),
+  OK_ITEM_REMOVED("ok.item.removed"),
   INSUFFICIENT_FUNDS("not.enough.funds"),
   ITEM_DOES_NOT_EXIST("item.does.not.exist"),
   SKILL_DOES_NOT_EXIST("skill.does.not.exist"),
