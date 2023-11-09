@@ -1,6 +1,6 @@
 plugins {
     id "com.github.node-gradle.node" version "7.0.1"
-    id 'com.bmuschko.docker-remote-api' version '9.3.4'
+    id 'com.bmuschko.docker-remote-api' version '9.3.7'
 }
 
 // Import task types
