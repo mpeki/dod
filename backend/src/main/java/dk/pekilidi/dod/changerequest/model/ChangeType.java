@@ -7,6 +7,7 @@ public enum ChangeType {
   SKILL_CHANGE(ChangeType.CHARACTER_SKILL_CHANGE),
   NEW_ITEM("new-item"), //Buying an item after character creation
   NEW_ITEM_INIT_COMPLETE("new-item"), //Buying an item during character creation
+  REMOVE_ITEM_INIT_COMPLETE("remove-item"),
   BUY_FV(ChangeType.CHARACTER_SKILL_CHANGE),
   HIT_POINTS(ChangeType.CHARACTER_CHANGE),
   HERO_POINTS(ChangeType.CHARACTER_CHANGE),

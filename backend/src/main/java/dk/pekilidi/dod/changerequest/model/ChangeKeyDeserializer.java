@@ -51,7 +51,7 @@ public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
     }
     if(value instanceof ChangeRequest changeRequest) {
       switch (changeRequest.getChangeType()) {
-        case NEW_ITEM, NEW_ITEM_INIT_COMPLETE -> {
+        case NEW_ITEM, NEW_ITEM_INIT_COMPLETE, REMOVE_ITEM_INIT_COMPLETE -> {
           return new ItemKey(text);
         }
         case REMOVE_SKILL, NEW_SKILL, SKILL_CHANGE -> {

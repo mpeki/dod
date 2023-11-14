@@ -3,6 +3,7 @@ package dk.pekilidi.dod.character.data;
 import static dk.pekilidi.dod.items.model.Coin.COPPER_PIECE;
 import static dk.pekilidi.dod.items.model.Coin.GOLD_PIECE;
 import static dk.pekilidi.dod.items.model.Coin.SILVER_PIECE;
+import static dk.pekilidi.dod.items.model.ItemType.COIN;
 import static dk.pekilidi.dod.items.model.ItemType.MELEE_WEAPON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -206,13 +207,13 @@ class CharacterDTOTest {
   }
 
   @Test
-  void testAddingASkill() {
+  void testAddingAndRemovingASkill() {
     //Test adding a null skill - a NullPointer should be thrown and no skill should be added
     assertEquals(0, characterDTO.getSkills().size());
     assertThrows(NullPointerException.class, () -> characterDTO.addSkill(null));
     assertEquals(0, characterDTO.getSkills().size());
 
-    //Test adding an non skill - a NullPointer should be thrown and no skill should be added
+    //Test adding a non skill - a NullPointer should be thrown and no skill should be added
     assertThrows(NullPointerException.class, () -> characterDTO.addSkill(CharacterSkillDTO.builder().build()));
     assertEquals(0, characterDTO.getSkills().size());
 
@@ -225,6 +226,20 @@ class CharacterDTOTest {
     characterDTO.addSkill(acrobatics);
     assertEquals(1, characterDTO.getSkills().size());
     assertTrue(characterDTO.getSkills().containsValue(acrobatics));
+    characterDTO.removeSkill(acrobatics.getSkill().getKey().getKeyValue());
+    assertEquals(0, characterDTO.getSkills().size());
+
+  }
+  @Test
+  void testUpdatingFV(){
+    CharacterSkillDTO fst = CharacterSkillDTO
+        .builder()
+        .skillName("fst")
+        .skill(SkillDTO.builder().key(SkillKey.toSkillKey("fst")).build())
+        .build();
+    characterDTO.addSkill(fst);
+    characterDTO.updateFv(fst.getSkillName(), 5);
+    assertEquals(5, characterDTO.getSkill(fst.getSkillName()).getFv());
   }
 
   @Test
@@ -280,6 +295,46 @@ class CharacterDTOTest {
     assertEquals(2, characterDTO.getItems().size());
 
   }
+
+  @Test
+  void testRemoveItem() {
+    //Test adding an item - the item should be added
+    CharacterItemDTO shortSword = CharacterItemDTO
+        .builder()
+        .item(ItemDTO.builder().itemKey(ItemKey.toItemKey("short.sword")).itemType(MELEE_WEAPON).build())
+        .build();
+    characterDTO.addItem(shortSword);
+    assertEquals(1, characterDTO.getItems().size());
+    assertTrue(characterDTO.getItems().containsValue(shortSword));
+    //Test removing the item - the item should be removed
+    characterDTO.removeItem(shortSword);
+    assertEquals(0, characterDTO.getItems().size());
+  }
+
+
+  @Test
+  void testAddAndRemoveMultiItem() {
+    //Test adding an item - the item should be added
+    CharacterItemDTO silver = CharacterItemDTO
+        .builder()
+        .item(ItemDTO.builder().itemKey(ItemKey.toItemKey("silver")).itemType(COIN).build())
+        .itemName("silver")
+        .quantity(20)
+        .build();
+    CharacterItemDTO silverToBeRemoved = CharacterItemDTO
+        .builder()
+        .item(ItemDTO.builder().itemKey(ItemKey.toItemKey("silver")).itemType(COIN).build())
+        .quantity(15)
+        .build();
+    characterDTO.addItem(silver);
+    assertEquals(1, characterDTO.getItems().size());
+    assertTrue(characterDTO.getItems().containsValue(silver));
+    characterDTO.addItem(silver);
+    //Test removing the item - the item should be removed
+    characterDTO.removeItem(silverToBeRemoved);
+    assertEquals(25, characterDTO.getItems().get(silver.getItemName()).getQuantity());
+  }
+
 
   @Test
   void testAddAndSubtractCoins(){
