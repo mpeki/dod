@@ -1,3 +1,10 @@
+# [1.20.0-rc.7](https://github.com/mpeki/dod/compare/v1.20.0-rc.6...v1.20.0-rc.7) (2023-11-14)
+
+
+### Features
+
+* **DOD-416:** Making it possible to remove weapons - before activating ([97fa547](https://github.com/mpeki/dod/commit/97fa547767a638c34fc049d06da1c43b97bcc7ee))
+
 # [1.20.0-rc.6](https://github.com/mpeki/dod/compare/v1.20.0-rc.5...v1.20.0-rc.6) (2023-10-31)
 
 
