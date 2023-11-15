@@ -79,7 +79,7 @@ logging:
     root: INFO
     org.springframework.web.cors: DEBUG
     org.springframework.security: DEBUG
-    dk.pekilidi.dod.rules: DEBUG
+    dk.dodgame.rules: DEBUG
 dodgame:
   player:
     max-characters: 10

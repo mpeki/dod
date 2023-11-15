@@ -23,4 +23,4 @@ logging:
     root: INFO
     org.springframework.web.cors: INFO
     org.springframework.security: INFO
-    dk.pekilidi.dod.rules: INFO
+    dk.dodgame.system.rule: INFO

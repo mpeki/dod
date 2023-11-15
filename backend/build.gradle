@@ -5,7 +5,7 @@ apply plugin: 'jacoco'
 apply plugin: 'org.asciidoctor.jvm.convert'
 apply plugin: "com.gorylenko.gradle-git-properties"
 
-group 'dk.pekilidi'
+group 'dk.dodgame'
 java {
     sourceCompatibility = JavaVersion.VERSION_20
 }
@@ -167,7 +167,7 @@ jacocoTestCoverageVerification {
     dependsOn jacocoTestReport
     violationRules {
         rule {
-            excludes = ['dk.pekilidi.dod.character.model.*']
+            excludes = ['dk.dodgame.domain.character.model.*']
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
@@ -176,7 +176,7 @@ jacocoTestCoverageVerification {
         }
         rule {
             element = 'CLASS'
-            excludes = ['dk.pekilidi.dod.character.model.*']
+            excludes = ['dk.dodgame.domain.character.model.*']
             limit {
                 counter = 'BRANCH'
                 value = 'COVEREDRATIO'

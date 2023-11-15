@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'dk.pekilidi'
+group = 'dk.dodgame'
 java {
     sourceCompatibility = JavaVersion.VERSION_20
 }
