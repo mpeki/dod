@@ -1,13 +1,13 @@
-import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
-import dk.pekilidi.dod.changerequest.model.ChangeStatus
-import dk.pekilidi.dod.changerequest.model.ChangeRequest
-import dk.pekilidi.dod.changerequest.model.ChangeType
-import dk.pekilidi.dod.character.model.CharacterState
-import dk.pekilidi.dod.data.CharacterDTO
-import dk.pekilidi.dod.skill.SkillService
-import dk.pekilidi.dod.data.CharacterSkillDTO
-import dk.pekilidi.dod.skill.SkillKey
-import dk.pekilidi.dod.skill.SkillNotFoundException
+import dk.dodgame.domain.changerequest.model.ChangeStatusLabel
+import dk.dodgame.domain.changerequest.model.ChangeStatus
+import dk.dodgame.domain.changerequest.model.ChangeRequest
+import dk.dodgame.domain.changerequest.model.ChangeType
+import dk.dodgame.domain.character.model.CharacterState
+import dk.dodgame.data.CharacterDTO
+import dk.dodgame.domain.skill.SkillService
+import dk.dodgame.data.CharacterSkillDTO
+import dk.dodgame.domain.skill.SkillKey
+import dk.dodgame.domain.skill.SkillNotFoundException
 
 global SkillService skillService;
 global CharacterSkillDTO charSkill;

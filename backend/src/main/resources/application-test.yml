@@ -44,7 +44,7 @@ jwt:
 logging:
   level:
     root: INFO
-    dk.pekilidi: DEBUG
+    dk.dodgame: DEBUG
     org.springframework.web.client.RestTemplate: INFO
 dodgame:
   player:

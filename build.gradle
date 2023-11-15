@@ -17,7 +17,7 @@ plugins {
 
 }
 
-group = 'dk.pekilidi'
+group = 'dk.dodgame'
 
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
