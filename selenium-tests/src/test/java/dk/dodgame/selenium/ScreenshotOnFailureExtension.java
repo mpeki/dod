@@ -1,6 +1,7 @@
 package dk.dodgame.selenium;
 
 import java.io.File;
+import java.util.Date;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.TakesScreenshot;
@@ -24,7 +25,8 @@ public class ScreenshotOnFailureExtension implements AfterEachCallback {
       WebDriver driver = driverThreadLocal.get();
       TakesScreenshot ts = (TakesScreenshot) driver;
       File source = ts.getScreenshotAs(OutputType.FILE);
-      File destination = new File("./build/selenium-screenshots/screenshot-" + context.getDisplayName() + ".png");
+      String fileName = context.getDisplayName() + "-" + new Date().getTime() + ".png";
+      File destination = new File("/tmp/selenium-screenshots/" + fileName);
       FileUtils.copyFile(source, destination);
     }
   }

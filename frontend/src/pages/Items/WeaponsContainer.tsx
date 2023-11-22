@@ -102,7 +102,7 @@ export const WeaponsContainer = () => {
     return (
       <>
         <Stack direction="row-reverse">
-          <IconButton edge="start" aria-label="add skill" disabled={!canBuy} onClick={handleOpen}>
+          <IconButton edge="start" aria-label="Buy Weapon/Shield" disabled={!canBuy} onClick={handleOpen} title="Buy Weapon/Shield">
             <AddIcon />
           </IconButton>
         </Stack>

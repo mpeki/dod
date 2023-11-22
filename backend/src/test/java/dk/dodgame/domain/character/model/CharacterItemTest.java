@@ -19,16 +19,17 @@ class CharacterItemTest {
     item = CharacterItem
         .builder()
         .itemKey(ItemKey.builder().value("item.key.value").build())
-        .id("id")
+        .id("id1")
         .itemName("itemName")
         .currentHealth(100)
         .quantity(100)
         .location(ItemLocation.CARRIED)
         .build();
+
     item2 = CharacterItem
         .builder()
         .itemKey(ItemKey.builder().value("item.key.value").build())
-        .id("id")
+        .id("id2")
         .itemName("itemName")
         .currentHealth(100)
         .quantity(100)
@@ -45,12 +46,14 @@ class CharacterItemTest {
   @Test
   void testEquals() {
     item2.setTimeCreated(item.getTimeCreated());
+    item2.setId(item.getId());
     assertEquals(item, item2);
   }
 
   @Test
   void testHashCode() {
     item2.setTimeCreated(item.getTimeCreated());
+    item2.setId(item.getId());
     assertEquals(item.hashCode(), item2.hashCode());
   }
 

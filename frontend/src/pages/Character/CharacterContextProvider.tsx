@@ -27,7 +27,6 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
         console.log(e.messageKey, e.errorCode, e.message);
         setErrorCode(e.errorCode);
         showWarningSnackbar(e.messageKey);
-
       } else {
         setErrorCode(666);
         showWarningSnackbar("unknown.error");
@@ -36,17 +35,20 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
   }, [getCharacters]);
 
   const fetchCharHandler = useCallback(async (characterId: string) => {
-    await getCharacter(characterId)
-    .then((character) => {
+    try {
+      const character = await getCharacter(characterId);
+      console.log("Character fetched: " + character.id);
       setCurrentCharacter(character);
-    })
-    .catch((e) => {
+    } catch (e) {
       if (e instanceof ApiError) {
         console.log(e.messageKey, e.errorCode, e.message);
+        setErrorCode(e.errorCode);
+        showWarningSnackbar(e.messageKey);
+      } else {
+        setErrorCode(666);
+        showWarningSnackbar("unknown.error");
       }
-      setErrorCode(e.errorCode);
-      showWarningSnackbar(e.messageKey);
-    });
+    }
   }, [getCharacter]);
 
 
@@ -69,6 +71,7 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
     if (characterId != null) {
       await deleteCharacter(characterId)
       .then(() => {
+        localStorage.removeItem(`${characterId}_startCap`);
         fetchAllCharsHandler();
       })
       .catch((e) => showWarningSnackbar((e as Error).message));

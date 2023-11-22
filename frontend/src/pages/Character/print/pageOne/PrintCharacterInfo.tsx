@@ -1,11 +1,6 @@
 import { Character } from "../../../../types/character";
-import {
-  Grid,
-  Table, TableBody,
-  TextField
-} from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { StyledTable } from "../../../../components/shared/Table.styled";
 
 interface ICharacterProps {
   character: Character;
