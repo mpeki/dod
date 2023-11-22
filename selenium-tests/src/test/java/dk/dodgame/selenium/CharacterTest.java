@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -33,6 +32,7 @@ class CharacterTest {
   static JavascriptExecutor js;
   private static WebDriver driver;
   private static Map<String, Object> vars;
+  private CharacterHelper characterHelper;
 
   @BeforeAll
   static void setUp() {
@@ -49,7 +49,7 @@ class CharacterTest {
     vars = new HashMap<String, Object>();
 
     driver.get("http://ui:8081/");
-    driver.manage().window().setSize(new Dimension(1265, 1420));
+    driver.manage().window().maximize();
     ScreenshotOnFailureExtension.setDriver(driver);
 
     AuthenticationHelper.login(driver, "msp", "msp123");
@@ -64,17 +64,18 @@ class CharacterTest {
 
   @BeforeEach
   void beforeEach() {
+    characterHelper = new CharacterHelper(driver);
     NavigationHelper.goHome(driver);
   }
 
   @Test
   void createAndDeleteCharacter() {
-    String charName = CharacterHelper.getRandomBo();
+    String charName = characterHelper.getRandomBo();
     NavigationHelper.gotoCharacters(driver);
-    CharacterHelper.createCharacter(driver, charName, true, "OLD", "human");
+    characterHelper.createCharacter(charName, true, "OLD", "human", js);
     WebElement nameSpan = driver.findElement(By.xpath("//span[text()='" + charName + "']"));
     assertEquals(charName, nameSpan.getText());
-    CharacterHelper.deleteCharacter(driver, charName);
+    characterHelper.deleteCharacter(charName);
     assertThrows(
         org.openqa.selenium.NoSuchElementException.class,
         () -> driver.findElement(By.xpath("//span[text()='" + charName + "']")));
@@ -82,20 +83,20 @@ class CharacterTest {
 
   @Test
   void createRenameAndDeleteCharacter() {
-    String oldBo = CharacterHelper.getRandomBo();
-    String newBo = CharacterHelper.getRandomBo();
+    String oldBo = characterHelper.getRandomBo();
+    String newBo = characterHelper.getRandomBo();
     NavigationHelper.gotoCharacters(driver);
-    CharacterHelper.createCharacter(driver, oldBo, true, "OLD", "human");
+    characterHelper.createCharacter(oldBo, true, "OLD", "human", js);
 
     assertEquals(oldBo, driver.findElement(By.xpath("//span[text()='" + oldBo + "']")).getText());
-    CharacterHelper.renameCharacter(driver, oldBo, newBo);
+    characterHelper.renameCharacter(oldBo, newBo);
     assertEquals(newBo, driver.findElement(By.xpath("//span[text()='" + newBo + "']")).getText());
 
     assertThrows(
         org.openqa.selenium.NoSuchElementException.class,
         () -> driver.findElement(By.xpath("//span[text()='" + oldBo + "']")));
 
-    CharacterHelper.deleteCharacter(driver, newBo);
+    characterHelper.deleteCharacter(newBo);
 
     assertThrows(
         org.openqa.selenium.NoSuchElementException.class,
@@ -103,34 +104,71 @@ class CharacterTest {
   }
 
   @Test
-  void createCharacterAndBuySkills() {
-    String bo = CharacterHelper.getRandomBo();
-    CharacterHelper.createCharacter(driver, bo, true, "YOUNG", "human");
-    assertEquals(bo, driver.findElement(By.xpath("//span[text()='" + bo + "']")).getText());
-    CharacterHelper.selectCharacter(driver, bo);
-    assertTrue(CharacterHelper.getRemainingSP(driver) == 260);
-    CharacterHelper.buySkill(driver, "combat","primary.weapon", "15");
-    CharacterHelper.buySkill(driver, "combat","secondary.weapon", "15");
-    CharacterHelper.buySkill(driver, "B","Acrobatics", "3");
-    CharacterHelper.buySkill(driver, "A","fst", "15");
-    CharacterHelper.buySkill(driver, "knowledge","astrology", "10");
-    CharacterHelper.buySkill(driver, "combat","fast.draw", "10");
-    CharacterHelper.buySkill(driver, "thieving","sneak", "10");
-    CharacterHelper.buySkill(driver, "communication","bargain", "10");
-    int remainingSP = CharacterHelper.getRemainingSP(driver);
-    assertTrue(remainingSP  < 260);
-    if(remainingSP > 10){
-      CharacterHelper.buySkill(driver, "thieving","jump", "5");
-    }
-    if(CharacterHelper.getRemainingSP(driver) > 10){
-      CharacterHelper.buySkill(driver, "thieving","pick.locks", "5");
-    }
+  void createBuySkillRemoveSkillAndDeleteCharacter() {
+    String bo = characterHelper.getRandomBo();
     NavigationHelper.gotoCharacters(driver);
-    CharacterHelper.deleteCharacter(driver, bo);
-    NavigationHelper.goHome(driver);
+    characterHelper.createCharacter(bo, true, "OLD", "human", js);
+
+    assertEquals(bo, driver.findElement(By.xpath("//span[text()='" + bo + "']")).getText());
+
+    characterHelper.selectCharacter(bo);
+
+    int spBefore = characterHelper.getRemainingSP();
+    characterHelper.buySkill("B","Acrobatics", "5" );
+    int spAfter = characterHelper.getRemainingSP();
+    assertTrue(spAfter < spBefore);
+    characterHelper.deleteSkill("Acrobatics");
+    spAfter = characterHelper.getRemainingSP();
+    assertEquals(spBefore, spAfter);
+    NavigationHelper.gotoCharacters(driver);
+    characterHelper.deleteCharacter(bo);
+    assertThrows(
+            org.openqa.selenium.NoSuchElementException.class,
+            () -> driver.findElement(By.xpath("//span[text()='" + bo + "']")));
+
+
+  }
+
+
+  @Test
+  void createCharacterAndBuySkillsAndActivate() {
+    String bo = characterHelper.getRandomBo();
+    characterHelper.createCharacter(bo, true, "YOUNG", "human", js);
+    assertEquals(bo, driver.findElement(By.xpath("//span[text()='" + bo + "']")).getText());
+    characterHelper.selectCharacter(bo);
+    assertEquals(260, characterHelper.getRemainingSP());
+    characterHelper.buySkills();
+    int remainingSP = characterHelper.getRemainingSP();
+    assertTrue(remainingSP  < 10);
+    NavigationHelper.gotoCharacters(driver);
+    characterHelper.activateCharacter(bo);
+    characterHelper.deleteCharacter(bo);
 
     assertThrows(
         org.openqa.selenium.NoSuchElementException.class,
         () -> driver.findElement(By.xpath("//span[text()='" + bo + "']")));
+
+    NavigationHelper.goHome(driver);
   }
+
+  @Test
+  void createBuyWeaponSellWeaponAndDeleteCharacter() {
+    String bo = characterHelper.getRandomBo();
+    NavigationHelper.gotoCharacters(driver);
+    characterHelper.createCharacter(bo, true, "OLD", "human", js);
+    assertEquals(bo, driver.findElement(By.xpath("//span[text()='" + bo + "']")).getText());
+
+    characterHelper.selectCharacter(bo);
+    int startingSilver = characterHelper.getCurrentSilver();
+    CharacterHelper.buyWeapon("Hammer");
+    NavigationHelper.gotoCharacters(driver);
+    characterHelper.deleteCharacter(bo);
+
+    assertThrows(
+            org.openqa.selenium.NoSuchElementException.class,
+            () -> driver.findElement(By.xpath("//span[text()='" + bo + "']")));
+
+
+  }
+
 }

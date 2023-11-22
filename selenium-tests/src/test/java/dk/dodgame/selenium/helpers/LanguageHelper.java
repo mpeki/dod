@@ -10,6 +10,7 @@ public class LanguageHelper {
   public static final String DANISH = "da";
 
   public static void setLanguage(WebDriver driver, String language) {
+    NavigationHelper.waitFor(driver, By.xpath("//button[@id='rfs-btn']"));
     driver.findElement(By.xpath("//button[@id='rfs-btn']")).click();
     if(language.equalsIgnoreCase("en") || language.equalsIgnoreCase("gb")){
       driver.findElement(By.xpath("//li[@id='rfs-GB']")).click();

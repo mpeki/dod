@@ -34,14 +34,14 @@ export const DeleteCharacterButton = ({ characterId, inGutter } : IProps) => {
   if(inGutter) {
     return (
         <div style={{ marginTop: '5px' }}>
-          <IconButton aria-label="delete" size="small" onClick={handleDelete} title="delete">
+          <IconButton aria-label="delete" size="small" onClick={handleDelete} title="Delete">
             <DeleteForeverIcon style={{ fontSize: '14px' }}/>
           </IconButton>
         </div>
     );
   } else {
     return (
-        <IconButton aria-label="delete" onClick={handleDelete} title="delete">
+        <IconButton aria-label="delete" onClick={handleDelete} title="Delete">
           <DeleteForeverIcon/>
         </IconButton>
     );

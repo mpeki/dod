@@ -9,7 +9,7 @@ import org.openqa.selenium.interactions.Actions;
 public class AuthenticationHelper {
 
   public static void login(WebDriver driver, String username, String password){
-
+    NavigationHelper.wait(300);
     {
       WebElement element = driver.findElement(By.cssSelector(".MuiTab-root > .MuiSvgIcon-root"));
       Actions builder = new Actions(driver);
@@ -22,6 +22,7 @@ public class AuthenticationHelper {
       Actions builder = new Actions(driver);
       builder.moveToElement(element, 0, 0).perform();
     }
+    NavigationHelper.waitFor(driver, By.id("username"));
     driver.findElement(By.id("username")).sendKeys("msp");
     driver.findElement(By.id("password")).sendKeys("msp123");
     driver.findElement(By.id("password")).sendKeys(Keys.ENTER);

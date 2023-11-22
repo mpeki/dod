@@ -68,30 +68,9 @@ public class CharacterService {
     if(isCharacterLimitReached(owner)) {
       throw new MaxCharactersReachedException();
     }
-    List<CharacterDTO> characterDTOList characterFactory.createCharacterDTOs(numberOfCharacters, raceName);
-    RaceDTO raceDTO = modelMapper.map(getRaceByName(raceName), RaceDTO.class);
-    //for loop which creates a list of characters, numberOfCharacters times
-    // Stream used to generate and populate characterDTOs
-    List<CharacterDTO> characterDTOS = IntStream.range(0, numberOfCharacters).mapToObj(i -> {
-      CharacterDTO newCharacter = CharacterDTO.builder()
-          .race(raceDTO)
-          .name("batchCharacter_" + i)
-          .build();
-      ruleService.executeRulesFor(newCharacter);
-      return newCharacter;
-    }).toList();
-
-    // Convert DTOs to DODCharacters and save them in one step
-    List<DODCharacter> characters = characterDTOS.stream()
-        .map(dto -> {
-          DODCharacter character = modelMapper.map(dto, DODCharacter.class);
-          character.setOwner(owner);
-          return character;
-        })
-        .toList();
-
+    List<CharacterDTO> characterDTOList = characterFactory.createCharacterDTOs(numberOfCharacters, raceName);
+    List<DODCharacter> characters = characterFactory.createDODCharacters(characterDTOList, owner);
     characterRepository.saveAll(characters);
-
     // Return a list of the ids of the created characters
     return characters.stream()
         .map(DODCharacter::getId)
@@ -128,14 +107,6 @@ public class CharacterService {
   public List<CharacterDTO> fetchAllCharactersByOwner(String owner) {
     List<DODCharacter> entities = characterRepository.findAllByOwner(owner);
     return Arrays.stream(entities.toArray()).map(object -> modelMapper.map(object, CharacterDTO.class)).toList();
-  }
-
-  private Race getRaceByName(String name) {
-    Race race = raceRepository.findByName(name);
-    if (race == null) {
-      throw new RaceNotFoundException();
-    }
-    return race;
   }
 
   public int getCharacterCountByOwner(String owner) {

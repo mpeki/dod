@@ -44,7 +44,15 @@ public class CharacterFactory {
     }).toList();
   }
 
-  public
+  public List<DODCharacter> createDODCharacters(List<CharacterDTO> characterDTOS, String owner){
+    return characterDTOS.stream()
+            .map(dto -> {
+              DODCharacter character = modelMapper.map(dto, DODCharacter.class);
+              character.setOwner(owner);
+              return character;
+            })
+            .toList();
+  }
 
   public DODCharacter createDODCharacter(CharacterDTO newCharacter, String owner) {
     DODCharacter characterEntity = modelMapper.map(newCharacter, DODCharacter.class);

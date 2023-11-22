@@ -4,6 +4,10 @@ import static java.lang.Thread.sleep;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class NavigationHelper {
 
@@ -25,4 +29,11 @@ public class NavigationHelper {
       throw new RuntimeException(e);
     }
   }
+
+  public static By waitFor(WebDriver driver, By locator){
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    return locator;
+  }
+
 }
