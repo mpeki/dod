@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useCallback, useContext, useEffect } from "react";
 import { BaseTraitList } from "../../components/BaseTraits/BaseTraitList";
 import { CharacterInfo } from "../../components/Character/CharacterInfo";
-import { Container, Divider, Paper } from "@mui/material";
+import { Container, Divider, Paper, Skeleton } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import { SkillContainer } from "../Skill/SkillContainer";
 import { HeroStats } from "../../components/Character/HeroStats";
@@ -44,6 +44,12 @@ export const ViewCharacter = () => {
   }, [charId, doChange]);
 
   if (currentCharacter == null || currentCharacter.id == null) {
+    return (
+      <Container maxWidth="lg" style={{ paddingTop: 25 }}>
+        <Skeleton variant="rectangular" width="100%" height={100} />
+      </Container>
+    );
+  } else if ( errorCode !== 0 ) {
     console.log('errorCode:', errorCode)
     return <ErrorMain errorCode={errorCode} />;
   } else {
