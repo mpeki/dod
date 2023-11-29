@@ -125,7 +125,7 @@ public class CharacterHelper {
     SkillInfo[] skillsToBuy = {
             new SkillInfo("combat", "primary.weapon", "15"),
             new SkillInfo("combat", "secondary.weapon", "15"),
-            new SkillInfo("B", "Acrobatics", "3"),
+            new SkillInfo("B", "Acrobatics", "5"),
             new SkillInfo("A", "fst", "15"),
             new SkillInfo("knowledge", "astrology", "10"),
             new SkillInfo("combat", "fast.draw", "10"),
@@ -186,7 +186,7 @@ public class CharacterHelper {
   }
 
   public void sellWeapon(String weaponKey) {
-    driver.findElement(By.xpath("//td[contains(text(), '"+weaponKey+"')]/following-sibling::td[8]")).click();
+    NavigationHelper.waitAndClick(driver, By.xpath("//td[contains(text(), '"+weaponKey+"')]/following-sibling::td[8]"));
   }
 
 }

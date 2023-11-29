@@ -1,6 +1,9 @@
 plugins {
     id 'java'
+
 }
+
+apply plugin: "com.avast.gradle.docker-compose"
 
 group = 'dk.dodgame'
 java {
@@ -12,8 +15,14 @@ dependencies {
     testImplementation 'org.seleniumhq.selenium:selenium-grid:4.14.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     testImplementation 'commons-io:commons-io:2.14.0'
+
 }
 
 test {
     useJUnitPlatform()
+}
+
+dockerCompose {
+    isRequiredBy(tasks.test)
+    useComposeFiles = ['../docker-compose.yml']
 }

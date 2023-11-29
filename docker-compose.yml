@@ -28,7 +28,7 @@ services:
       USE_SYSTEM_CA_CERTS: 1
     healthcheck:
       test: "wget --quiet --tries=1 --spider http://localhost:8090/dodgame/health || exit 1"
-      start_period: "200s"
+      start_period: "300s"
 #    volumes:
 #      - ./security/dodgame.jks:/tmp/dodgame.jks
 
@@ -57,7 +57,7 @@ services:
       - "./security/keycloak/new-realm-export:/tmp/keycloak-export"
     healthcheck:
       test: "curl -k --silent --fail http://localhost:8181/health || exit 1"
-      start_period: "200s"
+      start_period: "300s"
 
   db:
     image: "mysql:8.1"

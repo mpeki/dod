@@ -38,6 +38,7 @@ class CharacterTest {
   static void setUp() {
     ChromeOptions options = new ChromeOptions();
     options.addArguments("--headless");
+    options.addArguments("--window-size=1920,1080");
 
     ChromeDriverService service = new ChromeDriverService.Builder().withLogOutput(System.out).build();
 
@@ -139,7 +140,7 @@ class CharacterTest {
     assertEquals(260, characterHelper.getRemainingSP());
     characterHelper.buySkills();
     int remainingSP = characterHelper.getRemainingSP();
-    assertTrue(remainingSP  < 10);
+    assertTrue(remainingSP  < 10, "Remaining SP: " + remainingSP);
     NavigationHelper.gotoCharacters(driver);
     characterHelper.activateCharacter(bo);
     characterHelper.deleteCharacter(bo);
