@@ -15,11 +15,15 @@ public class NavigationHelper {
   public static final String CHARACTERS_TAB = "Characters";
 
   public static void goHome(WebDriver driver) {
-    driver.findElement(By.xpath("//a[contains(text(), '"+HOME_TAB+"')]")).click();
+    driver.findElement(
+      NavigationHelper.waitFor(driver, By.xpath("//a[contains(text(), '"+HOME_TAB+"')]"))
+      ).click();
   }
 
   public static void gotoCharacters(WebDriver driver) {
-    driver.findElement(By.xpath("//a[contains(text(), '"+CHARACTERS_TAB+"')]")).click();
+    driver.findElement(
+      NavigationHelper.waitFor(driver, By.xpath("//a[contains(text(), '"+CHARACTERS_TAB+"')]"))
+    ).click();
   }
 
   public static void wait(int millis) {
@@ -33,6 +37,7 @@ public class NavigationHelper {
   public static By waitFor(WebDriver driver, By locator){
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    wait.until(ExpectedConditions.elementToBeClickable(locator));
     return locator;
   }
 

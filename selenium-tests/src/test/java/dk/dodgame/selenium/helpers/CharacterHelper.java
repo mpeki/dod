@@ -56,10 +56,12 @@ public class CharacterHelper {
   }
 
   public void deleteCharacter(String name) {
-    WebElement namedCardSpan = driver.findElement(By.xpath("//span[text()='" + name + "']"));
+    WebElement namedCardSpan = driver.findElement(
+            NavigationHelper.waitFor(driver, By.xpath("//span[text()='" + name + "']"))
+    );
     WebElement containerDiv = namedCardSpan.findElement(
         By.xpath(".//ancestor::div[contains(@class, 'MuiPaper-root')][1]"));
-    WebElement deleteButton = containerDiv.findElement(By.xpath(".//button[@title='delete']"));
+    WebElement deleteButton = containerDiv.findElement(By.xpath(".//button[@title='Delete']"));
     deleteButton.click();
     NavigationHelper.wait(500);
   }
@@ -170,7 +172,21 @@ public class CharacterHelper {
     driver.findElement(By.xpath("//td[contains(text(), '"+skillName+"')]/following-sibling::td[3]")).click();
   }
 
-  public static void buyWeapon(String hammer) {
-
+  public void buyWeapon(String weaponKey) {
+    WebElement buyWeaponButton = driver.findElement(By.xpath(
+            ".//button[@title='Buy Weapon/Shield']"));
+    buyWeaponButton.click();
+    WebElement filterDropdownInput = driver.findElement(
+      NavigationHelper.waitFor(driver, By.xpath("//label[text()='Select a Weapon']/following-sibling::div//input[@role='combobox']") )
+    );
+    filterDropdownInput.click();
+    filterDropdownInput.sendKeys(weaponKey);
+    filterDropdownInput.sendKeys(Keys.ENTER);
+    driver.findElement(By.xpath("//button[text()='Buy']")).click();
   }
+
+  public void sellWeapon(String weaponKey) {
+    driver.findElement(By.xpath("//td[contains(text(), '"+weaponKey+"')]/following-sibling::td[8]")).click();
+  }
+
 }

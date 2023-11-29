@@ -37,7 +37,7 @@ class CharacterTest {
   @BeforeAll
   static void setUp() {
     ChromeOptions options = new ChromeOptions();
-//    options.addArguments("--headless");
+    options.addArguments("--headless");
 
     ChromeDriverService service = new ChromeDriverService.Builder().withLogOutput(System.out).build();
 
@@ -160,7 +160,12 @@ class CharacterTest {
 
     characterHelper.selectCharacter(bo);
     int startingSilver = characterHelper.getCurrentSilver();
-    CharacterHelper.buyWeapon("Hammer");
+    characterHelper.buyWeapon("hammer");
+    int currentSilver = characterHelper.getCurrentSilver();
+    assertEquals(25, startingSilver - currentSilver);
+    characterHelper.sellWeapon("Hammer");
+    currentSilver = characterHelper.getCurrentSilver();
+    assertEquals(startingSilver, currentSilver);
     NavigationHelper.gotoCharacters(driver);
     characterHelper.deleteCharacter(bo);
 
