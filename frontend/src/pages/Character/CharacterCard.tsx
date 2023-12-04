@@ -72,7 +72,7 @@ export const CharacterCard = ({ character }: IProps) => {
         <CardActions disableSpacing>
           {canActivate && (
             <FlashingActivateButton onClick={handleActivation} aria-label="activate" size={"small"} color={"success"}
-                                    sx={{ mr: 1 }}>
+                                    sx={{ mr: 1 }} title="Activate">
               <StartIcon />
             </FlashingActivateButton>
           )}
