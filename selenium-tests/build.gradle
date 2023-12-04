@@ -18,11 +18,44 @@ dependencies {
 
 }
 
-test {
-    useJUnitPlatform()
-}
-
 dockerCompose {
     isRequiredBy(tasks.test)
     useComposeFiles = ['../docker-compose.yml']
+    stopContainers = true
+    scale = [chrome: 2]
+}
+
+def areContainersRunning() {
+    def serviceName = "api" // Replace with your actual service name
+
+    try {
+        // Execute 'docker-compose ps -q' to get the container ID
+        def cmd = "docker-compose -f ../docker-compose.yml ps -q $serviceName".execute()
+        def output = new StringWriter(), error = new StringWriter()
+        cmd.waitForProcessOutput(output, error)
+
+        // If there's an output (container ID), then the container is running
+        return output.toString().trim()
+    } catch (Exception e) {
+        println "Failed to check if containers are running: ${e.message}"
+        return false
+    }
+
+
+}
+
+task runTests {
+    doFirst {
+        // Check if containers are running, and if not, perhaps log a message or handle accordingly
+        if (!areContainersRunning()) {
+            println 'Containers are not running. They will be started by the Docker Compose plugin.'
+        } else {
+            println 'Containers are already running.'
+        }
+    }
+}
+
+test {
+    dependsOn runTests
+    useJUnitPlatform()
 }

@@ -40,15 +40,19 @@ public class NavigationHelper {
     }
   }
 
+  public static WebElement findElement(WebDriver driver, By locator) {
+    return driver.findElement(waitFor(driver, locator));
+  }
+
   public static By waitFor(WebDriver driver, By locator) {
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofSeconds(1));
     wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     wait.until(ExpectedConditions.elementToBeClickable(locator));
     return locator;
   }
 
   public static void waitAndClick(WebDriver driver, By locator) {
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofSeconds(1));
     wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     wait.until(ExpectedConditions.elementToBeClickable(locator));
     WebElement element = driver.findElement(locator);

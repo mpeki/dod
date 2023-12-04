@@ -1,5 +1,6 @@
 package dk.dodgame.selenium;
 
+import static dk.dodgame.selenium.helpers.AuthenticationHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,6 +9,10 @@ import dk.dodgame.selenium.helpers.AuthenticationHelper;
 import dk.dodgame.selenium.helpers.CharacterHelper;
 import dk.dodgame.selenium.helpers.LanguageHelper;
 import dk.dodgame.selenium.helpers.NavigationHelper;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +26,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 @ExtendWith(ScreenshotOnFailureExtension.class)
 @Tag("integration")
@@ -35,31 +39,30 @@ class CharacterTest {
   private CharacterHelper characterHelper;
 
   @BeforeAll
-  static void setUp() {
+  static void setUp() throws MalformedURLException, URISyntaxException {
     ChromeOptions options = new ChromeOptions();
-    options.addArguments("--headless");
+    //    options.addArguments("--headless");
     options.addArguments("--window-size=1920,1080");
 
-    ChromeDriverService service = new ChromeDriverService.Builder().withLogOutput(System.out).build();
-
-    driver = new ChromeDriver(service, options);
+    URL hubUrl = new URI("http://localhost:4444/wd/hub").toURL();
+    driver = new RemoteWebDriver(hubUrl, options);
 
     driver.manage().timeouts().implicitlyWait(Duration.ofMillis(1000));
     js = (JavascriptExecutor) driver;
 
     vars = new HashMap<String, Object>();
 
-    driver.get("http://ui:8081/");
+    driver.get("http://ui:80/");
     driver.manage().window().maximize();
     ScreenshotOnFailureExtension.setDriver(driver);
-
-    AuthenticationHelper.login(driver, "msp", "msp123");
+    TestUser testUser = createRandomUser(driver);
+//    AuthenticationHelper.login(driver, "msp", "msp123");
     LanguageHelper.setLanguage(driver, LanguageHelper.ENGLISH);
   }
 
   @AfterAll
   static void tearDown() {
-    AuthenticationHelper.logout(driver);
+    logout(driver);
     driver.quit();
   }
 
@@ -74,7 +77,7 @@ class CharacterTest {
     String charName = characterHelper.getRandomBo();
     NavigationHelper.gotoCharacters(driver);
     characterHelper.createCharacter(charName, true, "OLD", "human", js);
-    WebElement nameSpan = driver.findElement(By.xpath("//span[text()='" + charName + "']"));
+    WebElement nameSpan = NavigationHelper.findElement(driver, By.xpath("//span[text()='" + charName + "']"));
     assertEquals(charName, nameSpan.getText());
     characterHelper.deleteCharacter(charName);
     assertThrows(
@@ -89,9 +92,9 @@ class CharacterTest {
     NavigationHelper.gotoCharacters(driver);
     characterHelper.createCharacter(oldBo, true, "OLD", "human", js);
 
-    assertEquals(oldBo, driver.findElement(By.xpath("//span[text()='" + oldBo + "']")).getText());
+    assertEquals(oldBo, NavigationHelper.findElement(driver, By.xpath("//span[text()='" + oldBo + "']")).getText());
     characterHelper.renameCharacter(oldBo, newBo);
-    assertEquals(newBo, driver.findElement(By.xpath("//span[text()='" + newBo + "']")).getText());
+    assertEquals(newBo, NavigationHelper.findElement(driver, By.xpath("//span[text()='" + newBo + "']")).getText());
 
     assertThrows(
         org.openqa.selenium.NoSuchElementException.class,
@@ -110,12 +113,12 @@ class CharacterTest {
     NavigationHelper.gotoCharacters(driver);
     characterHelper.createCharacter(bo, true, "OLD", "human", js);
 
-    assertEquals(bo, driver.findElement(By.xpath("//span[text()='" + bo + "']")).getText());
+    assertEquals(bo, NavigationHelper.findElement(driver, By.xpath("//span[text()='" + bo + "']")).getText());
 
     characterHelper.selectCharacter(bo);
 
     int spBefore = characterHelper.getRemainingSP();
-    characterHelper.buySkill("B","Acrobatics", "5" );
+    characterHelper.buySkill("B", "Acrobatics", "5");
     int spAfter = characterHelper.getRemainingSP();
     assertTrue(spAfter < spBefore);
     characterHelper.deleteSkill("Acrobatics");
@@ -124,12 +127,9 @@ class CharacterTest {
     NavigationHelper.gotoCharacters(driver);
     characterHelper.deleteCharacter(bo);
     assertThrows(
-            org.openqa.selenium.NoSuchElementException.class,
-            () -> driver.findElement(By.xpath("//span[text()='" + bo + "']")));
-
-
+        org.openqa.selenium.NoSuchElementException.class,
+        () -> driver.findElement(By.xpath("//span[text()='" + bo + "']")));
   }
-
 
   @Test
   void createCharacterAndBuySkillsAndActivate() {
@@ -140,7 +140,7 @@ class CharacterTest {
     assertEquals(260, characterHelper.getRemainingSP());
     characterHelper.buySkills();
     int remainingSP = characterHelper.getRemainingSP();
-    assertTrue(remainingSP  < 10, "Remaining SP: " + remainingSP);
+    assertTrue(remainingSP < 10, "Remaining SP: " + remainingSP);
     NavigationHelper.gotoCharacters(driver);
     characterHelper.activateCharacter(bo);
     characterHelper.deleteCharacter(bo);
@@ -171,10 +171,7 @@ class CharacterTest {
     characterHelper.deleteCharacter(bo);
 
     assertThrows(
-            org.openqa.selenium.NoSuchElementException.class,
-            () -> driver.findElement(By.xpath("//span[text()='" + bo + "']")));
-
-
+        org.openqa.selenium.NoSuchElementException.class,
+        () -> driver.findElement(By.xpath("//span[text()='" + bo + "']")));
   }
-
 }

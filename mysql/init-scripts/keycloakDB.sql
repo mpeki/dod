@@ -1,4 +1,5 @@
 USE keycloakDB;
+-- Generated using MySQL Dump in IntelliJ IDEA - right click on the database and select Import/Export - >Export with mysqldump
 -- MariaDB dump 10.19  Distrib 10.6.12-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: 127.0.0.1    Database: keycloakDB
@@ -1392,7 +1393,7 @@ CREATE TABLE `MIGRATION_MODEL` (
 
 LOCK TABLES `MIGRATION_MODEL` WRITE;
 /*!40000 ALTER TABLE `MIGRATION_MODEL` DISABLE KEYS */;
-INSERT INTO `MIGRATION_MODEL` VALUES ('6a9db','22.0.1',1694193957);
+INSERT INTO `MIGRATION_MODEL` VALUES ('55nnz','22.0.4',1701518959),('6a9db','22.0.1',1694193957);
 /*!40000 ALTER TABLE `MIGRATION_MODEL` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1848,7 +1849,7 @@ CREATE TABLE `REDIRECT_URIS` (
 
 LOCK TABLES `REDIRECT_URIS` WRITE;
 /*!40000 ALTER TABLE `REDIRECT_URIS` DISABLE KEYS */;
-INSERT INTO `REDIRECT_URIS` VALUES ('138c5771-aaf5-495f-8480-05f1504a6c3a','http://localhost:3000/*'),('138c5771-aaf5-495f-8480-05f1504a6c3a','http://ui:8081/*'),('28f1393f-9c6f-4b5e-b45b-e7708d58f86a','/admin/master/console/*'),('34eac0d0-6d27-4bc5-931d-dcd506948309','/realms/dodgame/account/*'),('529e6128-c1bc-4008-ac4d-6d645f6fe9d4','/realms/master/account/*'),('ced0633a-f3d9-4c75-b85d-1c62fb955164','/realms/dodgame/account/*'),('d43f3531-9d53-401b-a17e-59e6e6664b6a','/realms/master/account/*'),('de191c36-54f9-4ce6-a3a6-695d1d3b7583','/admin/dodgame/console/*');
+INSERT INTO `REDIRECT_URIS` VALUES ('138c5771-aaf5-495f-8480-05f1504a6c3a','http://localhost:3000/*'),('138c5771-aaf5-495f-8480-05f1504a6c3a','http://ui:3000/*'),('138c5771-aaf5-495f-8480-05f1504a6c3a','http://ui:80/*'),('138c5771-aaf5-495f-8480-05f1504a6c3a','http://ui:8081/*'),('28f1393f-9c6f-4b5e-b45b-e7708d58f86a','/admin/master/console/*'),('34eac0d0-6d27-4bc5-931d-dcd506948309','/realms/dodgame/account/*'),('529e6128-c1bc-4008-ac4d-6d645f6fe9d4','/realms/master/account/*'),('ced0633a-f3d9-4c75-b85d-1c62fb955164','/realms/dodgame/account/*'),('d43f3531-9d53-401b-a17e-59e6e6664b6a','/realms/master/account/*'),('de191c36-54f9-4ce6-a3a6-695d1d3b7583','/admin/dodgame/console/*');
 /*!40000 ALTER TABLE `REDIRECT_URIS` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2677,4 +2678,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-08 22:08:44
+-- Dump completed on 2023-12-02 13:14:47
