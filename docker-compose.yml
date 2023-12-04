@@ -83,7 +83,6 @@ services:
 
   selenium-hub:
     image: selenium/hub:4.15.0-20231129
-    container_name: selenium-hub
     ports:
       - "4442:4442"
       - "4443:4443"
@@ -101,16 +100,6 @@ services:
       - SE_NODE_SESSION_TIMEOUT=300
     volumes:
       - /tmp/screenshots:/tmp/selenium-screenshots
-
-  chrome_video:
-    image: selenium/video:ffmpeg-6.0-20231129
-    volumes:
-      - /tmp/videos:/videos
-    depends_on:
-      - chrome
-    environment:
-      - DISPLAY_CONTAINER_NAME=chrome
-      - FILE_NAME=chrome_video.mp4
 
 volumes:
   db_data: {}
