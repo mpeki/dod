@@ -1,3 +1,17 @@
+# [1.20.0-rc.8](https://github.com/mpeki/dod/compare/v1.20.0-rc.7...v1.20.0-rc.8) (2023-12-06)
+
+
+### Bug Fixes
+
+* **DOD-419:** Fixes issue where editable elements would not update correctly ([c5bab63](https://github.com/mpeki/dod/commit/c5bab63335b357f0531a0c169def6d9ea2d96b74))
+
+
+### Features
+
+* **DOD-349:** Redesign character cards ([6cafe77](https://github.com/mpeki/dod/commit/6cafe776479ab466f88890a9157558855fd2853d))
+* **DOD-416:** Making it possible to remove weapons - before activating ([087d094](https://github.com/mpeki/dod/commit/087d0946e8f803c7c7d4db84b1416409dff65f63))
+* **DOD-417:** It is now possible to buy weapons during character creation ([ebaba0a](https://github.com/mpeki/dod/commit/ebaba0a684399d67ae9546f5e8873bc834a2a3e5))
+
 # [1.20.0-rc.7](https://github.com/mpeki/dod/compare/v1.20.0-rc.6...v1.20.0-rc.7) (2023-11-14)
 
 
