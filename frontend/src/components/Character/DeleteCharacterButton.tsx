@@ -41,7 +41,7 @@ export const DeleteCharacterButton = ({ characterId, inGutter } : IProps) => {
     );
   } else {
     return (
-        <IconButton aria-label="delete" onClick={handleDelete} title="Delete">
+        <IconButton aria-label="delete"  size="small" onClick={handleDelete} title="Delete">
           <DeleteForeverIcon/>
         </IconButton>
     );

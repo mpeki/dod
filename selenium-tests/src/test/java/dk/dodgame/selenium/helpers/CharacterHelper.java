@@ -76,12 +76,11 @@ public class CharacterHelper {
   }
 
   public void activateCharacter(String name) {
-    NavigationHelper.waitFor(driver, By.xpath("//span[text()='" + name + "']"));
-    WebElement namedCardSpan = driver.findElement(By.xpath("//span[text()='" + name + "']"));
-    assertTrue(namedCardSpan.findElement(By.xpath("ancestor::a/div[2]")).getText().contains("Not ready"));
+    WebElement namedCardSpan = NavigationHelper.findElement(driver, By.xpath("//span[text()='" + name + "']"));
+    assertTrue(namedCardSpan.findElement(By.xpath("ancestor::a/div[2]")).getText().contains("Starting Silver"));
     namedCardSpan.findElement(By.xpath("//button[@title='Activate']")).click();
     NavigationHelper.wait(500);
-    assertTrue(namedCardSpan.findElement(By.xpath("ancestor::a/div[2]")).getText().contains("Ready for play"));
+    assertTrue(namedCardSpan.findElement(By.xpath("ancestor::a/div[2]")).getText().contains("Total Hit Points"));
   }
 
   public void buySkill(String skillCategory, String skillName, String fvValue) {

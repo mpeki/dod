@@ -37,16 +37,16 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
   });
 
   const fetchRacesHandler = useCallback(async () => {
-      await getRaces()
-      .then((races) => {
-        localStorage.setItem("races", JSON.stringify(races));
-      })
-      .catch((e) => showWarningSnackbar((e as Error).message));
+    await getRaces()
+    .then((races) => {
+      localStorage.setItem("races", JSON.stringify(races));
+    })
+    .catch((e) => showWarningSnackbar((e as Error).message));
   }, [getRaces]);
 
   useEffect(() => {
     let raceJSON = localStorage.getItem("races");
-    if(raceJSON !== null) {
+    if (raceJSON !== null) {
       setRaces(prevRaces => raceJSON === null ? null : JSON.parse(raceJSON));
     } else {
       fetchRacesHandler().then(() => setRaces(prevRaces => raceJSON === null ? null : JSON.parse(raceJSON)));
@@ -56,13 +56,15 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
   const submitHandler = useCallback(async () => {
     const charPostData: Character = {
       id: "",
-      name: getValues('characterName'),
-      ageGroup: getValues('ageGroup'),
-      race: { name: getValues('raceName') },
-      hero: getValues('hero')
+      name: getValues("characterName"),
+      ageGroup: getValues("ageGroup"),
+      race: { name: getValues("raceName") },
+      hero: getValues("hero")
     };
     try {
-      await createCharacter(charPostData);
+      await createCharacter(charPostData).then(
+        (character) => localStorage.setItem(`${character.id}_startCap`, JSON.stringify(character.items.silver.quantity || 0))
+      );
     } catch (e) {
       showWarningSnackbar((e as Error).message);
     } finally {
@@ -74,13 +76,13 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
   }, [createCharacter, fetchCharactersHandler, getValues, onConfirm, reset]); //does this work? it was empty before
 
   const onSubmit = handleSubmit(submitHandler);
-  const ageGroups = [{key: 1 , value: "YOUNG"}, {key: 2 , value: "MATURE"}, {key: 3 , value: "OLD"}];
+  const ageGroups = [{ key: 1, value: "YOUNG" }, { key: 2, value: "MATURE" }, { key: 3, value: "OLD" }];
   return (
     <form onSubmit={onSubmit}>
       <div>
         <label htmlFor="characterName">Character Name:</label>
         <input {...register("characterName", { required: true })} autoFocus />
-        {errors.characterName?.type === 'required' && <div className="error">You character must have a name</div>}
+        {errors.characterName?.type === "required" && <div className="error">You character must have a name</div>}
       </div>
       <div>
         <label htmlFor="hero">Is this a Hero?</label>
@@ -89,18 +91,18 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
       <div>
         <label>Age group</label>
         <select {...register("ageGroup")} defaultValue={"MATURE"}>
-          {ageGroups.map(ageGroup => ( <option key={ageGroup.key} value={ageGroup.value} >{ageGroup.value}</option>))}
+          {ageGroups.map(ageGroup => (<option key={ageGroup.key} value={ageGroup.value}>{ageGroup.value}</option>))}
         </select>
       </div>
       <div>
         <label htmlFor="raceName">Race Name:</label>
         <select {...register("raceName")}>
-          <option value="0"> -- Select a race -- </option>
-          {races.map((race) => <option key={race.name} value={race.name} >{race.name}</option>)}
+          <option value="0"> -- Select a race --</option>
+          {races.map((race) => <option key={race.name} value={race.name}>{race.name}</option>)}
         </select>
       </div>
       <footer className={classes.actions}>
-        <button type='submit'>Create</button>
+        <button type="submit">Create</button>
         <button onClick={onConfirm}>Cancel</button>
       </footer>
     </form>

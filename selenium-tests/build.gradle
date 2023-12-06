@@ -21,12 +21,13 @@ dependencies {
 dockerCompose {
     isRequiredBy(tasks.test)
     useComposeFiles = ['../docker-compose.yml']
+    //This must be set to 'true' before committing/pushing to git
     stopContainers = true
     scale = [chrome: 2]
 }
 
 def areContainersRunning() {
-    def serviceName = "api" // Replace with your actual service name
+    def serviceName = "api"
 
     try {
         // Execute 'docker-compose ps -q' to get the container ID

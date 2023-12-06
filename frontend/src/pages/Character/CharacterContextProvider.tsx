@@ -71,6 +71,7 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
     if (characterId != null) {
       await deleteCharacter(characterId)
       .then(() => {
+        localStorage.removeItem(`${characterId}_startCap`);
         fetchAllCharsHandler();
       })
       .catch((e) => showWarningSnackbar((e as Error).message));
