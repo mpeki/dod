@@ -14,7 +14,7 @@ services:
       start_period: "10s"
 
   api:
-    image: "macp/dod:latest"
+    image: "macp/dod:${DOD_API_VERSION:-latest}"
     ports:
       - "8090:8090"
       - "5005:5005"

@@ -24,6 +24,8 @@ dockerCompose {
     //This must be set to 'true' before committing/pushing to git
     stopContainers = true
     scale = [chrome: 2]
+    captureContainersOutput = true
+    environment.put "DOD_API_VERSION", "${version}"
 }
 
 def areContainersRunning() {

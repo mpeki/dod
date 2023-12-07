@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider } from "styled-components";
@@ -24,9 +24,11 @@ import { DeleteCharacterButton } from "./components/Character/DeleteCharacterBut
 function App() {
 
   const { currentTheme } = useTheme();
-  const { loading: loadingSkills, error: skillsLoadingError } = useLoadAppDataWithRetry("skills", "/skill");
-  const [itemsEndpoint, setItemsEndpoint] = useState("/no-call");
-  const [racesEndpoint, setRacesEndpoint] = useState("/no-call");
+  const {
+    loading: loadingData,
+    error: dataLoadingError
+  } = useLoadAppDataWithRetry([{ "skills": "/skill" }, { "items": "/items" }, { "races": "/race" }]);
+
   const location = useLocation();
 
   const styles = {
@@ -36,68 +38,52 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    if (skillsLoadingError === null) {
-      setItemsEndpoint("/items");
-    }
-  }, [loadingSkills, skillsLoadingError]);
-
-  const { loading: loadingItems, error: itemsLoadingError } = useLoadAppDataWithRetry("items", itemsEndpoint);
-
-  useEffect(() => {
-    if (itemsLoadingError === null) {
-      setRacesEndpoint("/race");
-    }
-  }, [loadingItems, itemsLoadingError]);
-
-  const { loading: loadingRaces } = useLoadAppDataWithRetry("races", racesEndpoint);
-
   return (
     <CharacterContextProvider>
       {currentTheme && (
         <ThemeProvider theme={currentTheme}>
           <Backdrop
             sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer - 1 }}
-            open={loadingSkills || loadingItems || loadingRaces}
+            open={loadingData}
           >
             <Box position="fixed" top={0} left={0} right={0}>
               <LinearProgress />
             </Box>
           </Backdrop>
           <GlobalStyles />
-            <Box sx={{ p: 12 }}>
-              <AppTabs />
-              <Container style={styles.mainContainer} disableGutters>
-                <Paper elevation={20}>
-                  <Routes>
-                    <Route index element={<Home />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/characters" element={<CharacterOverview />} />
-                    <Route path="/city" element={<TheCity />} />
-                    <Route path="/items" element={<ViewItems />} />
-                    <Route path="/skill/:skillKey" element={<ViewSkill />} />
-                    <Route path="/characters/:charId" element={<ViewCharacter />} />
-                    <Route path="/wilderness" element={<TheWilderness />} />
-                    <Route path="/settings" element={<AboutSettings />} />
-                  </Routes>
-                  <Box display="flex" justifyContent="flex-end"  >
-                    {
-                      (() => {
-                        if(location.pathname.startsWith('/characters/')){
-                          return (
-                            <>
-                              <DeleteCharacterButton inGutter={true}/>
-                              <PrintButtonWithModal component={<PrintCharacter />} />
-                            </>
-                          );
-                        }
-                      })()
-                    }
-                    <LanguageSwitcher />
-                  </Box>
-                </Paper>
-              </Container>
-            </Box>
+          <Box sx={{ p: 12 }}>
+            <AppTabs />
+            <Container style={styles.mainContainer} disableGutters>
+              <Paper elevation={20}>
+                <Routes>
+                  <Route index element={<Home />} />
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/characters" element={<CharacterOverview />} />
+                  <Route path="/city" element={<TheCity />} />
+                  <Route path="/items" element={<ViewItems />} />
+                  <Route path="/skill/:skillKey" element={<ViewSkill />} />
+                  <Route path="/characters/:charId" element={<ViewCharacter />} />
+                  <Route path="/wilderness" element={<TheWilderness />} />
+                  <Route path="/settings" element={<AboutSettings />} />
+                </Routes>
+                <Box display="flex" justifyContent="flex-end">
+                  {
+                    (() => {
+                      if (location.pathname.startsWith("/characters/")) {
+                        return (
+                          <>
+                            <DeleteCharacterButton inGutter={true} />
+                            <PrintButtonWithModal component={<PrintCharacter />} />
+                          </>
+                        );
+                      }
+                    })()
+                  }
+                  <LanguageSwitcher />
+                </Box>
+              </Paper>
+            </Container>
+          </Box>
         </ThemeProvider>
       )}
     </CharacterContextProvider>
