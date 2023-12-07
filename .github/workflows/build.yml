@@ -80,9 +80,11 @@ jobs:
 
   end-to-end-test:
     runs-on: ubuntu-latest
-    needs: [ build-frontend ]
+    needs: [ build-frontend, build-backend ]
     steps:
       - uses: mpeki/build-env/pre-build@v1.0.1
+      - name: Build backend
+        run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
       - name: Build & Test
         run: ./gradlew clean :s:test
       - name: JUnit Report - Integration Tests

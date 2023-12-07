@@ -3,6 +3,6 @@
   "charactersTab": "Characters",
   "cityTab": "City",
   "wildernessTab": "Wilderness",
-  "aboutTab": "Settings",
-  "settingsAboutTab": "Settings / About"
+  "aboutTab": "About",
+  "settingsAboutTab": "About / Settings"
 }

@@ -38,7 +38,7 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(requestMatcher("GET", "/docs/**")).permitAll()
             .requestMatchers(requestMatcher("OPTIONS", "/**")).permitAll()
-            .requestMatchers(requestMatcher("GET", "/health", "/api/skill/**", "/api/items", "/api/race")).permitAll()
+            .requestMatchers(requestMatcher("GET", "/api/info", "/api/health", "/api/skill/**", "/api/items", "/api/race")).permitAll()
             .requestMatchers(requestMatcher("GET", "/api/items/type/**")).hasAnyRole(DUNGEON_MASTER, PLAYER)
             .requestMatchers(requestMatcher("GET", "/api/items/key/**")).hasAnyRole(DUNGEON_MASTER, PLAYER)
             .requestMatchers(requestMatcher("POST", "/api/items/**")).hasAnyRole(DUNGEON_MASTER, SYSTEM)
