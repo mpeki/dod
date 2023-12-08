@@ -1,9 +1,9 @@
 import retry, { OperationOptions, RetryOperation } from "retry";
 
 const config: OperationOptions = {
-  retries: 5,
-  factor: 2,
-  minTimeout: 3000, // 5 seconds
+  retries: 10,
+  factor: 1,
+  minTimeout: 5000,
   maxTimeout: Infinity
 };
 
