@@ -1,3 +1,10 @@
+# [1.20.0-rc.10](https://github.com/mpeki/dod/compare/v1.20.0-rc.9...v1.20.0-rc.10) (2023-12-08)
+
+
+### Bug Fixes
+
+* **DOD-438:** improve retry logic (I hope) ([27fadee](https://github.com/mpeki/dod/commit/27fadee045b83316e26f2568125526f122a1cc28))
+
 # [1.20.0-rc.9](https://github.com/mpeki/dod/compare/v1.20.0-rc.8...v1.20.0-rc.9) (2023-12-08)
 
 
