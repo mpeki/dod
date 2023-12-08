@@ -1,3 +1,10 @@
+# [1.20.0-rc.9](https://github.com/mpeki/dod/compare/v1.20.0-rc.8...v1.20.0-rc.9) (2023-12-08)
+
+
+### Features
+
+* **DOD-433:** Add server status ([f670db8](https://github.com/mpeki/dod/commit/f670db816ff274ee983b06c379d6c3073f0804ae))
+
 # [1.20.0-rc.8](https://github.com/mpeki/dod/compare/v1.20.0-rc.7...v1.20.0-rc.8) (2023-12-06)
 
 
