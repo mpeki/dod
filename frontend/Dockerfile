@@ -1,4 +1,4 @@
-FROM node:18.16.1-alpine AS builder
+FROM node:19.9.0-alpine AS builder
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN pwd
 COPY . ./
 RUN npm run build
 
-FROM nginx:1.25.2-alpine
+FROM nginx:1.25.3-alpine
 
 RUN rm -rf /usr/share/nginx/html/
 
