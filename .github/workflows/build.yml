@@ -25,7 +25,7 @@ jobs:
         with:
           use-docker: false
       - name: Build backend
-        run: ./gradlew :b:build jDB -x test -x asciidoctor
+        run: ./dod.sh build -w api
 
   build-frontend:
     runs-on: ubuntu-latest
@@ -34,7 +34,17 @@ jobs:
         with:
           use-java: false
       - name: Build UI docker image
-        run: docker-compose build ui
+        run: ./dod.sh build ui
+
+  build-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mpeki/build-env/pre-build@v1.0.1
+        with:
+          use-java: true
+      - name: Build Security docker image
+        run: ./dod.sh build -w security
+
 
   test-backend-regression:
     runs-on: ubuntu-latest
@@ -65,7 +75,7 @@ jobs:
     steps:
       - uses: mpeki/build-env/pre-build@v1.0.1
       - name: Build
-        run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
+        run: ./dod.sh build all
       - name: Integration Test
         if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
         run: ./gradlew :b:test -DincludeTests="integration" --info
@@ -80,13 +90,13 @@ jobs:
 
   end-to-end-test:
     runs-on: ubuntu-latest
-    needs: [ build-frontend, build-backend ]
+    needs: [ build-frontend, build-backend, build-security ]
     steps:
       - uses: mpeki/build-env/pre-build@v1.0.1
-      - name: Build backend
+      - name: Build backend / security
         run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
       - name: Build & Test
-        run: ./gradlew clean :s:test
+        run: ./gradlew clean :sel:test
       - name: JUnit Report - Integration Tests
         if: success() || failure() && github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v1.6.0

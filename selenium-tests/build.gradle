@@ -28,6 +28,7 @@ dockerCompose {
     environment.put "DOD_API_VERSION", "${version}"
 }
 
+
 def areContainersRunning() {
     def serviceName = "api"
 
@@ -47,7 +48,8 @@ def areContainersRunning() {
 
 }
 
-task runTests {
+tasks.register('runTests') {
+    dependsOn ':security:keycloak:theme:makeJar'
     doFirst {
         // Check if containers are running, and if not, perhaps log a message or handle accordingly
         if (!areContainersRunning()) {

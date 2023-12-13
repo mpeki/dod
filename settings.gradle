@@ -9,4 +9,5 @@ rootProject.name = 'dod'
 include ':backend'
 include ':frontend'
 include ':selenium-tests'
+include ':security:keycloak:theme'
 

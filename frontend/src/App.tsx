@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider } from "styled-components";
@@ -20,9 +20,11 @@ import LanguageSwitcher from "./components/LanguageSwitcher";
 import { PrintCharacter } from "./pages/Character/print/PrintCharacter";
 import PrintButtonWithModal from "./components/print/PrintButtonWithModal";
 import { DeleteCharacterButton } from "./components/Character/DeleteCharacterButton";
+import { useAuth } from "react-oidc-context";
 
 function App() {
 
+  const auth = useAuth();
   const { currentTheme } = useTheme();
   const {
     loading: loadingData,
@@ -37,6 +39,17 @@ function App() {
       maxWidth: 1200
     }
   };
+
+  useEffect(() => {
+    if(!auth.isAuthenticated){
+      auth.signinSilent().then().catch(error => {
+        if (error.message === 'login_required') {
+
+        }
+      });
+    }
+  }, []);
+
 
   return (
     <CharacterContextProvider>

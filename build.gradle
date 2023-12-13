@@ -1,68 +1,73 @@
 plugins {
-	//https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
-	id 'org.springframework.boot' version '3.1.5' apply false
-	id 'jacoco'
-	//https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
-	id 'org.sonarqube' version '4.4.1.3373'
-	//https://plugins.gradle.org/plugin/io.spring.dependency-management
-	id 'io.spring.dependency-management' version '1.1.3' apply false
-	//https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
-	id 'com.google.cloud.tools.jib' version '3.4.0' apply false
-	//https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
-	id "com.gorylenko.gradle-git-properties" version "2.4.1"
-	//https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
-	id 'org.siouan.frontend-jdk11' version '8.0.0' apply false
-	//https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
-	id "org.asciidoctor.jvm.convert" version "3.3.2" apply false
-	//https://plugins.gradle.org/plugin/com.avast.gradle.docker-compose
-	id "com.avast.gradle.docker-compose" version "0.17.5" apply false
+    //https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
+    id 'org.springframework.boot' version '3.1.5' apply false
+    id 'jacoco'
+    //https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
+    id 'org.sonarqube' version '4.4.1.3373'
+    //https://plugins.gradle.org/plugin/io.spring.dependency-management
+    id 'io.spring.dependency-management' version '1.1.3' apply false
+    //https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
+    id 'com.google.cloud.tools.jib' version '3.4.0' apply false
+    //https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
+    id "com.gorylenko.gradle-git-properties" version "2.4.1"
+    //https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
+    id 'org.siouan.frontend-jdk11' version '8.0.0' apply false
+    //https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
+    id "org.asciidoctor.jvm.convert" version "3.3.2" apply false
+    //https://plugins.gradle.org/plugin/com.avast.gradle.docker-compose
+    id "com.avast.gradle.docker-compose" version "0.17.5" apply false
 }
 
 group = 'dk.dodgame'
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
-	set('testcontainersVersion', "1.18.0")
-	set('droolsVersion', "8.34.0.Final")
-	set('lombokVersion', "1.18.30")
+    set('snippetsDir', file("build/generated-snippets"))
+    set('testcontainersVersion', "1.18.0")
+    set('droolsVersion', "8.34.0.Final")
+    set('lombokVersion', "1.18.30")
 }
 
 allprojects {
-	repositories {
-		mavenLocal()
-		mavenCentral()
-		maven {
-			name = "GitHubPackages"
-			url = uri("https://maven.pkg.github.com/mpeki/droolsassert")
-			credentials {
-				username = "${System.env.USERNAME}"
-				password = "${System.env.GITHUB_TOKEN}"
-			}
-		}
-	}
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/mpeki/droolsassert")
+            credentials {
+                username = "${System.env.USERNAME}"
+                password = "${System.env.GITHUB_TOKEN}"
+            }
+        }
+    }
 }
 subprojects {
-	if (project != project(':frontend') && project != project(':selenium-tests')) {
-		apply from: "$rootDir/gradle/test.gradle"
-		apply from: "$rootDir/gradle/liquibase.gradle"
-		apply from: "$rootDir/gradle/publish.gradle"
-	}
+    if (project != project(':frontend') &&
+            project != project(':selenium-tests') &&
+            project != project(':security') &&
+            project != project(':security:keycloak') &&
+            project != project(':security:keycloak:theme')) {
+        apply from: "$rootDir/gradle/test.gradle"
+        apply from: "$rootDir/gradle/liquibase.gradle"
+        apply from: "$rootDir/gradle/publish.gradle"
+    }
 
-	ext {
-		mavenBom = org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-	}
+    ext {
+        mavenBom = org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
 }
 
 gitProperties {
-	extProperty = "gitProps" // git properties will be put in a map at project.ext.gitProps
+    extProperty = "gitProps" // git properties will be put in a map at project.ext.gitProps
 }
 generateGitProperties.outputs.upToDateWhen { false }
 
 sonarqube {
-	properties {
-		property "sonar.projectKey", "mpeki_dod"
-		property "sonar.organization", "mpeki"
-		property "sonar.host.url", "https://sonarcloud.io"
-		property "sonar.token", System.getenv('SONAR_TOKEN') // This should be an environment variable
-	}
+    properties {
+        property "sonar.gradle.skipCompile", "true"
+        property "sonar.projectKey", "mpeki_dod"
+        property "sonar.organization", "mpeki"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.token", System.getenv('SONAR_TOKEN') // This should be an environment variable
+    }
 }
