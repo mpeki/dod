@@ -1,0 +1,6 @@
+{
+  "themes": [{
+    "name" : "dodgame",
+    "types": [ "login" ]
+  }]
+}

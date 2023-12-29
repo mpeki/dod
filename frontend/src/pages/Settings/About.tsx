@@ -11,14 +11,23 @@ export const About = () => {
   const auth = useAuth();
 
   const { getGameEngineInfo, getGameEngineHealth } = useGameInfoService();
-  const [gameVersion, setGameVersion] = useState("");
+  const [gameVersion, setGameVersion] = useState("Not available");
   const [gameHealth, setGameHealth] = useState("?");
   const [loginHealth, setLoginHealth] = useState("?");
 
   useEffect(() => {
-    getGameEngineInfo().then((info) => {
-      setGameVersion(info.build.version);
-    });
+    const getGameVersion = () => {
+      getGameEngineInfo().then((info) => {
+        setGameVersion(info.build.version);
+      }).catch((err) => {
+        setGameVersion("Not available");
+      });
+    }
+    getGameVersion();
+    const intervalId = setInterval(getGameVersion, 10000);
+    // Clear the interval on component unmount
+    return () => clearInterval(intervalId);
+
   }, [getGameEngineInfo]);
 
   useEffect(() => {
@@ -37,7 +46,7 @@ export const About = () => {
   }, [getGameEngineHealth]);
 
   useEffect(() => {
-    const checkHealthStatus = () => {
+    const checkLoginHealthStatus = () => {
       auth.querySessionStatus()
       .then(function(status) {
         setLoginHealth("UP"); // Set loginHealth to true when the query is successful
@@ -51,8 +60,8 @@ export const About = () => {
       });
     };
     // Call the function immediately to check the status on component mount
-    checkHealthStatus();
-    const intervalId = setInterval(checkHealthStatus, 10000);
+    checkLoginHealthStatus();
+    const intervalId = setInterval(checkLoginHealthStatus, 10000);
     // Clear the interval on component unmount
     return () => clearInterval(intervalId);
   }, [auth]);

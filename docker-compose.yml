@@ -55,6 +55,7 @@ services:
       KC_HEALTH_ENABLED: "true"
     volumes:
       - "./security/keycloak/new-realm-export:/tmp/keycloak-export"
+      - "./security/keycloak/theme/src/main/resources/theme/dodgame:/opt/keycloak/themes/dodgame-dev"
     healthcheck:
       test: "curl -k --silent --fail http://localhost:8181/health || exit 1"
       start_period: "300s"

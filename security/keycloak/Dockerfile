@@ -26,8 +26,8 @@ USER root
 COPY wait-for-it.sh /usr/local/sbin/
 RUN chmod +x /usr/local/sbin/wait-for-it.sh
 
-ADD https://github.com/mpeki/dodgame-keycloak-theme/releases/download/v0.0.1/standalone-keycloak-theme.jar /opt/keycloak/providers/
-RUN chmod +x /opt/keycloak/providers/standalone-keycloak-theme.jar
+COPY theme/build/libs/dodgame-keycloak-theme.jar /opt/keycloak/providers
+RUN chmod +x /opt/keycloak/providers/dodgame-keycloak-theme.jar
 
 # change these values to point to a running postgres instance
 ENV KC_DB=mysql

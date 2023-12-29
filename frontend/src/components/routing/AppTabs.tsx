@@ -7,6 +7,7 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import { Tooltip } from "@mui/material";
 import { showFatalConnectionErrorSnackbar } from "../../utils/DODSnackbars";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 export const AppTabs = () => {
 
@@ -23,7 +24,6 @@ export const AppTabs = () => {
     }
     return null;
   }
-
   const handleLogin = async () => {
     try {
       await auth.signinRedirect();
