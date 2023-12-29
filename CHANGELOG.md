@@ -1,3 +1,10 @@
+# [1.20.0-rc.11](https://github.com/mpeki/dod/compare/v1.20.0-rc.10...v1.20.0-rc.11) (2023-12-29)
+
+
+### Features
+
+* **DOD-451:** Improves login experience ([0a09b93](https://github.com/mpeki/dod/commit/0a09b93097b71b7ccfc2e84fe894466f5d685197))
+
 # [1.20.0-rc.10](https://github.com/mpeki/dod/compare/v1.20.0-rc.9...v1.20.0-rc.10) (2023-12-08)
 
 
