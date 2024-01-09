@@ -67,7 +67,7 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
     testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
 
-    testImplementation "org.keycloak:keycloak-test-helper:22.0.5"
+    testImplementation "org.keycloak:keycloak-test-helper:23.0.4"
     testImplementation "org.keycloak:keycloak-admin-client:22.0.5"
     testImplementation "org.springframework.security:spring-security-test"
 
