@@ -22,7 +22,6 @@ export const Payment = ({ handleClose, paymentHandler, itemName, goldOwned, silv
   const [quantity, setQuantity ] = useState<number>(1)
 
   if(key !== itemName){
-    console.log("resetting state!")
     setSilver(silverOwned);
     setSilverPayed(silverPrice);
     setKey(itemName)

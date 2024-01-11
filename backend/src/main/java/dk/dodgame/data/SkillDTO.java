@@ -31,7 +31,6 @@ public class SkillDTO implements Serializable {
   //
   //  @JsonIgnore
   private SkillKey key;
-  private ItemKey itemKey;
   private BaseTraitName traitName;
   private Category category;
   private Group group;

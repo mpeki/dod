@@ -28,6 +28,9 @@ utils_selectOp() {
         gradle)
             ./"${SCRIPTS_DIR}"/gradle.sh "${@:2}"
             ;;
+        run)
+            ./"${SCRIPTS_DIR}"/run-commands.sh "${@:2}"
+            ;;
         update-scripts)
             ./."${SERVICE_NAME}"/update-scripts.sh "${@:2}"
             ;;
@@ -45,9 +48,6 @@ utils_selectOp() {
             ;;
         fix)
             ./."${SERVICE_NAME}"/fix.sh "${@:2}"
-            ;;
-        run)
-            ./."${SERVICE_NAME}"/run.sh "${@:2}"
             ;;
         *)
             help

@@ -3,17 +3,14 @@ import { CharacterSkillItem } from "./CharacterSkillItem";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { StyledTable } from "../../components/shared/Table.styled";
 import { useTranslation } from "react-i18next";
-import { useContext } from "react";
-import CharacterContext from "../Character/CharacterContext";
 
 interface IProps {
-  charId: string;
   skills: Record<string, CharacterSkill>;
   canRemoveSkill: boolean;
   isPrinting: boolean;
 }
 
-export const CharacterSkillList = ({ charId, skills, canRemoveSkill, isPrinting }: IProps): JSX.Element => {
+export const CharacterSkillList = ({ skills, canRemoveSkill, isPrinting }: IProps): JSX.Element => {
 
   const { t } = useTranslation("char");
 

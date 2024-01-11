@@ -53,7 +53,6 @@ export const ViewCharacter = () => {
     console.log('errorCode:', errorCode)
     return <ErrorMain errorCode={errorCode} />;
   } else {
-
     return (
       <>
         <Container maxWidth="lg" style={{ paddingTop: 25 }}>

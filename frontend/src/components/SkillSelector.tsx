@@ -49,7 +49,6 @@ export const SkillSelector = ({ selectSkillHandler, excludedSkills, raceName }: 
       } else {
         let result: Skill[] = shownSkills.length === 0 || selected.length === 1 ? skills : shownSkills;
         for (const selectedElement of selected) {
-          // console.log("selectedElement: " + JSON.stringify(selectedElement));
           result = result.filter(skill => {
             return selectedElement.type === "Category" ? skill.category === selectedElement.label.toUpperCase() : skill.group === selectedElement.label.toUpperCase();
           });
@@ -73,7 +72,6 @@ export const SkillSelector = ({ selectSkillHandler, excludedSkills, raceName }: 
   useEffect(() => {
     fetchSkillsHandler().then();
   }, [fetchSkillsHandler]);
-  // console.log("shownSkills: " + JSON.stringify(shownSkills));
 
   const racialExcludedSkills = skills.filter(skill =>
     skill.deniedRaces && skill.deniedRaces.length > 0 && skill.deniedRaces.some(race => race.name === raceName)
@@ -82,9 +80,7 @@ export const SkillSelector = ({ selectSkillHandler, excludedSkills, raceName }: 
     return acc;
   }, {} as Record<string, Skill>);
 
-  // console.log("racialExcludedSkills: " + JSON.stringify(racialExcludedSkills));
   const allExcludedSkills : Record<string,Skill> = { ...excludedSkills, ...racialExcludedSkills };
-  // console.log("allExcludedSkills: " + JSON.stringify(allExcludedSkills));
   return (
     <>
       <div>Filter skills:</div>

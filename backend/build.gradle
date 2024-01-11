@@ -89,6 +89,10 @@ gradle.taskGraph.whenReady { taskGraph ->
     }
 }
 
+bootRun {
+    jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]
+}
+
 springBoot {
     buildInfo()
 }

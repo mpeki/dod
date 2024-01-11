@@ -37,7 +37,6 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
   const fetchCharHandler = useCallback(async (characterId: string) => {
     try {
       const character = await getCharacter(characterId);
-      console.log("Character fetched: " + character.id);
       setCurrentCharacter(character);
     } catch (e) {
       if (e instanceof ApiError) {
@@ -57,7 +56,6 @@ export const CharacterContextProvider: FC<CharacterContextProviderProps> = ({ ch
       "Character {character.id} is ready to play",
       "READY_TO_PLAY",
       0);
-    console.log("Activating character: " + characterId);
     if (characterId != null) {
       await doChange(characterId, changeData)
       .then((change: Change) => {
