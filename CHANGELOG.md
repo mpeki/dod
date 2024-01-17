@@ -1,3 +1,10 @@
+# [1.20.0-rc.12](https://github.com/mpeki/dod/compare/v1.20.0-rc.11...v1.20.0-rc.12) (2024-01-17)
+
+
+### Bug Fixes
+
+* **DOD-456:** a skill can now be connected to an item ([796bfb8](https://github.com/mpeki/dod/commit/796bfb858003ddc27584bb25945577f22425c551))
+
 # [1.20.0-rc.11](https://github.com/mpeki/dod/compare/v1.20.0-rc.10...v1.20.0-rc.11) (2023-12-29)
 
 
