@@ -26,7 +26,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 export const SkillDetails = ({ characterId, charSkill, onConfirm }: IProps): JSX.Element => {
 
   const { doChange } = useChangeService();
-  const { trainSkill } = useSkillService();
+  // const { trainSkill } = useSkillService();
   const [action , setAction] = useState<Action>();
   const [skillInput, setSkillInput] = useState<CharacterSkill>(charSkill);
   const [open, setOpen] = useState(false);
@@ -43,6 +43,7 @@ export const SkillDetails = ({ characterId, charSkill, onConfirm }: IProps): JSX
     setOpen(false);
   };
 
+/*
   const trainSkillHandler = useCallback(async () => {
     await trainSkill(characterId, charSkill.skill.key)
     .then((action) => {
@@ -57,6 +58,7 @@ export const SkillDetails = ({ characterId, charSkill, onConfirm }: IProps): JSX
     })
     .catch((e) => showWarningSnackbar((e as Error).message));
   }, [trainSkill, characterId, charSkill.skill.key, skillInput]);
+*/
 
 
   const exchangeXPHandler = useCallback(async () => {
@@ -66,7 +68,6 @@ export const SkillDetails = ({ characterId, charSkill, onConfirm }: IProps): JSX
       await doChange(characterId, changeData)
       .then((change: Change) => {
         if (change.objectAfterChange?.skills !== undefined) {
-          console.log(change.objectAfterChange?.skills[charSkill.skill.key]);
           skillInput.experience = change.objectAfterChange.skills[charSkill.skill.key].experience;
           skillInput.fv = change.objectAfterChange.skills[charSkill.skill.key].fv;
           setSkillInput(skillInput);

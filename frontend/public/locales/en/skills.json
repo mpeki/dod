@@ -18,8 +18,8 @@
   "karate": "Karate",
   "tactics": "Tactics",
   "fast.draw" : "Draw Weapon Quickly",
-  "primary.weapon": "Primary Weapon",
-  "secondary.weapon": "Secondary Weapon",
+  "primary.weapon": "1st Weapon",
+  "secondary.weapon": "2nd Weapon",
   "fst": "Find Hidden Things",
   "listen": "Listen",
   "sense.danger": "Sense Danger",
@@ -91,5 +91,5 @@
   "rw.dragon": "Read/Write Dragon Language",
   "speak.insect": "Speak Insectfolk Language",
   "rw.insect": "Read/Write Insectfolk Language",
-  "hand.to.hand": "Hand to Hand Combat"
+  "hand.to.hand": "Brawl"
 }

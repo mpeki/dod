@@ -112,7 +112,7 @@ export const SkillContainer = ({ character, skills }: IProps): JSX.Element => {
               onConfirm={showBuySkillHandler}
             />
           )}
-          <CharacterSkillList charId={character.id || ""} skills={skills || {}} canRemoveSkill={canRemoveSkill} isPrinting={false}/>
+          <CharacterSkillList skills={skills || {}} canRemoveSkill={canRemoveSkill} isPrinting={false}/>
         </Paper>
       </KeyboardShortcutProvider>
     </>

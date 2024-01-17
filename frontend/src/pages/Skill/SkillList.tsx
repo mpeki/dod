@@ -19,7 +19,6 @@ export const SkillList = ({ skills, excludedSkills, selectSkillHandler }: IProps
         }
         return true;
       });
-      // console.log("Filtered skills: " + JSON.stringify(skills));
       options = skills.map((skill) => {
         return {
           value: skill.key,
@@ -33,7 +32,6 @@ export const SkillList = ({ skills, excludedSkills, selectSkillHandler }: IProps
   //get the value of the selected skill and set it to the state, lift the state to the parent component
   const handleChange = (selectedOption: any) => {
     const selectedSkill : Skill | undefined = skills?.find((skill) => skill.key === selectedOption.value);
-    // console.log("Selected Skill: " +JSON.stringify(selectedSkill));
     if(selectedSkill){
       selectSkillHandler(selectedSkill);
     }

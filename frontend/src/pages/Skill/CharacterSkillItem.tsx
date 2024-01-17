@@ -24,7 +24,7 @@ export const CharacterSkillItem = ({ charSkill,
   const [showSkillDetails, setShowSkillDetails] = useState<boolean>();
   const { doCharacterChange } = useChangeService();
   const [changeData, setChangeData] = useState<Change>(createChange());
-  const { t } = useTranslation("skills");
+  const { t } = useTranslation(["skills", "items"]);
   const charContext = useContext(CharacterContext);
 
   if (!charContext) {
@@ -54,6 +54,7 @@ export const CharacterSkillItem = ({ charSkill,
       .catch((e) => showWarningSnackbar((e as Error).message))
       .finally(() => {
         setChangeData(createChange());
+        console.log("Change Data: ", changeData);
       });
   }, [currentCharacter, doCharacterChange, fetchCharHandler, charSkill.skill.key]);
 
@@ -72,8 +73,8 @@ export const CharacterSkillItem = ({ charSkill,
           borderRight: isPrinting ? 1 : 0,
           borderColor: isPrinting ? "darkgray" : "lightgray"
         }}>
-          {charSkill.skill.itemKey
-            ? `${t(charSkill.skill.itemKey)} (${t(charSkill.skill.key)})`
+          {charSkill.itemKey
+            ? `${t(`items:${charSkill.itemKey}`)} (${t(charSkill.skill.key)})`
             : t(charSkill.skill.key)
           }
         </TableCell>

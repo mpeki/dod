@@ -11,7 +11,6 @@ export const ViewSkills = () => {
 
 
   const handleGroupSelect = (event: any) => {
-    console.log(event.target.value)
     if(skills !== undefined){
       const selectedValue = event.target.value
       const shownSkills = skills.filter(skill => {
@@ -22,7 +21,6 @@ export const ViewSkills = () => {
   };
 
   const handleBaseChanceSelect = (event: any) => {
-    console.log(event.target.value)
     if(skills !== undefined){
       const selectedValue = event.target.value
       const shownSkills = skills.filter(skill => {

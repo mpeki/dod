@@ -128,11 +128,11 @@ rule "Add skill"
     skillCost = (Integer) drools.getKieRuntime().getGlobal("skillCost");
     baseSkill = (SkillDTO) drools.getKieRuntime().getGlobal("baseSkill");
     if( baseSkill != null && skillCost != null ){
-      baseSkill.setItemKey(changeRequest.getSecondaryChangeKey() != null ? ((ItemKey) changeRequest.getSecondaryChangeKey().getChangeKey()) : null);
 
       CharacterSkillDTO characterSkill = CharacterSkillDTO.builder()
       .skill(baseSkill)
       .fv((Integer) changeRequest.getModifier())
+      .itemKey(changeRequest.getSecondaryChangeKey() != null ? ((ItemKey) changeRequest.getSecondaryChangeKey().getChangeKey()) : null)
       .skillPointsSpent(skillCost).build();
 
       character.setBaseSkillPoints(character.getBaseSkillPoints() - skillCost);
