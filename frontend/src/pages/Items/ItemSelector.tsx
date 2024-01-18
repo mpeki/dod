@@ -33,7 +33,7 @@ export const ItemSelector = ({ items, onChange, label }: IProps) => {
     <Autocomplete
       fullWidth
       disablePortal
-      inputValue={inputValue}
+      inputValue={t(inputValue)}
       onInputChange={(event, newInputValue) => {
         onChange(items, newInputValue);
         setInputValue(newInputValue);
@@ -49,7 +49,7 @@ export const ItemSelector = ({ items, onChange, label }: IProps) => {
         </Box>
       )}
       isOptionEqualToValue={(item, value) => item.name === value.name}
-      renderInput={(params) => <TextField {...(params as any)} label={label}
+      renderInput={(params) => <TextField {...(params as any)} label={label} variant="standard"
                                           inputProps={{
                                             ...params.inputProps,
                                             autoComplete: "off" // disable autocomplete and autofill

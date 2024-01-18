@@ -23,7 +23,7 @@ dockerCompose {
     useComposeFiles = ['../docker-compose.yml']
     //This must be set to 'true' before committing/pushing to git
     stopContainers = true
-    scale = [chrome: 2]
+    scale = [chrome: 1]
     captureContainersOutput = true
     environment.put "DOD_API_VERSION", "${version}"
 }

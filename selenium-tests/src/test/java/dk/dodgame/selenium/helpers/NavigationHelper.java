@@ -14,17 +14,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class NavigationHelper {
 
+  private final WebDriver driver;
   public static final String HOME_TAB = "Home";
   public static final String CHARACTERS_TAB = "Characters";
 
-  public static void goHome(WebDriver driver) {
-    driver.findElement(NavigationHelper.waitFor(driver, By.xpath("//a[contains(text(), '" + HOME_TAB + "')]"))).click();
+  public NavigationHelper(WebDriver driver) {
+    this.driver = driver;
   }
 
-  public static void gotoCharacters(WebDriver driver) {
+  public void goHome() {
+    driver.findElement(waitFor(By.xpath("//a[contains(text(), '" + HOME_TAB + "')]"))).click();
+  }
+
+  public void gotoCharacters() {
     try {
       driver
-          .findElement(NavigationHelper.waitFor(driver, By.xpath("//a[contains(text(), '" + CHARACTERS_TAB + "')]")))
+          .findElement(waitFor(By.xpath("//a[contains(text(), '" + CHARACTERS_TAB + "')]")))
           .click();
     } catch (ElementClickInterceptedException e) {
       Actions action = new Actions(driver);
@@ -32,7 +37,7 @@ public class NavigationHelper {
     }
   }
 
-  public static void wait(int millis) {
+  public void wait(int millis) {
     try {
       sleep(millis);
     } catch (InterruptedException e) {
@@ -40,18 +45,18 @@ public class NavigationHelper {
     }
   }
 
-  public static WebElement findElement(WebDriver driver, By locator) {
-    return driver.findElement(waitFor(driver, locator));
+  public WebElement findElement(By locator) {
+    return driver.findElement(waitFor(locator));
   }
 
-  public static By waitFor(WebDriver driver, By locator) {
+  public By waitFor(By locator) {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofSeconds(1));
     wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     wait.until(ExpectedConditions.elementToBeClickable(locator));
     return locator;
   }
 
-  public static void waitAndClick(WebDriver driver, By locator) {
+  public void waitAndClick(By locator) {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofSeconds(1));
     wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     wait.until(ExpectedConditions.elementToBeClickable(locator));

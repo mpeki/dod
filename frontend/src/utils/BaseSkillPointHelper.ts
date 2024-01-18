@@ -10,6 +10,11 @@ export const normalise = (value: number, maxBPs: number): number => {
   return ((value - maxBPs) * 100) / (0 - maxBPs);
 };
 
+export const normaliseAsc = (value: number, maxBPs: number): number => {
+  return ((Math.abs(value - maxBPs)) * 100) / (maxBPs);
+};
+
+
 export const getColor = (bpLeft : number, value : number) => {
   if(bpLeft < 10) return '#006B3E'; // green
   if (value < 50) return '#ec0000'; // dark red
