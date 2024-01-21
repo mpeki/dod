@@ -1,3 +1,10 @@
+# [1.20.0-rc.13](https://github.com/mpeki/dod/compare/v1.20.0-rc.12...v1.20.0-rc.13) (2024-01-21)
+
+
+### Features
+
+* **DOD-341:** rework of buy skills form ([0291f0e](https://github.com/mpeki/dod/commit/0291f0ecbaec492880cc50a512d9f41a2325e89b))
+
 # [1.20.0-rc.12](https://github.com/mpeki/dod/compare/v1.20.0-rc.11...v1.20.0-rc.12) (2024-01-17)
 
 
