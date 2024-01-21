@@ -17,7 +17,7 @@
   "judo": "Judo",
   "karate": "Karate",
   "tactics": "Tactics",
-  "fast.draw" : "Draw Weapon Quickly",
+  "fast.draw" : "Quickdraw",
   "primary.weapon": "1st Weapon",
   "secondary.weapon": "2nd Weapon",
   "fst": "Find Hidden Things",
@@ -91,5 +91,33 @@
   "rw.dragon": "Read/Write Dragon Language",
   "speak.insect": "Speak Insectfolk Language",
   "rw.insect": "Read/Write Insectfolk Language",
-  "hand.to.hand": "Brawl"
+  "hand.to.hand": "Brawl",
+  "buySkillsForm" : {
+    "title" : "Buy Skill",
+    "buyButton" : "Buy",
+    "cancelButton" : "Cancel",
+    "fvInputField" : "3. Set SV",
+    "filterPlaceholder" : "1. Set Filter",
+    "skillPlaceholder" : "2. Choose Skill",
+    "usageCaption" : "Used ({{used}}) / Price ({{price}}) / Remaining ({{rest}})",
+    "itemPlaceholder" : "Choose {{item}}",
+    "BPDivider" : "Skill Point Status",
+    "noSkillsMessage" : "No Skills Found, try to remove filters",
+    "noFiltersMessage" : "No more filters can be selected",
+    "buySkillSuccess" : "You now have the skill: {{skill}}",
+    "removeSkillSuccess" : "Removed the skill: {{skill}}"
+  },
+  "categoryTitle" : "Category",
+  "groupTitle" : "Group",
+  "skillGroup" : {
+    "knowledge" : "Knowledge Skills",
+    "language" : "Language Skills",
+    "combat" : "Combat Skills",
+    "communication" : "Communication Skills",
+    "thieving" : "Thieving Skills",
+    "perception" : "Perception Skills",
+    "outdoor" : "Outdoor Skills"
+  }
+
+
 }

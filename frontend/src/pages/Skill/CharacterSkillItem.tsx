@@ -49,7 +49,7 @@ export const CharacterSkillItem = ({ charSkill,
     const changePostData: Change = createChange("REMOVE_SKILL", "Remove skill", charSkill.skill.key, -1);
       await doCharacterChange(currentCharacter, changePostData)
       .then(() => {
-        fetchCharHandler(currentCharacter.id).then((character) => showSuccessSnackbar("Removed skill! "));
+        fetchCharHandler(currentCharacter.id).then((character) => showSuccessSnackbar(t("buySkillsForm.removeSkillSuccess", { skill: t(charSkill.skill.key) })));
       })
       .catch((e) => showWarningSnackbar((e as Error).message))
       .finally(() => {

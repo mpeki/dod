@@ -56,9 +56,9 @@ export const SkillUtil = {
     if (pointsToBuy < 1) {
       return 0;
     } else if (skillCategory === "\"B\"" && fvToBuy > 5) {
-      throw new Error("Category B skills can't start above 5 fv");
-    } else if (skillCategory === "\"A\"" && fvToBuy > 20) {
-      throw new Error("Category A skills can't start above 20 fv");
+      throw new Error("catBSkillTooHigh");
+    } else if (skillCategory === "\"A\"" && fvToBuy > 15) {
+      throw new Error("catASkillTooHigh");
     }
     if (skillCategory === "\"A\"") {
       let result = -1;

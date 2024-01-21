@@ -9,6 +9,14 @@ import org.openqa.selenium.interactions.Actions;
 
 public class AuthenticationHelper {
 
+  private final WebDriver driver;
+  private final NavigationHelper navigationHelper;
+
+  public AuthenticationHelper(WebDriver driver) {
+    this.driver = driver;
+    this.navigationHelper = new NavigationHelper(driver);
+  }
+
   public static class TestUser {
     public String username;
     public String password;
@@ -18,7 +26,7 @@ public class AuthenticationHelper {
   }
 
   //Create a random user
-  public static TestUser createRandomTestUser(){
+  public TestUser createRandomTestUser(){
     TestUser testUser = new TestUser();
     testUser.firstName = RandomStringGenerator.getRandomString(5);
     testUser.lastName = RandomStringGenerator.getRandomString(5);
@@ -28,12 +36,12 @@ public class AuthenticationHelper {
     return testUser;
   }
 
-  public static TestUser createRandomUser(WebDriver driver){
-    NavigationHelper.wait(300);
+  public TestUser createRandomUser(){
+    navigationHelper.wait(300);
     {
 
       WebElement element = driver.findElement(
-          NavigationHelper.waitFor(driver, By.cssSelector(".MuiTab-root > .MuiSvgIcon-root"))
+          navigationHelper.waitFor(By.cssSelector(".MuiTab-root > .MuiSvgIcon-root"))
       );
       Actions builder = new Actions(driver);
       builder.moveToElement(element).perform();
@@ -45,7 +53,7 @@ public class AuthenticationHelper {
       Actions builder = new Actions(driver);
       builder.moveToElement(element, 0, 0).perform();
     }
-    NavigationHelper.waitAndClick(driver, By.linkText("Register"));
+    navigationHelper.waitAndClick(By.linkText("Register"));
     TestUser testUser = createRandomTestUser();
     driver.findElement(By.id("firstName")).sendKeys(testUser.firstName);
     driver.findElement(By.id("lastName")).sendKeys(testUser.lastName);
@@ -57,12 +65,12 @@ public class AuthenticationHelper {
     return testUser;
   }
 
-  public static void login(WebDriver driver, String username, String password){
-    NavigationHelper.wait(300);
+  public void login(WebDriver driver, String username, String password){
+    navigationHelper.wait(300);
     {
 
       WebElement element = driver.findElement(
-          NavigationHelper.waitFor(driver, By.cssSelector(".MuiTab-root > .MuiSvgIcon-root"))
+          navigationHelper.waitFor(By.cssSelector(".MuiTab-root > .MuiSvgIcon-root"))
       );
       Actions builder = new Actions(driver);
       builder.moveToElement(element).perform();
@@ -74,7 +82,7 @@ public class AuthenticationHelper {
       Actions builder = new Actions(driver);
       builder.moveToElement(element, 0, 0).perform();
     }
-    NavigationHelper.waitFor(driver, By.id("username"));
+    navigationHelper.waitFor(By.id("username"));
     driver.findElement(By.id("username")).sendKeys("msp");
     driver.findElement(By.id("password")).sendKeys("msp123");
     driver.findElement(By.id("password")).sendKeys(Keys.ENTER);

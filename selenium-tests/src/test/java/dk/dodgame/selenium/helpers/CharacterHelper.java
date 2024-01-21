@@ -13,55 +13,57 @@ import org.openqa.selenium.interactions.Actions;
 public class CharacterHelper {
 
   private final WebDriver driver;
+  private final NavigationHelper navigationHelper;
 
   public CharacterHelper(WebDriver webDriver) {
     this.driver = webDriver;
+    this.navigationHelper = new NavigationHelper(driver);
   }
 
   public void createCharacter(String name, Boolean hero, String ageGroup, String raceName, JavascriptExecutor js) {
     boolean isReady;
     do {
       isReady = js.executeScript("return document.readyState").equals("complete");
-      NavigationHelper.wait(500);
+      navigationHelper.wait(500);
     } while (!isReady);
 
-    NavigationHelper.waitAndClick(driver, By.cssSelector(".MuiButtonBase-root:nth-child(2)"));
+    navigationHelper.waitAndClick(By.cssSelector(".MuiButtonBase-root:nth-child(2)"));
     {
 
       WebElement element = driver.findElement(
-          NavigationHelper.waitFor(driver, By.cssSelector(".MuiFab-root > .MuiSvgIcon-root")));
+          navigationHelper.waitFor(By.cssSelector(".MuiFab-root > .MuiSvgIcon-root")));
       Actions builder = new Actions(driver);
       builder.moveToElement(element).perform();
     }
-    NavigationHelper.waitAndClick(driver, By.cssSelector(".MuiFab-root > .MuiSvgIcon-root"));
+    navigationHelper.waitAndClick(By.cssSelector(".MuiFab-root > .MuiSvgIcon-root"));
     {
       WebElement element = driver.findElement(By.tagName("body"));
       Actions builder = new Actions(driver);
       builder.moveToElement(element, 0, 0).perform();
     }
-    NavigationHelper.waitAndClick(driver, By.name("characterName"));
-    NavigationHelper.findElement(driver, By.name("characterName")).sendKeys(name);
+    navigationHelper.waitAndClick(By.name("characterName"));
+    navigationHelper.findElement(By.name("characterName")).sendKeys(name);
     if (hero) {
-      NavigationHelper.waitAndClick(driver, By.name("hero"));
+      navigationHelper.waitAndClick(By.name("hero"));
     }
     {
-      WebElement dropdown = NavigationHelper.findElement(driver, By.name("ageGroup"));
+      WebElement dropdown = navigationHelper.findElement(By.name("ageGroup"));
       dropdown.findElement(By.xpath("//option[. = '" + ageGroup + "']")).click();
     }
     {
-      WebElement dropdown = NavigationHelper.findElement(driver, By.name("raceName"));
+      WebElement dropdown = navigationHelper.findElement(By.name("raceName"));
       dropdown.findElement(By.xpath("//option[. = '" + raceName + "']")).click();
     }
-    NavigationHelper.waitAndClick(driver, By.cssSelector(".AddCharacter_actions__eyw3q > button:nth-child(1)"));
+    navigationHelper.waitAndClick(By.cssSelector(".AddCharacter_actions__eyw3q > button:nth-child(1)"));
   }
 
   public void deleteCharacter(String name) {
-    WebElement namedCardSpan = NavigationHelper.findElement(driver, By.xpath("//span[text()='" + name + "']"));
+    WebElement namedCardSpan = navigationHelper.findElement(By.xpath("//span[text()='" + name + "']"));
     WebElement containerDiv = namedCardSpan.findElement(
         By.xpath(".//ancestor::div[contains(@class, 'MuiPaper-root')][1]"));
     WebElement deleteButton = containerDiv.findElement(By.xpath(".//button[@title='Delete']"));
     deleteButton.click();
-    NavigationHelper.wait(500);
+    navigationHelper.wait(500);
   }
 
   public void renameCharacter(String oldName, String newName) {
@@ -71,51 +73,58 @@ public class CharacterHelper {
     WebElement nameInputField = driver.switchTo().activeElement();
     nameInputField.sendKeys(newName);
     nameInputField.sendKeys(Keys.ENTER);
-    NavigationHelper.gotoCharacters(driver);
-    NavigationHelper.wait(300);
+    navigationHelper.gotoCharacters();
+    navigationHelper.wait(300);
   }
 
   public void activateCharacter(String name) {
-    WebElement namedCardSpan = NavigationHelper.findElement(driver, By.xpath("//span[text()='" + name + "']"));
+    WebElement namedCardSpan = navigationHelper.findElement(By.xpath("//span[text()='" + name + "']"));
     assertTrue(namedCardSpan.findElement(By.xpath("ancestor::a/div[2]")).getText().contains("Starting Silver"));
     namedCardSpan.findElement(By.xpath("//button[@title='Activate']")).click();
-    NavigationHelper.wait(500);
+    navigationHelper.wait(500);
     assertTrue(namedCardSpan.findElement(By.xpath("ancestor::a/div[2]")).getText().contains("Total Hit Points"));
   }
 
   public void buySkill(String skillCategory, String skillName, String fvValue) {
-    WebElement addSkillButton = driver.findElement(By.xpath(
+    WebElement addSkillButton = navigationHelper.findElement(By.xpath(
         "//div[span[text()='Base Skill Points']]/following-sibling::button[contains(@class, 'MuiButtonBase-root')]"));
     addSkillButton.click();
     WebElement filterDropdownInput = driver.findElement(
-        By.xpath("//div[text()='Filter skills:']/following-sibling::div//input[@role='combobox']"));
+        By.xpath("//div[text()='1. Set Filter']/following-sibling::div//input[@role='combobox']"));
+
     filterDropdownInput.click();
     filterDropdownInput.sendKeys(skillCategory);
     filterDropdownInput.sendKeys(Keys.ENTER);
     WebElement skillDropdownInput = driver.findElement(
-        By.xpath("//div[text()='Select a skill:']/following-sibling::div//input[@role='combobox']"));
+        By.xpath("//div[text()='2. Choose Skill']/following-sibling::div//input[@role='combobox']"));
     skillDropdownInput.click();
     skillDropdownInput.sendKeys(skillName);
-    skillDropdownInput.sendKeys(Keys.ENTER);
+    skillDropdownInput.sendKeys(Keys.TAB);
     if ("primary.weapon".equalsIgnoreCase(skillName)) {
       skillDropdownInput.sendKeys(Keys.TAB);
       WebElement weaponDropdownInput = driver.switchTo().activeElement();
       weaponDropdownInput.sendKeys("short.sword");
-      weaponDropdownInput.sendKeys(Keys.ENTER);
+      weaponDropdownInput.sendKeys(Keys.TAB);
     }
 
     if ("secondary.weapon".equalsIgnoreCase(skillName)) {
       skillDropdownInput.sendKeys(Keys.TAB);
       WebElement weaponDropdownInput = driver.switchTo().activeElement();
       weaponDropdownInput.sendKeys("short.sword");
-      weaponDropdownInput.sendKeys(Keys.ENTER);
+      weaponDropdownInput.sendKeys(Keys.TAB);
     }
 
-    WebElement fvToBuy = driver.findElement(By.xpath("//label[text()='FV to buy:']/following-sibling::input"));
+    WebElement fvToBuy = driver.findElement(By.xpath("//input[@name='modifier']"));
     fvToBuy.click();
     fvToBuy.sendKeys(fvValue);
-    driver.findElement(By.xpath("//button[text()='Buy']")).click();
-    NavigationHelper.wait(300);
+    WebElement buyButton = driver.findElement(By.xpath("//button[text()='Buy']"));
+    if(buyButton.isEnabled()){
+      buyButton.click();
+    } else {
+      WebElement cancelButton = driver.findElement(By.xpath("//button[text()='Cancel']"));
+      cancelButton.click();
+    }
+    navigationHelper.wait(300);
   }
 
   public void buySkills() {
@@ -126,8 +135,8 @@ public class CharacterHelper {
         new SkillInfo("A", "fst", "15"),
         new SkillInfo("knowledge", "astrology", "10"),
         new SkillInfo("combat", "fast.draw", "10"),
-        new SkillInfo("thieving", "sneak", "10"),
-        new SkillInfo("communication", "bargain", "10"),
+        new SkillInfo("thieving", "sneak", "8"),
+        new SkillInfo("communication", "bargain", "8"),
         new SkillInfo("thieving", "jump", "7"),
         new SkillInfo("thieving", "pick.locks", "6"),
         new SkillInfo("outdoor", "camouflage", "5"),
@@ -153,13 +162,13 @@ public class CharacterHelper {
   }
 
   public int getRemainingSP() {
-    NavigationHelper.wait(500);
+    navigationHelper.wait(500);
     String remainingSP = driver.findElement(By.xpath("//div[span[text()='Base Skill Points']]/p")).getText();
     return Integer.parseInt(remainingSP);
   }
 
   public int getCurrentSilver() {
-    NavigationHelper.wait(500);
+    navigationHelper.wait(500);
     String silver = driver.findElement(By.xpath("//th[contains(text(), 'Silver')]/following-sibling::th")).getText();
     return Integer.parseInt(silver);
   }
@@ -171,7 +180,7 @@ public class CharacterHelper {
   public void buyWeapon(String weaponKey) {
     WebElement buyWeaponButton = driver.findElement(By.xpath(".//button[@title='Buy Weapon/Shield']"));
     buyWeaponButton.click();
-    WebElement filterDropdownInput = driver.findElement(NavigationHelper.waitFor(driver,
+    WebElement filterDropdownInput = driver.findElement(navigationHelper.waitFor(
         By.xpath("//label[text()='Select a Weapon']/following-sibling::div//input[@role='combobox']")));
     filterDropdownInput.click();
     filterDropdownInput.sendKeys(weaponKey);
@@ -180,7 +189,6 @@ public class CharacterHelper {
   }
 
   public void sellWeapon(String weaponKey) {
-    NavigationHelper.waitAndClick(
-        driver, By.xpath("//td[contains(text(), '" + weaponKey + "')]/following-sibling::td[8]"));
+    navigationHelper.waitAndClick(By.xpath("//td[contains(text(), '" + weaponKey + "')]/following-sibling::td[8]"));
   }
 }

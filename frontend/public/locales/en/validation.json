@@ -1,0 +1,8 @@
+{
+  "required" : "This field is required!",
+  "minValue" : "Must be a number, at least {{min}} or above!",
+  "maxValue" : "Must be a number, which is {{max}} or lower!",
+  "valueBetween" : "Must be a value between {{min}} and {{max}}!",
+  "catASkillTooHigh" : "Category A skills can't start above 15 fv",
+  "catBSkillTooHigh" : "Category B skills can't start above 5 fv"
+}
