@@ -44,6 +44,7 @@ databaseChangeLog:
   - changeSet:
       id: load-configuration-data-04
       author: msp
+      comment: Load item configuration data
       changes:
         - loadData:
             encoding: UTF-8
@@ -51,13 +52,29 @@ databaseChangeLog:
             quotchar: ''''
             separator: ;
             tableName: item
+        - loadData:
+            encoding: UTF-8
+            file: db/data/config/item_armor.csv
+            quotchar: ''''
+            separator: ;
+            tableName: item
   - changeSet:
-        id: load-configuration-data-05
+      id: load-configuration-data-05
+      author: msp
+      changes:
+        - loadData:
+            encoding: UTF-8
+            file: db/data/config/skill_denied_races.csv
+            quotchar: ''''
+            separator: ;
+            tableName: skill_denied_races
+  - changeSet:
+        id: load-configuration-data-06
         author: msp
         changes:
             - loadData:
                   encoding: UTF-8
-                  file: db/data/config/skill_denied_races.csv
+                  file: db/data/config/skill_hand_to_hand.csv
                   quotchar: ''''
                   separator: ;
-                  tableName: skill_denied_races
+                  tableName: skill

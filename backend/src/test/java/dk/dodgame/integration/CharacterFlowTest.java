@@ -43,6 +43,7 @@ public class CharacterFlowTest {
 
   @ClassRule
   public static DockerComposeContainer<?> compose = new DockerComposeContainer<>(new File("../docker-compose.yml"))
+//      .withLocalCompose(true)
       .withPull(false)
       .withStartupTimeout(java.time.Duration.ofMinutes(15))
       .withExposedService(DB_SERVICE_NAME, DATABASE_PORT)

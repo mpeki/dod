@@ -14,18 +14,19 @@ import dk.dodgame.domain.character.model.Movement;
 import dk.dodgame.domain.character.model.SocialStatus;
 import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.domain.item.InsufficientFundsException;
+import dk.dodgame.domain.item.ItemKey;
 import dk.dodgame.domain.item.model.Coin;
 import dk.dodgame.domain.item.model.ItemType;
 import dk.dodgame.domain.item.model.ManyPiece;
-import dk.dodgame.util.rule.RulesUtil;
+import dk.dodgame.util.rules.RulesUtil;
+import dk.dodgame.util.TsidGenerator;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -83,6 +84,13 @@ public class CharacterDTO implements DODFact, Serializable {
   public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
     if (baseTraits.containsKey(baseTraitName)) {
       return baseTraits.get(baseTraitName).getCurrentValue();
+    }
+    return -1;
+  }
+
+  public Integer getBaseTraitStartValue(BaseTraitName baseTraitName) {
+    if (baseTraits.containsKey(baseTraitName)) {
+      return baseTraits.get(baseTraitName).getStartValue();
     }
     return -1;
   }
@@ -167,8 +175,10 @@ public class CharacterDTO implements DODFact, Serializable {
       } else {
         coinItem.setQuantity(coinItem.getQuantity() - amount);
       }
-    } else {
+    } else if(amount > 0){
       throw new InsufficientFundsException("Not enough coins, you have 0 " + coinType + " coins. ");
+    } else {
+      return 0;
     }
     return coinItem.getQuantity();
   }
@@ -182,7 +192,7 @@ public class CharacterDTO implements DODFact, Serializable {
       item = CharacterItemDTO
           .builder()
           .itemName(key)
-          .item(ItemDTO.builder().itemType(type.getItemType()).build())
+          .item(ItemDTO.builder().itemKey(ItemKey.toItemKey(key)).itemType(type.getItemType()).build())
           .quantity(quantity)
           .build();
     }
@@ -193,13 +203,7 @@ public class CharacterDTO implements DODFact, Serializable {
   public void addItem(@NotNull CharacterItemDTO item) {
     if (item.getItemName() == null) {
       String itemKey = item.getItem().getItemKey().getKeyValue();
-      Set<String> set = this
-          .getItems()
-          .keySet()
-          .stream()
-          .filter(s -> s.startsWith(itemKey))
-          .collect(Collectors.toSet());
-      item.setItemName(itemKey + '_' + set.size());
+      item.setItemName(itemKey + '_' + TsidGenerator.createTsid());
     }
     if (items.containsKey(item.getItemName())) {
       CharacterItemDTO existingItem = items.get(item.getItemName());

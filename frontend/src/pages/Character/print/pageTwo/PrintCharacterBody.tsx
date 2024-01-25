@@ -30,7 +30,7 @@ export const PrintCharacterBody = ({ parts } : IProps) => {
       const items = [];
       for (let [key, value] of bodyPartMap) {
         if (key === "TOTAL") continue;
-        items.push(<BodyPartItem key={key} bodyPartName={key} bodyPartValue={value} />);
+        items.push(<BodyPartItem key={key} bodyPartName={key} bodyPartValue={value} item={undefined} />);
       }
       return items;
     };

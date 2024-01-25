@@ -2,6 +2,7 @@ package dk.dodgame.util;
 
 import static org.reflections.scanners.Scanners.SubTypes;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -72,6 +73,9 @@ public class RandomObjectFiller {
       ParameterizedType stringListType = (ParameterizedType) f.getGenericType();
       Class<?> listClass = (Class<?>) stringListType.getActualTypeArguments()[0];
       try {
+        if(listClass.isEnum()){
+          return Collections.emptyList();
+        }
         return List.of(listClass.getDeclaredConstructor().newInstance());
       } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
         throw new RuntimeException(e);

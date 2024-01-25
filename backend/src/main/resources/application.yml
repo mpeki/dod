@@ -74,12 +74,6 @@ management:
       exposure:
         include: health,info,liquibase,env
       base-path: /api
-logging:
-  level:
-    root: INFO
-    org.springframework.web.cors: DEBUG
-    org.springframework.security: DEBUG
-    dk.dodgame.rules: DEBUG
 dodgame:
   player:
     max-characters: 10

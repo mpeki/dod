@@ -1,7 +1,7 @@
 package dk.dodgame.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dk.dodgame.util.rule.RulesUtil;
+import dk.dodgame.util.rules.RulesUtil;
 import dk.dodgame.domain.character.model.BaseTraitName;
 import java.io.Serial;
 import java.io.Serializable;

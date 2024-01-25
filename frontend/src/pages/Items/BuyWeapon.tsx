@@ -9,6 +9,7 @@ import { useChangeService } from "../../services/change.service";
 import { ItemSelector } from "./ItemSelector";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
 import CharacterContext from "../Character/CharacterContext";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   onConfirm: any;
@@ -22,6 +23,7 @@ export const BuyWeapon = ({ onConfirm }: IProps) => {
   }
 
   const { currentCharacter, fetchCharHandler } = charContext;
+  const { t } = useTranslation("char");
 
   const orgGold = currentCharacter?.items?.gold ? currentCharacter.items.gold.quantity : 0;
   const orgSilver = currentCharacter?.items?.silver ? currentCharacter.items.silver.quantity : 0;
@@ -85,7 +87,7 @@ export const BuyWeapon = ({ onConfirm }: IProps) => {
   return (
     <Paper elevation={3}>
       <Stack>
-        <ItemSelector label="Select a Weapon" items={items} onChange={handleItemChange} />
+        <ItemSelector label={t("detail.weapons.addForm.selectPlaceholder")} items={items} onChange={handleItemChange}/>
         <Payment handleClose={onConfirm} paymentHandler={doPaymentRequest} itemName={itemSelected ? itemSelected.itemKey : "none"}
                  goldOwned={orgGold} silverOwned={orgSilver} copperOwned={orgCopper}
                  silverPrice={itemSelected ? itemSelected.price : owed} />

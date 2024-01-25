@@ -12,3 +12,9 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/dodgame
+logging:
+  level:
+    root: INFO
+    org.springframework.web.cors: DEBUG
+    org.springframework.security: DEBUG
+    dk.dodgame.rules: DEBUG

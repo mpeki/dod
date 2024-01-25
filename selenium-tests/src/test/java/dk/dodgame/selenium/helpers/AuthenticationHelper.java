@@ -1,5 +1,6 @@
 package dk.dodgame.selenium.helpers;
 
+import com.github.javafaker.Faker;
 import dk.dodgame.selenium.RandomStringGenerator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -12,9 +13,12 @@ public class AuthenticationHelper {
   private final WebDriver driver;
   private final NavigationHelper navigationHelper;
 
+  private Faker faker;
+
   public AuthenticationHelper(WebDriver driver) {
     this.driver = driver;
     this.navigationHelper = new NavigationHelper(driver);
+    this.faker = new Faker();
   }
 
   public static class TestUser {
@@ -28,11 +32,11 @@ public class AuthenticationHelper {
   //Create a random user
   public TestUser createRandomTestUser(){
     TestUser testUser = new TestUser();
-    testUser.firstName = RandomStringGenerator.getRandomString(5);
-    testUser.lastName = RandomStringGenerator.getRandomString(5);
-    testUser.email = testUser.firstName + "@" + testUser.lastName + ".dk";
-    testUser.username = testUser.firstName + testUser.lastName;
-    testUser.password = testUser.firstName + testUser.lastName + "123";
+    testUser.firstName = faker.name().firstName();
+    testUser.lastName = faker.name().lastName();
+    testUser.email = faker.bothify("????##@gmail.com");
+    testUser.username = faker.name().username();
+    testUser.password = faker.internet().password();
     return testUser;
   }
 

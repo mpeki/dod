@@ -17,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKey;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -65,7 +66,8 @@ public class DODCharacter implements Serializable {
   private Map<BaseTraitName, BaseTrait> baseTraits;
 
   @NonNull
-  @OneToOne(cascade = CascadeType.DETACH)
+  @ManyToOne(cascade = CascadeType.DETACH)
+  @JoinColumn(name="race_id")  // This is the foreign key.
   private Race race;
   @Column(length = 32, columnDefinition = "varchar(32) default 'MATURE'")
   @Enumerated(EnumType.STRING)
@@ -113,9 +115,9 @@ public class DODCharacter implements Serializable {
   @Embedded
   private Looks looks;
 
-  @Formula("(select sum(ci.quantity * i.weight) from character_item ci "
-      + "join character_item_mapping cim on ci.id = cim.item_id " + "join dodcharacter c on cim.character_id = c.id "
-      + "join item i on ci.item_key = i.item_key " + "where c.id = id)")
+  @Formula("(select sum(ci.quantity * (CASE WHEN ci.current_weight IS NULL OR ci.current_weight = 0 THEN i.weight ELSE ci.current_weight END)) from character_item ci "
+          + "join character_item_mapping cim on ci.id = cim.item_id " + "join dodcharacter c on cim.character_id = c.id "
+          + "join item i on ci.item_key = i.item_key " + "where c.id = id)")
   private Double weightCarried;
 
   @Embedded

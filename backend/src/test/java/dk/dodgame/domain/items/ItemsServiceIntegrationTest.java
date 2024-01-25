@@ -28,8 +28,8 @@ class ItemsServiceIntegrationTest {
 
   @Test
   void find_all_items(){
-    int coinCount, meleeWeaponCount, containerCount, projectileCount, throwingWeaponCount, projectileWeaponCount, defaultCount = 0;
-    coinCount = meleeWeaponCount = containerCount = projectileCount = throwingWeaponCount = projectileWeaponCount = defaultCount;
+    int armorCount, coinCount, meleeWeaponCount, containerCount, projectileCount, throwingWeaponCount, projectileWeaponCount, defaultCount = 0;
+    armorCount = coinCount = meleeWeaponCount = containerCount = projectileCount = throwingWeaponCount = projectileWeaponCount = defaultCount;
     List<ItemDTO> meleeWeapons = cut.findAll();
     assertTrue(meleeWeapons.size() > 10 );
     for (ItemDTO item : meleeWeapons) {
@@ -40,6 +40,7 @@ class ItemsServiceIntegrationTest {
         case COIN -> coinCount++;
         case THROWING_WEAPON -> throwingWeaponCount++;
         case PROJECTILE_WEAPON -> projectileWeaponCount++;
+        case ARMOR -> armorCount++;
         default -> defaultCount++;
       }
     }
@@ -65,6 +66,14 @@ class ItemsServiceIntegrationTest {
     assertEquals(ItemType.MELEE_WEAPON, meleeWeapon.getItemType());
     assertEquals("dagger", meleeWeapon.getItemKey().getKeyValue());
   }
+
+  @Test
+  void findLeatherItem(){
+    ItemDTO armor = cut.findItemByKey("leather.helm");
+    assertEquals(ItemType.ARMOR, armor.getItemType());
+    assertEquals("leather.helm", armor.getItemKey().getKeyValue());
+  }
+
 
   @Test
   void createANewMeleeWeapon(){

@@ -9,9 +9,6 @@ import dk.dodgame.data.BaseTraitDTO;
 import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.CharacterSkillDTO;
 import dk.dodgame.domain.character.model.BaseTraitName;
-import dk.dodgame.domain.skill.SkillKey;
-import dk.dodgame.domain.skill.SkillRepository;
-import dk.dodgame.domain.skill.SkillService;
 import dk.dodgame.domain.skill.model.Category;
 import dk.dodgame.domain.skill.model.Group;
 import dk.dodgame.domain.skill.model.Skill;
@@ -70,7 +67,7 @@ class SkillServiceTest {
   }
 
   @ParameterizedTest
-  @CsvFileSource(resources = "/cost2grp3-hero-data.csv", numLinesToSkip = 1)
+  @CsvFileSource(resources = "/data/cost2grp3-hero-data.csv", numLinesToSkip = 1)
   void getNewSkillPriceRange_cost2_grp3_hero(int fv, int cost) {
     testChar.setHero(true);
     List<Integer> range = SkillService.getNewSkillPriceRange(testChar, testSkill);
@@ -78,7 +75,7 @@ class SkillServiceTest {
   }
 
   @ParameterizedTest
-  @CsvFileSource(resources = "/cost2-nohero-data.csv", numLinesToSkip = 1)
+  @CsvFileSource(resources = "/data/cost2-nohero-data.csv", numLinesToSkip = 1)
   void getNewSkillPriceRange_cost2_grp1_nohero(int fv, int cost) {
     testChar.setHero(false);
     List<Integer> range = SkillService.getNewSkillPriceRange(testChar, testSkill);
@@ -86,7 +83,7 @@ class SkillServiceTest {
   }
 
   @ParameterizedTest
-  @CsvFileSource(resources = "/B_skill_cost8-nohero-data.csv", numLinesToSkip = 1)
+  @CsvFileSource(resources = "/data/B_skill_cost8-nohero-data.csv", numLinesToSkip = 1)
   void getNewSkillPriceRange_CATB_cost8_grp1_nohero(int fv, int cost) {
     testChar.setHero(false);
     testSkill.setPrice(8);
@@ -130,7 +127,7 @@ class SkillServiceTest {
   }
 
   @ParameterizedTest
-  @CsvFileSource(resources = "/fvIncreaseCost.csv", numLinesToSkip = 1)
+  @CsvFileSource(resources = "/data/fvIncreaseCost.csv", numLinesToSkip = 1)
   void testFvIncreaseCost(int startFv, int buyFv, int cost, int expected){
     SkillKey key = SkillKey.builder().value("primary.weapon").build();
     CharacterDTO testChar = CharacterDTO.builder()

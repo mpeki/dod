@@ -23,6 +23,7 @@ group = 'dk.dodgame'
 ext {
     set('snippetsDir', file("build/generated-snippets"))
     set('testcontainersVersion', "1.18.0")
+//    set('testcontainersVersion', "1.19.6") // currently this upgrade results in: Caused by: java.lang.OutOfMemoryError: Java heap space
     set('droolsVersion', "8.34.0.Final")
     set('lombokVersion', "1.18.30")
 }

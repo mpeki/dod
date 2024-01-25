@@ -8,7 +8,7 @@ import dk.dodgame.domain.skill.SkillService
 import dk.dodgame.domain.skill.SkillNotFoundException
 import dk.dodgame.data.SkillDTO
 import dk.dodgame.domain.changerequest.model.ChangeStatus
-import dk.dodgame.util.rule.RulesUtil
+import dk.dodgame.util.rules.RulesUtil
 import dk.dodgame.domain.character.model.BaseTraitName
 import java.time.LocalDate
 import java.time.LocalDateTime

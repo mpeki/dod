@@ -41,17 +41,11 @@ rule "Validate item removal request - character init"
     character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
     changeRequest : ChangeRequest( changeType == ChangeType.REMOVE_ITEM_INIT_COMPLETE && status == ChangeStatus.PENDING )
   then
-    String itemKey = ((ItemKey) changeRequest.getChangeKey()).getKeyValue();
-    try {
-      storeItem = itemService.findItemByKey(itemKey);
-    } catch (ItemNotFoundException e) {
-      changeRequest.setStatusLabel(ChangeStatusLabel.ITEM_DOES_NOT_EXIST);
+    String itemName = (String)changeRequest.getModifier();
+    charItem = character.getItems().get(itemName);
+    if(charItem == null){
+      changeRequest.setStatusLabel(ChangeStatusLabel.ITEM_NOT_IN_INVENTORY);
       changeRequest.setStatus(ChangeStatus.REJECTED);
-    }
-    if(storeItem != null){
-      drools.getKieRuntime().setGlobal("storeItem", storeItem);
-      itemCost = storeItem.getPrice();
-      drools.getKieRuntime().setGlobal("itemCost", itemCost);
     }
     update(changeRequest)
 end;
@@ -65,10 +59,11 @@ rule "Remove Item - character init"
     character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
     changeRequest : ChangeRequest( changeType == ChangeType.REMOVE_ITEM_INIT_COMPLETE && status == ChangeStatus.PENDING )
   then
-    itemCost = (Integer) drools.getKieRuntime().getGlobal("itemCost");
-    storeItem = (ItemDTO) drools.getKieRuntime().getGlobal("storeItem");
-    if( storeItem != null && itemCost != null ){
-      character.addCoins(itemCost, Coin.SILVER_PIECE);
+    String itemName = (String)changeRequest.getModifier();
+    charItem = character.getItems().get(itemName);
+    if( charItem != null ){
+      character.addCoins(charItem.getCurrentPrice() != null ? (int) Math.floor(charItem.getCurrentPrice()) : (int) Math.floor(charItem.getItem().getPrice()), Coin.SILVER_PIECE);
+      character.addCoins(charItem.getCurrentPrice() != null ? (int) Math.floor(((charItem.getCurrentPrice() - Math.floor(charItem.getCurrentPrice())) * 10)) : (int) Math.floor(charItem.getItem().getPrice()), Coin.COPPER_PIECE);
       character.removeItem(CharacterItemDTO.builder()
         .itemName((String)changeRequest.getModifier())
         .item(ItemDTO.builder().itemKey((ItemKey) changeRequest.getChangeKey()).build()).build());
@@ -78,8 +73,6 @@ rule "Remove Item - character init"
       changeRequest.setStatusLabel(ChangeStatusLabel.CHANGE_REJECTED_UNKNOWN_REASON);
       changeRequest.setStatus(ChangeStatus.REJECTED);
     }
-    drools.getKieRuntime().setGlobal("itemCost", null);
-    drools.getKieRuntime().setGlobal("storeItem", null);
     update(changeRequest)
 end;
 

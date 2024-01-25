@@ -9,6 +9,9 @@ import dk.dodgame.data.SkillDTO;
 import dk.dodgame.domain.skill.model.Category;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
+import dk.dodgame.util.rules.RulesUtil;
+import dk.dodgame.util.rules.SkillRules;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -86,13 +89,13 @@ class RulesUtilTest {
   }
 
   @ParameterizedTest()
-  @CsvFileSource(resources = "/testSkillData.csv", numLinesToSkip = 1)
+  @CsvFileSource(resources = "/data/testSkillData.csv", numLinesToSkip = 1)
   void testCatASkill(int fv, int roll, Difficulty difficulty, ActionResult expectedResult) {
     CharacterSkillDTO skill = CharacterSkillDTO.builder()
         .skill(SkillDTO.builder().category(Category.A).build())
         .fv(fv)
         .build();
-    assertThat(RulesUtil.testSkill(skill, roll, difficulty)).isEqualTo(expectedResult);
+    assertThat(SkillRules.testSkill(skill, roll, difficulty)).isEqualTo(expectedResult);
   }
 
   @Test
@@ -101,16 +104,16 @@ class RulesUtilTest {
         .skill(SkillDTO.builder().category(Category.B).build())
         .fv(5)
         .build();
-    assertThat(RulesUtil.testSkill(skill, 19, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    assertThat(SkillRules.testSkill(skill, 19, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
     skill.setFv(4);
-    assertThat(RulesUtil.testSkill(skill, 19, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    assertThat(SkillRules.testSkill(skill, 19, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
     skill.setFv(3);
-    assertThat(RulesUtil.testSkill(skill, 17, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    assertThat(SkillRules.testSkill(skill, 17, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
     skill.setFv(2);
-    assertThat(RulesUtil.testSkill(skill, 17, Difficulty.NORMAL)).isEqualTo(ActionResult.FAILURE);
+    assertThat(SkillRules.testSkill(skill, 17, Difficulty.NORMAL)).isEqualTo(ActionResult.FAILURE);
     skill.setFv(1);
-    assertThat(RulesUtil.testSkill(skill, 13, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    assertThat(SkillRules.testSkill(skill, 13, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
     skill.setFv(6);
-    assertThat(RulesUtil.testSkill(skill, 13, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
+    assertThat(SkillRules.testSkill(skill, 13, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
   }
 }

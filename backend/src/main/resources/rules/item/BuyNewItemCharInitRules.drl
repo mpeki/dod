@@ -13,11 +13,19 @@ import dk.dodgame.domain.item.ItemKey
 import dk.dodgame.domain.item.model.Coin
 
 import dk.dodgame.domain.item.ItemNotFoundException
+import dk.dodgame.data.PaymentDTO
+import dk.dodgame.domain.changerequest.model.ChangeItem
+import java.util.List
+import java.util.ArrayList
+import dk.dodgame.util.item.PaymentException
+import dk.dodgame.util.item.PaymentHandler
+import dk.dodgame.util.rules.ArmorRules
+import dk.dodgame.domain.character.model.BaseTraitName
 
 global ItemService itemService;
 global CharacterItemDTO charItem;
 global ItemDTO storeItem;
-global Integer itemCost;
+global PaymentDTO payment;
 
 rule "Validate character state (item)"
   ruleflow-group "new-item"
@@ -49,16 +57,34 @@ rule "Validate item change request"
     }
     if(storeItem != null){
       drools.getKieRuntime().setGlobal("storeItem", storeItem);
-      itemCost = storeItem.getPrice() * Integer.parseInt(changeRequest.getModifier().toString());
-      drools.getKieRuntime().setGlobal("itemCost", itemCost);
-      if( character.getAmountOf(Coin.SILVER_PIECE) < itemCost ){
-        changeRequest.setStatusLabel(ChangeStatusLabel.INSUFFICIENT_FUNDS);
-        changeRequest.setStatus(ChangeStatus.REJECTED);
-      }
     }
     update(changeRequest)
 end;
 
+rule "Check Payment"
+  salience 60
+  ruleflow-group "new-item"
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
+    changeRequest : ChangeRequest( changeType == ChangeType.NEW_ITEM_INIT_COMPLETE && status == ChangeStatus.PENDING )
+   then
+    if( changeRequest.getSecondaryChangeKey() != null && changeRequest.getSecondaryChangeKey().getChangeItem() != null) {
+      ChangeItem changeItem = changeRequest.getSecondaryChangeKey().getChangeItem();
+        if( changeItem instanceof PaymentDTO ) {
+          PaymentDTO paymentItem = PaymentHandler.setPayingParty((PaymentDTO) changeItem, character);
+
+          storeItem = (ItemDTO) drools.getKieRuntime().getGlobal("storeItem");
+          int numItems = Integer.parseInt(changeRequest.getModifier().toString());
+          paymentItem = PaymentHandler.setPaymentItems(paymentItem, storeItem, numItems);
+
+          drools.getKieRuntime().setGlobal("payment", paymentItem);
+        } else {
+          changeRequest.setStatusLabel(ChangeStatusLabel.NO_PAYMENT_RECEIVED);
+          changeRequest.setStatus(ChangeStatus.REJECTED);
+        }
+    }
+end;
 
 rule "Add Item"
   salience 50
@@ -68,18 +94,27 @@ rule "Add Item"
     character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
     changeRequest : ChangeRequest( changeType == ChangeType.NEW_ITEM_INIT_COMPLETE && status == ChangeStatus.PENDING )
   then
-    itemCost = (Integer) drools.getKieRuntime().getGlobal("itemCost");
-    storeItem = (ItemDTO) drools.getKieRuntime().getGlobal("storeItem");
-    if( storeItem != null && itemCost != null ){
-      character.subtractCoins(itemCost, Coin.SILVER_PIECE);
-      character.addItem(CharacterItemDTO.builder().item(storeItem).build());
-      changeRequest.setStatus(ChangeStatus.APPROVED);
-      changeRequest.setStatusLabel(ChangeStatusLabel.OK_ITEM_BOUGHT);
+    payment = (PaymentDTO) drools.getKieRuntime().getGlobal("payment");
+    if( payment != null ){
+      try {
+        payment = PaymentHandler.handleCharacterCreationPayment(payment);
+        if(payment.getStatus() == ChangeStatus.APPROVED){
+          changeRequest.setStatus(ChangeStatus.APPROVED);
+          changeRequest.setStatusLabel(ChangeStatusLabel.OK_ITEM_BOUGHT);
+          character = payment.getPayingParty();
+        } else {
+          changeRequest.setStatus(ChangeStatus.REJECTED);
+          changeRequest.setStatusLabel(payment.getStatusLabel());
+        }
+      } catch (PaymentException e) {
+        changeRequest.setStatusLabel(ChangeStatusLabel.PAYMENT_ERROR);
+        changeRequest.setStatus(ChangeStatus.REJECTED);
+      }
     } else {
       changeRequest.setStatusLabel(ChangeStatusLabel.CHANGE_REJECTED_UNKNOWN_REASON);
       changeRequest.setStatus(ChangeStatus.REJECTED);
     }
-    drools.getKieRuntime().setGlobal("itemCost", null);
+    drools.getKieRuntime().setGlobal("payment", null);
     drools.getKieRuntime().setGlobal("storeItem", null);
     update(changeRequest)
 end;

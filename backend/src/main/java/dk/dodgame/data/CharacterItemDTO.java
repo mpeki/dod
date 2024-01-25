@@ -31,4 +31,6 @@ public class CharacterItemDTO implements DODFact, Serializable {
   private int currentHealth = 100;
   @Default
   private int quantity = 1;
+  private Double currentWeight;
+  private Double currentPrice;
 }

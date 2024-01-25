@@ -14,4 +14,5 @@ import lombok.Setter;
 public class SecondaryChangeKey {
   private ChangeType changeType;
   private ChangeKey changeKey;
+  private ChangeItem changeItem;
 }

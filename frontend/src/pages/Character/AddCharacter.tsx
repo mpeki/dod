@@ -1,6 +1,7 @@
 import classes from "./AddCharacter.module.css";
 import { CreateCharacterForm } from "./CreateCharacterForm";
 import { KeyboardShortcutProvider } from "../../components/KeyboardShortcutProvider";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   onConfirm: any;
@@ -10,6 +11,8 @@ interface IProps {
 export const AddCharacter = ({ onConfirm, fetchCharactersHandler }: IProps) => {
 
   const shortcut = [{ key: "Escape", callback: () => onConfirm() }];
+  const { t } = useTranslation("char");
+
 
 
   return (
@@ -18,7 +21,7 @@ export const AddCharacter = ({ onConfirm, fetchCharactersHandler }: IProps) => {
         <div className={classes.backdrop} onClick={onConfirm}></div>
         <div className={classes.modal}>
           <header className={classes.header}>
-            <h2>Create New Character</h2>
+            <h2>{t('new.create.title')}</h2>
           </header>
           <div className={classes.content}>
             <CreateCharacterForm fetchCharactersHandler={fetchCharactersHandler} onConfirm={onConfirm} />

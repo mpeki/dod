@@ -2,6 +2,7 @@ package dk.dodgame.selenium.helpers;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.github.javafaker.Faker;
 import dk.dodgame.selenium.RandomStringGenerator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -9,15 +10,27 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class CharacterHelper {
 
   private final WebDriver driver;
   private final NavigationHelper navigationHelper;
 
+  private Actions actions;
+  private WebDriverWait wait;
+  private Faker faker;
+
+
   public CharacterHelper(WebDriver webDriver) {
     this.driver = webDriver;
     this.navigationHelper = new NavigationHelper(driver);
+    this.actions = new Actions(driver);
+    this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    this.faker = new Faker();
   }
 
   public void createCharacter(String name, Boolean hero, String ageGroup, String raceName, JavascriptExecutor js) {
@@ -46,15 +59,11 @@ public class CharacterHelper {
     if (hero) {
       navigationHelper.waitAndClick(By.name("hero"));
     }
-    {
-      WebElement dropdown = navigationHelper.findElement(By.name("ageGroup"));
-      dropdown.findElement(By.xpath("//option[. = '" + ageGroup + "']")).click();
-    }
-    {
-      WebElement dropdown = navigationHelper.findElement(By.name("raceName"));
-      dropdown.findElement(By.xpath("//option[. = '" + raceName + "']")).click();
-    }
-    navigationHelper.waitAndClick(By.cssSelector(".AddCharacter_actions__eyw3q > button:nth-child(1)"));
+    selectAgeGroup(ageGroup);
+    selectRace(raceName);
+    navigationHelper.waitAndClick(By.xpath("//button[contains(@type, 'submit')]"));
+
+
   }
 
   public void deleteCharacter(String name) {
@@ -157,8 +166,9 @@ public class CharacterHelper {
   }
 
   public String getRandomBo() {
-    int random = (int) (Math.random() * 10) + 1;
-    return "Bo " + RandomStringGenerator.getRandomString(random);
+    return faker.name().firstName();
+//    int random = (int) (Math.random() * 10) + 1;
+//    return "Bo " + RandomStringGenerator.getRandomString(random);
   }
 
   public int getRemainingSP() {
@@ -180,15 +190,32 @@ public class CharacterHelper {
   public void buyWeapon(String weaponKey) {
     WebElement buyWeaponButton = driver.findElement(By.xpath(".//button[@title='Buy Weapon/Shield']"));
     buyWeaponButton.click();
-    WebElement filterDropdownInput = driver.findElement(navigationHelper.waitFor(
-        By.xpath("//label[text()='Select a Weapon']/following-sibling::div//input[@role='combobox']")));
-    filterDropdownInput.click();
-    filterDropdownInput.sendKeys(weaponKey);
-    filterDropdownInput.sendKeys(Keys.ENTER);
+//    WebElement filterDropdownInput = driver.findElement(navigationHelper.waitFor(
+//        By.xpath("//label[text()='Select Weapon/Shield']/following-sibling::div//input[@role='combobox']")));
+    actions.sendKeys(Keys.TAB, Keys.ARROW_DOWN, weaponKey, Keys.ENTER).perform();
+    actions.sendKeys(Keys.TAB, Keys.TAB, "25", Keys.ENTER).perform();
+//    filterDropdownInput.click();
+//    filterDropdownInput.sendKeys(weaponKey);
+//    filterDropdownInput.sendKeys(Keys.ENTER);
     driver.findElement(By.xpath("//button[text()='Buy']")).click();
   }
 
   public void sellWeapon(String weaponKey) {
     navigationHelper.waitAndClick(By.xpath("//td[contains(text(), '" + weaponKey + "')]/following-sibling::td[8]"));
   }
+
+  public void selectAgeGroup(String ageGroup) {
+    WebElement ageDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div[role='combobox']")));
+    ageDropdown.click(); // Open the dropdown
+    WebElement ageOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[contains(@role, 'option')][.//text()='" + ageGroup + "']")));
+    ageOption.click();
+  }
+  public void selectRace(String race) {
+    actions.sendKeys(Keys.TAB, Keys.ARROW_DOWN).perform();
+    WebElement raceOption = wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//ul[contains(@role, 'listbox')]//li[contains(text(), '" + race + "')]")));
+    raceOption.click();
+  }
+
+
 }
