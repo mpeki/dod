@@ -1,3 +1,10 @@
+# [1.20.0-rc.14](https://github.com/mpeki/dod/compare/v1.20.0-rc.13...v1.20.0-rc.14) (2024-03-14)
+
+
+### Features
+
+* **DOD-334:** armor can be bought ([ced4d99](https://github.com/mpeki/dod/commit/ced4d99f0d864ff099f38ff3e19e9ee91a13a17f))
+
 # [1.20.0-rc.13](https://github.com/mpeki/dod/compare/v1.20.0-rc.12...v1.20.0-rc.13) (2024-01-21)
 
 
