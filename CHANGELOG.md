@@ -1,3 +1,30 @@
+# [1.20.0](https://github.com/mpeki/dod/compare/v1.19.2...v1.20.0) (2024-03-14)
+
+
+### Bug Fixes
+
+* **DOD-344:** This fixes an issue where weapons bought are not shown ([0d7a2c1](https://github.com/mpeki/dod/commit/0d7a2c157c9d9be25c764fb30cf96e65f6d1f587))
+* **DOD-384:** fix dodge skill removal ([67ce7e4](https://github.com/mpeki/dod/commit/67ce7e47dd5ef535bf284c36d38f252cb6343664))
+* **DOD-419:** Fixes issue where editable elements would not update correctly ([c5bab63](https://github.com/mpeki/dod/commit/c5bab63335b357f0531a0c169def6d9ea2d96b74))
+* **DOD-419:** Fixes issue where editable elements would not update correctly ([3c96c4f](https://github.com/mpeki/dod/commit/3c96c4f1b3c61a14edd168732822786a9adb9627))
+* **DOD-438:** improve retry logic (I hope) ([27fadee](https://github.com/mpeki/dod/commit/27fadee045b83316e26f2568125526f122a1cc28))
+* **DOD-456:** a skill can now be connected to an item ([796bfb8](https://github.com/mpeki/dod/commit/796bfb858003ddc27584bb25945577f22425c551))
+
+
+### Features
+
+* **DOD-334:** armor can be bought ([ced4d99](https://github.com/mpeki/dod/commit/ced4d99f0d864ff099f38ff3e19e9ee91a13a17f))
+* **DOD-341:** rework of buy skills form ([0291f0e](https://github.com/mpeki/dod/commit/0291f0ecbaec492880cc50a512d9f41a2325e89b))
+* **DOD-349:** Redesign character cards ([6cafe77](https://github.com/mpeki/dod/commit/6cafe776479ab466f88890a9157558855fd2853d))
+* **DOD-386:** adding print character ([b655f7f](https://github.com/mpeki/dod/commit/b655f7fddca66c0b805c1eeac051e6204bae796e))
+* **DOD-416:** Making it possible to remove weapons - before activating ([087d094](https://github.com/mpeki/dod/commit/087d0946e8f803c7c7d4db84b1416409dff65f63))
+* **DOD-416:** Making it possible to remove weapons - before activating ([97fa547](https://github.com/mpeki/dod/commit/97fa547767a638c34fc049d06da1c43b97bcc7ee))
+* **DOD-417:** It is now possible to buy weapons during character creation ([ebaba0a](https://github.com/mpeki/dod/commit/ebaba0a684399d67ae9546f5e8873bc834a2a3e5))
+* **DOD-417:** It is now possible to buy weapons during character creation ([1454a03](https://github.com/mpeki/dod/commit/1454a038fcf15314ebe8c3c148d8a19d905b2b21))
+* **DOD-418:** Makes it possible to delete a character from the details page ([bbc11e4](https://github.com/mpeki/dod/commit/bbc11e492e8103c4e38a0011d96d63d8d0595e79))
+* **DOD-433:** Add server status ([f670db8](https://github.com/mpeki/dod/commit/f670db816ff274ee983b06c379d6c3073f0804ae))
+* **DOD-451:** Improves login experience ([0a09b93](https://github.com/mpeki/dod/commit/0a09b93097b71b7ccfc2e84fe894466f5d685197))
+
 ## [1.19.2](https://github.com/mpeki/dod/compare/v1.19.1...v1.19.2) (2023-10-26)
 
 
