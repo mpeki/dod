@@ -20,7 +20,6 @@ export const ViewSkill = () => {
     }
   }, [skillKey]);
 
-  console.log(skill?.category)
 
   return (
     <>

@@ -10,6 +10,6 @@ public class LoggingAgendaEventListener extends DefaultAgendaEventListener {
   @Override
   public void afterMatchFired(AfterMatchFiredEvent event) {
     String ruleName = event.getMatch().getRule().getName();
-    log.info("Rule fired: {}", ruleName);
+    log.debug("Rule fired: {}", ruleName);
   }
 }

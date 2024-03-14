@@ -46,6 +46,6 @@ public abstract class BaseItem implements Serializable {
   @Column(name = "item_type", insertable = false, updatable = false)
   private ItemType itemType;
   private Double weight;
-  private Integer price;
+  private Double price;
   private boolean breakable;
 }

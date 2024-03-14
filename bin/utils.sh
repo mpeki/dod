@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 utils_help() {
-    printf "\nThis is a project helper for the %s, it will help you get up and running.\n\n\
+  printf "\nThis is a project helper for the %s, it will help you get up and running.\n\n\
     Usage: \n\n\
         \$ ./%s.sh <command> [<options>] [<subcommand>]\n\n\
     Available commands: \n\n\
@@ -21,38 +21,38 @@ utils_help() {
 }
 
 utils_selectOp() {
-    case "${@:$OPTIND:1}" in
-        build)
-            ./"${SCRIPTS_DIR}"/build-commands.sh "${@:2}"
-            ;;
-        gradle)
-            ./"${SCRIPTS_DIR}"/gradle.sh "${@:2}"
-            ;;
-        run)
-            ./"${SCRIPTS_DIR}"/run-commands.sh "${@:2}"
-            ;;
-        update-scripts)
-            ./."${SERVICE_NAME}"/update-scripts.sh "${@:2}"
-            ;;
-        deploy)
-            ./."${SERVICE_NAME}"/deploy.sh "${@:2}"
-            ;;
-        release)
-            ./."${SERVICE_NAME}"/release.sh "${@:2}"
-            ;;
-        lint)
-            ./."${SERVICE_NAME}"/lint.sh "${@:2}"
-            ;;
-        aws)
-            ./."${SERVICE_NAME}"/aws.sh "${@:2}"
-            ;;
-        fix)
-            ./."${SERVICE_NAME}"/fix.sh "${@:2}"
-            ;;
-        *)
-            help
-            ;;
-    esac
+  case "${@:$OPTIND:1}" in
+  build)
+    ./"${SCRIPTS_DIR}"/build-commands.sh "${@:2}"
+    ;;
+  gradle)
+    ./"${SCRIPTS_DIR}"/gradle.sh "${@:2}"
+    ;;
+  run)
+    ./"${SCRIPTS_DIR}"/run-commands.sh "${@:2}"
+    ;;
+  update-scripts)
+    ./."${SERVICE_NAME}"/update-scripts.sh "${@:2}"
+    ;;
+  deploy)
+    ./."${SERVICE_NAME}"/deploy.sh "${@:2}"
+    ;;
+  release)
+    ./."${SERVICE_NAME}"/release.sh "${@:2}"
+    ;;
+  lint)
+    ./."${SERVICE_NAME}"/lint.sh "${@:2}"
+    ;;
+  aws)
+    ./."${SERVICE_NAME}"/aws.sh "${@:2}"
+    ;;
+  fix)
+    ./."${SERVICE_NAME}"/fix.sh "${@:2}"
+    ;;
+  *)
+    help
+    ;;
+  esac
 }
 
 setLocalGradle() {
@@ -69,58 +69,57 @@ setWrapperGradle() {
   MAIN_CMD=./gradlew
 }
 
-
 imageName() {
 
-    COMPONENT_GROUP=$(projectProp component.group)
-    IMAGE_NAME=
-    if [[ -n ${COMPONENT_GROUP} ]]; then
-        IMAGE_NAME="${COMPONENT_GROUP}-${SERVICE_NAME}"
-    else
-        IMAGE_NAME="${SERVICE_NAME}"
-    fi
-    printf "%s" "${IMAGE_NAME}"
+  COMPONENT_GROUP=$(projectProp component.group)
+  IMAGE_NAME=
+  if [[ -n ${COMPONENT_GROUP} ]]; then
+    IMAGE_NAME="${COMPONENT_GROUP}-${SERVICE_NAME}"
+  else
+    IMAGE_NAME="${SERVICE_NAME}"
+  fi
+  printf "%s" "${IMAGE_NAME}"
 }
 export -f imageName
 
 releaseProp() {
-    if [[ -f release.properties ]]; then
-        grep "^\\s*${1}=" release.properties|cut -d'=' -f2
-    else
-        printf "\nCould not find release.properties, exiting!\n"
-        exit 1
-    fi
+  if [[ -f release.properties ]]; then
+    grep "^\\s*${1}=" release.properties | cut -d'=' -f2
+  else
+    printf "\nCould not find release.properties, exiting!\n"
+    exit 1
+  fi
 
 }
 export -f releaseProp
 
 projectProp() {
-    if [[ ! -f ./target/project.properties ]]; then
-        ./."${SERVICE_NAME}"/build.sh -c "-B pl.project13.maven:git-commit-id-plugin:revision \
+  if [[ ! -f ./target/project.properties ]]; then
+    ./."${SERVICE_NAME}"/build.sh -c "-B pl.project13.maven:git-commit-id-plugin:revision \
                                                 properties:write-project-properties" -Q
-        PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo "project.version=${PROJECT_VERSION}" >> ./target/project.properties
-    fi
-    RESULT=$(grep "^\\s*${1}=" target/project.properties|cut -d'=' -f2)
-    printf "%s" "${RESULT:-${2:-}}"
+    PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+    echo "project.version=${PROJECT_VERSION}" >>./target/project.properties
+  fi
+  RESULT=$(grep "^\\s*${1}=" target/project.properties | cut -d'=' -f2)
+  printf "%s" "${RESULT:-${2:-}}"
 }
 export -f projectProp
 
-currentBranch(){
-    if [[ -z ${BRANCH_NAME:=} ]]; then
-        printf "%s" "$(git symbolic-ref --short -q HEAD)"
-    else
-        printf "%s" ${BRANCH_NAME}
-    fi
+currentBranch() {
+  if [[ -z ${BRANCH_NAME:=} ]]; then
+    printf "%s" "$(git symbolic-ref --short -q HEAD)"
+  else
+    printf "%s" ${BRANCH_NAME}
+  fi
 }
 export -f currentBranch
 
-pushd () {
-    command pushd "$@" > /dev/null
+pushd() {
+  command pushd "$@" >/dev/null
 }
 export -f pushd
 
-popd () {
-    command popd "$@" > /dev/null
+popd() {
+  command popd "$@" >/dev/null
 }
 export -f popd

@@ -26,18 +26,6 @@ export interface GroupedOption {
   readonly options: any;
 }
 
-// export const groupedFilterOptions: readonly GroupedOption[] = [
-//   {
-//     label: "Category",
-//     options: EnumHelpers.getLabelAndValues(new Category())
-//
-//   },
-//   {
-//     label: "Group",
-//     options: EnumHelpers.getLabelAndValues(new GroupType())
-//   }
-// ];
-
 const animatedComponents = makeAnimated();
 
 export const SkillSelector = ({ selectSkillHandler, excludedSkills, raceName }: IProps): JSX.Element => {
@@ -62,7 +50,6 @@ export const SkillSelector = ({ selectSkillHandler, excludedSkills, raceName }: 
       options: EnumHelpers.getLabelAndValues(new GroupType())
     }
   ];
-  console.log("rawGroupedFilterOptions", rawGroupedFilterOptions)
 
   const groupedFilterOptions = rawGroupedFilterOptions.map(group => ({
     ...group,
@@ -71,7 +58,6 @@ export const SkillSelector = ({ selectSkillHandler, excludedSkills, raceName }: 
       label: t(option.value)
     }))
   }));
-  console.log("groupedFilterOptions", groupedFilterOptions)
 
 
   const filterListHandler = (selected: OnChangeValue<any, any>) => {
@@ -132,8 +118,6 @@ export const SkillSelector = ({ selectSkillHandler, excludedSkills, raceName }: 
               return true;
             }
             // only show options of the type(s) that are currently not selected
-            console.log("option", option);
-            console.log("selectedOptions", selectedOptions);
             return !selectedOptions.some(selectedOption => selectedOption.type === option.compValue);
           })}
           onChange={filterListHandler}

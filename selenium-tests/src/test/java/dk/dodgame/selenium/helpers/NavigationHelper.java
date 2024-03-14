@@ -46,7 +46,11 @@ public class NavigationHelper {
   }
 
   public WebElement findElement(By locator) {
-    return driver.findElement(waitFor(locator));
+    try {
+      return driver.findElement(locator);
+    } catch (Exception e){
+      return driver.findElement(waitFor(locator));
+    }
   }
 
   public By waitFor(By locator) {
@@ -57,10 +61,16 @@ public class NavigationHelper {
   }
 
   public void waitAndClick(By locator) {
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofSeconds(1));
-    wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-    wait.until(ExpectedConditions.elementToBeClickable(locator));
-    WebElement element = driver.findElement(locator);
+    WebElement element;
+    try {
+      element = driver.findElement(locator);
+    } catch (RuntimeException ignored){
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofSeconds(1));
+      wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+      wait.until(ExpectedConditions.elementToBeClickable(locator));
+      element = driver.findElement(locator);
+
+    }
     try {
       element.click();
     } catch (ElementClickInterceptedException e) {

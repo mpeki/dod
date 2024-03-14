@@ -15,14 +15,18 @@ dependencies {
     testImplementation 'org.seleniumhq.selenium:selenium-grid:4.16.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
     testImplementation 'commons-io:commons-io:2.14.0'
-
+    testImplementation 'com.github.javafaker:javafaker:1.0.2'
+    testImplementation 'io.github.artsok:rerunner-jupiter:2.1.6'
 }
+
+def seleniumRunMode = System.getProperty('seleniumRunMode', 'local')
 
 dockerCompose {
     isRequiredBy(tasks.test)
     useComposeFiles = ['../docker-compose.yml']
+    composeAdditionalArgs = ['--profile', 'test']
     //This must be set to 'true' before committing/pushing to git
-    stopContainers = true
+    stopContainers = seleniumRunMode == 'hub'
     scale = [chrome: 1]
     captureContainersOutput = true
     environment.put "DOD_API_VERSION", "${version}"
@@ -34,7 +38,7 @@ def areContainersRunning() {
 
     try {
         // Execute 'docker-compose ps -q' to get the container ID
-        def cmd = "docker-compose -f ../docker-compose.yml ps -q $serviceName".execute()
+        def cmd = "docker compose -f ../docker-compose.yml ps -q $serviceName".execute()
         def output = new StringWriter(), error = new StringWriter()
         cmd.waitForProcessOutput(output, error)
 
@@ -63,4 +67,6 @@ tasks.register('runTests') {
 test {
     dependsOn runTests
     useJUnitPlatform()
+
+    systemProperty 'seleniumRunMode', seleniumRunMode
 }

@@ -96,7 +96,7 @@ jobs:
       - name: Build backend / security
         run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
       - name: Build & Test
-        run: ./gradlew clean :sel:test
+        run: ./gradlew clean :sel:test -DseleniumRunMode=hub
       - name: JUnit Report - Integration Tests
         if: success() || failure() && github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v1.6.0

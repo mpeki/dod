@@ -32,7 +32,7 @@ class ItemRepositoryTest {
   void save_and_find_mithril() {
     ManyPiece mithril = Coin.builder()
         .key(ItemKey.builder().value("mithril").build())
-        .price(1000)
+        .price(1000.0)
         .piecesForPrice(1.0)
         .weight(0.01)
         .breakable(false)

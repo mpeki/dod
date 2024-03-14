@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import dk.dodgame.domain.character.model.BaseTraitName;
+import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.domain.item.ItemKey;
 import dk.dodgame.domain.item.model.ItemType;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -30,8 +33,13 @@ public class ItemDTO implements Serializable {
   @Default
   private boolean breakable = true;
   private ItemKey itemKey;
-  private Integer price;
+  private Integer abs;
+  private List<BodyPartName> bodyPartsCovered;
+  private Integer coverage;
+  private Integer dodgePenalty;
+  private Double price;
   private Double weight;
+  private String weightReference;
   private Integer piecesForPrice;
   private Integer bp;
   private String damage;

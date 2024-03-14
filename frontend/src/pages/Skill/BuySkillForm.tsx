@@ -1,4 +1,4 @@
-import { Controller, useForm, useFormContext } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Change, createChange } from "../../types/change";
 import { useChangeService } from "../../services/change.service";
@@ -149,9 +149,6 @@ export const BuySkillForm = ({ character, onConfirm }: IProps) => {
     [`rw.${character.race.motherTongue}`]: createSkill(`speak.${character.race.motherTongue}`, langGroup, langCategory)
   };
   const excludedSkills = { ...characterSkillsToSkills(character.skills || {}), ...languageSkills };
-  console.log("Selected", selected);
-  console.log("watchModifier", watchModifier);
-  console.log("bspLeft", bspLeft);
 
   //create form that buys a skill and adds it to the character
   return (

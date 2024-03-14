@@ -83,8 +83,7 @@ export const SkillContainer = ({ character, skills }: IProps): JSX.Element => {
                 <ListItemText primary={character.state === "READY_TO_PLAY" ? t("detail.skills.bonusExp") : t("detail.skills.basisSP")}
                               secondary={character.baseSkillPoints} />
                 {canActivate && (
-                  <FlashingActivateButton onClick={handleActivation} aria-label="activate" sx={{ mr: 1 }} size={"small"}
-                                          color={"success"}>
+                  <FlashingActivateButton onClick={handleActivation} aria-label="activate" sx={{ mr: 1 }} size={"small"} color={"success"}>
                     <StartIcon />
                   </FlashingActivateButton>
                 )}

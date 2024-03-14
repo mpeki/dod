@@ -54,7 +54,6 @@ export const CharacterSkillItem = ({ charSkill,
       .catch((e) => showWarningSnackbar((e as Error).message))
       .finally(() => {
         setChangeData(createChange());
-        console.log("Change Data: ", changeData);
       });
   }, [currentCharacter, doCharacterChange, fetchCharHandler, charSkill.skill.key]);
 

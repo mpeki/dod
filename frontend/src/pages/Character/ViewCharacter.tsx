@@ -19,6 +19,7 @@ import { ReputationStats } from "../../components/Character/ReputationStats";
 import { useAuth } from "react-oidc-context";
 import CharacterContext from "./CharacterContext";
 import { ErrorMain } from "../Error/ErrorMain";
+import useCharacterItems from "../Items/useCharacterItems";
 
 export const ViewCharacter = () => {
 
@@ -28,11 +29,13 @@ export const ViewCharacter = () => {
   const { charId } = useParams();
   const charContext = useContext(CharacterContext);
 
+
   if (!charContext) {
     throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
   }
 
   const { fetchCharHandler, currentCharacter, errorCode } = charContext;
+  const items = useCharacterItems(currentCharacter);
 
   useEffect(() => {
     fetchCharHandler(charId || "").then();
@@ -84,7 +87,7 @@ export const ViewCharacter = () => {
                 </Stack>
               </Paper>
               <Paper elevation={3}>
-                <BodyContainer parts={currentCharacter.bodyParts} />
+                <BodyContainer parts={currentCharacter.bodyParts} items={items}/>
               </Paper>
               <Paper elevation={3} >
                 <WeaponsContainer />
@@ -95,7 +98,7 @@ export const ViewCharacter = () => {
                 )}
               </Paper>
               <Paper elevation={3}>
-                <ItemsContainer character={currentCharacter} />
+                <ItemsContainer />
               </Paper>
             </Masonry>
           </div>

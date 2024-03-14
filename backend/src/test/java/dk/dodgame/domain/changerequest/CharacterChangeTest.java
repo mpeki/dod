@@ -7,16 +7,13 @@ import static dk.dodgame.domain.character.model.CharacterState.READY_TO_PLAY;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dk.dodgame.DodApplication;
-import dk.dodgame.domain.changerequest.model.ChangeRequest;
-import dk.dodgame.domain.changerequest.model.ChangeStatus;
-import dk.dodgame.domain.changerequest.model.ChangeStatusLabel;
-import dk.dodgame.domain.changerequest.model.ChangeType;
+import dk.dodgame.data.*;
+
+import dk.dodgame.domain.changerequest.model.*;
 import dk.dodgame.domain.character.CharacterService;
 import dk.dodgame.domain.character.model.CharacterInfo;
-import dk.dodgame.data.CharacterDTO;
-import dk.dodgame.data.RaceDTO;
-import dk.dodgame.data.SkillDTO;
 import dk.dodgame.domain.item.ItemKey;
+import dk.dodgame.domain.item.model.Coin;
 import dk.dodgame.domain.skill.SkillKey;
 import dk.dodgame.domain.skill.SkillService;
 import dk.dodgame.domain.skill.model.Category;
@@ -29,6 +26,8 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Map;
 
 @SpringBootTest(classes = DodApplication.class)
 @Tag("regression")
@@ -86,7 +85,7 @@ class CharacterChangeTest {
   }
 
   @ParameterizedTest
-  @CsvFileSource(resources = "/valid-char-names.csv", numLinesToSkip = 1)
+  @CsvFileSource(resources = "/data/valid-char-names.csv", numLinesToSkip = 1)
   void testCharacterNameChange_name_ok(String validName){
 
     testChar.setState(INIT_COMPLETE);
@@ -315,5 +314,45 @@ class CharacterChangeTest {
     assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.REJECTED);
     assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.NO_RULES_FIRED);
   }
+
+  @Test
+  void testChangeWithPayment(){
+
+    Map<String, CharacterItemDTO> coin =
+            Map.of("gold", CharacterItemDTO.builder().item(ItemDTO.builder().itemKey(ItemKey.toItemKey("gold")).build()).quantity(100).build(),
+                    "copper", CharacterItemDTO.builder().item(ItemDTO.builder().itemKey(ItemKey.toItemKey("copper")).build()).quantity(100).build());
+
+
+    CharacterDTO newChar = charService.createCharacter(
+            CharacterDTO.builder().name("payup").hero(true).race(new RaceDTO("human")).build(), TEST_OWNER);
+
+    newChar.addCoins(100, Coin.GOLD_PIECE);
+    newChar.addCoins(100, Coin.COPPER_PIECE);
+
+    CharacterDTO charBefore = charService.save(newChar, TEST_OWNER);
+    int goldBefore = charBefore.getAmountOf(Coin.GOLD_PIECE);
+    int silverBefore = charBefore.getAmountOf(Coin.SILVER_PIECE);
+    int copperBefore = charBefore.getAmountOf(Coin.COPPER_PIECE);
+    ChangeRequest change = ChangeRequest
+            .builder()
+            .changeType(ChangeType.NEW_ITEM_INIT_COMPLETE)
+            .changeKey(ItemKey.toItemKey("short.sword"))
+            .secondaryChangeKey(
+                    SecondaryChangeKey.builder().changeItem(
+                            PaymentDTO.builder().gold(9).silver(99).copper(10).build())
+                    .build())
+            .modifier(1)
+            .build();
+
+    ChangeRequest changeRequest = changeRequestService.submitChangeRequest(newChar.getId(), change, TEST_OWNER);
+    CharacterDTO changedChar = (CharacterDTO) changeRequest.getObjectAfterChange();
+    assertThat(changedChar.getAmountOf(Coin.GOLD_PIECE)).isEqualTo(goldBefore - 9);
+    assertThat(changedChar.getAmountOf(Coin.SILVER_PIECE)).isEqualTo(silverBefore - 99);
+    assertThat(changedChar.getAmountOf(Coin.COPPER_PIECE)).isEqualTo(copperBefore - 10);
+    assertThat(changeRequest.getStatus()).isEqualTo(ChangeStatus.APPROVED);
+    assertThat(changeRequest.getStatusLabel()).isEqualTo(ChangeStatusLabel.OK_ITEM_BOUGHT);
+
+  }
+
 
 }

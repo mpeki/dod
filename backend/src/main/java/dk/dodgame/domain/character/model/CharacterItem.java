@@ -43,6 +43,8 @@ public class CharacterItem {
   private int currentHealth = 100;
   @Default
   private int quantity = 1;
+  private double currentWeight;
+  private double currentPrice;
 
   @Transient
   public String getValue() {

@@ -1,11 +1,16 @@
+import classes from "./CreateCharacterForm.module.css";
 import useCharacterService from "../../services/character.service";
 import { useForm } from "react-hook-form";
 import { useCallback, useEffect, useState } from "react";
 import { Character } from "../../types/character";
-import classes from "./AddCharacter.module.css";
 import { useRaceService } from "../../services/race.service";
 import { Race } from "../../types/race";
 import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import { Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, TextField } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 
 interface IProps {
   fetchCharactersHandler: any;
@@ -24,6 +29,8 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
 
   const { createCharacter } = useCharacterService();
   const { getRaces } = useRaceService();
+  const { t } = useTranslation(["char", "races"]);
+
 
   const { getValues, register, formState: { errors }, handleSubmit, reset } = useForm<FormData>();
   const [races, setRaces] = useState<Race[]>([]);
@@ -79,31 +86,55 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
   const ageGroups = [{ key: 1, value: "YOUNG" }, { key: 2, value: "MATURE" }, { key: 3, value: "OLD" }];
   return (
     <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="characterName">Character Name:</label>
-        <input {...register("characterName", { required: true })} autoFocus />
-        {errors.characterName?.type === "required" && <div className="error">You character must have a name</div>}
-      </div>
-      <div>
-        <label htmlFor="hero">Is this a Hero?</label>
-        <input type="checkbox" {...register("hero")} />
-      </div>
-      <div>
-        <label>Age group</label>
-        <select {...register("ageGroup")} defaultValue={"MATURE"}>
-          {ageGroups.map(ageGroup => (<option key={ageGroup.key} value={ageGroup.value}>{ageGroup.value}</option>))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="raceName">Race Name:</label>
-        <select {...register("raceName")}>
-          <option value="0"> -- Select a race --</option>
-          {races.map((race) => <option key={race.name} value={race.name}>{race.name}</option>)}
-        </select>
-      </div>
+      <Grid container spacing={1} pt={2} padding={2}>
+        <Grid item>
+          <TextField placeholder={t("new.name.label")} {...register("characterName", { required: true })} autoFocus
+                     variant="standard" />
+          {errors.characterName?.type === "required" && <div className="error">{t('errors.name.missing')}</div>}
+        </Grid>
+        <Grid item>
+          <FormGroup>
+            <FormControlLabel {...register("hero")} control={<Checkbox />} label={t("new.hero.label")}
+                              labelPlacement={"start"} />
+          </FormGroup>
+        </Grid>
+      </Grid>
+      <Grid container spacing={1} pt={2} padding={2}>
+        <Grid item>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 140 }}>
+            <InputLabel>{t("detail.info.age.title")}</InputLabel>
+            <Select {...register("ageGroup")} defaultValue={"MATURE"}
+                    label="Alder"
+            >
+              {ageGroups.map(ageGroup => (<MenuItem key={ageGroup.key}
+                                                    value={ageGroup.value}>{t(`detail.info.age.${ageGroup.value}`)}</MenuItem>))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item padding={2}>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 140 }}>
+            <InputLabel>{t("new.race.label")}</InputLabel>
+            <Select {...register("raceName", { required: true })} >
+              {races.map((race) => <MenuItem key={race.name} value={race.name}>{t(`races:${race.name}`)}</MenuItem>)}
+            </Select>
+            {errors.raceName?.type === "required" && <div className="error">{t('errors.race.missing')}</div>}
+          </FormControl>
+
+        </Grid>
+      </Grid>
       <footer className={classes.actions}>
-        <button type="submit">Create</button>
-        <button onClick={onConfirm}>Cancel</button>
+        <Grid container spacing={1} padding={2} direction={"row"}>
+          <Grid item>
+            <Button type="submit" variant="contained" color="success">
+              {t('new.button.ok')}
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button color="secondary" onClick={onConfirm}>
+              {t('new.button.cancel')}
+            </Button>
+          </Grid>
+        </Grid>
       </footer>
     </form>
   );

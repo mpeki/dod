@@ -64,7 +64,8 @@ public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
       }
     }
     if(value instanceof SecondaryChangeKey secondaryChangeKey) {
-      if (Objects.requireNonNull(secondaryChangeKey.getChangeType()) == ChangeType.SKILL_FOR_ITEM_USE) {
+      if (Objects.requireNonNull(secondaryChangeKey.getChangeType()) == ChangeType.SKILL_FOR_ITEM_USE ||
+          Objects.requireNonNull(secondaryChangeKey.getChangeType()) == ChangeType.NEW_ITEM_PAYMENT) {
         return new ItemKey(text);
       }
       throw new IllegalStateException("Unexpected Secondary ChangeType: " + secondaryChangeKey.getChangeType());

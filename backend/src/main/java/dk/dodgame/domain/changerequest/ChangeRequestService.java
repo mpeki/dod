@@ -1,9 +1,13 @@
 package dk.dodgame.domain.changerequest;
 
 import dk.dodgame.data.CharacterDTO;
+import dk.dodgame.data.PaymentDTO;
+import dk.dodgame.domain.changerequest.model.ChangeItem;
 import dk.dodgame.domain.changerequest.model.ChangeRequest;
 import dk.dodgame.domain.changerequest.model.ChangeStatus;
 import dk.dodgame.domain.changerequest.model.ChangeStatusLabel;
+import dk.dodgame.domain.changerequest.model.ChangeType;
+import dk.dodgame.domain.changerequest.model.SecondaryChangeKey;
 import dk.dodgame.domain.character.CharacterService;
 import dk.dodgame.system.rule.DroolsService;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +32,9 @@ public class ChangeRequestService {
   @Transactional
   public ChangeRequest submitChangeRequest(@NotNull String characterId, ChangeRequest change, String owner) {
     CharacterDTO character = characterService.findCharacterByIdAndOwner(characterId, owner);
+
     change = change.withObjectBeforeChange(character);
+
     int noRulesFired = ruleService.executeGroupFlowRulesFor(
         List.of(character, change), change.getChangeType().changeRuleSet);
     if (noRulesFired == 0) {
