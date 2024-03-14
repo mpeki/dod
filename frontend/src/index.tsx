@@ -7,6 +7,7 @@ import "./index.css";
 import App from "./App";
 import { SnackbarProvider } from "notistack";
 import "./i18n";
+import { AppRouter } from "./components/routing/AppRouter";
 
 
 function Loading() {
@@ -33,7 +34,9 @@ registerConfig().then(() => {
       <Suspense fallback={<Loading />}>
         <AuthProvider {...oidcConfig}>
           <AxiosProvider>
-            <App />
+            <AppRouter>
+              <App />
+            </AppRouter>
           </AxiosProvider>
         </AuthProvider>
       </Suspense>

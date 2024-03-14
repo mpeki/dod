@@ -3,7 +3,6 @@ import { Category } from "./category";
 import { Race } from "./race";
 export interface Skill {
   key: string;
-  itemKey?: string;
   traitName: string;
   category: Category;
   group: GroupType;
@@ -14,6 +13,7 @@ export interface Skill {
 
 export interface CharacterSkill {
   skill: Skill;
+  itemKey: string;
   fv: number;
   experience: number;
   skillPointsSpent: number;

@@ -8,6 +8,7 @@ const raceData: Race = {
   motherTongue: 'common',
 }
 const charPostData: Character = {
+  id: "1",
   name: 'Børge Blåtand',
   race: raceData,
   ageGroup: 'MATURE',

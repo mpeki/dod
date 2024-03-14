@@ -17,7 +17,9 @@ updates:
       - github-packages
     schedule:
       interval: "daily"
-    target-branch: "main"
+    target-branch: "main" # Specify the branch for PRs
+    commit-message:
+      prefix: "fix(security):"
     assignees:
       - "mpeki"
     reviewers:

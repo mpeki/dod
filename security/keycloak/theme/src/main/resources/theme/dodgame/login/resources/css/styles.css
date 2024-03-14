@@ -1,0 +1,53 @@
+.login-pf body {
+  background-image: url('../img/field_forrest.png');
+  background-size: cover;
+}
+
+.card-pf {
+  color: white; /* Make the text white */
+  font-weight: bold;
+  border-top: 0;
+  background-image: url('../img/knight401.png');
+  background-size: cover;
+  max-width: 500px;
+  min-height: 640px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(5px); /* Raise the element by 5px */
+}
+
+
+.login-pf-header {
+  padding-top: 50px;
+  align-items: start;
+}
+
+#kc-page-title {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#kc-content {
+  padding-top: 150px;
+}
+
+.pf-c-form-control {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: bold;
+}
+
+.login-pf-signup {
+  opacity: 0.85; /* 50% opacity (semi-transparent) */
+  padding-top: 100px;
+}
+
+.login-pf-page .card-pf p {
+  color: white;
+  font-weight: bold;
+}
+
+#kc-logout-confirm {
+  color: white;
+  font-weight: bold;
+}

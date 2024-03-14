@@ -1,0 +1,9 @@
+tasks.register('clean', Delete) {
+    delete 'build'
+}
+
+tasks.register('makeJar', Jar) {
+    from 'src/main/resources' // Replace with your actual path
+    archiveFileName = 'dodgame-keycloak-theme.jar'
+    destinationDirectory = file('build/libs') // Replace with your actual path
+}

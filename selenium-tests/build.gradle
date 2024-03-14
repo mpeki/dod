@@ -1,19 +1,72 @@
 plugins {
     id 'java'
+
 }
 
-group = 'dk.pekilidi'
+apply plugin: "com.avast.gradle.docker-compose"
+
+group = 'dk.dodgame'
 java {
     sourceCompatibility = JavaVersion.VERSION_20
 }
 
 dependencies {
-    testImplementation 'org.seleniumhq.selenium:selenium-java:4.14.1'
-    testImplementation 'org.seleniumhq.selenium:selenium-grid:4.14.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.16.1'
+    testImplementation 'org.seleniumhq.selenium:selenium-grid:4.16.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
     testImplementation 'commons-io:commons-io:2.15.0'
+    testImplementation 'com.github.javafaker:javafaker:1.0.2'
+    testImplementation 'io.github.artsok:rerunner-jupiter:2.1.6'
+}
+
+def seleniumRunMode = System.getProperty('seleniumRunMode', 'local')
+
+dockerCompose {
+    isRequiredBy(tasks.test)
+    useComposeFiles = ['../docker-compose.yml']
+    composeAdditionalArgs = ['--profile', 'test']
+    //This must be set to 'true' before committing/pushing to git
+    stopContainers = seleniumRunMode == 'hub'
+    scale = [chrome: 1]
+    captureContainersOutput = true
+    environment.put "DOD_API_VERSION", "${version}"
+}
+
+
+def areContainersRunning() {
+    def serviceName = "api"
+
+    try {
+        // Execute 'docker-compose ps -q' to get the container ID
+        def cmd = "docker compose -f ../docker-compose.yml ps -q $serviceName".execute()
+        def output = new StringWriter(), error = new StringWriter()
+        cmd.waitForProcessOutput(output, error)
+
+        // If there's an output (container ID), then the container is running
+        return output.toString().trim()
+    } catch (Exception e) {
+        println "Failed to check if containers are running: ${e.message}"
+        return false
+    }
+
+
+}
+
+tasks.register('runTests') {
+    dependsOn ':security:keycloak:theme:makeJar'
+    doFirst {
+        // Check if containers are running, and if not, perhaps log a message or handle accordingly
+        if (!areContainersRunning()) {
+            println 'Containers are not running. They will be started by the Docker Compose plugin.'
+        } else {
+            println 'Containers are already running.'
+        }
+    }
 }
 
 test {
+    dependsOn runTests
     useJUnitPlatform()
+
+    systemProperty 'seleniumRunMode', seleniumRunMode
 }

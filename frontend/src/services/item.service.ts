@@ -25,6 +25,16 @@ export const useItemService = () => {
     }
   }, [axiosInstance]);
 
+  const getItemsByType = useCallback(async (itemType: string) => {
+    try {
+      const response = await axiosInstance.get(`/items/type/${itemType}`);
+      return response.data;
+    } catch (err) {
+      handleAxiosError(err);
+    }
+  }, [axiosInstance]);
+
+
   const createItem = async (item: Item) => {
     try {
       const response = await axiosInstance.post(`/item/melee_weapon`, item);
@@ -37,6 +47,7 @@ export const useItemService = () => {
   return {
     getAllItems,
     getMeleeWeapons,
+    getItemsByType,
     createItem
   };
 };

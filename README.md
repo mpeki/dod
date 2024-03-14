@@ -39,6 +39,12 @@ applied.
 ## Liquibase
 To reset the initial schema creation yaml (01-create-schema.yaml) run: `gradle liquibaseDiffChangeLog`
 
+### Generating Tsids For Test Data
+
+See: https://github.com/vladmihalcea/hypersistence-tsid
+
+To generate any number of tsids check: dk.dodgame.util.TsidGenerator
+
 ## References
 * Project structure: https://github.com/KengoTODA/gradle-boilerplate and https://github.com/spotbugs/spotbugs-gradle-plugin
 * Junit 5 Parameterized tests: https://www.baeldung.com/parameterized-tests-junit-5

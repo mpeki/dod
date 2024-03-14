@@ -22,7 +22,7 @@ enum Values {
   THIEVING = "thieving",
   PERCEPTION = "perception",
   OUTDOOR = "outdoor",
-  NATURAL = "NATURAL"
+  // NATURAL = "NATURAL"
 }
 
 export class GroupType extends FilterType {
@@ -37,7 +37,7 @@ export class GroupType extends FilterType {
   static readonly values = Values;
   value: string | undefined = undefined;
   getType(): string {
-    return "Group";
+    return "group";
   }
   getValues(): any {
     return GroupType.values;

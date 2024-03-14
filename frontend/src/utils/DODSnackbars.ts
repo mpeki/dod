@@ -1,6 +1,6 @@
 import { enqueueSnackbar, closeSnackbar } from "notistack";
 import { createCountdownSnackbarAction } from "../components/Countdown";
-import { createReconnectFeedbackSnackbarAction } from "../components/ConnectionFailure";
+import { createPrintInfoSnackbarAction, createReconnectFeedbackSnackbarAction } from "../components/ConnectionFailure";
 
 const connectionLostMessages = [
   "Oops! Looks like the game is playing hide and seek.",
@@ -58,6 +58,18 @@ export const showInfoSnackbar = (message: string): void => {
     preventDuplicate: true
   });
 }
+
+export const showPrintInfoSnackbar = (message: string, handleClose: () => void, icon?: React.ReactNode ): void => {
+  closeSnackbar();
+  enqueueSnackbar(message, {
+    anchorOrigin: {horizontal: 'left', vertical: 'top'},
+    variant: 'info',
+    preventDuplicate: true,
+    persist: true,
+    action: createPrintInfoSnackbarAction(handleClose, icon)
+  });
+}
+
 
 export const showSuccessSnackbar = (message: string): void => {
   closeSnackbar();

@@ -73,13 +73,7 @@ management:
     web:
       exposure:
         include: health,info,liquibase,env
-      base-path: /
-logging:
-  level:
-    root: INFO
-    org.springframework.web.cors: DEBUG
-    org.springframework.security: DEBUG
-    dk.pekilidi.dod.rules: DEBUG
+      base-path: /api
 dodgame:
   player:
     max-characters: 10

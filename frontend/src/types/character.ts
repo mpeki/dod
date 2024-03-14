@@ -15,7 +15,7 @@ export interface BodyPartValue {
 }
 
 export interface Character {
-  id?: string;
+  id: string;
   name: string;
   ageGroup: string;
   state?: CharacterState;

@@ -1,26 +1,25 @@
-import dk.pekilidi.dod.data.CharacterTemplateDTO
-import dk.pekilidi.dod.data.CharacterDTO
 import java.util.Arrays;
-import dk.pekilidi.dod.util.Dice
-import dk.pekilidi.dod.data.BaseTraitRuleDTO
-import dk.pekilidi.dod.data.BaseTraitDTO
 import java.util.List
 import java.util.Collections
 import java.util.ArrayList
-import dk.pekilidi.dod.character.model.CharacterState;
-import dk.pekilidi.dod.character.model.AgeGroup
-import dk.pekilidi.dod.character.model.BaseTraitName;
-import dk.pekilidi.dod.changerequest.model.ChangeType
-import dk.pekilidi.dod.changerequest.model.ChangeRequest
-import dk.pekilidi.dod.changerequest.model.ChangeStatus
-import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
-import dk.pekilidi.dod.character.model.BaseTraitName
-import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
-import dk.pekilidi.dod.changerequest.model.ChangeStatus
-import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
 import java.sql.SQLOutput
-import dk.pekilidi.dod.validation.RegularExpressions
-import dk.pekilidi.dod.character.model.Looks
+import dk.dodgame.data.CharacterTemplateDTO
+import dk.dodgame.data.CharacterDTO
+import dk.dodgame.util.Dice
+import dk.dodgame.data.BaseTraitRuleDTO
+import dk.dodgame.data.BaseTraitDTO
+import dk.dodgame.util.validation.RegularExpressions
+import dk.dodgame.domain.character.model.Looks
+import dk.dodgame.domain.character.model.BaseTraitName
+import dk.dodgame.domain.character.model.CharacterState
+import dk.dodgame.domain.changerequest.model.ChangeType
+import dk.dodgame.domain.changerequest.model.ChangeRequest
+import dk.dodgame.domain.changerequest.model.ChangeStatus
+import dk.dodgame.domain.changerequest.model.ChangeStatusLabel
+import dk.dodgame.domain.character.model.CharacterState
+import dk.dodgame.domain.character.model.BaseTraitName
+import dk.dodgame.domain.changerequest.model.ChangeStatus
+import dk.dodgame.domain.changerequest.model.ChangeStatusLabel
 
 rule "Character change - Change type not implemented"
   no-loop

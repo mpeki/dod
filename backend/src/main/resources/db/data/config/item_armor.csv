@@ -1,0 +1,76 @@
+id;item_key;item_type;price;weight;breakable;abs;coverage;dodge_penalty;armor_type;body_parts_covered;weight_reference
+# HELM - AT: 0 - BPC: 1
+0EYR6WYWTPG0Q;leather.helm;6;15;0.2;true;2;12;0;0;1;null
+0F5GG2ZWS2G0N;leather.reinforced.helm;6;35;0.25;true;3;12;0;0;1;null
+0F5GG2ZWX2G0M;leather.iron_cross.helm;6;30;0.25;true;3;12;0;0;1;null
+0F5GG2ZX12G7G;iron.open.helm;6;100;0.5;true;5;10;0;0;1;null
+0F5GG2ZX12G7H;iron.pilos.helm;6;150;1;true;5;10;0;0;1;null
+0F5GG2ZX12G7J;iron.roman.helm;6;200;1;true;6;15;0;0;1;null
+0F5GG2ZX12G7K;iron.chain.helm;6;200;0.75;true;6;15;-3;0;1;null
+0F5GG2ZX12G7M;iron.spectacle.helm;6;200;1.5;true;6;19;-5;0;1;null
+0F5GG2ZX12G7N;iron.greek.helm;6;200;1.5;true;7;17;-5;0;1;null
+0F5GG2ZX12G7P;iron.barrel.helm;6;150;1.5;true;8;20;-6;0;1;null
+0F5GG2ZX12G7Q;iron.bascinet.helm;6;250;1.5;true;8;15;-4;0;1;null
+0F5GG2ZX12G7R;iron.bascinet.visor;6;500;1.5;true;8;20;-6;0;1;null
+0F5GG2ZX12G7S;iron.dog.snout;6;750;1.5;true;9;20;-6;0;1;null
+
+# ARM_SPLINT - AT: 1 - BPC: 4 or 5
+0F5GG2ZX12G7T;cloth.arm_cover;6;20;0.5;true;1;20;0;1;4,5;null
+0EYR6WYXAPG6K;leather.arm_splint;6;25;1;true;2;20;-1;1;4,5;null
+0F5GG2ZX12G7V;leather.reinforced.arm_split;6;70;1.5;true;3;20;-1;1;4,5;null
+0F5GG2ZX12G7W;quilted.arm_split;6;35;1;true;3;20;-2;1;4,5;null
+0F5GG2ZX12G7X;linen.arm_split;6;340;0.5;true;4;20;-2;1;4,5;null
+0F5GG2ZX12G7Y;leather.hardened.arm_splint;6;150;1;true;4;20;-3;1;4,5;null
+0F5GG2ZX12G7Z;bone.lamella.arm_splint;6;50;1.5;true;4;20;-4;1;4,5;null
+0F5GG2ZX52G4Z;brigandin.arm_splint;6;155;null;true;5;20;-2;1;4,5;A
+0F5GG2ZX52G50;iron.ring.arm_splint;6;145;null;true;5;20;-2;1;4,5;A
+
+
+# ARM_SPLINT_HALF
+0EYR6WYXJPG2T;leather.arm_splint_half;6;20;0.25;true;2;12;0;9;4,5;null
+
+# LEG_BRACE - AT: 1 - BPC: 4 or 5
+0EYR6WYXPPG5H;leather.leg_brace;6;30;1;true;2;20;-1;2;6,7;null
+
+# CUIRASS_TORSO (harnisk) AT: 4, BPC: 2,3
+#id;item_key;item_type;price;weight;breakable;abs;coverage;dodge_penalty;armor_type;body_parts_covered;weight_reference
+0FAB75E7BNW4V;cloth.thick;6;20;0.5;true;1;20;0;4;2,3;null
+0EYR6WYX6PG6Y;leather.cuirass_torso;6;40;1.75;true;2;20;-1;4;2,3;null
+0FAB75E7BNW4W;leather.cuirass;6;25;1;true;2;20;-1;4;2,3;null
+0FAB75E7BNW58;leather.stiff;6;70;1.5;true;3;20;-1;4;2,3;null
+0FAB75E7BNW59;leather.vatted;6;35;1;true;3;20;-2;4;2,3;null
+0FAB75E7BNW5A;linnen.cuirass;6;340;0.5;true;4;20;-2;4;2,3;null
+0FAB75E7BNW5B;leather.reinforced;6;150;1;true;4;20;-3;4;2,3;null
+0FAB75E7BNW5C;bone.lammel;6;50;1.5;true;4;20;-4;4;2,3;null
+0FAB75E7BNW5D;iron.brigandin;6;155;null;true;5;20;-2;4;2,3;A
+0FAB75E7BNW5E;iron.ring.armor;6;145;null;true;5;20;-2;4;2,3;A
+0FABD0SEKY41V;iron.scale.mail;6;150;null;true;5;20;-4;4;2,3;B
+0FABD0SEQY47V;iron.chain.mail;6;175;null;true;6;20;-3;4;2,3;B
+0FABD0SEQY47W;iron.reinforced.chain.mail;6;180;null;true;7;20;-4;4;2,3;C
+0FABD0SEQY47X;iron.lamel.mail;6;200;null;true;7;20;-5;4;2,3;C
+0FABD0SEQY47Y;iron.double.chain.mail;6;200;null;true;8;20;-5;4;2,3;C
+0FABD0SEQY47Z;iron.laminetted.mail;6;160;null;true;8;20;-6;4;2,3;D
+
+# SHORT_MAIL AT: 6 - BPC: 2,3,4,5
+0FABD0SEQY480;iron.scale_short.mail;6;150;null;true;5;20;-4;6;2,3,4,5;D
+0FABD0SEQY481;iron.chain_short.mail;6;175;null;true;6;20;-3;6;2,3,4,5;D
+0FABD0SEQY482;iron.reinforced.chain_short.mail;6;180;null;true;7;20;-4;6;2,3,4,5;E
+0FABD0SEQY483;iron.double.chain_short.mail;6;200;null;true;8;20;-5;6;2,3,4,5;F
+
+# LONG_MAIL AT: 7 - BPC: 2,3,4,5,6,7
+0FABD0SEQY484;iron.scale_long.mail;6;150;null;true;5;20;-4;7;2,3,4,5,6,7;F
+0FABD0SEQY485;iron.chain_long.mail;6;175;null;true;6;20;-3;7;2,3,4,5,6,7;F
+0FABD0SEQY486;iron.reinforced.chain_long.mail;6;180;null;true;7;20;-4;7;2,3,4,5,6,7;G
+0FABD0SEQY487;iron.double.chain_long.mail;6;200;null;true;8;20;-5;7;2,3,4,5,6,7;H
+
+# FULL AT: 8 - BPC: 2,3,4,5,6,7
+0FABD0SEQY488;laminated.full.mail;6;160;null;true;8;20;-6;8;2,3,4,5,6,7;L
+0FABD0SEQY489;iron.full.mail;6;200;null;true;8;20;-6;8;2,3,4,5,6,7;K
+0FABD0SEQY48A;iron.rillet.full.mail;6;220;null;true;9;20;-7;8;2,3,4,5,6,7;M
+0FABD0SEQY48B;iron.plate.full.mail;6;260;null;true;10;20;-8;8;2,3,4,5,6,7;N
+
+# KILT AT: 3 - BPC: 3
+0EYR6WYXTPG7Z;leather.kilt;6;25;1;true;2;20;-1;3;3;null
+
+# CUIRASS_CHEST AT: 5, BPC: 2
+0EYR6WYXTPG80;leather.cuirass_chest;6;35;1.5;true;2;20;-1;5;2;null

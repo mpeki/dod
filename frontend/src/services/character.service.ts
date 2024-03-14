@@ -69,7 +69,6 @@ const useCharacterService = () => {
 export default useCharacterService;
 
 function getCachedSkillForKey(key: string): Skill {
-  console.log("getCachedSkillForKey " + key);
   let skillJSON = localStorage.getItem("skills");
   if (skillJSON !== null) {
     const skills: Skill[] = JSON.parse(skillJSON);

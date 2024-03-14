@@ -5,7 +5,7 @@ apply plugin: 'jacoco'
 apply plugin: 'org.asciidoctor.jvm.convert'
 apply plugin: "com.gorylenko.gradle-git-properties"
 
-group 'dk.pekilidi'
+group 'dk.dodgame'
 java {
     sourceCompatibility = JavaVersion.VERSION_20
 }
@@ -52,7 +52,7 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation 'com.h2database:h2'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -87,6 +87,10 @@ gradle.taskGraph.whenReady { taskGraph ->
     taskGraph.allTasks.each { task ->
         println task.path
     }
+}
+
+bootRun {
+    jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]
 }
 
 springBoot {
@@ -167,7 +171,7 @@ jacocoTestCoverageVerification {
     dependsOn jacocoTestReport
     violationRules {
         rule {
-            excludes = ['dk.pekilidi.dod.character.model.*']
+            excludes = ['dk.dodgame.domain.character.model.*']
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
@@ -176,7 +180,7 @@ jacocoTestCoverageVerification {
         }
         rule {
             element = 'CLASS'
-            excludes = ['dk.pekilidi.dod.character.model.*']
+            excludes = ['dk.dodgame.domain.character.model.*']
             limit {
                 counter = 'BRANCH'
                 value = 'COVEREDRATIO'

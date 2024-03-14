@@ -25,7 +25,7 @@ jobs:
         with:
           use-docker: false
       - name: Build backend
-        run: ./gradlew :b:build jDB -x test -x asciidoctor
+        run: ./dod.sh build -w api
 
   build-frontend:
     runs-on: ubuntu-latest
@@ -34,7 +34,17 @@ jobs:
         with:
           use-java: false
       - name: Build UI docker image
-        run: docker-compose build ui
+        run: ./dod.sh build ui
+
+  build-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mpeki/build-env/pre-build@v1.0.1
+        with:
+          use-java: true
+      - name: Build Security docker image
+        run: ./dod.sh build -w security
+
 
   test-backend-regression:
     runs-on: ubuntu-latest
@@ -54,7 +64,7 @@ jobs:
         if: success() || failure() && github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v1.6.0
         with:
-          name: Unit Tests
+          name: Test Reports - test-backend-regression
           path: backend/build/test-results/test/*.xml
           reporter: java-junit
           fail-on-error: false
@@ -65,7 +75,7 @@ jobs:
     steps:
       - uses: mpeki/build-env/pre-build@v1.0.1
       - name: Build
-        run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
+        run: ./dod.sh build all
       - name: Integration Test
         if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
         run: ./gradlew :b:test -DincludeTests="integration" --info
@@ -73,15 +83,33 @@ jobs:
         if: success() || failure() && github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v1.6.0
         with:
-          name: Unit Tests
+          name: Test Reports - test-backend-integration
           path: backend/build/test-results/test/*.xml
+          reporter: java-junit
+          fail-on-error: false
+
+  end-to-end-test:
+    runs-on: ubuntu-latest
+    needs: [ build-frontend, build-backend, build-security ]
+    steps:
+      - uses: mpeki/build-env/pre-build@v1.0.1
+      - name: Build backend / security
+        run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
+      - name: Build & Test
+        run: ./gradlew clean :sel:test -DseleniumRunMode=hub
+      - name: JUnit Report - Integration Tests
+        if: success() || failure() && github.actor != 'dependabot[bot]'
+        uses: dorny/test-reporter@v1.6.0
+        with:
+          name: Test Reports - end-to-end-test-full
+          path: selenium-tests/build/test-results/test/*.xml
           reporter: java-junit
           fail-on-error: false
 
   release:
     if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }} 
     runs-on: ubuntu-latest
-    needs: [build-frontend,test-backend-integration]
+    needs: [end-to-end-test,test-backend-integration]
     steps:
     - uses: mpeki/build-env/pre-build@v1.0.1
       with:

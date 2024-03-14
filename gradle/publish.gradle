@@ -4,7 +4,7 @@ apply plugin: 'com.google.cloud.tools.jib'
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId 'dk.pekilidi'
+            groupId 'dk.dodgame'
             from components.java
         }
     }

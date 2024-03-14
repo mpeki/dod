@@ -3,18 +3,17 @@ import { CharacterSkillItem } from "./CharacterSkillItem";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { StyledTable } from "../../components/shared/Table.styled";
 import { useTranslation } from "react-i18next";
-import { height } from "@mui/system";
 
 interface IProps {
-  charId: string;
   skills: Record<string, CharacterSkill>;
-  fetchCharHandler: () => void;
   canRemoveSkill: boolean;
+  isPrinting: boolean;
 }
 
-export const CharacterSkillList = ({ charId, skills, fetchCharHandler, canRemoveSkill }: IProps): JSX.Element => {
+export const CharacterSkillList = ({ skills, canRemoveSkill, isPrinting }: IProps): JSX.Element => {
 
   const { t } = useTranslation("char");
+
   const charSkillItems = () => {
     const result: JSX.Element[] = [];
     if (skills) {
@@ -23,16 +22,18 @@ export const CharacterSkillList = ({ charId, skills, fetchCharHandler, canRemove
         if (value != null) {
           let charSkill = skillMap.get(key);
           if (charSkill != null) {
-            result.push(<CharacterSkillItem key={charSkill.skill.key} characterId={charId} charSkill={charSkill} fetchCharHandler={fetchCharHandler} canRemoveSkill={canRemoveSkill}/>);
+            result.push(<CharacterSkillItem key={charSkill.skill.key} charSkill={charSkill} canRemoveSkill={canRemoveSkill} isPrinting={isPrinting}/>);
           }
         }
       });
     }
-    let emptyRows = 3 - result.length < 1 ? 0 : 3 - result.length
+    // Add empty rows to fill the table
+    let extraRows = isPrinting ? 35 : 3;
+    let emptyRows = extraRows - result.length < 1 ? 0 : extraRows - result.length
     for(let i = 0; i < emptyRows; i++) {
-      result.push(<TableRow key={i} style={{ height: "25px" }}>
-        <TableCell></TableCell>
-        <TableCell></TableCell>
+      result.push(<TableRow key={i} style={{ height: "28px" }}>
+        <TableCell sx={{ borderRight: isPrinting ? 1 : 0, borderColor: "lightgray" }}></TableCell>
+        <TableCell sx={{ borderRight: isPrinting ? 1 : 0, borderColor: "lightgray" }}></TableCell>
         <TableCell></TableCell>
         <TableCell></TableCell>
       </TableRow>);

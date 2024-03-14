@@ -1,0 +1,8 @@
+{
+  "required" : "Feltet skal udfyldes!",
+  "minValue" : "Skal være et tal på {{min}} eller over!",
+  "maxValue" : "Skal være et tal på {{max}} eller under!",
+  "valueBetween" : "Skal være en værdi imellem {{min}} og {{max}}!",
+  "catASkillTooHigh" : "Kategori A færdigheder må ikke have fv over 15!",
+  "catBSkillTooHigh" : "Kategori B færdigheder må ikke have fv over 5!"
+}

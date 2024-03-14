@@ -25,7 +25,7 @@ export class Category extends FilterType {
   value: string | undefined;
 
   getType(): string {
-    return "Category";
+    return "category";
   }
   getValues(): any {
     return Category.values

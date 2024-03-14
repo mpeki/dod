@@ -1,7 +1,7 @@
 spring:
   liquibase:
     contexts: test
-    drop-first: false
+    drop-first: true
   jpa:
     properties:
       hibernate:

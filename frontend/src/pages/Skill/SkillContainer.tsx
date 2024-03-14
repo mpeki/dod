@@ -1,4 +1,4 @@
-import { CharacterSkill, Skill } from "../../types/skill";
+import { CharacterSkill } from "../../types/skill";
 import { useContext, useState } from "react";
 import { BuySkill } from "./BuySkill";
 import { CharacterSkillList } from "./CharacterSkillList";
@@ -20,10 +20,9 @@ import { useTranslation } from "react-i18next";
 interface IProps {
   character: Character;
   skills: Record<string, CharacterSkill> | undefined;
-  fetchCharHandler: () => void;
 }
 
-export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps): JSX.Element => {
+export const SkillContainer = ({ character, skills }: IProps): JSX.Element => {
 
   const [showBuySkill, setShowBuySkill] = useState<boolean>();
   const FlashingAddButton = withFlashing(Fab);
@@ -35,7 +34,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
     throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
   }
 
-  const { activateCharHandler } = charContext;
+  const { activateCharHandler, fetchCharHandler } = charContext;
 
   const showBuySkillHandler = () => {
     if (showBuySkill) {
@@ -52,8 +51,10 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
 
   const handleActivation = () => {
     const characterId = character.id ? character.id : "";
-    activateCharHandler(characterId).then(() => fetchCharHandler());
+    activateCharHandler(characterId).then(() => fetchCharHandler(characterId));
   };
+
+
 
   const navigate = useNavigate();
   useKeyboardShortcut(['Escape'], (event) => {
@@ -82,8 +83,7 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
                 <ListItemText primary={character.state === "READY_TO_PLAY" ? t("detail.skills.bonusExp") : t("detail.skills.basisSP")}
                               secondary={character.baseSkillPoints} />
                 {canActivate && (
-                  <FlashingActivateButton onClick={handleActivation} aria-label="activate" sx={{ mr: 1 }} size={"small"}
-                                          color={"success"}>
+                  <FlashingActivateButton onClick={handleActivation} aria-label="activate" sx={{ mr: 1 }} size={"small"} color={"success"}>
                     <StartIcon />
                   </FlashingActivateButton>
                 )}
@@ -109,10 +109,9 @@ export const SkillContainer = ({ character, skills, fetchCharHandler }: IProps):
             <BuySkill
               character={character}
               onConfirm={showBuySkillHandler}
-              buySkillHandler={fetchCharHandler}
             />
           )}
-          <CharacterSkillList charId={character.id || ""} skills={skills || {}} fetchCharHandler={fetchCharHandler} canRemoveSkill={canRemoveSkill} />
+          <CharacterSkillList skills={skills || {}} canRemoveSkill={canRemoveSkill} isPrinting={false}/>
         </Paper>
       </KeyboardShortcutProvider>
     </>

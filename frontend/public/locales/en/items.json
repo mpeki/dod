@@ -6,27 +6,51 @@
   "crossbow.arrow": "Crossbow bolt",
   "small.backpack": "Small backpack",
   "medium.backpack": "Medium backpack",
-  "dagger": "Dagger",
-  "small.bow": "Small bow",
-  "longbow": "Longbow",
-  "throwing.star": "Throwing star",
-  "throwing.spear": "Throwing spear",
-  "short.sword": "Short sword",
-  "paring.dagger": "Parrying dagger",
-  "peasant.dagger": "Peasant dagger",
-  "tanto": "Tanto",
-  "hammer": "Hammer",
-  "wakizahi": "Wakizashi",
-  "knuckles": "Knuckle-duster",
-  "bull.whip": "Bullwhip",
-  "wooden.club": "Wooden club",
-  "hand.axe": "Hand axe",
-  "broad.sword": "Broad sword",
-  "scimitar": "Scimitar",
-  "ninjato": "Ninjato",
-  "jimmy": "",
-  "battle.club": "Battle club",
-  "battle.hammer": "Battle hammer",
-  "lance": "Lance",
-  "short.spear": "Short spear"
+  "melee_weapon" : {
+    "dagger": "Dagger",
+    "small.bow": "Small bow",
+    "longbow": "Longbow",
+    "throwing.star": "Throwing star",
+    "throwing.spear": "Throwing spear",
+    "short.sword": "Short sword",
+    "paring.dagger": "Parrying dagger",
+    "peasant.dagger": "Peasant dagger",
+    "tanto": "Tanto",
+    "hammer": "Hammer",
+    "wakizahi": "Wakizashi",
+    "knuckles": "Knuckle-duster",
+    "bull.whip": "Bullwhip",
+    "wooden.club": "Wooden club",
+    "hand.axe": "Hand axe",
+    "broad.sword": "Broad sword",
+    "scimitar": "Scimitar",
+    "ninjato": "Ninjato",
+    "jimmy": "",
+    "battle.club": "Battle club",
+    "battle.hammer": "Battle hammer",
+    "lance": "Lance",
+    "short.spear": "Short spear"
+  },
+  "materials" : {
+    "leather" : "leather"
+  },
+  "armor" : {
+    "leather.helm" : "leather hat",
+    "leather.cuirass_torso" : "leather kyras (torso)",
+    "leather.leg_brace" : "leather leg brace"
+  },
+  "headers" : {
+    "item" : "Item",
+    "weight" : "Weight"
+  },
+  "form" : {
+    "payment.quantity.header" : "Quantity to buy",
+    "total.payment.text" : "Total Price: {{price}} silver",
+    "payment.missing" :  "Payment missing: {{paymentMissing}}",
+    "funds.leading.text" : "You own {{amountOwned}} {{currency}}, use",
+    "funds.trailing.text" : ", leaves you with {{remaining}} {{currency}}",
+    "buy.button" :  "Buy",
+    "cancel.button" : "Cancel"
+  }
+
 }

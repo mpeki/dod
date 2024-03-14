@@ -1,27 +1,37 @@
-import { CharacterSkill, Skill } from "../../types/skill";
+import { CharacterSkill } from "../../types/skill";
 import { SkillDetails } from "./SkillDetails";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { TableCell, TableRow } from "@mui/material";
 import { RemoveCircleOutline } from "@mui/icons-material";
 import { useChangeService } from "../../services/change.service";
 import { Change, createChange } from "../../types/change";
-import { showWarningSnackbar } from "../../utils/DODSnackbars";
+import { showSuccessSnackbar, showWarningSnackbar } from "../../utils/DODSnackbars";
 import { useTranslation } from "react-i18next";
-import { GroupType } from "../../types/group";
+import CharacterContext from "../Character/CharacterContext";
+import { ErrorMain } from "../Error/ErrorMain";
 
 interface IProps {
-  characterId: string;
   charSkill: CharacterSkill;
-  fetchCharHandler: () => void;
   canRemoveSkill: boolean;
+  isPrinting: boolean;
 }
 
-export const CharacterSkillItem = ({ characterId, charSkill, fetchCharHandler, canRemoveSkill}: IProps): JSX.Element => {
+export const CharacterSkillItem = ({ charSkill,
+                                     canRemoveSkill,
+                                     isPrinting
+                                   }: IProps): JSX.Element => {
 
   const [showSkillDetails, setShowSkillDetails] = useState<boolean>();
-  const { doChange } = useChangeService();
+  const { doCharacterChange } = useChangeService();
   const [changeData, setChangeData] = useState<Change>(createChange());
-  const { t } = useTranslation("skills");
+  const { t } = useTranslation(["skills", "items"]);
+  const charContext = useContext(CharacterContext);
+
+  if (!charContext) {
+    throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
+  }
+
+  const { fetchCharHandler, currentCharacter } = charContext;
 
   const showSkillDetailsHandler = () => {
     if (showSkillDetails) {
@@ -32,35 +42,57 @@ export const CharacterSkillItem = ({ characterId, charSkill, fetchCharHandler, c
   };
 
   const removeSkillHandler = useCallback(async () => {
+    if (!currentCharacter) {
+      showWarningSnackbar('Character is not defined');
+      return;
+    }
     const changePostData: Change = createChange("REMOVE_SKILL", "Remove skill", charSkill.skill.key, -1);
-    await doChange(characterId, changePostData)
-    .then(() => fetchCharHandler())
-    .catch((e) => showWarningSnackbar((e as Error).message))
-    .finally(() => {
-      setChangeData(createChange())
-    });
-  }, [characterId, doChange, fetchCharHandler, charSkill.skill.key]);
+      await doCharacterChange(currentCharacter, changePostData)
+      .then(() => {
+        fetchCharHandler(currentCharacter.id).then((character) => showSuccessSnackbar(t("buySkillsForm.removeSkillSuccess", { skill: t(charSkill.skill.key) })));
+      })
+      .catch((e) => showWarningSnackbar((e as Error).message))
+      .finally(() => {
+        setChangeData(createChange());
+      });
+  }, [currentCharacter, doCharacterChange, fetchCharHandler, charSkill.skill.key]);
 
   let skillCategory = JSON.stringify(charSkill.skill.category).replace(/"/g, "") as string;
+  if(!currentCharacter){
+    return <ErrorMain errorCode={-1} />;
+  }
   return (
     <>
       {showSkillDetails && (
-        <SkillDetails characterId={characterId} charSkill={charSkill} onConfirm={showSkillDetailsHandler} />
+        <SkillDetails characterId={currentCharacter.id} charSkill={charSkill} onConfirm={showSkillDetailsHandler} />
       )}
-      <TableRow hover key={charSkill.skill.key}>
-        <TableCell onClick={showSkillDetailsHandler}>
-          {charSkill.skill.itemKey
-            ? `${t(charSkill.skill.itemKey)} (${t(charSkill.skill.key)})`
+      <TableRow hover key={charSkill.skill.key} style={{ height: "20px" }}>
+        <TableCell onClick={showSkillDetailsHandler} sx={{
+          fontSize: 13,
+          borderRight: isPrinting ? 1 : 0,
+          borderColor: isPrinting ? "darkgray" : "lightgray"
+        }}>
+          {charSkill.itemKey
+            ? `${t(`items:${charSkill.itemKey}`)} (${t(charSkill.skill.key)})`
             : t(charSkill.skill.key)
           }
         </TableCell>
-        <TableCell>{skillCategory === "B" ? "B" + charSkill.fv : charSkill.fv}</TableCell>
-        <TableCell>{charSkill.experience}</TableCell>
-        <TableCell>
-          { (canRemoveSkill && (charSkill.skill.key !== "dodge")) && (
-            <RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeSkillHandler} />
-          )}
-        </TableCell>
+        <TableCell sx={{
+          fontSize: 13,
+          borderRight: isPrinting ? 1 : 0,
+          borderColor: isPrinting ? "darkgray" : "lightgray"
+        }}>{skillCategory === "B" ? "B" + charSkill.fv : charSkill.fv}</TableCell>
+        <TableCell sx={{
+          fontSize: 13,
+          borderColor: isPrinting ? "darkgray" : "lightgray"
+        }}>{isPrinting ? "" : charSkill.experience}</TableCell>
+        {!isPrinting && (
+          <TableCell>
+            {(canRemoveSkill && (charSkill.skill.key !== "dodge" && charSkill.skill.key !== "hand.to.hand")) && (
+              <RemoveCircleOutline fontSize={"small"} color={"error"} onClick={removeSkillHandler} />
+            )}
+          </TableCell>
+        )}
       </TableRow>
     </>
   );

@@ -3,14 +3,30 @@
     "INIT_COMPLETE": "Ikke færdig",
     "READY_TO_PLAY": "Klar"
   },
+  "new" : {
+    "create.title" : "Ny Karakter",
+    "name.label" : "Angiv Navn *",
+    "hero.label" : "Helt?",
+    "race.label" : "Vælg Race *",
+    "button.ok" : "OK",
+    "button.cancel" : "Afbryd"
+  },
   "master": {
     "title": "Dine Karakterer",
     "description": "Her kan du administrere dine karakterer. Du kan oprette nye karakterer, slette gamle og aktivere dem til spil. Tryk på + knappen for at oprette en ny karakter"
   },
+  "buy" : {
+    "ARMOR" : {
+      "selectPlaceholder" : "Vælg Rustningsdel"
+    },
+    "MELEE_WEAPON" : {
+      "selectPlaceholder" : "Vælg Våben/Skjold"
+    }
+  },
   "detail": {
     "info": {
       "name": "Navn",
-      "player": "Spillers Navn",
+      "player": "Spiller",
       "race": "Race",
       "socialStatus": {
         "title": "Social Stand",
@@ -27,10 +43,10 @@
         "MIDDLE_AGED": "Midaldrende",
         "OLD": "Gammel"
       },
-      "looks": "Udseende",
-      "height": "Højde",
+      "looks": "udseende",
+      "height": "højde",
       "weight": "Vægt",
-      "goals": "Livsmål"
+      "goals": "livsmål"
     },
     "baseTraits": {
       "value": "Værdi",
@@ -47,6 +63,8 @@
       "bonusExp": "Bonus Erfaring",
       "basisSP": "Basis Færdigheds Point",
       "skills": "Færdigheder",
+      "magicSchools": "Magiskoler",
+      "spells": "Besværgelser",
       "value": "Værdi",
       "exp": "Erf."
     },
@@ -60,9 +78,16 @@
         "absorption": "Abs",
         "range": "Rækkevidde",
         "weight": "Vægt"
+      },
+      "addText" : "Køb Våben/Skjold",
+      "addForm" : {
+        "header" : "Køb Våben eller Skjold"
       }
     },
     "body": {
+      "armor" : {
+        "addText" : "Køb Rustning"
+      },
       "totalHP": "Totale KP",
       "header": {
         "hp": "Kropspoint",
@@ -83,6 +108,18 @@
         "RIGHT_ARM": "Højre Arm",
         "LEFT_LEG": "Venstre Ben",
         "RIGHT_LEG": "Højre Ben"
+      },
+      "filters" : {
+        "heading" : "Filtrer kropsdel dækket",
+        "ARMS" : "arme",
+        "LEGS" : "ben",
+        "HEAD": "hoved",
+        "CHEST": "bryst",
+        "STOMACH": "maven",
+        "LEFT_LEG": "v. ben",
+        "RIGHT_LEG": "h. ben",
+        "LEFT_ARM" : "v. arm",
+        "RIGHT_ARM" : "h. arm"
       }
     },
     "sanityPoints": "Nerve Point",
@@ -95,5 +132,9 @@
       "DOUBLE": "Dobbelt",
       "AMBIDEXTROUS": "Ambideksrøs"
     }
+  },
+  "errors" : {
+    "name.missing" : "Din karakter skal have et navn!",
+    "race.missing" : "Du skal vælge race!"
   }
 }

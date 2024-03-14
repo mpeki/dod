@@ -3,9 +3,25 @@
     "INIT_COMPLETE": "Not ready",
     "READY_TO_PLAY": "Ready for play"
   },
+  "new" : {
+    "create.title" : "Create New Character",
+    "name.label" : "Name",
+    "hero.label" : "Hero?",
+    "race.label" : "Select Race",
+    "button.ok" : "OK",
+    "button.cancel" : "Cancel"
+  },
   "master": {
     "title": "Character Overview",
     "description": "This is where you manage your characters. You can create new characters, delete old ones and activate them for play. Press the + button to create a new character"
+  },
+  "buy" : {
+    "ARMOR" : {
+      "selectPlaceholder" : "Select armor piece"
+    },
+    "MELEE_WEAPON" : {
+      "selectPlaceholder" : "Select Weapon/Shield"
+    }
   },
   "detail": {
     "info": {
@@ -60,9 +76,17 @@
         "absorption": "Abs",
         "range": "Range",
         "weight": "Weight"
+      },
+      "addText" : "Buy Weapon/Shield",
+      "addForm" : {
+        "header" : "Buy a new Weapon or Shield"
       }
+
     },
     "body": {
+      "armor" : {
+        "addText" : "Buy Armor"
+      },
       "totalHP": "Total HP",
       "header": {
         "hp": "Hit Points",
@@ -83,7 +107,21 @@
         "RIGHT_ARM": "Right Arm",
         "LEFT_LEG": "Left Leg",
         "RIGHT_LEG": "Right Leg"
+      },
+      "filters" : {
+        "no.items" : "No items available - change filter options",
+        "heading" : "Filter for coverage",
+        "ARMS" : "arms",
+        "LEGS" : "legs",
+        "HEAD": "head",
+        "CHEST": "chest",
+        "STOMACH": "stomach",
+        "LEFT_LEG": "l. leg",
+        "RIGHT_LEG": "r. leg",
+        "LEFT_ARM" : "l. arm",
+        "RIGHT_ARM" : "r. arm"
       }
+
     },
     "sanityPoints": "Sanity Points",
     "psychePoints": "Psyche Points",
@@ -95,5 +133,9 @@
       "DOUBLE": "Double",
       "AMBIDEXTROUS": "Ambidextrous"
     }
+  },
+  "errors" : {
+    "name.missing" : "Your character must have a name!",
+    "race.missing" : "You must select a race!"
   }
 }

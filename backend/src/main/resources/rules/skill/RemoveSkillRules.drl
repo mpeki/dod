@@ -1,15 +1,25 @@
-import dk.pekilidi.dod.changerequest.model.ChangeStatusLabel
-import dk.pekilidi.dod.changerequest.model.ChangeStatus
-import dk.pekilidi.dod.changerequest.model.ChangeRequest
-import dk.pekilidi.dod.changerequest.model.ChangeType
-import dk.pekilidi.dod.character.model.CharacterState
-import dk.pekilidi.dod.data.CharacterDTO
-import dk.pekilidi.dod.skill.SkillService
-import dk.pekilidi.dod.data.SkillDTO
-import dk.pekilidi.dod.skill.SkillKey
-import dk.pekilidi.dod.skill.SkillNotFoundException
-import dk.pekilidi.dod.items.ItemKey
-import dk.pekilidi.dod.data.CharacterSkillDTO
+import dk.dodgame.domain.changerequest.model.ChangeStatusLabel
+import dk.dodgame.domain.changerequest.model.ChangeStatus
+import dk.dodgame.domain.changerequest.model.ChangeRequest
+import dk.dodgame.domain.changerequest.model.ChangeType
+import dk.dodgame.domain.character.model.CharacterState
+import dk.dodgame.data.CharacterDTO
+import dk.dodgame.domain.skill.SkillService
+import dk.dodgame.data.SkillDTO
+import dk.dodgame.domain.skill.SkillKey
+import dk.dodgame.domain.skill.SkillNotFoundException
+import dk.dodgame.domain.item.ItemKey
+import dk.dodgame.data.CharacterSkillDTO
+import dk.dodgame.domain.character.model.BaseTraitName
+import dk.dodgame.domain.character.model.BaseTraitName
+import dk.dodgame.domain.changerequest.model.ChangeStatus
+import dk.dodgame.domain.changerequest.model.ChangeStatusLabel
+import dk.dodgame.domain.skill.SkillKey
+import dk.dodgame.data.CharacterSkillDTO
+import dk.dodgame.domain.skill.SkillKey
+import dk.dodgame.domain.character.model.BaseTraitName
+import dk.dodgame.domain.changerequest.model.ChangeStatus
+import dk.dodgame.domain.changerequest.model.ChangeStatusLabel
 
 global SkillService skillService;
 
@@ -39,7 +49,28 @@ rule "Validate change request - remove skill"
       changeRequest.setStatusLabel(ChangeStatusLabel.SKILL_NOT_BOUGHT);
       changeRequest.setStatus(ChangeStatus.REJECTED);
     }
+    if (changeRequest.getStatus() == ChangeStatus.PENDING){
+      changeRequest.setStatus(ChangeStatus.VALIDATED);
+    }
     update(changeRequest)
+end;
+
+rule "Recalculate Dodge Skill - remove primary weapon skill"
+  ruleflow-group "remove-skill"
+  salience 80
+  no-loop
+  when
+    character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
+    changeRequest : ChangeRequest( changeType == ChangeType.REMOVE_SKILL && status == ChangeStatus.VALIDATED )
+  then
+    String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
+    if(skillKey.equalsIgnoreCase("primary.weapon")){
+        CharacterSkillDTO handToHandSkill = character.getSkills().get("hand.to.hand");
+        CharacterSkillDTO dodgeSkill = character.getSkills().get("dodge");
+        if(dodgeSkill != null){
+          character.updateFv("dodge", Math.ceilDiv(character.getBaseTraitValue(BaseTraitName.DEXTERITY) + handToHandSkill.getFv(), 2));
+        }
+    }
 end;
 
 rule "Remove skill"
@@ -48,13 +79,13 @@ rule "Remove skill"
   no-loop
   when
     character : CharacterDTO( state == CharacterState.INIT_COMPLETE )
-    changeRequest : ChangeRequest( changeType == ChangeType.REMOVE_SKILL && status == ChangeStatus.PENDING )
+    changeRequest : ChangeRequest( changeType == ChangeType.REMOVE_SKILL && status == ChangeStatus.VALIDATED )
   then
     String skillKey = ((SkillKey) changeRequest.getChangeKey()).getKeyValue();
     CharacterSkillDTO skillToRemove = character.getSkills().get(skillKey);
     character.setBaseSkillPoints(character.getBaseSkillPoints() + skillToRemove.getSkillPointsSpent());
     character.removeSkill(skillKey);
     changeRequest.setStatus(ChangeStatus.APPROVED);
-    changeRequest.setStatusLabel(ChangeStatusLabel.OK_SKILL_BOUGHT);
+    changeRequest.setStatusLabel(ChangeStatusLabel.OK_SKILL_REMOVED);
     update(changeRequest)
 end;

@@ -8,7 +8,7 @@ interface EmptyCharacterCardProps {
 const styles = {
   card: {
     minWidth: 200,
-    minHeight: 220,
+    minHeight: 226,
     position: "relative" as "relative",
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
   },
