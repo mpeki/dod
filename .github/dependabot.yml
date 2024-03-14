@@ -24,3 +24,6 @@ updates:
       - "mpeki"
     reviewers:
       - "dependabot[bot]"
+    commit-message:
+      prefix: "fix(DOD-445): Security Update"
+      include: "scope"
