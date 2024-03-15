@@ -62,7 +62,8 @@ import dk.dodgame.data.BodyPartDTO
 import dk.dodgame.data.BaseTraitDTO
 import dk.dodgame.data.BaseTraitRuleDTO
 import dk.dodgame.util.Dice
-import dk.dodgame.data.CharacterItemDTO;
+import dk.dodgame.data.CharacterItemDTO
+import dk.dodgame.util.rules.CharacterCreationRules;
 
 global ItemService itemService;
 global SkillService skillService;
@@ -230,44 +231,7 @@ rule "Initialize damage bonus"
   when
     character : CharacterDTO( state == CharacterState.BODY_PART_HP_SET )
   then
-    Integer strength =  character.getBaseTraitValue(BaseTraitName.STRENGTH);
-    Integer size = character.getBaseTraitValue(BaseTraitName.SIZE);
-    Integer avgVal = IntMath.divide(size + strength, 2, RoundingMode.CEILING);
-    if(character.getRace().getName().equalsIgnoreCase("dwarf")){
-      avgVal = avgVal + 2;
-    }
-    if(isBetween(avgVal,1,4)){
-      character.setDamageBonus("-1t2");
-    } else if(isBetween(avgVal, 5, 8)) {
-      character.setDamageBonus("-1");
-    } else if(isBetween(avgVal, 9, 13)) {
-      character.setDamageBonus("none");
-    } else if(isBetween(avgVal, 14, 15)) {
-      character.setDamageBonus("+1");
-    } else if(isBetween(avgVal, 16, 17)) {
-      character.setDamageBonus("+1t2");
-    } else if(isBetween(avgVal, 18, 20)) {
-      character.setDamageBonus("+1t4");
-    } else if(isBetween(avgVal, 21, 23)) {
-      character.setDamageBonus("+1t6");
-    } else if(isBetween(avgVal, 24, 26)) {
-      character.setDamageBonus("+1t8");
-    } else if(isBetween(avgVal, 27, 30)) {
-      character.setDamageBonus("+1t10");
-    } else if(isBetween(avgVal, 31, 35)) {
-      character.setDamageBonus("+2t6");
-    } else if(isBetween(avgVal, 36, 40)) {
-      character.setDamageBonus("+2t8");
-    } else if(isBetween(avgVal, 41, 45)) {
-      character.setDamageBonus("+3t6");
-    } else if(isBetween(avgVal, 46, 50)) {
-      character.setDamageBonus("+3t8");
-    } else if(isBetween(avgVal, 51, 60)) {
-      character.setDamageBonus("+4t6");
-    } else {
-      int i = avgVal % 10 == 0 ? IntMath.divide(avgVal, 10, RoundingMode.DOWN) - 2 : IntMath.divide(avgVal, 11, RoundingMode.DOWN);
-      character.setDamageBonus("+"+i+"t6");
-    }
+    CharacterCreationRules.calculateDamageBonus(character);
     character.setState(CharacterState.DAMAGE_BONUS_SET);
     update(character)
 end;

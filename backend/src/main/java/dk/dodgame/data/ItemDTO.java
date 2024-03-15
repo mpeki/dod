@@ -38,13 +38,15 @@ public class ItemDTO implements Serializable {
   private Integer coverage;
   private Integer dodgePenalty;
   private Double price;
-  private Double weight;
+  @Default
+  private Double weight = 0.0;
   private String weightReference;
   private Integer piecesForPrice;
   private Integer bp;
   private String damage;
   private String handGrip;
-  private Integer length;
+  @Default
+  private Integer length = 0;
   private Integer strengthGroup;
   private Integer bowCast;
   private Integer bepStorage;

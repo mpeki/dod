@@ -9,7 +9,9 @@ import dk.dodgame.data.SkillDTO;
 import dk.dodgame.domain.skill.model.Category;
 import dk.dodgame.system.rule.DoDRule;
 import dk.dodgame.util.Dice;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class RulesUtil {
 
   private RulesUtil() {
@@ -29,5 +31,13 @@ public class RulesUtil {
       case 26, 27, 28, 29, 30 -> 6;
       default -> value / 10 + (value % 10 == 0 ? 3 : 4);
     };
+  }
+
+  public static boolean isBetween(int x, int lower, int upper){
+	  return lower <= x && x <= upper;
+  }
+
+  public static void helloFrom(String message) {
+    log.info("Hello {}!", message);
   }
 }

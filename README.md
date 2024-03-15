@@ -1,7 +1,7 @@
 # DoD
 Electrifying the Swedish Roleplaying game: Drager &amp; Dæmoner
 
-## Badges
+## Badges!?
 We don't need no stinking badges: https://www.youtube.com/watch?v=VqomZQMZQCQ but here you go:
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mpeki_dod&metric=coverage)](https://sonarcloud.io/project/overview?id=mpeki_dod)
@@ -23,10 +23,16 @@ Running test coverage locally: `gradle test jacocoTestCoverageVerification --inf
 When running tests via IntelliJ remember that the `test` profile should be active, this is achieved by setting the 
 environment variable: `SPRING_PROFILES_ACTIVE=test`  
 
-## Docker
+## Docker & Docker Compose
 [Jib](https://github.com/GoogleContainerTools/jib) and the 
 [Jib gradle plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin) is used to containerize 
 the project app.
+
+### Running the app
+To run the app locally, use the following command:
+```bash
+  docker compose up
+```
 
 # Releases
 See the [CHANGELOG](CHANGELOG.md).
@@ -43,7 +49,7 @@ To reset the initial schema creation yaml (01-create-schema.yaml) run: `gradle l
 
 See: https://github.com/vladmihalcea/hypersistence-tsid
 
-To generate any number of tsids check: dk.dodgame.util.TsidGenerator
+To generate any number of tsids check: dk.dodgame.util.DoDTsidGenerator
 
 ## References
 * Project structure: https://github.com/KengoTODA/gradle-boilerplate and https://github.com/spotbugs/spotbugs-gradle-plugin
