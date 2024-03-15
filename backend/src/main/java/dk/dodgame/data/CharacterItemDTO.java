@@ -22,7 +22,8 @@ public class CharacterItemDTO implements DODFact, Serializable {
   @Serial
   private static final long serialVersionUID = 8735666145601434345L;
 
-  private ItemDTO item;
+  @Default
+  private ItemDTO item = ItemDTO.builder().length(0).build();
   private String itemName;
   private ItemLocation location;
   private LocalDateTime timeAcquired;

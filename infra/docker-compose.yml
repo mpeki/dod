@@ -81,6 +81,12 @@ services:
       test: "mysqladmin ping -hlocalhost -usa -pexample  | grep -i 'mysqld is alive' || exit 1"
       start_period: "20s"
 
+  mq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   selenium-hub:
     profiles:
       - test
