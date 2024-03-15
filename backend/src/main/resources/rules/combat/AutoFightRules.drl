@@ -1,0 +1,12 @@
+import dk.dodgame.data.combat.Fight
+import dk.dodgame.domain.changerequest.model.ChangeStatusLabel;
+
+rule "Determine Initiative"
+  no-loop
+  ruleflow-group "auto-fight"
+  when
+    fight : Fight( turnPhase == FightPhase. )
+  then
+    fight.setStatusLabel(ChangeStatusLabel.NOT_IMPLEMENTED);
+    changeRequest.setStatus(ChangeStatus.REJECTED);
+end;

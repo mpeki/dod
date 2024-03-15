@@ -1,4 +1,4 @@
-apply plugin: 'java'
+apply plugin: "java"
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
@@ -28,7 +28,6 @@ dependencies {
     implementation 'io.awspring.cloud:spring-cloud-aws-starter-secrets-manager:3.0.2'
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-//    implementation 'org.keycloak:keycloak-policy-enforcer:22.0.1'
     implementation 'org.keycloak:keycloak-core:22.0.5'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -52,6 +51,7 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
+//    testImplementation("com.github.javafaker:javafaker:1.0.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation 'com.h2database:h2'

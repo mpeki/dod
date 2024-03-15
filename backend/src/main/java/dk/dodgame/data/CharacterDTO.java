@@ -81,6 +81,9 @@ public class CharacterDTO implements DODFact, Serializable {
   private Double weightCarried;
   private Movement movementPoints;
 
+  @Default
+  private Map<BodyPartName, CharacterItemDTO> wield = new HashMap<>();
+
   public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
     if (baseTraits.containsKey(baseTraitName)) {
       return baseTraits.get(baseTraitName).getCurrentValue();
