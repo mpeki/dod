@@ -61,7 +61,7 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: JUnit Report - Integration Tests
-        if: success() || failure() && github.actor != 'dependabot[bot]'
+        if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
         uses: dorny/test-reporter@v1.6.0
         with:
           name: Test Reports - test-backend-regression
@@ -80,7 +80,7 @@ jobs:
         if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
         run: ./gradlew :b:test -DincludeTests="integration" --info
       - name: JUnit Report - Integration Tests
-        if: success() || failure() && github.actor != 'dependabot[bot]'
+        if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
         uses: dorny/test-reporter@v1.6.0
         with:
           name: Test Reports - test-backend-integration
@@ -98,7 +98,7 @@ jobs:
       - name: Build & Test
         run: ./gradlew clean :sel:test -DseleniumRunMode=hub
       - name: JUnit Report - Integration Tests
-        if: success() || failure() && github.actor != 'dependabot[bot]'
+        if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
         uses: dorny/test-reporter@v1.6.0
         with:
           name: Test Reports - end-to-end-test-full

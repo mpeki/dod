@@ -20,10 +20,8 @@ updates:
     target-branch: "main" # Specify the branch for PRs
     commit-message:
       prefix: "fix(security):"
+      include: "scope"
     assignees:
       - "mpeki"
     reviewers:
       - "dependabot[bot]"
-    commit-message:
-      prefix: "fix(DOD-445): Security Update"
-      include: "scope"
