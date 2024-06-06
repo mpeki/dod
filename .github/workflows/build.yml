@@ -49,6 +49,8 @@ jobs:
   test-backend-regression:
     runs-on: ubuntu-latest
     needs: [build-backend]
+    permissions:
+      contents: write
     steps:
       - uses: mpeki/build-env/pre-build@v1.0.1
       - name: run regression tests
@@ -72,6 +74,8 @@ jobs:
   test-backend-integration:
     runs-on: ubuntu-latest
     needs: [test-backend-regression]
+    permissions:
+      contents: write
     steps:
       - uses: mpeki/build-env/pre-build@v1.0.1
       - name: Build
@@ -91,6 +95,8 @@ jobs:
   end-to-end-test:
     runs-on: ubuntu-latest
     needs: [ build-frontend, build-backend, build-security ]
+    permissions:
+      contents: write
     steps:
       - uses: mpeki/build-env/pre-build@v1.0.1
       - name: Build backend / security
@@ -110,6 +116,8 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }} 
     runs-on: ubuntu-latest
     needs: [end-to-end-test,test-backend-integration]
+    permissions:
+      contents: write
     steps:
     - uses: mpeki/build-env/pre-build@v1.0.1
       with:
