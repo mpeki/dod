@@ -102,6 +102,11 @@ build_security() {
   main
 }
 
+build_backend() {
+  build_security
+  build_all_gradle
+}
+
 build_all() {
   build_security
   build_all_gradle
@@ -119,6 +124,10 @@ build_all_gradle() {
   if [[ $DO_CLEAN == "true" ]]; then
     SUB_CMD=("clean" "${SUB_CMD[@]}")
   fi
+  if [[ -z ${CI:-} ]]; then
+    SUB_CMD=("${SUB_CMD[@]}" "-Djib.console=plain")
+  fi
+
   main
 }
 
@@ -180,6 +189,9 @@ keycloak-theme)
   ;;
 security)
   build_security
+  ;;
+backend)
+  build_backend
   ;;
 all)
   build_all
