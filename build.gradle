@@ -13,7 +13,7 @@ plugins {
     //https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
     id 'org.siouan.frontend-jdk11' version '8.0.0' apply false
     //https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
-    id "org.asciidoctor.jvm.convert" version "3.3.2" apply false
+    id "org.asciidoctor.jvm.convert" version "4.0.2" apply false
     //https://plugins.gradle.org/plugin/com.avast.gradle.docker-compose
     id "com.avast.gradle.docker-compose" version "0.17.5" apply false
 }
