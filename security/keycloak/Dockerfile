@@ -1,4 +1,4 @@
-FROM keycloak/keycloak:22.0.5 AS builder
+FROM keycloak/keycloak:25.0.0 AS builder
 
 # Enable health and metrics support
 ENV KC_HEALTH_ENABLED=true
@@ -16,7 +16,7 @@ FROM registry.access.redhat.com/ubi9 AS ubi-micro-build
 RUN mkdir -p /mnt/rootfs
 RUN dnf install --installroot /mnt/rootfs wget --releasever 9 --setopt install_weak_deps=false --nodocs -y; dnf --installroot /mnt/rootfs clean all
 
-FROM keycloak/keycloak:22.0.5
+FROM keycloak/keycloak:25.0.0
 COPY --from=ubi-micro-build /mnt/rootfs /
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY dodgame-realm.json /opt/keycloak/data/import/

@@ -15,8 +15,8 @@ public class ConfigurationService {
   @Value("${dodgame.player.max-characters}")
   private int defaultMaxNpcs;
 
+
   public int resolveMaxNpcsForUser(String username) {
-    return userSettingsService.getMaxNpcsForUser(username)
-        .orElse(defaultMaxNpcs);
+    return userSettingsService.getMaxNpcsForUser(username).orElse(defaultMaxNpcs);
   }
 }

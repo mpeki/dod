@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.HttpClientErrorException;
-import org.testcontainers.containers.DockerComposeContainer;
+import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.containers.wait.strategy.WaitStrategy;
@@ -28,13 +28,13 @@ import org.testcontainers.containers.wait.strategy.WaitStrategy;
 public class CharacterFlowTest {
 
   public static final String REQUEST_PROTOCOL = "http://";
-  private static final String API_SERVICE_NAME = "api_1";
+  private static final String API_SERVICE_NAME = "api-1";
   private static final Integer API_PORT = 8090;
   public static final String API_SERVICE_PATH = "/dodgame/api";
-  public static final String SEC_SERVICE_NAME = "security_1";
+  public static final String SEC_SERVICE_NAME = "security-1";
   private static final Integer SEC_PORT = 8181;
   public static final String AUTH_TOKEN_PATH = "/realms/dodgame/protocol/openid-connect/token";
-  public static final String DB_SERVICE_NAME = "db_1";
+  public static final String DB_SERVICE_NAME = "db-1";
   private static final Integer DATABASE_PORT = 3306;
 
   public static final Integer NUM_FREE_SKILLS = 2;
@@ -42,8 +42,8 @@ public class CharacterFlowTest {
   private static final WaitStrategy waitStrategy = Wait.forHealthcheck().withStartupTimeout(Duration.ofMinutes(5));
 
   @ClassRule
-  public static DockerComposeContainer<?> compose = new DockerComposeContainer<>(new File("../docker-compose.yml"))
-//      .withLocalCompose(true)
+  public static ComposeContainer compose = new ComposeContainer(new File("../docker-compose.yml"))
+      .withLocalCompose(true)
       .withPull(false)
       .withStartupTimeout(java.time.Duration.ofMinutes(15))
       .withExposedService(DB_SERVICE_NAME, DATABASE_PORT)
@@ -67,7 +67,7 @@ public class CharacterFlowTest {
 
     String authUrl = REQUEST_PROTOCOL + compose.getServiceHost(SEC_SERVICE_NAME, SEC_PORT) + ":" + compose.getServicePort(
         SEC_SERVICE_NAME, SEC_PORT) + AUTH_TOKEN_PATH;
-
+    log.info("Database url: {}, port {}", compose.getServiceHost(DB_SERVICE_NAME, DATABASE_PORT), compose.getServicePort(DB_SERVICE_NAME, DATABASE_PORT));
     flowHelper = new FlowTestHelper(authUrl, serviceUrl, headers);
   }
 
@@ -136,7 +136,7 @@ public class CharacterFlowTest {
   @Test
   void characterCreationMulti() throws InterruptedException {
     int initalCharCount = flowHelper.fetchAllCharacters().length;
-    int numChars = 10;
+    int numChars = 100;
     for (int i = 0; i < numChars; i++) {
       CharacterDTO createdChar = flowHelper.createNewCharacter("tester_" + i, true);
       assertNotNull(createdChar.getId());
@@ -149,6 +149,6 @@ public class CharacterFlowTest {
     int newCharCount = flowHelper.fetchAllCharacters().length;
     assertNotEquals(initalCharCount, newCharCount);
     assertEquals(initalCharCount + numChars, newCharCount);
-    assertThrows(HttpClientErrorException.class, () -> flowHelper.createNewCharacter("tester_11", true));
+    assertThrows(HttpClientErrorException.class, () -> flowHelper.createNewCharacter("tester_101", true), "should throw exception");
   }
 }

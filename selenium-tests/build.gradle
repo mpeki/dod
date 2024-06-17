@@ -25,7 +25,6 @@ dockerCompose {
     isRequiredBy(tasks.test)
     useComposeFiles = ['../docker-compose.yml']
     composeAdditionalArgs = ['--profile', 'test']
-    //This must be set to 'true' before committing/pushing to git
     stopContainers = seleniumRunMode == 'hub'
     scale = [chrome: 1]
     captureContainersOutput = true

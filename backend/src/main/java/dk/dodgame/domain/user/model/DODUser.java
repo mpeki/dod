@@ -1,10 +1,8 @@
 package dk.dodgame.domain.user.model;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -29,5 +27,7 @@ public class DODUser implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String id;
   private String username;
-  private Integer maxNpcs;
+  @Builder.Default
+  @Column(columnDefinition = "int default 10")
+  private Integer maxNpcs = 10;
 }
