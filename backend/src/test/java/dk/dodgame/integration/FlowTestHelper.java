@@ -28,6 +28,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Slf4j
 public class FlowTestHelper {
 
@@ -72,6 +74,13 @@ public class FlowTestHelper {
 
   CharacterDTO createNewCharacter(String name, boolean isHero) {
     return createNewCharacter(name, isHero, HttpStatus.OK, true);
+  }
+
+  String[] createManyCharacters(int numChar, String race) {
+    String bulkCreateCharactersUrl = serviceUrl + "/char/bulk/create/"+numChar+"/"+race;
+    HttpEntity<List<String>> request = new HttpEntity<>(headers);
+    ResponseEntity<String[]> createdResponse = restTemplate.postForEntity(bulkCreateCharactersUrl, request, String[].class);
+    return createdResponse.getBody();
   }
 
   CharacterDTO createNewCharacter(String name, boolean isHero, HttpStatus expectedStatus, boolean doAsserts) {

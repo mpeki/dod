@@ -48,4 +48,4 @@ logging:
     org.springframework.web.client.RestTemplate: INFO
 dodgame:
   player:
-    max-characters: 500
+    max-characters: 100
