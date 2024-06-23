@@ -1,3 +1,11 @@
+## [1.20.2](https://github.com/mpeki/dod/compare/v1.20.1...v1.20.2) (2024-06-23)
+
+
+### Bug Fixes
+
+* **security:** bump org.asciidoctor.jvm.convert from 3.3.2 to 4.0.2 ([13b70bd](https://github.com/mpeki/dod/commit/13b70bd609a51a63f3468424416b0a655d41a0b1))
+* **security:** update to jre 21.0.3 ([8a755c9](https://github.com/mpeki/dod/commit/8a755c95d1db27393cedb5f6aff4476d2e874023))
+
 ## [1.20.1](https://github.com/mpeki/dod/compare/v1.20.0...v1.20.1) (2024-06-17)
 
 
