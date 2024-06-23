@@ -1,3 +1,10 @@
+## [1.20.3](https://github.com/mpeki/dod/compare/v1.20.2...v1.20.3) (2024-06-23)
+
+
+### Bug Fixes
+
+* **security:** update logback to version 1.5.6 ([53e3fda](https://github.com/mpeki/dod/commit/53e3fda981e7dde90b6b14faf860dabe685f8a4d))
+
 ## [1.20.2](https://github.com/mpeki/dod/compare/v1.20.1...v1.20.2) (2024-06-23)
 
 
