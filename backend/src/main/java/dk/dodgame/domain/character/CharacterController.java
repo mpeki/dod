@@ -63,7 +63,7 @@ public class CharacterController {
   @PostMapping(value = "/bulk/create/{bulkSize}/{raceName}",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-  List<String> postCharacter(Principal principal, @PathVariable int bulkSize, @PathVariable String raceName) {
+  List<String> postCharacters(Principal principal, @PathVariable int bulkSize, @PathVariable String raceName) {
     return characterService.createCharacters(bulkSize, raceName, principal.getName());
   }
 
