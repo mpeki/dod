@@ -1,4 +1,4 @@
-FROM keycloak/keycloak:22.0.5 AS builder
+FROM keycloak/keycloak:25.0.0 AS builder
 
 # Enable health and metrics support
 ENV KC_HEALTH_ENABLED=true
