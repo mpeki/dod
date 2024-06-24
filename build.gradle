@@ -9,9 +9,9 @@ plugins {
     //https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
     id 'com.google.cloud.tools.jib' version '3.4.3' apply false
     //https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
-    id "com.gorylenko.gradle-git-properties" version "2.4.1"
+    id "com.gorylenko.gradle-git-properties" version "2.4.2"
     //https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
-    id 'org.siouan.frontend-jdk11' version '8.0.0' apply false
+    id 'org.siouan.frontend-jdk11' version '8.1.0' apply false
     //https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
     id "org.asciidoctor.jvm.convert" version "4.0.2" apply false
     //https://plugins.gradle.org/plugin/com.avast.gradle.docker-compose
@@ -22,7 +22,7 @@ group = 'dk.dodgame'
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
-    set('testcontainersVersion', "1.18.0")
+    set('testcontainersVersion', "1.19.8")
 //    set('testcontainersVersion', "1.19.6") // currently this upgrade results in: Caused by: java.lang.OutOfMemoryError: Java heap space
     //https://www.drools.org/
     set('droolsVersion', "8.44.0.Final")

@@ -32,11 +32,11 @@ services:
 #      - ./security/dodgame.jks:/tmp/dodgame.jks
 
   security:
-    image: "macp/dod-keycloak:22.0.1"
+    image: "macp/dod-keycloak:25.0.0"
     build:
       context: ./security/keycloak
     entrypoint: ''
-    command: "wait-for-it.sh -t 0 db:3306 -- /opt/keycloak/bin/kc.sh start-dev  --http-port=8181 --hostname-admin-url=http://security:8181 --hostname-debug=true --import-realm"
+    command: "wait-for-it.sh -t 0 db:3306 -- /opt/keycloak/bin/kc.sh start-dev  --hostname=security --http-port=8181  --hostname-debug=true --import-realm"
     ports:
       - "8181:8181"
 #      - "8443:8443"
@@ -56,8 +56,8 @@ services:
       - "./security/keycloak/new-realm-export:/tmp/keycloak-export"
       - "./security/keycloak/theme/src/main/resources/theme/dodgame:/opt/keycloak/themes/dodgame-dev"
     healthcheck:
-      test: "wget --spider http://localhost:8181/health || exit 1"
-      start_period: "5m"
+      test: "wget --quiet --tries=1 --spider http://security:9000/health || exit 1"
+      start_period: "1m"
 
   db:
     image: "mysql:8.1"
