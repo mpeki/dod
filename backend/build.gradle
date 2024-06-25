@@ -25,7 +25,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // https://mvnrepository.com/artifact/io.awspring.cloud/spring-cloud-aws-starter-secrets-manager
-    implementation 'io.awspring.cloud:spring-cloud-aws-starter-secrets-manager:3.0.2'
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-secrets-manager:3.1.1'
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 //    implementation 'org.keycloak:keycloak-policy-enforcer:22.0.1'
