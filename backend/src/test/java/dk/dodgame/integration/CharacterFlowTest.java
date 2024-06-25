@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.HttpClientErrorException;
 import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
@@ -48,7 +49,7 @@ public class CharacterFlowTest {
       .withStartupTimeout(java.time.Duration.ofMinutes(15))
       .withExposedService(DB_SERVICE_NAME, DATABASE_PORT)
       .withExposedService(SEC_SERVICE_NAME, SEC_PORT, waitStrategy)
-      .withExposedService(API_SERVICE_NAME, API_PORT)
+      .withExposedService(API_SERVICE_NAME, API_PORT).withEnv("SPRING_PROFILES_ACTIVE", "test")
       .withLogConsumer(DB_SERVICE_NAME, new Slf4jLogConsumer(log))
       .withLogConsumer(API_SERVICE_NAME, new Slf4jLogConsumer(log))
       .withLogConsumer(SEC_SERVICE_NAME, new Slf4jLogConsumer(log));
@@ -146,9 +147,11 @@ public class CharacterFlowTest {
       CharacterDTO fetchedChar = flowHelper.getCharById(createdChar.getId());
       assertEquals(numSkillsBought, fetchedChar.getSkills().size() );
     }
+    String[] charIds = flowHelper.createManyCharacters(90, "human");
+    assertEquals(90, charIds.length);
     int newCharCount = flowHelper.fetchAllCharacters().length;
     assertNotEquals(initalCharCount, newCharCount);
-    assertEquals(initalCharCount + numChars, newCharCount);
+    assertEquals(initalCharCount + numChars + charIds.length, newCharCount);
     assertThrows(HttpClientErrorException.class, () -> flowHelper.createNewCharacter("tester_11", true));
   }
 }
