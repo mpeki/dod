@@ -1,3 +1,34 @@
+## [1.20.4](https://github.com/mpeki/dod/compare/v1.20.3...v1.20.4) (2024-06-25)
+
+
+### Bug Fixes
+
+* **security:** bump io.awspring.cloud:spring-cloud-aws-starter-secrets-manager ([897e938](https://github.com/mpeki/dod/commit/897e93817997d051b8f37790c3d12e93407e2b35))
+* **security:** bump io.spring.dependency-management from 1.1.3 to 1.1.5 ([ad8c1ef](https://github.com/mpeki/dod/commit/ad8c1efd970cd00ba691b8e279128e8a076f2626))
+* **security:** update keycloak to version 25.0.0 ([fe20d0d](https://github.com/mpeki/dod/commit/fe20d0d6970ed4806752eb7b6678de5ca277eed0))
+
+## [1.20.3](https://github.com/mpeki/dod/compare/v1.20.2...v1.20.3) (2024-06-23)
+
+
+### Bug Fixes
+
+* **security:** update logback to version 1.5.6 ([53e3fda](https://github.com/mpeki/dod/commit/53e3fda981e7dde90b6b14faf860dabe685f8a4d))
+
+## [1.20.2](https://github.com/mpeki/dod/compare/v1.20.1...v1.20.2) (2024-06-23)
+
+
+### Bug Fixes
+
+* **security:** bump org.asciidoctor.jvm.convert from 3.3.2 to 4.0.2 ([13b70bd](https://github.com/mpeki/dod/commit/13b70bd609a51a63f3468424416b0a655d41a0b1))
+* **security:** update to jre 21.0.3 ([8a755c9](https://github.com/mpeki/dod/commit/8a755c95d1db27393cedb5f6aff4476d2e874023))
+
+## [1.20.1](https://github.com/mpeki/dod/compare/v1.20.0...v1.20.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* **security:** bump org.junit.jupiter:junit-jupiter-engine ([b51159a](https://github.com/mpeki/dod/commit/b51159ac922c1239278cc8b8f8b36be08a476152))
+
 # [1.20.0](https://github.com/mpeki/dod/compare/v1.19.2...v1.20.0) (2024-03-14)
 
 
