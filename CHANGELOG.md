@@ -1,3 +1,12 @@
+## [1.20.4](https://github.com/mpeki/dod/compare/v1.20.3...v1.20.4) (2024-06-25)
+
+
+### Bug Fixes
+
+* **security:** bump io.awspring.cloud:spring-cloud-aws-starter-secrets-manager ([897e938](https://github.com/mpeki/dod/commit/897e93817997d051b8f37790c3d12e93407e2b35))
+* **security:** bump io.spring.dependency-management from 1.1.3 to 1.1.5 ([ad8c1ef](https://github.com/mpeki/dod/commit/ad8c1efd970cd00ba691b8e279128e8a076f2626))
+* **security:** update keycloak to version 25.0.0 ([fe20d0d](https://github.com/mpeki/dod/commit/fe20d0d6970ed4806752eb7b6678de5ca277eed0))
+
 ## [1.20.3](https://github.com/mpeki/dod/compare/v1.20.2...v1.20.3) (2024-06-23)
 
 
