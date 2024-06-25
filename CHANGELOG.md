@@ -1,3 +1,11 @@
+## [1.20.5](https://github.com/mpeki/dod/compare/v1.20.4...v1.20.5) (2024-06-25)
+
+
+### Bug Fixes
+
+* **security:** bump org.seleniumhq.selenium:selenium-grid ([af19d58](https://github.com/mpeki/dod/commit/af19d58ed961463d4d975a620db6e4e755bd4ad1))
+* **security:** bump org.seleniumhq.selenium:selenium-java ([937f5b6](https://github.com/mpeki/dod/commit/937f5b6bdf933cc5e9c996c0ad3553332130c313))
+
 ## [1.20.4](https://github.com/mpeki/dod/compare/v1.20.3...v1.20.4) (2024-06-25)
 
 
