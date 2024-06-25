@@ -28,7 +28,7 @@ dependencies {
     implementation 'io.awspring.cloud:spring-cloud-aws-starter-secrets-manager:3.1.1'
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-    implementation 'org.keycloak:keycloak-core:22.0.5'
+    implementation 'org.keycloak:keycloak-core:25.0.0'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -52,7 +52,7 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-//    testImplementation("com.github.javafaker:javafaker:1.0.2")
+    testImplementation("com.github.javafaker:javafaker:1.0.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation 'com.h2database:h2'
