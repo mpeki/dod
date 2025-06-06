@@ -132,7 +132,7 @@ public class DODCharacter implements Serializable {
       return false;
     }
     DODCharacter that = (DODCharacter) o;
-    return id.equals(that.id) && Objects.equals(name, that.name);
+    return Objects.equals(id, that.id) && Objects.equals(name, that.name);
   }
 
   @Override
