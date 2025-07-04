@@ -83,7 +83,7 @@ class DodApplicationIntegrationTest extends BaseControllerTest {
     assert characters != null;
     assert !characters.isEmpty();
 
-    CharacterDTO character = characters.get(0);
+    CharacterDTO character = characters.getFirst();
     assertThat(character.getName()).isEqualTo("Vokan");
     assertThat(character.getRace().getName()).isEqualTo("human");
   }

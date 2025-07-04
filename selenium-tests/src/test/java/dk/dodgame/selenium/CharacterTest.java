@@ -20,10 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
-import static dk.dodgame.selenium.helpers.AuthenticationHelper.TestUser;
 import static dk.dodgame.selenium.helpers.AuthenticationHelper.logout;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,7 +30,6 @@ class CharacterTest {
 
     static JavascriptExecutor js;
     private static WebDriver driver;
-    private static Map<String, Object> vars;
     private CharacterHelper characterHelper;
     private NavigationHelper navigationHelper;
     private LanguageHelper languageHelper;
@@ -47,12 +43,18 @@ class CharacterTest {
 
     @BeforeAll
     static void setUp() throws MalformedURLException, URISyntaxException {
+
+		// Check if tests should run locally or against Selenium Hub
+		String runMode = System.getProperty("seleniumRunMode", "local"); // Default to "local" if not specified
+		String headlessMode = System.getProperty("headlessMode", "true"); // Default to "true" if not specified
+
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
         options.addArguments("--window-size=1920,1080");
 
-        // Check if tests should run locally or against Selenium Hub
-        String runMode = System.getProperty("seleniumRunMode", "local"); // Default to "local" if not specified
+        // Only add headless argument if headlessMode is "true"
+        if ("true".equalsIgnoreCase(headlessMode)) {
+            options.addArguments("--headless");
+        }
 
         if ("hub".equalsIgnoreCase(runMode)) {
             URL hubUrl = new URI("http://localhost:4444/wd/hub").toURL();
@@ -66,12 +68,14 @@ class CharacterTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(1000));
         js = (JavascriptExecutor) driver;
 
-        vars = new HashMap<String, Object>();
-
         driver.get("http://ui:80/");
-        driver.manage().window().maximize();
+
+        // Maximize window when not in headless mode
+        if (!"true".equalsIgnoreCase(headlessMode)) {
+            driver.manage().window().maximize();
+        }
         ScreenshotOnFailureExtension.setDriver(driver);
-        TestUser testUser = authenticationHelper.createRandomUser();
+        authenticationHelper.createRandomUserAndLogin();
 
     }
 
@@ -97,7 +101,6 @@ class CharacterTest {
         String charName = characterHelper.getRandomBo();
         navigationHelper.gotoCharacters();
         characterHelper.createCharacter(charName, true, AGE_GROUP_OLD, RACE_HUMAN, js);
-        String matchString = charName.length() > 10 ? charName.substring(0, 10) : charName;
         WebElement nameSpan = navigationHelper.findElement(By.xpath("//span[text()='" + charName + "']"));
         assertEquals(charName, nameSpan.getText());
         characterHelper.deleteCharacter(charName);

@@ -3,12 +3,16 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
 apply plugin: 'org.asciidoctor.jvm.convert'
-apply plugin: "com.gorylenko.gradle-git-properties"
+apply plugin: 'com.gorylenko.gradle-git-properties'
+
+apply plugin: 'org.openrewrite.rewrite'
 
 group 'dk.dodgame'
+
 java {
     sourceCompatibility = JavaVersion.VERSION_21
 }
+
 
 configurations {
     asciidoctorExt
@@ -39,7 +43,7 @@ dependencies {
     implementation "org.drools:drools-mvel:${droolsVersion}"
 
     implementation 'mysql:mysql-connector-java:8.0.33'
-    implementation 'org.modelmapper:modelmapper:3.2.0'
+    implementation 'org.modelmapper:modelmapper:3.2.4'
     implementation 'com.google.guava:guava:33.3.0-jre'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -75,6 +79,14 @@ dependencies {
 
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
+	rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:latest.release"))
+	rewrite("org.openrewrite.recipe:rewrite-migrate-java")
+
+}
+
+rewrite {
+	activeRecipe("org.openrewrite.java.migrate.UpgradeToJava21")
+	setExportDatatables(true)
 }
 
 dependencyManagement {

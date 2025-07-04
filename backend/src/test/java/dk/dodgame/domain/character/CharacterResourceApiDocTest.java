@@ -135,7 +135,7 @@ class CharacterResourceApiDocTest extends BaseControllerTest {
   private ParameterDescriptor enumParam(String name, Object[] values) {
     String formattedEnumValues = Arrays
         .stream(values)
-        .map(type -> String.format("`%s`", type))
+        .map("`%s`"::formatted)
         .collect(Collectors.joining(", "));
     return parameterWithName(name).description("Filter Skills returned by skill " + name + ": " + formattedEnumValues);
   }
@@ -143,7 +143,7 @@ class CharacterResourceApiDocTest extends BaseControllerTest {
   private FieldDescriptor enumField(String name, String fieldType, Object[] values) {
     String formattedEnumValues = Arrays
         .stream(values)
-        .map(type -> String.format("`%s`", type))
+        .map("`%s`"::formatted)
         .collect(Collectors.joining(", "));
     return fieldWithPath(name).type(fieldType).description(formattedEnumValues);
   }

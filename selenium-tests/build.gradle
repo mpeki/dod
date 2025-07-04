@@ -10,11 +10,12 @@ java {
 }
 
 dependencies {
-    testImplementation 'org.seleniumhq.selenium:selenium-java:4.22.0'
-    testImplementation 'org.seleniumhq.selenium:selenium-grid:4.22.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
-    testImplementation 'commons-io:commons-io:2.15.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.24.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-grid:4.25.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.5'
+    testImplementation 'commons-io:commons-io:2.19.0'
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
+	//https://github.com/artsok/rerunner-jupiter
     testImplementation 'io.github.artsok:rerunner-jupiter:2.1.6'
 }
 

@@ -23,7 +23,7 @@ public class NavigationHelper {
   }
 
   public void goHome() {
-    driver.findElement(waitFor(By.xpath("//a[contains(text(), '" + HOME_TAB + "')]"))).click();
+  	waitAndClick(By.xpath("//a[contains(text(), '" + HOME_TAB + "')]"));
   }
 
   public void gotoCharacters() {

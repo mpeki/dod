@@ -53,15 +53,15 @@ class PaymentHandlerTest {
 
   @Test
   void handleCharacterCreationPayment_success() {
-    basicPayment.getItemsExchanged().get(0).getItem().setPrice(70.0);
+    basicPayment.getItemsExchanged().getFirst().getItem().setPrice(70.0);
     PaymentHandler.handleCharacterCreationPayment(basicPayment);
     assertSame(ChangeStatus.APPROVED, basicPayment.getStatus());
-    assertEquals(4, basicPayment.getPayingParty().getItems().keySet().size());
+    assertEquals(4, basicPayment.getPayingParty().getItems().size());
   }
 
   @Test
   void handleCharacter_setPayingParty() {
-    basicPayment.getItemsExchanged().get(0).getItem().setPrice(70.0);
+    basicPayment.getItemsExchanged().getFirst().getItem().setPrice(70.0);
     assertSame(initialPayingParty, basicPayment.getPayingParty());
     PaymentHandler.setPayingParty(basicPayment, CharacterDTO.builder().name("This one has a name").build());
     assertNotSame(initialPayingParty, basicPayment.getPayingParty());
@@ -69,7 +69,7 @@ class PaymentHandlerTest {
 
   @Test
   void handleCharacter_setPaymentItems() {
-    basicPayment.getItemsExchanged().get(0).getItem().setPrice(70.0);
+    basicPayment.getItemsExchanged().getFirst().getItem().setPrice(70.0);
 
     Exception exception = assertThrows(PaymentException.class, () -> {
       PaymentHandler.setPaymentItems(null, null, 0);
@@ -88,7 +88,7 @@ class PaymentHandlerTest {
 
   @Test
   void handleCharacter_setPaymentItems_armor() {
-    basicPayment.getItemsExchanged().get(0).getItem().setPrice(70.0);
+    basicPayment.getItemsExchanged().getFirst().getItem().setPrice(70.0);
 
     Exception exception = assertThrows(PaymentException.class, () -> {
       PaymentHandler.setPaymentItems(null, null, 0);
@@ -108,7 +108,7 @@ class PaymentHandlerTest {
 
   @Test
   void handleCharacterCreationPayment_InsufficientFunds() {
-    basicPayment.getItemsExchanged().get(0).getItem().setPrice(71.0);
+    basicPayment.getItemsExchanged().getFirst().getItem().setPrice(71.0);
     PaymentHandler.handleCharacterCreationPayment(basicPayment);
     assertSame(ChangeStatus.REJECTED, basicPayment.getStatus());
     assertSame(ChangeStatusLabel.INSUFFICIENT_FUNDS, basicPayment.getStatusLabel());
@@ -150,7 +150,7 @@ class PaymentHandlerTest {
           IllegalStateException.class, () -> PaymentHandler.handleCharacterCreationPayment(basicPayment));
       assertTrue(exception.getMessage().contains("Character State should be"));
     } else {
-      basicPayment.getItemsExchanged().get(0).getItem().setPrice(70.0);
+      basicPayment.getItemsExchanged().getFirst().getItem().setPrice(70.0);
       PaymentHandler.handleCharacterCreationPayment(basicPayment);
       assertSame(ChangeStatus.APPROVED, basicPayment.getStatus());
       assertEquals(4, basicPayment.getPayingParty().getItems().keySet().size());
@@ -159,7 +159,7 @@ class PaymentHandlerTest {
 
   @Test
   void handleCharacterCreationPayment_paymentFundsMismatch_gold() {
-    basicPayment.getItemsExchanged().get(0).getItem().setPrice(70.0);
+    basicPayment.getItemsExchanged().getFirst().getItem().setPrice(70.0);
     basicPayment.setGold(11); // Set a price higher than available
     PaymentHandler.handleCharacterCreationPayment(basicPayment);
     assertSame(ChangeStatus.REJECTED, basicPayment.getStatus());
@@ -168,7 +168,7 @@ class PaymentHandlerTest {
 
   @Test
   void handleCharacterCreationPayment_paymentFundsMismatch_silver() {
-    basicPayment.getItemsExchanged().get(0).getItem().setPrice(70.0);
+    basicPayment.getItemsExchanged().getFirst().getItem().setPrice(70.0);
     basicPayment.setSilver(101); // Set a price higher than available
     PaymentHandler.handleCharacterCreationPayment(basicPayment);
     assertSame(ChangeStatus.REJECTED, basicPayment.getStatus());
@@ -177,7 +177,7 @@ class PaymentHandlerTest {
 
   @Test
   void handleCharacterCreationPayment_paymentFundsMismatch_copper() {
-    basicPayment.getItemsExchanged().get(0).getItem().setPrice(70.0);
+    basicPayment.getItemsExchanged().getFirst().getItem().setPrice(70.0);
     basicPayment.setCopper(501); // Set a price higher than available
     PaymentHandler.handleCharacterCreationPayment(basicPayment);
     assertSame(ChangeStatus.REJECTED, basicPayment.getStatus());
@@ -186,7 +186,7 @@ class PaymentHandlerTest {
 
   @Test
   void testPaymentWithChangeBack(){
-    basicPayment.getItemsExchanged().get(0).getItem().setPrice(70.0);
+    basicPayment.getItemsExchanged().getFirst().getItem().setPrice(70.0);
     basicPayment.setSilver(50);
     PaymentHandler.handleCharacterCreationPayment(basicPayment);
     basicPayment.getPayingParty().getAmountOf(Coin.SILVER_PIECE);
