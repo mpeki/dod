@@ -1,7 +1,7 @@
 # Actions used
-# build-env: mpeki/build-env/pre-build@v1.0.1 (https://github.com/mpeki/build-env)
-# cache: actions/cache@v4.0.2 (https://github.com/actions/cache)
-# test-reporter: dorny/test-reporter@v1.9.1 (https://github.com/dorny/test-reporter)
+# build-env: mpeki/build-env/pre-build@v1.0.4 (https://github.com/mpeki/build-env)
+# cache: actions/cache@v4.2.3 (https://github.com/actions/cache)
+# test-reporter: dorny/test-reporter@v2.1.0 (https://github.com/dorny/test-reporter)
 name: Main CI
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
   build-backend:
     runs-on: ubuntu-latest
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.3
+      - uses: mpeki/build-env/pre-build@v1.0.4
         with:
           use-docker: false
       - name: Build backend
@@ -33,7 +33,7 @@ jobs:
   build-frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.3
+      - uses: mpeki/build-env/pre-build@v1.0.4
         with:
           use-java: false
       - name: Build UI docker image
@@ -42,7 +42,7 @@ jobs:
   build-security:
     runs-on: ubuntu-latest
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.3
+      - uses: mpeki/build-env/pre-build@v1.0.4
         with:
           use-java: true
       - name: Build Security docker image
@@ -56,19 +56,19 @@ jobs:
       actions: read
       checks: write
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.3
+      - uses: mpeki/build-env/pre-build@v1.0.4
       - name: run regression tests
         run: ./gradlew :b:test
       - name: Cache SonarCloud packages
         if: github.event_name == 'pull_request'  && github.actor != 'dependabot[bot]'
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@4.2.3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: JUnit Report - Integration Tests
         if: success() || failure() && github.actor != 'dependabot[bot]'
-        uses: dorny/test-reporter@v1.9.1
+        uses: dorny/test-reporter@v2.1.0
         with:
           name: Test Reports - test-backend-regression
           path: backend/build/test-results/test/*.xml
@@ -83,7 +83,7 @@ jobs:
       actions: read
       checks: write
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.3
+      - uses: mpeki/build-env/pre-build@v1.0.4
       - name: Build
         run: ./dod.sh build all
       - name: Integration Test
@@ -91,7 +91,7 @@ jobs:
         run: ./gradlew :b:test -DincludeTests="integration" --info
       - name: JUnit Report - Integration Tests
         if: github.actor != 'dependabot[bot]'
-        uses: dorny/test-reporter@v1.9.1
+        uses: dorny/test-reporter@v2.1.0
         with:
           name: Test Reports - test-backend-integration
           path: backend/build/test-results/test/*.xml
@@ -106,14 +106,14 @@ jobs:
       actions: read
       checks: write
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.3
+      - uses: mpeki/build-env/pre-build@v1.0.4
       - name: Build backend / security
         run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
       - name: Build & Test
         run: ./gradlew clean :b:jDB :sel:test -DseleniumRunMode=hub
       - name: JUnit Report - Integration Tests
         if: github.actor != 'dependabot[bot]'
-        uses: dorny/test-reporter@v1.9.1
+        uses: dorny/test-reporter@v2.1.0
         with:
           name: Test Reports - end-to-end-test-full
           path: selenium-tests/build/test-results/test/*.xml
@@ -125,7 +125,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [end-to-end-test,test-backend-integration]
     steps:
-    - uses: mpeki/build-env/pre-build@v1.0.3
+    - uses: mpeki/build-env/pre-build@v1.0.4
       with:
         use-docker: true
         docker-user: ${{ secrets.DOCKERHUB_USER }}
