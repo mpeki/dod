@@ -1,33 +1,21 @@
 package dk.dodgame.domain.race.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import dk.dodgame.domain.character.model.CharacterTemplate;
-import dk.dodgame.domain.skill.SkillKey;
-import io.hypersistence.utils.hibernate.id.Tsid;
-
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Embedded;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.With;
+
+import jakarta.persistence.*;
+
 import org.hibernate.Hibernate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.hypersistence.utils.hibernate.id.Tsid;
+
+import lombok.*;
+
+import dk.dodgame.domain.character.model.CharacterTemplate;
+import dk.dodgame.domain.skill.SkillKey;
 
 @Builder(toBuilder = true)
 @With
@@ -43,7 +31,6 @@ public class Race implements Serializable {
   private static final long serialVersionUID = -8860486223584199305L;
 
   @Id @Tsid
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String id;
 
   @NonNull

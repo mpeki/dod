@@ -4,10 +4,24 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dk.dodgame.BaseControllerTest;
 import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.RaceDTO;
+import dk.dodgame.data.SkillDTO;
 import dk.dodgame.domain.action.CharacterActionService;
 import dk.dodgame.domain.action.model.ActionResult;
 import dk.dodgame.domain.action.model.Difficulty;
@@ -17,18 +31,6 @@ import dk.dodgame.domain.character.CharacterService;
 import dk.dodgame.domain.character.model.AgeGroup;
 import dk.dodgame.domain.skill.SkillNotFoundException;
 import dk.dodgame.domain.skill.SkillService;
-import dk.dodgame.data.SkillDTO;
-import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 @Tag("regression")
 class CharacterActionControllerTest extends BaseControllerTest {
@@ -38,11 +40,11 @@ class CharacterActionControllerTest extends BaseControllerTest {
 
   @Autowired
   private ObjectMapper jacksonObjectMapper;
-  @MockBean
+  @MockitoBean
   private CharacterActionService actionService;
-  @MockBean
+  @MockitoBean
   private CharacterService characterService;
-  @MockBean
+  @MockitoBean
   private SkillService skillService;
 
   @BeforeEach
@@ -90,8 +92,8 @@ class CharacterActionControllerTest extends BaseControllerTest {
     jacksonObjectMapper
         .createParser(resultActions.andReturn().getResponse().getContentAsString())
         .readValueAs(SkillTrainingAction.class);
-    Assert.assertEquals(ActionResult.SUCCESS, actionSuccess.getActionResult());
-    Assert.assertEquals("test action success!", actionSuccess.getResultDescription());
+    Assertions.assertEquals(ActionResult.SUCCESS, actionSuccess.getActionResult());
+    Assertions.assertEquals("test action success!", actionSuccess.getResultDescription());
   }
 
   @Test

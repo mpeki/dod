@@ -6,17 +6,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import dk.dodgame.data.CharacterDTO;
-import dk.dodgame.domain.character.model.AgeGroup;
-import dk.dodgame.domain.character.model.DODCharacter;
-import dk.dodgame.domain.race.RaceRepository;
-import dk.dodgame.domain.race.model.Race;
-import dk.dodgame.domain.skill.SkillKey;
-import dk.dodgame.system.rule.DroolsService;
-import dk.dodgame.util.character.CharacterMapper;
-import dk.dodgame.util.RandomObjectFiller;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -24,7 +16,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
+import dk.dodgame.data.CharacterDTO;
+import dk.dodgame.domain.character.model.AgeGroup;
+import dk.dodgame.domain.character.model.DODCharacter;
+import dk.dodgame.domain.race.RaceRepository;
+import dk.dodgame.domain.race.model.Race;
+import dk.dodgame.domain.skill.SkillKey;
+import dk.dodgame.system.rule.DroolsService;
+import dk.dodgame.util.RandomObjectFiller;
+import dk.dodgame.util.character.CharacterMapper;
 
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @AutoConfigureTestDatabase
@@ -35,11 +37,11 @@ class DODCharacterServiceCachingTest {
   CharacterDTO testCharacterDTO;
   @Autowired
   private CharacterService service;
-  @MockBean
+  @MockitoBean
   private CharacterRepository charRepo;
-  @MockBean
+  @MockitoBean
   private RaceRepository raceRepo;
-  @MockBean
+  @MockitoBean
   private DroolsService ruleService;
 
   @BeforeEach

@@ -22,79 +22,59 @@ dependencies {
 
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.6.0'
-    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation libs.bundles.boot.starters
 
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     // https://mvnrepository.com/artifact/io.awspring.cloud/spring-cloud-aws-starter-secrets-manager
-    implementation 'io.awspring.cloud:spring-cloud-aws-starter-secrets-manager:3.1.1'
+//    implementation 'io.awspring.cloud:spring-cloud-aws-starter-secrets-manager:3.3.1'
 
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-//    implementation 'org.keycloak:keycloak-policy-enforcer:22.0.1'
-    implementation 'org.keycloak:keycloak-core:22.0.5'
+    implementation 'org.keycloak:keycloak-core:26.3.0'
 
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'org.liquibase:liquibase-core'
+    implementation libs.bundles.database
 
-    implementation "org.drools:drools-engine:${droolsVersion}"
-    implementation "org.drools:drools-mvel:${droolsVersion}"
+    implementation platform(libs.drools.bom)
+	implementation libs.bundles.drools
+    implementation libs.modelmapper
+    implementation libs.guava
 
-    implementation 'mysql:mysql-connector-java:8.0.33'
-    implementation 'org.modelmapper:modelmapper:3.2.4'
-    implementation 'com.google.guava:guava:33.3.0-jre'
-    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.retry:spring-retry:2.0.9'
-    implementation 'ch.qos.logback:logback-classic:1.5.6'
-    implementation 'ch.qos.logback:logback-core:1.5.6'
+    implementation libs.spring.retry
+    implementation libs.bundles.logging
 
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
 
-    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+	testRuntimeOnly libs.bundles.test.runtime
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation 'com.h2database:h2'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'junit', module: 'junit;'
+    testImplementation(libs.spring.boot.starter.test) {
+        exclude group: 'junit', module: 'junit'
     }
-    testImplementation 'org.junit.jupiter:junit-jupiter-api'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'org.reflections:reflections:0.10.2'
-    //https://github.com/droolsassert/droolsassert
-    testImplementation 'org.droolsassert:droolsassert:3.1.6'
 
-    testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
-    testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
+    testImplementation libs.bundles.test
+	// https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client
+	testImplementation "org.keycloak:keycloak-admin-client:26.0.5"
 
-    testImplementation "org.keycloak:keycloak-test-helper:25.0.6"
-    testImplementation "org.keycloak:keycloak-admin-client:25.0.0"
-    testImplementation "org.springframework.security:spring-security-test"
 
-    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    developmentOnly libs.bundles.tools
 
 	rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:latest.release"))
-	rewrite("org.openrewrite.recipe:rewrite-migrate-java")
+	rewrite("io.moderne.recipe:rewrite-spring:0.8.0")
 
 }
 
 rewrite {
-	activeRecipe("org.openrewrite.java.migrate.UpgradeToJava21")
+	activeRecipe('io.moderne.java.spring.boot3.UpgradeSpringBoot_3_5')
 	setExportDatatables(true)
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
-        mavenBom ext.mavenBom
-    }
-}
+//dependencyManagement {
+//    imports {
+//        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+//        mavenBom ext.mavenBom
+//    }
+//}
 
 gradle.taskGraph.whenReady { taskGraph ->
     println 'Tasks to be executed:'
@@ -133,8 +113,8 @@ test {
 
     dependsOn createSnippetsDir
 
-    String itags = System.getProperty("includeTests") ? System.getProperty("includeTests") : "regression"
-    String etags = System.getProperty("excludeTests") ? System.getProperty("excludeTests") : "none()"
+    String itags = System.getProperty("runTestTags") ? System.getProperty("runTestTags") : "regression"
+    String etags = System.getProperty("excludeTestTags") ? System.getProperty("excludeTestTags") : "none()"
 
     environment 'SPRING_PROFILES_ACTIVE', 'test'
     outputs.dir snippetsDir
@@ -202,4 +182,9 @@ jacocoTestCoverageVerification {
             }
         }
     }
+}
+
+gitProperties {
+	//Tell git properties to use the root project directory
+	dotGitDirectory = project.rootProject.layout.projectDirectory.dir(".git")
 }

@@ -88,7 +88,7 @@ jobs:
         run: ./dod.sh build all
       - name: Integration Test
         if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
-        run: ./gradlew :b:test -DincludeTests="integration" --info
+        run: ./gradlew :b:test -DrunTestTags="integration" --info
       - name: JUnit Report - Integration Tests
         if: github.actor != 'dependabot[bot]'
         uses: dorny/test-reporter@v2.1.0

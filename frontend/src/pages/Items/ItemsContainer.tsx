@@ -1,20 +1,9 @@
-import {
-    Grid,
-    IconButton,
-    List,
-    ListItem,
-    ListItemText,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow
-} from "@mui/material";
+import {Grid, IconButton, List, ListItem, ListItemText, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 import {StyledTable} from "../../components/shared/Table.styled";
 import AddIcon from "@mui/icons-material/Add";
 import Stack from '@mui/material/Stack';
 import {StyledList} from "../../components/shared/List.styled";
-import {BaseTraitValue, Character} from "../../types/character";
+import {BaseTraitValue} from "../../types/character";
 import useCharacterItems from "./useCharacterItems";
 import {useTranslation} from "react-i18next";
 import {RemoveCircleOutline} from "@mui/icons-material";
@@ -28,14 +17,14 @@ import CharacterContext from "../Character/CharacterContext";
 export const ItemsContainer = () => {
 
     const {t} = useTranslation("items");
-    const { doCharacterChange } = useChangeService();
+    const {doCharacterChange} = useChangeService();
     const charContext = useContext(CharacterContext);
     if (!charContext || !charContext.currentCharacter) {
         throw new Error("SkillContainer must be rendered within an ActivateCharContext.Provider");
     }
     const [changeData, setChangeData] = useState<Change>(createChange());
 
-    const { currentCharacter, fetchCharHandler } = charContext;
+    const {currentCharacter, fetchCharHandler} = charContext;
     const baseTraitMap: Map<string, BaseTraitValue> = currentCharacter.baseTraits ? new Map(Object.entries(currentCharacter.baseTraits)) : new Map();
     const items = useCharacterItems(currentCharacter);
 
@@ -43,7 +32,7 @@ export const ItemsContainer = () => {
     const ratioCarried = (weightCarried) / (baseTraitMap.get("STRENGTH")?.currentValue || 1);
     const color = ratioCarried <= 0.8 ? 'green' : ratioCarried > 0.8 && ratioCarried < 1 ? 'orange' : 'red';
 
-    const removeItemHandler = (charItem: CharacterItem) => ( event: React.MouseEvent<SVGSVGElement>) => {
+    const removeItemHandler = (charItem: CharacterItem) => (event: React.MouseEvent<SVGSVGElement>) => {
         if (!currentCharacter) {
             showWarningSnackbar("Character is not defined");
             return;
@@ -51,7 +40,9 @@ export const ItemsContainer = () => {
         const changePostData: Change = createChange("REMOVE_ITEM_INIT_COMPLETE", "Remove item", charItem.item.itemKey, charItem.itemName);
         doCharacterChange(currentCharacter, changePostData)
             .then(() => {
-                fetchCharHandler(currentCharacter.id).then((character) => showSuccessSnackbar("Removed Weapon! "));
+                if (currentCharacter.id !== undefined) {
+                    fetchCharHandler(currentCharacter.id).then((character) => showSuccessSnackbar("Removed Weapon! "));
+                }
             })
             .catch((e) => showWarningSnackbar((e as Error).message))
             .finally(() => {
@@ -106,8 +97,8 @@ export const ItemsContainer = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell key={"item"} sx={{ fontWeight: "bold" }} colSpan={5}>{t("headers.item")}</TableCell>
-                            <TableCell key={"weight"} sx={{ fontWeight: "bold" }} colSpan={2}>{t("headers.weight")}</TableCell>
+                            <TableCell key={"item"} sx={{fontWeight: "bold"}} colSpan={5}>{t("headers.item")}</TableCell>
+                            <TableCell key={"weight"} sx={{fontWeight: "bold"}} colSpan={2}>{t("headers.weight")}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

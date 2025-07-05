@@ -23,7 +23,7 @@ def seleniumRunMode = System.getProperty('seleniumRunMode', 'local')
 
 dockerCompose {
     isRequiredBy(tasks.test)
-    useComposeFiles = ['../docker-compose.yml']
+    useComposeFiles = ['../infra/docker-compose.yml']
     composeAdditionalArgs = ['--profile', 'test']
     //This must be set to 'true' before committing/pushing to git
     stopContainers = seleniumRunMode == 'hub'
@@ -38,7 +38,7 @@ def areContainersRunning() {
 
     try {
         // Execute 'docker-compose ps -q' to get the container ID
-        def cmd = "docker compose -f ../docker-compose.yml ps -q $serviceName".execute()
+        def cmd = "docker compose -f ../infra/docker-compose.yml ps -q $serviceName".execute()
         def output = new StringWriter(), error = new StringWriter()
         cmd.waitForProcessOutput(output, error)
 

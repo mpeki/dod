@@ -4,41 +4,38 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-//import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import dk.dodgame.BaseControllerTest;
-import dk.dodgame.domain.character.model.BaseTraitName;
-import dk.dodgame.domain.skill.SkillKey;
-import dk.dodgame.domain.skill.SkillService;
-import dk.dodgame.domain.skill.model.Category;
-import dk.dodgame.domain.skill.model.Group;
-import dk.dodgame.data.SkillDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.request.ParameterDescriptor;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import dk.dodgame.BaseControllerTest;
+import dk.dodgame.data.SkillDTO;
+import dk.dodgame.domain.character.model.BaseTraitName;
+import dk.dodgame.domain.skill.model.Category;
+import dk.dodgame.domain.skill.model.Group;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @Tag("regression")
@@ -47,7 +44,7 @@ class SkillResourceApiDocTest extends BaseControllerTest {
   List<SkillDTO> testListResult = new ArrayList<>(1);
   SkillDTO testSkill;
   private MockMvc mockMvc;
-  @MockBean
+  @MockitoBean
   private SkillService skillService;
 
   @BeforeEach

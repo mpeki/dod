@@ -12,7 +12,6 @@ import dk.dodgame.domain.character.CharacterService;
 import dk.dodgame.system.rule.DroolsService;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,6 @@ public class ChangeRequestService {
 
   private final DroolsService ruleService;
 
-  @Autowired
   public ChangeRequestService(DroolsService ruleService, CharacterService characterService) {
     this.ruleService = ruleService;
     this.characterService = characterService;

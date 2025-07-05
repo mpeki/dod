@@ -4,21 +4,21 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import dk.dodgame.data.RaceDTO;
-import dk.dodgame.domain.race.RaceNotFoundException;
-import dk.dodgame.domain.race.RaceService;
-import dk.dodgame.BaseControllerTest;
 import java.util.Arrays;
+
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import dk.dodgame.BaseControllerTest;
+import dk.dodgame.data.RaceDTO;
 
 @Tag("regression")
 class RaceControllerTest extends BaseControllerTest {
 
-  @MockBean
+  @MockitoBean
   private RaceService raceService;
 
   @Test

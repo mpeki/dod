@@ -7,22 +7,25 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dk.dodgame.BaseControllerTest;
-import dk.dodgame.domain.character.model.BaseTraitName;
-import dk.dodgame.domain.skill.model.Group;
-import dk.dodgame.data.SkillDTO;
-import dk.dodgame.util.RandomObjectFiller;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import dk.dodgame.BaseControllerTest;
+import dk.dodgame.data.SkillDTO;
+import dk.dodgame.domain.character.model.BaseTraitName;
+import dk.dodgame.domain.skill.model.Group;
+import dk.dodgame.util.RandomObjectFiller;
 
 @Tag("regression")
 class SkillControllerTest extends BaseControllerTest {
@@ -34,7 +37,7 @@ class SkillControllerTest extends BaseControllerTest {
   @Autowired
   private ObjectMapper jacksonObjectMapper;
 
-  @MockBean
+  @MockitoBean
   private SkillService skillService;
 
   @BeforeEach

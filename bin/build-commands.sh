@@ -47,18 +47,6 @@ command_exists() {
     type "$1" &> /dev/null
 }
 
-docker_compose() {
-  if [[ $(type "docker" &> /dev/null && docker compose version) ]]; then
-    docker compose "${@}"
-  elif [[ $(type "docker-compose") ]]; then
-    echo "Found Docker compose v1 - v2 must be used!"
-    exit 1
-  else
-    echo "You must install Docker Compose v2 to use this script!"
-    exit 1
-  fi
-}
-
 compare_gradle_versions() {
 
   # Retrieve the local Gradle version

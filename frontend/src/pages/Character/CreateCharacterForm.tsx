@@ -1,13 +1,13 @@
 import classes from "./CreateCharacterForm.module.css";
 import useCharacterService from "../../services/character.service";
-import { useForm } from "react-hook-form";
-import { useCallback, useEffect, useState } from "react";
-import { Character } from "../../types/character";
-import { useRaceService } from "../../services/race.service";
-import { Race } from "../../types/race";
-import { showWarningSnackbar } from "../../utils/DODSnackbars";
-import { Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, TextField } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import {useForm} from "react-hook-form";
+import {useCallback, useEffect, useState} from "react";
+import {Character} from "../../types/character";
+import {useRaceService} from "../../services/race.service";
+import {Race} from "../../types/race";
+import {showWarningSnackbar} from "../../utils/DODSnackbars";
+import {Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, TextField} from "@mui/material";
+import {useTranslation} from "react-i18next";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -36,7 +36,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
   const [races, setRaces] = useState<Race[]>([]);
 
   const [charData, setCharData] = useState<Character>({
-    id: "",
+    id: undefined,
     name: "",
     ageGroup: "MATURE",
     race: { name: "human" },
@@ -62,7 +62,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
 
   const submitHandler = useCallback(async () => {
     const charPostData: Character = {
-      id: "",
+      id: undefined,
       name: getValues("characterName"),
       ageGroup: getValues("ageGroup"),
       race: { name: getValues("raceName") },
@@ -75,7 +75,7 @@ export const CreateCharacterForm = ({ fetchCharactersHandler, onConfirm }: IProp
     } catch (e) {
       showWarningSnackbar((e as Error).message);
     } finally {
-      setCharData({ id: "", name: "", ageGroup: "MATURE", race: { name: "human" }, hero: false });
+      setCharData({ id: undefined, name: "", ageGroup: "MATURE", race: { name: "human" }, hero: false });
       fetchCharactersHandler();
       reset();
       onConfirm();

@@ -4,6 +4,8 @@ set -uoe pipefail
 DEV_MAIN_TITLE="Dev Run Main"
 DEV_LOG_TITLE="DB & Security Logs"
 
+source ./bin/utils.sh
+
 help() {
   printf "\nThe \"run\" command is used to the application in different modes.\n\n\
     Available sub-commands: \n\n\
@@ -31,6 +33,10 @@ get_window_id() {
     else
         echo "$output"  # Return the actual output on success
     fi
+}
+
+test_run() {
+  docker_compose up
 }
 
 dev_run(){
@@ -80,6 +86,10 @@ help)
 dev)
   dev_run
   ;;
+test)
+  test_run
+  ;;
+
 *)
   help
   ;;

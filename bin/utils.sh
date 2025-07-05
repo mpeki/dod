@@ -123,3 +123,16 @@ popd() {
   command popd "$@" >/dev/null
 }
 export -f popd
+
+docker_compose() {
+  if [[ $(type "docker" &> /dev/null && docker compose version) ]]; then
+    docker compose -f infra/docker-compose.yml "${@}"
+  elif [[ $(type "docker-compose") ]]; then
+    echo "Found Docker compose v1 - v2 must be used!"
+    exit 1
+  else
+    echo "You must install Docker Compose v2 to use this script!"
+    exit 1
+  fi
+}
+export -f docker_compose

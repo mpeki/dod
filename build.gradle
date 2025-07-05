@@ -1,36 +1,21 @@
+
 plugins {
-	//https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
-	id 'org.springframework.boot' version '3.1.5' apply false
-	id 'jacoco'
-	//https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
-	id 'org.sonarqube' version '5.0.0.4638'
-	//https://plugins.gradle.org/plugin/io.spring.dependency-management
-	id 'io.spring.dependency-management' version '1.1.5' apply false
-	//https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
-	id 'com.google.cloud.tools.jib' version '3.4.3' apply false
-	//https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
-	id "com.gorylenko.gradle-git-properties" version "2.4.2"
-	//https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
-	id 'org.siouan.frontend-jdk11' version '8.1.0' apply false
-	//https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
-	id "org.asciidoctor.jvm.convert" version "4.0.2" apply false
-	//https://plugins.gradle.org/plugin/com.avast.gradle.docker-compose
-	id "com.avast.gradle.docker-compose" version "0.17.7" apply false
-	// https://github.com/openrewrite
-	// TODO: remove after running the rewrite task
-	// https://docs.openrewrite.org/using-rewrite/gradle-plugin
-	id 'org.openrewrite.rewrite' version '7.9.0' apply false
+	id 'jacoco' // core plugin – no alias needed
+	alias(libs.plugins.springboot)                 apply false
+	alias(libs.plugins.sonarqube)
+	alias(libs.plugins.dep.mgmt)                   apply false
+	alias(libs.plugins.jib)                        apply false
+	alias(libs.plugins.git.props)
+	alias(libs.plugins.frontend)                   apply false
+	alias(libs.plugins.asciidoctor)                apply false
+	alias(libs.plugins.docker.compose)             apply false
+	alias(libs.plugins.rewrite)                    apply false
 }
 
 group = 'dk.dodgame'
 
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
-	set('testcontainersVersion', "1.19.8")
-//    set('testcontainersVersion', "1.19.6") // currently this upgrade results in: Caused by: java.lang.OutOfMemoryError: Java heap space
-	//https://www.drools.org/
-	set('droolsVersion', "8.44.0.Final")
-	set('lombokVersion', "1.18.30")
 }
 
 allprojects {
