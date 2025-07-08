@@ -41,6 +41,15 @@
     "typescript": "^4.8.4",
     "web-vitals": "^2.1.4"
   },
+  "overrides": {
+    "nth-check": "^2.1.1",
+    "postcss": "^8.5.6",
+    "webpack-dev-server": "^5.2.2",
+    "resolve-url-loader": "^5.0.0",
+    "svgo": "^2.8.0",
+    "@svgr/plugin-svgo": "^8.1.0",
+    "@svgr/webpack": "^8.1.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

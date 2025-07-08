@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAxios } from "./useAxios";
 import { showFatalConnectionErrorSnackbar, showNoConnectionWarningSnackbar } from "../../utils/DODSnackbars";
 import { operation, options } from "../../utils/DODRetryOptions";
-import { createTimeout } from "retry";
+import { createTimeout, CreateTimeoutOptions } from "retry";
 import { closeSnackbar, enqueueSnackbar } from "notistack";
 import { AxiosError } from "axios";
 
@@ -29,7 +29,10 @@ export const useLoadAppDataWithRetry = (appDataEndpoints: AppDataEndpoint[]) => 
         if (dataJSON === null) {
           try {
             operation.attempt(async (currentAttempt) => {
-              const currentTimeout = createTimeout(currentAttempt - 1, options);
+              const currentTimeout = createTimeout(
+                currentAttempt - 1,
+                options as CreateTimeoutOptions
+              );
 
               try {
                 for (const key in endpoint) {
