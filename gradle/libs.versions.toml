@@ -18,6 +18,7 @@ hypersistence = "3.8.3"         #
 lombok = "1.18.30"              # https://projectlombok.org/
 keycloak-core = "26.3.0"        # https://mvnrepository.com/artifact/org.keycloak/keycloak-core
 keycloak-test-helper = "25.0.6" # https://mvnrepository.com/artifact/org.keycloak/keycloak-test-helper
+keycloak-admin-client= "26.0.5" # https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client
 reflections = "0.10.2"          # https://mvnrepository.com/artifact/org.reflections/reflections
 mysql-connector = "8.4.0"       # https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
 spring-retry = "2.0.12"         # https://mvnrepository.com/artifact/org.springframework.retry/spring-retry
@@ -74,8 +75,10 @@ junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 
+
 # Tools
 boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+keycloak-admin-client = { module = "org.keycloak:keycloak-admin-client", version.ref = "keycloak-admin-client" }
 
 [plugins]
 springboot = { id = "org.springframework.boot", version.ref = "springboot" }
@@ -93,6 +96,6 @@ database = ["liquibase", "hypersistence", "mysql-connector"]
 drools = ["drools-engine", "drools-mvel", "drools-assert"]
 boot-starters = ["boot-starter-actuator", "boot-starter-data-jpa", "boot-starter-aop", "boot-starter-security", "boot-starter-web", "boot-starter-cache", "boot-starter-validation", "boot-starter-hateoas", "boot-starter-oauth2-client"]
 logging = ["logback-classic", "logback-core"]
-test = ["spring-security-test", "keycloak-test-helper", "testcontainers", "testcontainers-junit", "h2database", "reflections", "spring-boot-starter-test", "junit-jupiter", "junit-jupiter-api"]
+test = ["spring-security-test", "keycloak-test-helper", "testcontainers", "testcontainers-junit", "h2database", "reflections", "spring-boot-starter-test", "junit-jupiter", "junit-jupiter-api", "keycloak-admin-client"]
 test-runtime = [ "junit-platform-launcher", "junit-jupiter-engine" ]
 tools = ["boot-devtools"]
