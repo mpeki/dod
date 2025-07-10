@@ -9,7 +9,7 @@ plugins {
     //https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
     id 'com.google.cloud.tools.jib' version '3.4.3' apply false
     //https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
-    id "com.gorylenko.gradle-git-properties" version "2.4.2"
+    id "com.gorylenko.gradle-git-properties" version "2.5.0"
     //https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
     id 'org.siouan.frontend-jdk11' version '8.1.0' apply false
     //https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
