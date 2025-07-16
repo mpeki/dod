@@ -8,7 +8,6 @@ import dk.dodgame.system.rule.DroolsService;
 import dk.dodgame.util.character.CharacterMapper;
 import java.util.List;
 import java.util.stream.IntStream;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,7 +17,6 @@ public class CharacterFactory {
   private final RaceService raceService;
   private final DroolsService ruleService;
 
-  @Autowired
   public CharacterFactory(RaceService raceService, DroolsService ruleService) {
     this.raceService = raceService;
     this.ruleService = ruleService;

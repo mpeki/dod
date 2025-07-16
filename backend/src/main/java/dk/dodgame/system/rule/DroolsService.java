@@ -11,7 +11,6 @@ import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.AgendaFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +21,6 @@ public class DroolsService {
   private final SkillService skillService;
   private final ItemService itemService;
 
-  @Autowired
   public DroolsService(SkillService skillService, ItemService itemService, KieContainer kieContainer) {
     this.skillService = skillService;
     this.itemService = itemService;

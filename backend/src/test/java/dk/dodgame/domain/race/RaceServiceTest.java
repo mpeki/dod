@@ -36,7 +36,7 @@ class RaceServiceTest {
     List<Race> races = List.of(race);
     given(repo.findAll()).willReturn(races);
     List<RaceDTO> raceDTOList = service.fetchRaces();
-    assertThat(raceDTOList.get(0).getName()).isEqualTo("human");
+    assertThat(raceDTOList.getFirst().getName()).isEqualTo("human");
   }
 
   @Test

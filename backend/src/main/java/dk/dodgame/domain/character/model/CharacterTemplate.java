@@ -1,25 +1,19 @@
 package dk.dodgame.domain.character.model;
 
-import dk.dodgame.domain.character.model.body.BaseBody;
-import io.hypersistence.utils.hibernate.id.Tsid;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+
+import jakarta.persistence.*;
+
 import org.hibernate.Hibernate;
+
+import io.hypersistence.utils.hibernate.id.Tsid;
+
+import lombok.*;
+
+import dk.dodgame.domain.character.model.body.BaseBody;
 
 @Builder(toBuilder = true)
 @Getter

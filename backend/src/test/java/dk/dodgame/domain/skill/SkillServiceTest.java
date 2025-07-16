@@ -102,20 +102,20 @@ class SkillServiceTest {
   void getSkillByBaseChance() {
     given(skillRepo.findByBaseChance(BaseTraitName.CHARISMA)).willReturn(Arrays.asList(modelMapper.map(testSkill, Skill.class)));
     List<SkillDTO> skillsFound = skillService.getSkillsByBaseChance(BaseTraitName.CHARISMA);
-    assertEquals(testSkill, skillsFound.get(0));
+    assertEquals(testSkill, skillsFound.getFirst());
   }
   @Test
   void getSkillByGroup() {
     given(skillRepo.findByGroup(Group.COMBAT)).willReturn(Arrays.asList(modelMapper.map(testSkill, Skill.class)));
     List<SkillDTO> skillsFound = skillService.getSkillsByGroup(Group.COMBAT);
-    assertEquals(testSkill, skillsFound.get(0));
+    assertEquals(testSkill, skillsFound.getFirst());
   }
 
   @Test
   void getSkillsByGroupAndBaseChance() {
     given(skillRepo.findByGroupAndBaseChance(Group.COMBAT, BaseTraitName.CHARISMA)).willReturn(Arrays.asList(modelMapper.map(testSkill, Skill.class)));
     List<SkillDTO> skillsFound = skillService.getSkillsByGroupAndBaseChance(Group.COMBAT, BaseTraitName.CHARISMA);
-    assertEquals(testSkill, skillsFound.get(0));
+    assertEquals(testSkill, skillsFound.getFirst());
   }
 
   @Test

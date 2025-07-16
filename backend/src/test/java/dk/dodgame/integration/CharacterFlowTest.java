@@ -1,31 +1,32 @@
 package dk.dodgame.integration;
 
 import static dk.dodgame.domain.character.model.BaseTraitName.STRENGTH;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-import dk.dodgame.domain.character.model.CharacterState;
-import dk.dodgame.data.CharacterDTO;
 import java.io.File;
 import java.time.Duration;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.ClassRule;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.HttpClientErrorException;
 import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.containers.wait.strategy.WaitStrategy;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import lombok.extern.slf4j.Slf4j;
+
+import dk.dodgame.data.CharacterDTO;
+import dk.dodgame.domain.character.model.CharacterState;
 
 @Tag("integration")
 @Slf4j
+@Testcontainers
 public class CharacterFlowTest {
 
   public static final String REQUEST_PROTOCOL = "http://";
@@ -42,9 +43,8 @@ public class CharacterFlowTest {
 
   private static final WaitStrategy waitStrategy = Wait.forHealthcheck().withStartupTimeout(Duration.ofMinutes(5));
 
-  @ClassRule
-  public static ComposeContainer compose = new ComposeContainer(new File("../docker-compose.yml"))
-//      .withLocalCompose(true)
+  @Container
+  public static ComposeContainer compose = new ComposeContainer(new File("../infra/docker-compose.yml"))
       .withPull(false)
       .withStartupTimeout(java.time.Duration.ofMinutes(15))
       .withExposedService(DB_SERVICE_NAME, DATABASE_PORT)

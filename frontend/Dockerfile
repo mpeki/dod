@@ -1,20 +1,25 @@
-FROM node:19.9.0-alpine AS builder
+# ---------- Builder stage ----------
+# Pin the exact Node patch you’ve standardised on
+ARG NODE_VERSION=24.3.0
+FROM node:${NODE_VERSION}-alpine AS builder
 
+# Faster, repeatable installs
 WORKDIR /app
-
 COPY package*.json ./
-RUN npm --version && npm install
-RUN pwd
-COPY . ./
-RUN npm run build
+RUN npm ci
 
-FROM nginx:1.25.3-alpine
+# Copy the rest only after deps are cached
+COPY . .
+RUN npm run build   # outputs static files in /app/build
 
-RUN rm -rf /usr/share/nginx/html/
+# ---------- Runtime stage ----------
+FROM nginx:1.27.1-alpine
 
-COPY --from=builder /app/build/ /usr/share/nginx/html
+# Clean default HTML & copy our build
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=builder /app/build /usr/share/nginx/html
 COPY --from=builder /app/nginx-custom.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80 8081
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 80
+HEALTHCHECK CMD wget -qO- http://localhost:80 || exit 1
+CMD ["nginx","-g","daemon off;"]

@@ -1,0 +1,101 @@
+[versions]
+# Plugin versions
+springboot = "3.5.3"            # https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
+sonar = "6.2.0.5505"            # https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
+depMgmt = "1.1.7"               # https://plugins.gradle.org/plugin/io.spring.dependency-management
+jib = "3.4.5"                   # https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
+asciidoctor = "4.0.4"           # https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
+dockerCompose = "0.17.12"       # https://plugins.gradle.org/plugin/com.avast.gradle.docker-compose
+gitProps = "2.5.0"              # https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
+frontend = "10.0.0"             # https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
+rewrite = "7.9.0"
+
+# Library versions
+testcontainers = "1.19.8"
+drools = "8.44.2.Final"
+drools-assert = "3.4.2"         # https://github.com/droolsassert/droolsassert
+hypersistence = "3.8.3"         #
+lombok = "1.18.30"              # https://projectlombok.org/
+keycloak-core = "26.3.0"        # https://mvnrepository.com/artifact/org.keycloak/keycloak-core
+keycloak-test-helper = "25.0.6" # https://mvnrepository.com/artifact/org.keycloak/keycloak-test-helper
+keycloak-admin-client= "26.0.5" # https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client
+reflections = "0.10.2"          # https://mvnrepository.com/artifact/org.reflections/reflections
+mysql-connector = "8.4.0"       # https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
+spring-retry = "2.0.12"         # https://mvnrepository.com/artifact/org.springframework.retry/spring-retry
+modelmapper = "3.2.4"           # https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+guava = "33.4.7-jre"            # https://mvnrepository.com/artifact/com.google.guava/guava
+junit-jupiter = "5.10.1"
+
+[libraries]
+# Drools
+drools-bom = { module = "org.drools:drools-bom", version.ref = "drools" }
+drools-engine = { module = "org.drools:drools-engine" }
+drools-mvel = { module = "org.drools:drools-mvel"}
+drools-assert = { module = "org.droolsassert:droolsassert", version.ref = "drools-assert" }
+
+# Logging
+logback-classic = { module = "ch.qos.logback:logback-classic" }
+logback-core = { module = "ch.qos.logback:logback-core" }
+
+# Database
+liquibase = { module = "org.liquibase:liquibase-core" }
+hypersistence = { module = "io.hypersistence:hypersistence-utils-hibernate-63", version.ref = "hypersistence" }
+mysql-connector = { module = "com.mysql:mysql-connector-j", version.ref = "mysql-connector" }
+
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+spring-retry = { module = "org.springframework.retry:spring-retry", version.ref = "spring-retry" }
+modelmapper = { module = "org.modelmapper:modelmapper", version.ref = "modelmapper" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+
+
+# Spring Boot
+boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop" }
+boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+boot-starter-cache = { module = "org.springframework.boot:spring-boot-starter-cache" }
+boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+boot-starter-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas" }
+boot-starter-oauth2-client = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server" }
+
+# Testing
+testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers-junit = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+keycloak-test-helper = { module = "org.keycloak:keycloak-test-helper", version.ref = "keycloak-test-helper" }
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
+h2database = { module = "com.h2database:h2" }
+reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+
+
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+
+
+# Tools
+boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+keycloak-admin-client = { module = "org.keycloak:keycloak-admin-client", version.ref = "keycloak-admin-client" }
+
+[plugins]
+springboot = { id = "org.springframework.boot", version.ref = "springboot" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonar" }
+dep-mgmt = { id = "io.spring.dependency-management", version.ref = "depMgmt" }
+jib = { id = "com.google.cloud.tools.jib", version.ref = "jib" }
+asciidoctor = { id = "org.asciidoctor.jvm.convert", version.ref = "asciidoctor" }
+docker-compose = { id = "com.avast.gradle.docker-compose", version.ref = "dockerCompose" }
+git-props = { id = "com.gorylenko.gradle-git-properties", version.ref = "gitProps" }
+frontend = { id = "org.siouan.frontend-jdk11", version.ref = "frontend" }
+rewrite = { id = "org.openrewrite.rewrite", version.ref = "rewrite" }
+
+[bundles]
+database = ["liquibase", "hypersistence", "mysql-connector"]
+drools = ["drools-engine", "drools-mvel", "drools-assert"]
+boot-starters = ["boot-starter-actuator", "boot-starter-data-jpa", "boot-starter-aop", "boot-starter-security", "boot-starter-web", "boot-starter-cache", "boot-starter-validation", "boot-starter-hateoas", "boot-starter-oauth2-client"]
+logging = ["logback-classic", "logback-core"]
+test = ["spring-security-test", "keycloak-test-helper", "testcontainers", "testcontainers-junit", "h2database", "reflections", "spring-boot-starter-test", "junit-jupiter", "junit-jupiter-api", "keycloak-admin-client"]
+test-runtime = [ "junit-platform-launcher", "junit-jupiter-engine" ]
+tools = ["boot-devtools"]

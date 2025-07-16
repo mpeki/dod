@@ -6,25 +6,28 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dk.dodgame.BaseControllerTest;
 import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.RaceDTO;
 import dk.dodgame.domain.character.model.AgeGroup;
 import dk.dodgame.domain.race.RaceNotFoundException;
 import dk.dodgame.util.RandomObjectFiller;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 @Tag("regression")
 class DODCharacterControllerTest extends BaseControllerTest {
@@ -33,7 +36,7 @@ class DODCharacterControllerTest extends BaseControllerTest {
   CharacterDTO testBeing;
   @Autowired
   private ObjectMapper jacksonObjectMapper;
-  @MockBean
+  @MockitoBean
   private CharacterService characterService;
 
   @BeforeEach

@@ -76,7 +76,7 @@ class DODCharacterServiceTest {
     given(charRepo.findAllByName("kyron")).willReturn(testChars);
     List<DODCharacter> chars = charService.getCharactersByName("kyron");
     assertThat(chars).hasSize(1);
-    DODCharacter being = chars.get(0);
+    DODCharacter being = chars.getFirst();
     assertThat(being.getName()).isEqualTo("kyron");
     Assertions.assertThat(being.getRace().getName()).isEqualTo("tiefling");
   }
