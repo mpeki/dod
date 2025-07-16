@@ -1,3 +1,14 @@
+## [1.20.6](https://github.com/mpeki/dod/compare/v1.20.5...v1.20.6) (2025-07-16)
+
+
+### Bug Fixes
+
+* **DOD-545:** dependencies updated ([7ef6978](https://github.com/mpeki/dod/commit/7ef6978001627e410f6d0260c3855841f632f1c2))
+* **frontend:** resolve npm vulnerabilities ([3b016f4](https://github.com/mpeki/dod/commit/3b016f43870e90c25f18b51dfc328d60a04ca433))
+* **security:** bump com.google.guava:guava from 32.1.3-jre to 33.3.0-jre ([b9cdc60](https://github.com/mpeki/dod/commit/b9cdc60b4ea350cab43c757c7dfb5d73767dfb3c))
+* **security:** bump org.keycloak:keycloak-test-helper ([e7e6e5a](https://github.com/mpeki/dod/commit/e7e6e5a0a59268b56cf2c9bb025cc4b6529e2f06))
+* **security:** bump org.springframework.retry:spring-retry ([c9334d8](https://github.com/mpeki/dod/commit/c9334d8daeb71937ffe734e3432c9ec3aa7b3f2b))
+
 ## [1.20.5](https://github.com/mpeki/dod/compare/v1.20.4...v1.20.5) (2024-06-25)
 
 
