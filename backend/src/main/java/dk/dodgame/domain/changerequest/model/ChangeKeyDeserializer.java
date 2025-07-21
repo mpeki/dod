@@ -70,7 +70,8 @@ public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
       }
       throw new IllegalStateException("Unexpected Secondary ChangeType: " + secondaryChangeKey.getChangeType());
     }
-    throw new JsonParseException(jp, "Tried everything, but can't parse ChangeKey property: " + jp.currentName());
+    throw new JsonParseException(jp,
+        "Tried everything, but can't parse ChangeKey property: " + jp.getCurrentName());
   }
 }
 

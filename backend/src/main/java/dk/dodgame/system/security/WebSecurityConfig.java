@@ -12,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -59,9 +60,10 @@ public class WebSecurityConfig {
   }
 
   private RequestMatcher requestMatcher(String httpMethod, String... patterns) {
+    HttpMethod method = HttpMethod.valueOf(httpMethod);
     return new OrRequestMatcher(Arrays
         .stream(patterns)
-        .map(pattern -> new AntPathRequestMatcher(pattern, httpMethod, false))
+        .map(pattern -> AntPathRequestMatcher.antMatcher(method, pattern))
         .collect(Collectors.toList()));
   }
 
