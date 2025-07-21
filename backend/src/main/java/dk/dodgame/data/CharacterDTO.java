@@ -14,6 +14,7 @@ import jakarta.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import lombok.*;
@@ -40,6 +41,8 @@ public class CharacterDTO implements DODFact, Actor, Serializable {
 
 	@Serial
 	private static final long serialVersionUID = -4787939824473814563L;
+
+	public static final String NO_ITEM = "no.item";
 
 	private String id;
 	@Default
@@ -82,15 +85,16 @@ public class CharacterDTO implements DODFact, Actor, Serializable {
 	@EqualsAndHashCode.Exclude
 	@JsonInclude(Include.NON_EMPTY)
 	private EnumMap<BodyPartName, List<CharacterItemDTO>> wield = new EnumMap<>(Map.of(
-			BodyPartName.RIGHT_ARM, List.of(CharacterItemDTO.builder().itemName("no.item").build()),
-			BodyPartName.LEFT_ARM, List.of(CharacterItemDTO.builder().itemName("no.item").build()),
-			BodyPartName.RIGHT_LEG, List.of(CharacterItemDTO.builder().itemName("no.item").build()),
-			BodyPartName.LEFT_LEG, List.of(CharacterItemDTO.builder().itemName("no.item").build()),
-			BodyPartName.HEAD, List.of(CharacterItemDTO.builder().itemName("no.item").build()),
-			BodyPartName.CHEST, List.of(CharacterItemDTO.builder().itemName("no.item").build()),
-			BodyPartName.STOMACH, List.of(CharacterItemDTO.builder().itemName("no.item").build())
+			BodyPartName.RIGHT_ARM, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
+			BodyPartName.LEFT_ARM, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
+			BodyPartName.RIGHT_LEG, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
+			BodyPartName.LEFT_LEG, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
+			BodyPartName.HEAD, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
+			BodyPartName.CHEST, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
+			BodyPartName.STOMACH, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build())
 	));
 
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	@Override
 	public String getActorType() {
 		return "character";

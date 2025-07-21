@@ -2,7 +2,19 @@ package dk.dodgame.domain.combat;
 
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
 import com.github.javafaker.Faker;
+
 import dk.dodgame.DodApplication;
 import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.CharacterItemDTO;
@@ -10,24 +22,12 @@ import dk.dodgame.data.ItemDTO;
 import dk.dodgame.data.combat.Fight;
 import dk.dodgame.data.combat.Fighter;
 import dk.dodgame.domain.character.CharacterFactory;
-import dk.dodgame.domain.character.CharacterService;
 import dk.dodgame.domain.character.model.CharacterState;
 import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.domain.item.ItemKey;
 import dk.dodgame.domain.item.ItemService;
 import dk.dodgame.domain.item.model.ItemType;
 import dk.dodgame.util.CharacterTestUtil;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @SpringBootTest(classes = DodApplication.class)
 @Tag("regression")
@@ -40,7 +40,7 @@ class AutoCombatServiceTest {
     @Autowired
 	private CharacterFactory characterFactory;
 
-	@MockBean
+	@MockitoBean
 	private ItemService itemService;
 
 	@BeforeEach

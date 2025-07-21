@@ -1,9 +1,6 @@
 package dk.dodgame.domain.action.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Data
@@ -11,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true, exclude = { "target" })
+@ToString(exclude = { "target" })
 public class MeleeWeaponAttackAction extends MeleeWeaponAction {
     Actor target;
 }

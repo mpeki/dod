@@ -9,9 +9,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -19,8 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.testcontainers.utility.Base58.randomString;
 
 import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -41,12 +36,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import dk.dodgame.BaseControllerTest;
 import dk.dodgame.data.CharacterDTO;
-import dk.dodgame.data.CharacterItemDTO;
 import dk.dodgame.data.RaceDTO;
 import dk.dodgame.domain.character.model.AgeGroup;
 import dk.dodgame.domain.character.model.CharacterState;
 import dk.dodgame.domain.character.model.FavoriteHand;
-import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.domain.skill.SkillKey;
 
 /**
@@ -76,14 +69,6 @@ import dk.dodgame.domain.skill.SkillKey;
  * - {@code enumParam}: Creates a parameter descriptor for enum types, including context about valid enum values.
  * - {@code enumField}: Creates a field descriptor for enum types, listing all possible values.
  */
-import dk.dodgame.BaseControllerTest;
-import dk.dodgame.data.CharacterDTO;
-import dk.dodgame.data.RaceDTO;
-import dk.dodgame.domain.character.model.AgeGroup;
-import dk.dodgame.domain.character.model.CharacterState;
-import dk.dodgame.domain.character.model.FavoriteHand;
-import dk.dodgame.domain.skill.SkillKey;
-
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @Tag("regression")
 class CharacterResourceApiDocTest extends BaseControllerTest {
@@ -107,7 +92,6 @@ class CharacterResourceApiDocTest extends BaseControllerTest {
 		testCharacter = CharacterDTO
 				.builder()
 				.name("Borgan den Blå")
-				.wield(emptyWieldMap())
 				.ageGroup(AgeGroup.MATURE)
 				.race(RaceDTO.builder().id(randomString(10)).name("Human").motherTongue(SkillKey.toSkillKey("common")).build())
 				.baseSkillPoints(123)

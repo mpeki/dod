@@ -5,11 +5,11 @@ import lombok.experimental.SuperBuilder;
 
 import dk.dodgame.data.DODFact;
 
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = { "actor" })
 public class Action implements DODFact {
 	Type type;
 	Difficulty difficulty;
