@@ -1,5 +1,5 @@
 # Actions used
-# build-env: mpeki/build-env/pre-build@v1.0.5 (https://github.com/mpeki/build-env)
+# build-env: mpeki/build-env/pre-build@v1.0.6 (https://github.com/mpeki/build-env)
 # cache: actions/cache@v4.2.3 (https://github.com/actions/cache)
 # test-reporter: dorny/test-reporter@v2.1.0 (https://github.com/dorny/test-reporter)
 name: Main CI
@@ -24,7 +24,7 @@ jobs:
   build-backend:
     runs-on: ubuntu-latest
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.5
+      - uses: mpeki/build-env/pre-build@v1.0.6
         with:
           use-docker: false
       - name: Build backend
@@ -33,7 +33,7 @@ jobs:
   build-frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.5
+      - uses: mpeki/build-env/pre-build@v1.0.6
         with:
           use-java: false
       - name: Build UI docker image
@@ -42,7 +42,7 @@ jobs:
   build-security:
     runs-on: ubuntu-latest
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.5
+      - uses: mpeki/build-env/pre-build@v1.0.6
         with:
           use-java: true
       - name: Build Security docker image
@@ -56,7 +56,7 @@ jobs:
       actions: read
       checks: write
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.5
+      - uses: mpeki/build-env/pre-build@v1.0.6
       - name: run regression tests
         run: ./gradlew :b:test
       - name: Cache SonarCloud packages
@@ -83,7 +83,7 @@ jobs:
       actions: read
       checks: write
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.5
+      - uses: mpeki/build-env/pre-build@v1.0.6
       - name: Build
         run: ./dod.sh build all
       - name: Integration Test
@@ -106,7 +106,7 @@ jobs:
       actions: read
       checks: write
     steps:
-      - uses: mpeki/build-env/pre-build@v1.0.5
+      - uses: mpeki/build-env/pre-build@v1.0.6
       - name: Build backend / security
         run: ./gradlew :b:test --tests '*ResourceApiDocTest' :b:build :b:jDB
       - name: Build & Test
@@ -125,7 +125,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [end-to-end-test,test-backend-integration]
     steps:
-    - uses: mpeki/build-env/pre-build@v1.0.5
+    - uses: mpeki/build-env/pre-build@v1.0.6
       with:
         use-docker: true
         docker-user: ${{ secrets.DOCKERHUB_USER }}
