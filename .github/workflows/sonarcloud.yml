@@ -22,22 +22,7 @@ jobs:
       - uses: mpeki/build-env/pre-build@v1.0.6
         with:
           use-docker: true
-          docker-user: ${{ secrets.DOCKERHUB_USER }}
-          docker-password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      # Should this be moved to pre-build step?
-      #      - name: Cache Gradle packages
-      #        uses: actions/cache@v2
-      #        with:
-      #          path: |
-      #            ~/.gradle/caches
-      #            ~/.gradle/wrapper
-      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-      #          restore-keys: |
-      #            ${{ runner.os }}-gradle-
-
       - name: Test
         run: ./gradlew :b:test
-
       - name: Analyze 'backend' with SonarCloud
         run: ./gradlew sonar
