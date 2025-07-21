@@ -1,21 +1,14 @@
 package dk.dodgame.domain.character.model;
 
-import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
+
+import jakarta.persistence.*;
+
+import io.hypersistence.utils.hibernate.id.Tsid;
+
+import lombok.*;
 
 @Getter
 @Setter

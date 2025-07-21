@@ -1,7 +1,7 @@
-import { Race } from "./race";
-import { CharacterSkill, Skill } from "./skill";
-import { CharacterState } from "./character-state";
-import { CharacterItem, Item } from "./item";
+import {Race} from "./race";
+import {CharacterSkill} from "./skill";
+import {CharacterState} from "./character-state";
+import {CharacterItem} from "./item";
 
 export interface BaseTraitValue {
   currentValue: number;
@@ -15,7 +15,7 @@ export interface BodyPartValue {
 }
 
 export interface Character {
-  id: string;
+  id?: string;
   name: string;
   ageGroup: string;
   state?: CharacterState;

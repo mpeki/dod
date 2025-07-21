@@ -160,7 +160,7 @@ class CharacterCreationRulesTest {
     drools.assertFactsCount(3);
     assertEquals(1, drools.getObjects(CharacterDTO.class).size());
     assertEquals(2, drools.getObjects(BaseTraitDTO.class).size());
-    assertEquals(8, drools.getObjects(CharacterDTO.class).get(0).getBodyParts().size());
+    assertEquals(8, drools.getObjects(CharacterDTO.class).getFirst().getBodyParts().size());
     CharacterDTO characterDTO = drools.getObject(CharacterDTO.class);
     //Prove DOD-286 is fixed
     assertEquals(

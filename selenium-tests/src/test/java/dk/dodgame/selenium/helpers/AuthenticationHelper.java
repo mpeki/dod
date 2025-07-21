@@ -1,7 +1,7 @@
 package dk.dodgame.selenium.helpers;
 
 import com.github.javafaker.Faker;
-import dk.dodgame.selenium.RandomStringGenerator;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -40,7 +40,7 @@ public class AuthenticationHelper {
     return testUser;
   }
 
-  public TestUser createRandomUser(){
+  public void createRandomUserAndLogin(){
     navigationHelper.wait(300);
     {
 
@@ -66,7 +66,6 @@ public class AuthenticationHelper {
     driver.findElement(By.id("password")).sendKeys(testUser.password);
     driver.findElement(By.id("password-confirm")).sendKeys(testUser.password);
     driver.findElement(By.id("password-confirm")).sendKeys(Keys.ENTER);
-    return testUser;
   }
 
   public void login(WebDriver driver, String username, String password){

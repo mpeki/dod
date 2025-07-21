@@ -2,7 +2,7 @@ services:
   ui:
     image: "macp/dod-ui:latest"
     build:
-      context: ./frontend
+      context: ../frontend
     ports:
       - "80:80"
       - "8081:8081"
@@ -32,9 +32,9 @@ services:
 #      - ./security/dodgame.jks:/tmp/dodgame.jks
 
   security:
-    image: "macp/dod-keycloak:25.0.0"
+    image: "macp/dod-keycloak:26.3"
     build:
-      context: ./security/keycloak
+      context: ../security/keycloak
     entrypoint: ''
     command: "wait-for-it.sh -t 0 db:3306 -- /opt/keycloak/bin/kc.sh start-dev  --hostname=security --http-port=8181  --hostname-debug=true --import-realm"
     ports:
@@ -53,17 +53,17 @@ services:
       KC_DB_TIMEOUT_WAIT_SECONDS: 600
       KC_HEALTH_ENABLED: "true"
     volumes:
-      - "./security/keycloak/new-realm-export:/tmp/keycloak-export"
-      - "./security/keycloak/theme/src/main/resources/theme/dodgame:/opt/keycloak/themes/dodgame-dev"
+      - "../security/keycloak/new-realm-export:/tmp/keycloak-export"
+      - "../security/keycloak/theme/src/main/resources/theme/dodgame:/opt/keycloak/themes/dodgame-dev"
     healthcheck:
       test: "wget --quiet --tries=1 --spider http://security:9000/health || exit 1"
       start_period: "1m"
 
   db:
-    image: "mysql:8.1"
+    image: "mysql:8.4.5"
     volumes:
-      - "./mysql/init-scripts:/docker-entrypoint-initdb.d"
-      - "./mysql/config/my.cnf:/etc/mysql/my.cnf"
+      - "../mysql/init-scripts:/docker-entrypoint-initdb.d"
+      - "../mysql/config/my.cnf:/etc/mysql/my.cnf"
       - "db_data:/var/lib/mysql:rw"
     restart: "always"
     command: mysqld --character-set-server=UTF8MB3
@@ -84,7 +84,7 @@ services:
   selenium-hub:
     profiles:
       - test
-    image: selenium/hub:4.15.0-20231129
+    image: selenium/hub:4.34.0-20250707
     ports:
       - "4442:4442"
       - "4443:4443"
@@ -93,7 +93,7 @@ services:
   chrome:
     profiles:
       - test
-    image: selenium/node-chrome:4.15.0-20231129
+    image: selenium/node-chrome:4.34.0-20250707
     shm_size: 2gb
     depends_on:
       - selenium-hub

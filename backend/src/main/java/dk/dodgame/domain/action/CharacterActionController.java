@@ -9,7 +9,6 @@ import dk.dodgame.domain.character.CharacterService;
 import dk.dodgame.domain.skill.SkillNotFoundException;
 import dk.dodgame.domain.skill.SkillService;
 import java.security.Principal;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +28,6 @@ public class CharacterActionController {
 
   private final SkillService skillService;
 
-  @Autowired
   public CharacterActionController(CharacterActionService service, CharacterService characterService,
       SkillService skillService) {
     this.service = service;

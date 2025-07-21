@@ -7,7 +7,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.io.Serial;
 import java.util.List;

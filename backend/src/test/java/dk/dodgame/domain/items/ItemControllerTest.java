@@ -4,7 +4,20 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dk.dodgame.BaseControllerTest;
 import dk.dodgame.data.ItemDTO;
 import dk.dodgame.domain.item.ItemNotFoundException;
@@ -12,16 +25,6 @@ import dk.dodgame.domain.item.ItemService;
 import dk.dodgame.domain.item.model.ItemType;
 import dk.dodgame.domain.item.model.MeleeWeapon;
 import dk.dodgame.util.RandomObjectFiller;
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 @Tag("regression")
 class ItemControllerTest extends BaseControllerTest {
@@ -34,7 +37,7 @@ class ItemControllerTest extends BaseControllerTest {
   @Autowired
   private ObjectMapper jacksonObjectMapper;
 
-  @MockBean
+  @MockitoBean
   private ItemService itemService;
 
   @BeforeEach

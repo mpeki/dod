@@ -4,6 +4,8 @@ set -uoe pipefail
 DEV_MAIN_TITLE="Dev Run Main"
 DEV_LOG_TITLE="DB & Security Logs"
 
+source ./bin/utils.sh
+
 help() {
   printf "\nThe \"run\" command is used to the application in different modes.\n\n\
     Available sub-commands: \n\n\
@@ -33,6 +35,10 @@ get_window_id() {
     fi
 }
 
+test_run() {
+  docker_compose up
+}
+
 dev_run(){
 #  clear
   set_main_title "${DEV_MAIN_TITLE}"
@@ -40,7 +46,7 @@ dev_run(){
   LOG_WINDOW_ID=$(get_window_id)
 
   printf "\nStarting DB and Security!\n\n"
-  docker-compose up -d db security
+  docker_compose up -d db security
   if which gnome-terminal > /dev/null; then
     printf "\nStarting API ... "
     curl -s --fail http://localhost:8090/dodgame/api/health > /dev/null || gnome-terminal --title="API" --maximize --tab -- /bin/bash -c 'gradle bootRun -x test; exec bash'
@@ -49,7 +55,7 @@ dev_run(){
     curl -s --fail http://localhost:3000/ > /dev/null || gnome-terminal --title="UI" --maximize --tab -- /bin/bash -c 'cd frontend; npm start; exec bash'
     printf "started!\n\n"
     printf "Starting logs window ... "
-    [[ -z "${LOG_WINDOW_ID}" ]] && gnome-terminal --title="${DEV_LOG_TITLE}" --maximize -- /bin/bash -c 'docker-compose logs -f; exec bash'
+    [[ -z "${LOG_WINDOW_ID}" ]] && gnome-terminal --title="${DEV_LOG_TITLE}" --maximize -- /bin/bash -c 'docker_compose logs -f; exec bash'
     printf "started!\n\n"
     local MAIN_WINDOW_ID=$(xdotool search --name "${DEV_MAIN_TITLE}")
     xdotool windowactivate "${MAIN_WINDOW_ID}" &> /dev/null
@@ -80,6 +86,10 @@ help)
 dev)
   dev_run
   ;;
+test)
+  test_run
+  ;;
+
 *)
   help
   ;;

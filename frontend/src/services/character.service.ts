@@ -1,9 +1,9 @@
-import { useCallback, useContext } from "react";
-import { AxiosContext } from "./axios/AxiosContext";
+import {useCallback, useContext} from "react";
+import {AxiosContext} from "./axios/AxiosContext";
 import axiosErrorHandler from "./axios/axiosErrorHandler";
-import { Character } from "../types/character";
-import { CharacterSkill, Skill } from "../types/skill";
-import { GroupType } from "../types/group";
+import {Character} from "../types/character";
+import {CharacterSkill, Skill} from "../types/skill";
+import {GroupType} from "../types/group";
 
 const useCharacterService = () => {
 
@@ -49,7 +49,7 @@ const useCharacterService = () => {
     }
   };
 
-  const createCharacter = async (char: any) => {
+  const createCharacter = async (char: Character) => {
     try {
       const response = await axiosInstance.post(`/char`, char);
       return response.data;

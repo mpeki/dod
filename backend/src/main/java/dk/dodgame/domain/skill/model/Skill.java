@@ -1,27 +1,21 @@
 package dk.dodgame.domain.skill.model;
 
-import dk.dodgame.domain.character.model.BaseTraitName;
-import dk.dodgame.domain.race.model.Race;
-import dk.dodgame.domain.skill.SkillKey;
-import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import jakarta.persistence.*;
+
 import org.hibernate.Hibernate;
+
+import io.hypersistence.utils.hibernate.id.Tsid;
+
+import lombok.*;
+
+import dk.dodgame.domain.character.model.BaseTraitName;
+import dk.dodgame.domain.race.model.Race;
+import dk.dodgame.domain.skill.SkillKey;
 
 @Getter
 @Setter
@@ -36,7 +30,6 @@ public class Skill implements Serializable {
 
   @Id
   @Tsid
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String id;
   @Embedded
   @AttributeOverride(name = "key", column = @Column(name = "skill_key"))

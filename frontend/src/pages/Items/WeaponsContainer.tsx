@@ -43,7 +43,9 @@ export const WeaponsContainer = () => {
       const changePostData: Change = createChange("REMOVE_ITEM_INIT_COMPLETE", "Remove item", charItem.item.itemKey, charItem.itemName);
       doCharacterChange(currentCharacter, changePostData)
       .then(() => {
-        fetchCharHandler(currentCharacter.id).then((character) => showSuccessSnackbar("Removed Weapon! "));
+        if (currentCharacter.id !== undefined) {
+          fetchCharHandler(currentCharacter.id).then((character) => showSuccessSnackbar("Removed Weapon! "));
+        }
       })
       .catch((e) => showWarningSnackbar((e as Error).message))
       .finally(() => {
