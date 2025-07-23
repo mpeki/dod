@@ -2,8 +2,8 @@ package dk.dodgame.data.combat;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import lombok.Builder;
 import lombok.Data;
@@ -17,19 +17,15 @@ import dk.dodgame.domain.action.model.FightAction;
 @Builder
 @Data
 @EqualsAndHashCode(exclude = { "actions" })
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 @ToString(exclude = "actions")
-@JsonTypeName("fighter")
 public class Fighter implements Actor {
     private String side;
     private CharacterDTO character;
     private Movement movement;
     private List<FightAction> actions;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	@Override
-	public String getActorType() {
-		return "fighter";
-	}
 
     public String getFighterId() {
         return character.getId();
@@ -51,4 +47,9 @@ public class Fighter implements Actor {
             default -> character.getMovementPoints().getSpeedOnLand();
         };
     }
+
+	@Override
+	public String getActorType() {
+		return "fighter";
+	}
 }

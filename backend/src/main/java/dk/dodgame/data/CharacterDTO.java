@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import lombok.*;
 import lombok.Builder.Default;
@@ -36,7 +36,9 @@ import dk.dodgame.util.rules.RulesUtil;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
-@JsonTypeName("character")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "actorType")
+//@JsonTypeName("character")
 public class CharacterDTO implements DODFact, Actor, Serializable {
 
 	@Serial
@@ -93,12 +95,6 @@ public class CharacterDTO implements DODFact, Actor, Serializable {
 			BodyPartName.CHEST, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
 			BodyPartName.STOMACH, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build())
 	));
-
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	@Override
-	public String getActorType() {
-		return "character";
-	}
 
 	public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
 		if (baseTraits.containsKey(baseTraitName)) {
@@ -277,5 +273,11 @@ public class CharacterDTO implements DODFact, Actor, Serializable {
 		if (totalHp.getCurrentHP() <= - (constitution.getCurrentValue()) ) {
 			state = CharacterState.DEAD;
 		}
+	}
+
+	@Override
+	@JsonProperty("actorType")
+	public String getActorType() {
+		return "character";
 	}
 }
