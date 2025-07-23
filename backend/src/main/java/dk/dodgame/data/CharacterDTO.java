@@ -37,8 +37,6 @@ import dk.dodgame.util.rules.RulesUtil;
 @NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
-//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "actorType")
-//@JsonTypeName("character")
 public class CharacterDTO implements DODFact, Actor, Serializable {
 
 	@Serial

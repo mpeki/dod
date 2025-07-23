@@ -57,11 +57,11 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://security:8181/realms/dodgame
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
 #    cors:
 #      allowed-headers: "*"
 #      allowed-credentials: true

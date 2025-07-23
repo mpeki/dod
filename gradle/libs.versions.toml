@@ -59,7 +59,7 @@ boot-starter-cache = { module = "org.springframework.boot:spring-boot-starter-ca
 boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 boot-starter-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas" }
 boot-starter-oauth2-client = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server" }
-boot-starter-amqp = { module = "org.springframework.boot:spring-boot-starter-amqp" }
+# boot-starter-amqp = { module = "org.springframework.boot:spring-boot-starter-amqp" }
 
 # Testing
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
@@ -97,7 +97,7 @@ rewrite = { id = "org.openrewrite.rewrite", version.ref = "rewrite" }
 [bundles]
 database = ["liquibase", "hypersistence", "mysql-connector"]
 drools = ["drools-engine", "drools-mvel", "drools-assert"]
-boot-starters = ["boot-starter-actuator", "boot-starter-data-jpa", "boot-starter-aop", "boot-starter-security", "boot-starter-web", "boot-starter-cache", "boot-starter-validation", "boot-starter-hateoas", "boot-starter-oauth2-client", "boot-starter-amqp"]
+boot-starters = ["boot-starter-actuator", "boot-starter-data-jpa", "boot-starter-aop", "boot-starter-security", "boot-starter-web", "boot-starter-cache", "boot-starter-validation", "boot-starter-hateoas", "boot-starter-oauth2-client"]
 logging = ["logback-classic", "logback-core"]
 test = ["spring-security-test", "keycloak-test-helper", "testcontainers", "testcontainers-junit", "h2database", "reflections", "spring-boot-starter-test", "junit-jupiter", "junit-jupiter-api", "keycloak-admin-client", "faker"]
 test-runtime = [ "junit-platform-launcher", "junit-jupiter-engine" ]
