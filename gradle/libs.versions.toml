@@ -8,7 +8,7 @@ asciidoctor = "4.0.4"           # https://plugins.gradle.org/plugin/org.asciidoc
 dockerCompose = "0.17.12"       # https://plugins.gradle.org/plugin/com.avast.gradle.docker-compose
 gitProps = "2.5.0"              # https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
 frontend = "10.0.0"             # https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
-rewrite = "7.9.0"
+rewrite = "7.12.1"
 
 # Library versions
 testcontainers = "1.19.8"
