@@ -90,12 +90,12 @@ class CharacterActionServiceWithRulesTest {
           .skillKey(TEST_SKILL_KEY)
           .skill(skillService.findSkillByKey(TEST_SKILL_KEY))
           .build();
-      int expBefore = action.getActor().getSkills().get(TEST_SKILL_KEY).getExperience();
+      int expBefore = ((CharacterDTO) action.getActor()).getSkills().get(TEST_SKILL_KEY).getExperience();
       SkillTrainingAction actionAndResult = (SkillTrainingAction) cut.doAction(action);
-      testSubject = actionAndResult.getActor();
+      testSubject = (CharacterDTO)actionAndResult.getActor();
       if (actionAndResult.getActionResult() == ActionResult.MASTERFUL
           || actionAndResult.getActionResult() == ActionResult.PERFECT) {
-        int expAfter = actionAndResult.getActor().getSkills().get(TEST_SKILL_KEY).getExperience();
+        int expAfter = ((CharacterDTO)actionAndResult.getActor()).getSkills().get(TEST_SKILL_KEY).getExperience();
         assertTrue(expBefore < expAfter);
       }
       assertNotEquals(ActionResult.INVALID_ACTION, action.getActionResult());

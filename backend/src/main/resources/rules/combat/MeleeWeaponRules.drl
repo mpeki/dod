@@ -1,0 +1,84 @@
+dialect "java"
+
+import dk.dodgame.data.combat.Fight
+import dk.dodgame.data.combat.FightState
+import dk.dodgame.util.rules.FightRules
+import dk.dodgame.util.rules.RulesUtil
+import dk.dodgame.data.combat.Turn
+import dk.dodgame.data.combat.TurnPhase;
+import dk.dodgame.domain.action.model.FightAction;
+import dk.dodgame.domain.action.model.MeleeWeaponAttackAction
+import dk.dodgame.domain.action.model.MeleeWeaponBlockAction
+import dk.dodgame.domain.action.model.MeleeWeaponAction
+import dk.dodgame.domain.action.model.ActionResult
+import dk.dodgame.util.rules.MeleeCombatRules;
+
+//rule "Melee Weapon Hit Action"
+//    ruleflow-group "static-auto-fight"
+//    salience 10
+//    no-loop
+//    when
+//        fight : Fight( fightPhase != FightState.DONE )
+//        turn : Turn( phase == TurnPhase.MELEE_WEAPONS) from fight.getCurrentTurn()
+//        attackAction : MeleeWeaponAttackAction( actionResult != ActionResult.FAILURE && resolved == true)
+//        blockAction : MeleeWeaponBlockAction( actionResult == ActionResult.FAILURE && resolved == true)
+//    then
+//        MeleeCombatRules.doHit(fight, attackAction, blockAction);
+//        update(attackAction)
+//        update(blockAction)
+//        update(fight)
+//end;
+
+
+rule "Melee Weapon Attack Action"
+    ruleflow-group "static-auto-fight"
+    salience 30
+    when
+        fight : Fight( fightPhase != FightState.DONE)
+        turn : Turn( phase == TurnPhase.MELEE_WEAPONS) from fight.getCurrentTurn()
+        attackAction : MeleeWeaponAttackAction( fightReference == fight.ref, actionResult == null && reaction == null && resolved == false )
+    then
+        update(MeleeCombatRules.meleeAttack(turn, attackAction))
+        update(fight)
+end;
+
+rule "Melee Weapon Attack Reaction"
+    ruleflow-group "static-auto-fight"
+    salience 20
+    when
+        fight : Fight( fightPhase != FightState.DONE )
+        turn : Turn( phase == TurnPhase.MELEE_WEAPONS) from fight.getCurrentTurn()
+        attackAction : MeleeWeaponAttackAction( fightReference == fight.ref, turnReference == turn.ref, actionResult != null && reaction == null )
+    then
+        var reaction = MeleeCombatRules.createFightReaction(turn, attackAction);
+        attackAction.setReaction(reaction);
+        insert(reaction);
+        update(attackAction)
+        update(fight)
+end;
+
+
+rule "Melee Weapon Block Action"
+    ruleflow-group "static-auto-fight"
+    salience 20
+    when
+        fight : Fight( fightPhase != FightState.DONE )
+        turn : Turn( phase == TurnPhase.MELEE_WEAPONS) from fight.getCurrentTurn()
+        attackAction : MeleeWeaponAttackAction( fightReference == fight.ref, turnReference == turn.ref, actionResult != null && reaction != null && resolved == true )
+        blockAction : MeleeWeaponBlockAction( fightReference == fight.ref, turnReference == turn.ref, actionResult == null && reaction == null )
+    then
+        blockAction = MeleeCombatRules.meleeBlock(turn, attackAction, blockAction);
+        update(blockAction)
+        update(fight)
+end;
+
+rule "Melee Weapon Next Phase"
+    ruleflow-group "static-auto-fight"
+    salience 10
+    when
+        fight : Fight( fightPhase != FightState.DONE )
+        turn : Turn( phase == TurnPhase.MELEE_WEAPONS && !actions.isEmpty()) from fight.getCurrentTurn()
+    then
+        MeleeCombatRules.checkForEndOfMelee(fight, turn);
+        update(fight)
+end;

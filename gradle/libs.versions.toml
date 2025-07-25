@@ -25,6 +25,7 @@ spring-retry = "2.0.12"         # https://mvnrepository.com/artifact/org.springf
 modelmapper = "3.2.4"           # https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 guava = "33.4.7-jre"            # https://mvnrepository.com/artifact/com.google.guava/guava
 junit-jupiter = "5.10.1"
+faker = "1.0.2"                #
 
 [libraries]
 # Drools
@@ -58,6 +59,7 @@ boot-starter-cache = { module = "org.springframework.boot:spring-boot-starter-ca
 boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 boot-starter-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas" }
 boot-starter-oauth2-client = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server" }
+# boot-starter-amqp = { module = "org.springframework.boot:spring-boot-starter-amqp" }
 
 # Testing
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
@@ -79,6 +81,7 @@ junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 # Tools
 boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 keycloak-admin-client = { module = "org.keycloak:keycloak-admin-client", version.ref = "keycloak-admin-client" }
+faker = { module = "com.github.javafaker:javafaker", version.ref = "faker" }
 
 [plugins]
 springboot = { id = "org.springframework.boot", version.ref = "springboot" }
@@ -96,6 +99,6 @@ database = ["liquibase", "hypersistence", "mysql-connector"]
 drools = ["drools-engine", "drools-mvel", "drools-assert"]
 boot-starters = ["boot-starter-actuator", "boot-starter-data-jpa", "boot-starter-aop", "boot-starter-security", "boot-starter-web", "boot-starter-cache", "boot-starter-validation", "boot-starter-hateoas", "boot-starter-oauth2-client"]
 logging = ["logback-classic", "logback-core"]
-test = ["spring-security-test", "keycloak-test-helper", "testcontainers", "testcontainers-junit", "h2database", "reflections", "spring-boot-starter-test", "junit-jupiter", "junit-jupiter-api", "keycloak-admin-client"]
+test = ["spring-security-test", "keycloak-test-helper", "testcontainers", "testcontainers-junit", "h2database", "reflections", "spring-boot-starter-test", "junit-jupiter", "junit-jupiter-api", "keycloak-admin-client", "faker"]
 test-runtime = [ "junit-platform-launcher", "junit-jupiter-engine" ]
 tools = ["boot-devtools"]

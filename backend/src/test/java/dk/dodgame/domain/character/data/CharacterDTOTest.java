@@ -2,29 +2,26 @@ package dk.dodgame.domain.character.data;
 
 import static dk.dodgame.domain.item.model.ItemType.COIN;
 import static dk.dodgame.domain.item.model.ItemType.MELEE_WEAPON;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-import dk.dodgame.data.BaseTraitDTO;
-import dk.dodgame.data.BodyPartDTO;
-import dk.dodgame.data.CharacterDTO;
-import dk.dodgame.data.CharacterItemDTO;
-import dk.dodgame.data.CharacterSkillDTO;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
+import dk.dodgame.data.*;
 import dk.dodgame.domain.character.model.BaseTraitName;
+import dk.dodgame.domain.character.model.CharacterState;
 import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.domain.item.InsufficientFundsException;
+import dk.dodgame.domain.item.ItemKey;
 import dk.dodgame.domain.item.model.Coin;
 import dk.dodgame.domain.item.model.Projectile;
 import dk.dodgame.domain.skill.SkillKey;
-import dk.dodgame.data.ItemDTO;
-import dk.dodgame.data.SkillDTO;
-import dk.dodgame.domain.item.ItemKey;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import dk.dodgame.util.rules.RulesUtil;
 
 @Tag("regression")
 class CharacterDTOTest {
@@ -375,5 +372,214 @@ class CharacterDTOTest {
   void testGettingNotInInventoryType(){
     assertEquals(0, characterDTO.getNumberOf(Projectile.ARROW));
   }
+
+	/* ------------------------------------------------------------------
+	 *  Base-trait accessors
+	 * ------------------------------------------------------------------ */
+
+	@Test
+	void getBaseTraitStartValue_ReturnsCorrectValue() {
+		assertEquals(-1,
+				characterDTO.getBaseTraitStartValue(BaseTraitName.STRENGTH),
+				"Unknown trait should yield –1");
+
+		characterDTO.addBaseTrait(new BaseTraitDTO(BaseTraitName.STRENGTH, 12, 12));
+
+		assertEquals(12,
+				characterDTO.getBaseTraitStartValue(BaseTraitName.STRENGTH),
+				"Start value must match the inserted DTO");
+	}
+
+	/* ------------------------------------------------------------------
+	 *  Skill retrieval
+	 * ------------------------------------------------------------------ */
+
+	@Test
+	void getSkill_ReturnsAddedSkill() {
+		CharacterSkillDTO skillDTO =
+				CharacterSkillDTO.builder()
+						.skill(SkillDTO.builder()
+								.key(new SkillKey("lock-picking"))
+								.build())
+						.fv(25)
+						.build();
+
+		assertNull(characterDTO.getSkill("lock-picking"),
+				"Skill map initially empty – expect null");
+
+		characterDTO.addSkill(skillDTO);
+
+		assertEquals(skillDTO,
+				characterDTO.getSkill("lock-picking"),
+				"Should return the same object that was added");
+
+		characterDTO.updateFv("lock-picking", 35);
+		assertEquals(35, characterDTO.getSkill("lock-picking").getFv(),
+				"FV update must be reflected in the stored DTO");
+	}
+
+	/* ------------------------------------------------------------------
+	 *  Coin handling
+	 * ------------------------------------------------------------------ */
+
+	@Test
+	void coinOperations_AddAndSubtract() throws InsufficientFundsException {
+		assertEquals(0, characterDTO.getAmountOf(Coin.COPPER_PIECE));
+
+		characterDTO.addCoins(137, Coin.COPPER_PIECE);
+		assertEquals(137, characterDTO.getAmountOf(Coin.COPPER_PIECE));
+
+		int remaining = characterDTO.subtractCoins(37, Coin.COPPER_PIECE);
+		assertEquals(100, remaining);
+		assertEquals(100, characterDTO.getAmountOf(Coin.COPPER_PIECE));
+	}
+
+	@Test
+	void subtractCoins_WithInsufficientFunds_Throws() {
+		assertThrows(InsufficientFundsException.class,
+				() -> characterDTO.subtractCoins(1, Coin.GOLD_PIECE));
+	}
+
+	/* ------------------------------------------------------------------
+	 *  Many-piece items
+	 * ------------------------------------------------------------------ */
+
+	@Test
+	void addManyPieceItem_PutsItemIntoInventory() {
+		CharacterItemDTO item = characterDTO.addManyPieceItem(4, Projectile.ARROW);
+
+		assertNotNull(item);
+		assertEquals("arrow", item.getItemName());
+		assertEquals(4, item.getQuantity());
+
+		List<CharacterItemDTO> arrows =
+				characterDTO.getItems().values().stream()
+						.filter(i -> i.getItemName().equals("arrow"))
+						.toList();
+
+		assertEquals(1, arrows.size(), "Exactly one ARROW entry expected");
+		assertEquals(4, arrows.getFirst().getQuantity());
+	}
+
+	/* ---------------------------------------------------------------
+	 *  Tests for getItemsIn()
+	 * --------------------------------------------------------------- */
+	@Nested
+	class GetItemsInTests {
+
+		@Test
+		void returnsDefaultNoItemWhenNothingHasBeenPlaced() {
+			CharacterDTO dto = new CharacterDTO();
+
+			List<CharacterItemDTO> items = dto.getItemsIn(BodyPartName.RIGHT_ARM);
+
+			assertEquals(1, items.size(), "RIGHT_ARM list should contain the default entry");
+			assertEquals(CharacterDTO.NO_ITEM, items.getFirst().getItemName());
+		}
+
+		@Test
+		void returnsEmptyListWhenBodyPartKeyIsMissing() {
+			CharacterDTO dto = new CharacterDTO();
+			// Remove the entry completely to simulate “unknown body-part”.
+			dto.getWield().remove(BodyPartName.HEAD);
+
+			List<CharacterItemDTO> items = dto.getItemsIn(BodyPartName.HEAD);
+
+			assertTrue(items.isEmpty(), "Unknown body-part should yield an empty list");
+		}
+
+		@Test
+		void returnsCustomItemsWhenTheyArePresent() {
+			CharacterDTO dto = new CharacterDTO();
+
+			CharacterItemDTO sword = CharacterItemDTO.builder().itemName("Short-Sword").build();
+			CharacterItemDTO torch = CharacterItemDTO.builder().itemName("Torch").build();
+
+			// Replace the default immutable List with a mutable one that contains our items.
+			dto.getWield().put(
+					BodyPartName.RIGHT_ARM,
+					new ArrayList<>(List.of(sword, torch))
+			);
+
+			List<CharacterItemDTO> items = dto.getItemsIn(BodyPartName.RIGHT_ARM);
+
+			assertEquals(2, items.size());
+			assertTrue(items.contains(sword));
+			assertTrue(items.contains(torch));
+		}
+	}
+
+	/* ---------------------------------------------------------------
+	 *  Tests for applyDamage()
+	 * --------------------------------------------------------------- */
+	@Nested
+	class ApplyDamageTests {
+
+		private CharacterDTO buildCharacter(int hp, int constitution) {
+			CharacterDTO dto = new CharacterDTO();
+
+			// TOTAL body-part hit-points
+			BodyPartDTO total =
+					BodyPartDTO.builder()
+							.name(BodyPartName.TOTAL)
+							.maxHP(hp)
+							.currentHP(hp)
+							.build();
+			dto.addBodyPart(total);
+
+			// Constitution base-trait
+			BaseTraitDTO con =
+					BaseTraitDTO.builder()
+							.traitName(BaseTraitName.CONSTITUTION)
+							.startValue(constitution)
+							.currentValue(constitution)
+							.groupValue(RulesUtil.calculateGroupValue(constitution))
+							.build();
+			dto.addBaseTrait(con);
+
+			dto.setState(CharacterState.IN_PLAY);
+			return dto;
+		}
+
+		@Test
+		void hpReducesButStateRemainsWhenDamageIsNonLethal() {
+			CharacterDTO dto = buildCharacter(10, 5);
+
+			dto.applyDamage(3);
+
+			assertEquals(7, dto.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
+			assertEquals(CharacterState.IN_PLAY, dto.getState());
+		}
+
+		@Test
+		void reachingZeroHpSetsStateToIncapacitated() {
+			CharacterDTO dto = buildCharacter(10, 5);
+
+			dto.applyDamage(10);
+
+			assertEquals(0, dto.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
+			assertEquals(CharacterState.INCAPACITATED, dto.getState());
+		}
+
+		@Test
+		void negativeHpAboveMinusConstitutionKeepsIncapacitatedState() {
+			CharacterDTO dto = buildCharacter(10, 5);
+
+			dto.applyDamage(12); // HP becomes −2 (-2 > −5)
+
+			assertEquals(-2, dto.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
+			assertEquals(CharacterState.INCAPACITATED, dto.getState());
+		}
+
+		@Test
+		void hpAtOrBelowMinusConstitutionSetsStateToDead() {
+			CharacterDTO dto = buildCharacter(10, 5);
+
+			dto.applyDamage(20); // HP becomes −10 (-10 ≤ −5) → DEAD
+
+			assertEquals(-10, dto.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
+			assertEquals(CharacterState.DEAD, dto.getState());
+		}
+	}
 
 }
