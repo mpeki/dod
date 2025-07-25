@@ -7,4 +7,4 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.CLASS)
 @Target({ ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR })
-public @interface ExcludeFromJacocoCoverage { }
+public @interface ExcludeFromCoverageReportGenerated { }

@@ -1,8 +1,8 @@
 package dk.dodgame.domain.action.model;
 
-import dk.dodgame.util.ExcludeFromJacocoCoverage;
+import dk.dodgame.util.ExcludeFromCoverageReportGenerated;
 
-@ExcludeFromJacocoCoverage
+@ExcludeFromCoverageReportGenerated
 public enum ActionResult {
     PERFECT, MASTERFUL, SUCCESS, FAILURE, FUMBLE, INVALID_ACTION;
 
