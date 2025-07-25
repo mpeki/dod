@@ -1,14 +1,5 @@
 package dk.dodgame.util.rules;
 
-import static java.lang.Math.ceil;
-
-import dk.dodgame.domain.action.model.ActionResult;
-import dk.dodgame.domain.action.model.Difficulty;
-import dk.dodgame.data.CharacterSkillDTO;
-import dk.dodgame.data.SkillDTO;
-import dk.dodgame.domain.skill.model.Category;
-import dk.dodgame.system.rule.DoDRule;
-import dk.dodgame.util.Dice;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,11 +24,7 @@ public class RulesUtil {
     };
   }
 
-  public static boolean isBetween(int x, int lower, int upper){
+  public static boolean isBetween(int x, int lower, int upper) {
 	  return lower <= x && x <= upper;
-  }
-
-  public static void helloFrom(String message) {
-    log.info("Hello {}!", message);
   }
 }

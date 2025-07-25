@@ -13,6 +13,7 @@ import lombok.ToString;
 import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.domain.action.model.Actor;
 import dk.dodgame.domain.action.model.FightAction;
+import dk.dodgame.util.ExcludeFromCoverageReportGenerated;
 
 @Builder
 @Data
@@ -20,6 +21,7 @@ import dk.dodgame.domain.action.model.FightAction;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 @ToString(exclude = "actions")
+@ExcludeFromCoverageReportGenerated
 public class Fighter implements Actor {
     private String side;
     private CharacterDTO character;

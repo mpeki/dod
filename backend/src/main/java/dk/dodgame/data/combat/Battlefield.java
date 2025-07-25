@@ -1,12 +1,15 @@
 package dk.dodgame.data.combat;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.AllArgsConstructor;
+
+import dk.dodgame.util.ExcludeFromCoverageReportGenerated;
 
 @Builder
 @Getter
 @AllArgsConstructor
+@ExcludeFromCoverageReportGenerated
 public class Battlefield {
 
     private final Cell[][] grid;

@@ -1,12 +1,16 @@
 package dk.dodgame.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @Tag("regression")
 class DiceTest {
@@ -48,4 +52,27 @@ class DiceTest {
       assertTrue(result >= 6 && result <= 21, "result should be between 6 and 21, was: " + result);
     }
   }
+
+	/* -----------------------------------------------------------------
+	 * roll() – branch that returns 0
+	 * ----------------------------------------------------------------- */
+	@ParameterizedTest
+	@CsvSource({",", "'   '", "none", "NONE", "na", "Na"})
+	void rollReturnsZeroForEmptyOrNaValues(String spec) {
+		assertEquals(0, Dice.roll(spec));
+	}
+
+	/* -----------------------------------------------------------------
+	 * doAdditionRoll – leading ‘+’ handling
+	 * ----------------------------------------------------------------- */
+	@Test
+	void rollLeadingPlusWithDigitsReturnsConstant() {
+		assertEquals(7, Dice.roll("+7"));           // “+<digits>” → constant
+	}
+
+	@Test
+	void rollLeadingPlusWithDiceDelegatesToDefault() {
+		// “+2t1” is evaluated as two rolls on a one-sided die -> always 2
+		assertEquals(2, Dice.roll("+2t1"));
+	}
 }

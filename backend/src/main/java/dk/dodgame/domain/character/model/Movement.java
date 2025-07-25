@@ -1,17 +1,15 @@
 package dk.dodgame.domain.character.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import java.io.Serial;
 import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
+import lombok.*;
 import lombok.Builder.Default;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+
+import dk.dodgame.util.ExcludeFromCoverageReportGenerated;
 
 @EqualsAndHashCode
 @ToString
@@ -21,6 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Embeddable
+@ExcludeFromCoverageReportGenerated
 public class Movement  implements Serializable {
 
   @Serial
@@ -36,3 +35,5 @@ public class Movement  implements Serializable {
   @Column(columnDefinition = "int default -1")
   int speedInAir = -1;
 }
+
+//Todo - currently I have two movement classes, clean this up.

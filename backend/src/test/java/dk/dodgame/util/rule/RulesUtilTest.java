@@ -111,4 +111,19 @@ class RulesUtilTest {
 		skill.setFv(6);
 		assertThat(SkillRules.testSkill(skill, 13, Difficulty.NORMAL)).isEqualTo(ActionResult.SUCCESS);
 	}
+
+	@ParameterizedTest
+	@CsvSource({
+			//  value , lower , upper , expected
+			"5,     0,     10,   true",   // typical in-range
+			"0,     0,      0,   true",   // single-point range
+			"-1,    0,      0,   false",  // below lower bound
+			"1,     1,      2,   true",   // equal to lower bound
+			"2,     1,      1,   false",  // upper < value
+			"10,    5,      9,   false",  // above upper bound
+			"100,   0,     99,   false"   // well above upper bound
+	})
+	void isBetween(int value, int lower, int upper, boolean expected) {
+		assertThat(RulesUtil.isBetween(value, lower, upper)).isEqualTo(expected);
+	}
 }

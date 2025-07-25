@@ -5,7 +5,10 @@ package dk.dodgame.system.queue;
 //import org.springframework.amqp.core.DirectExchange;
 //import org.springframework.amqp.core.Queue;
 
+import dk.dodgame.util.ExcludeFromCoverageReportGenerated;
+
 //@Configuration
+@ExcludeFromCoverageReportGenerated
 public class RabbitConfig {
     public static final String QUEUE_NAME = "dodCombatQueue";
     public static final String EXCHANGE_NAME = "dodCombatExchange";
