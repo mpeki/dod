@@ -6,7 +6,7 @@ depMgmt = "1.1.7"               # https://plugins.gradle.org/plugin/io.spring.de
 jib = "3.4.5"                   # https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
 asciidoctor = "4.0.4"           # https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
 dockerCompose = "0.17.12"       # https://plugins.gradle.org/plugin/com.avast.gradle.docker-compose
-gitProps = "2.5.0"              # https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
+gitProps = "2.5.2"              # https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
 frontend = "10.0.0"             # https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
 rewrite = "7.9.0"
 
