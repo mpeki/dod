@@ -1,3 +1,10 @@
+## [1.20.7](https://github.com/mpeki/dod/compare/v1.20.6...v1.20.7) (2025-07-25)
+
+
+### Bug Fixes
+
+* **security:** bump com.gorylenko.gradle-git-properties ([#559](https://github.com/mpeki/dod/issues/559)) ([83bbd92](https://github.com/mpeki/dod/commit/83bbd9257c450d9899937d7719df166939dc2f17))
+
 ## [1.20.6](https://github.com/mpeki/dod/compare/v1.20.5...v1.20.6) (2025-07-16)
 
 
