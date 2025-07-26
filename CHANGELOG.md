@@ -1,3 +1,10 @@
+## [1.20.8](https://github.com/mpeki/dod/compare/v1.20.7...v1.20.8) (2025-07-26)
+
+
+### Bug Fixes
+
+* **security:** bump org.seleniumhq.selenium:selenium-grid from 4.22.0 to 4.34.0 ([#557](https://github.com/mpeki/dod/issues/557)) ([0998a71](https://github.com/mpeki/dod/commit/0998a7163497dc1ddc948e1603534bc664ed1f0d))
+
 ## [1.20.7](https://github.com/mpeki/dod/compare/v1.20.6...v1.20.7) (2025-07-25)
 
 
