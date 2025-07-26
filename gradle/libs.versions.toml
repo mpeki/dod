@@ -11,7 +11,7 @@ frontend = "10.0.0"             # https://plugins.gradle.org/plugin/org.siouan.f
 rewrite = "7.9.0"
 
 # Library versions
-testcontainers = "1.19.8"
+testcontainers = "1.21.3"
 drools = "8.44.2.Final"
 drools-assert = "3.4.2"         # https://github.com/droolsassert/droolsassert
 hypersistence = "3.8.3"         #
