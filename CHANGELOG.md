@@ -1,3 +1,11 @@
+## [1.20.10](https://github.com/mpeki/dod/compare/v1.20.9...v1.20.10) (2025-07-27)
+
+
+### Bug Fixes
+
+* **security:** bump com.mysql:mysql-connector-j from 8.4.0 to 9.3.0 ([#562](https://github.com/mpeki/dod/issues/562)) ([ae0b9e3](https://github.com/mpeki/dod/commit/ae0b9e340a7c0752943d14f6cbfbfb3046b06f24))
+* **security:** bump testcontainers from 1.19.8 to 1.21.3 ([#560](https://github.com/mpeki/dod/issues/560)) ([a2dfb42](https://github.com/mpeki/dod/commit/a2dfb429433382bc8ea785e0ce7cef810d74bcc6))
+
 ## [1.20.9](https://github.com/mpeki/dod/compare/v1.20.8...v1.20.9) (2025-07-27)
 
 
