@@ -8,11 +8,6 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 @Tag("regression")
 class ArmorRulesTest {
 
-//    @ParameterizedTest
-//    @CsvFileSource(resources = "/data/.csv", numLinesToSkip = 1)
-//    void getArmorPriceForSize() {
-//    }
-
     @ParameterizedTest
     @CsvFileSource(resources = "/data/armor-weight-by-charSize.csv", numLinesToSkip = 1)
     void getArmorWeightForCharSize(int charSize, char armorRef, double expectedWeight) {

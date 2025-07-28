@@ -10,6 +10,9 @@ import dk.dodgame.util.Dice;
 
 import static java.lang.Math.ceil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class SkillRules {
 
     private SkillRules(){}
@@ -35,7 +38,11 @@ public class SkillRules {
     public static ActionResult testSkill(CharacterSkillDTO charSkill, int roll, Difficulty difficulty) {
         SkillDTO skill = charSkill.getSkill();
         int fv = skill.getCategory() == Category.A ? charSkill.getFv() : getSkillCatBFV(charSkill.getFv());
-        return testSkill(fv, roll, difficulty);
+		ActionResult result = testSkill(fv, roll, difficulty);
+		log.info("Testing skill: {}, fv: {}, roll: {}, difficulty: {}, result: {}",
+				skill.getKey().getKeyValue(), charSkill.getFv(), roll, difficulty, result);
+
+        return result;
     }
 
     private static int getSkillCatBFV(int fv) {

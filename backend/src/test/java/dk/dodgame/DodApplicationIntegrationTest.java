@@ -4,14 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dk.dodgame.data.CharacterDTO;
-import dk.dodgame.data.RaceDTO;
-import dk.dodgame.domain.character.model.AgeGroup;
-import dk.dodgame.domain.character.model.BaseTraitName;
-import dk.dodgame.domain.character.model.CharacterState;
 import java.util.List;
+
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +13,15 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import dk.dodgame.data.CharacterDTO;
+import dk.dodgame.data.RaceDTO;
+import dk.dodgame.domain.character.model.AgeGroup;
+import dk.dodgame.domain.character.model.BaseTraitName;
+import dk.dodgame.domain.character.model.CharacterState;
 
 @Tag("integration")
 class DodApplicationIntegrationTest extends BaseControllerTest {
@@ -78,7 +81,7 @@ class DodApplicationIntegrationTest extends BaseControllerTest {
         .andReturn();
 
     String content = result.getResponse().getContentAsString();
-    List<CharacterDTO> characters = new ObjectMapper().readValue(content, new TypeReference<List<CharacterDTO>>() {});
+    List<CharacterDTO> characters = jacksonObjectMapper.readValue(content, new TypeReference<List<CharacterDTO>>() {});
 
     assert characters != null;
     assert !characters.isEmpty();

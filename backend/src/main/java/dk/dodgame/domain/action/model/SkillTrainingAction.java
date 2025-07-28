@@ -8,7 +8,6 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@ToString(callSuper = true)
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor

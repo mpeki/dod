@@ -52,7 +52,9 @@ dependencies {
 
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
-    testImplementation libs.bundles.test
+    testImplementation(libs.bundles.test) {
+		exclude group: 'org.yaml', module: 'snakeyaml'
+	}
 
     developmentOnly libs.bundles.tools
 

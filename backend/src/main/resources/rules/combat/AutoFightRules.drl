@@ -1,0 +1,98 @@
+import dk.dodgame.data.combat.Fight
+import dk.dodgame.data.combat.FightState
+import dk.dodgame.domain.changerequest.model.ChangeStatusLabel
+import dk.dodgame.domain.changerequest.model.ChangeStatus
+import dk.dodgame.util.rules.FightRules
+import dk.dodgame.data.combat.Turn
+import dk.dodgame.data.combat.TurnPhase;
+import dk.dodgame.data.combat.TurnAction
+import dk.dodgame.domain.action.model.MeleeWeaponAttackAction;
+import dk.dodgame.domain.action.model.FightAction;
+import dk.dodgame.util.rules.MeleeCombatRules
+import dk.dodgame.data.combat.TurnActionType
+
+dialect "java"
+
+rule "New Turn"
+    ruleflow-group "static-auto-fight"
+    when
+        fight : Fight( fightPhase != FightState.DONE && fight.currentTurn == null )
+    then
+        var turns = fight.getTurns();
+        var turn = Turn.builder().phase(TurnPhase.NEW).isCurrent(true).turnCount(fight.getTurnCounter()).build();
+        turns.add(turn);
+
+        if(fight.getFightPhase() == FightState.NEW) {
+            fight.setFightPhase(FightState.INITIALIZED);
+        }
+        turn.nextPhase();
+        update(fight)
+end;
+
+rule "Determine Initiative"
+    ruleflow-group "static-auto-fight"
+    when
+        fight : Fight( fightPhase != FightState.DONE )
+        turn : Turn( phase == TurnPhase.DETERMINE_INITIATIVE) from fight.getCurrentTurn()
+    then
+        fight.setFightPhase(FightState.IN_PROGRESS);
+        var initWinner = FightRules.determineInitiative(fight);
+        turn.setInitiativeWinnerId(initWinner.getId());
+        turn.nextPhase();
+        update(fight)
+end;
+
+rule "Magic effects"
+    ruleflow-group "static-auto-fight"
+    when
+        fight : Fight( fightPhase != FightState.DONE )
+        turn : Turn( phase == TurnPhase.MAGIC) from fight.getCurrentTurn()
+    then
+        turn.nextPhase();
+        update(fight)
+end;
+
+rule "Ranged weapons"
+    ruleflow-group "static-auto-fight"
+    when
+        fight : Fight( fightPhase != FightState.DONE )
+        turn : Turn( phase == TurnPhase.RANGED_WEAPONS) from fight.getCurrentTurn()
+    then
+        turn.nextPhase();
+        update(fight)
+end;
+
+rule "Melee weapons - initialization"
+    ruleflow-group "static-auto-fight"
+    when
+        fight : Fight( fightPhase != FightState.DONE )
+        turn : Turn( phase == TurnPhase.MELEE_WEAPONS && actions.isEmpty()) from fight.getCurrentTurn()
+    then
+        MeleeCombatRules.determineMeleeActions(fight);
+        turn.addFightActions(fight.getListOfFighters());
+        insert(MeleeCombatRules.createFightAction(fight));
+        update(fight)
+end;
+
+rule "Movement"
+    ruleflow-group "static-auto-fight"
+    when
+        fight : Fight( fightPhase != FightState.DONE )
+        turn : Turn( phase == TurnPhase.MOVEMENT) from fight.getCurrentTurn()
+    then
+        turn.nextPhase();
+        update(fight)
+end;
+
+rule "End Turn"
+    ruleflow-group "static-auto-fight"
+    when
+        fight : Fight( fightPhase != FightState.DONE)
+        turn : Turn( phase == TurnPhase.DONE) from fight.getCurrentTurn()
+    then
+        turn.setCurrent(false);
+        int nextTurnCounter = fight.getTurnCounter() + 1;
+        fight.setTurnCounter(nextTurnCounter);
+        turn.nextPhase();
+        update(fight)
+end;

@@ -48,7 +48,7 @@ public class CharacterActionController {
         .skill(skillService.findSkillByKey(skillKey))
         .build();
     SkillTrainingAction actionAndResult = (SkillTrainingAction) service.doAction(action);
-    characterService.save(actionAndResult.getActor(), principal.getName());
+    characterService.save((CharacterDTO) actionAndResult.getActor(), principal.getName());
     return actionAndResult;
   }
 

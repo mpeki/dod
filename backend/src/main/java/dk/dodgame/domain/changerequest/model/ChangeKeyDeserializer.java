@@ -1,27 +1,29 @@
 package dk.dodgame.domain.changerequest.model;
 
+import java.io.IOException;
+import java.util.Objects;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+
+import dk.dodgame.data.ItemDTO;
 import dk.dodgame.data.RaceDTO;
+import dk.dodgame.data.SkillDTO;
 import dk.dodgame.domain.character.model.BaseTraitName;
 import dk.dodgame.domain.character.model.CharacterInfo;
 import dk.dodgame.domain.character.model.CharacterState;
 import dk.dodgame.domain.character.model.body.BodyPartName;
-import dk.dodgame.data.ItemDTO;
-import dk.dodgame.data.SkillDTO;
 import dk.dodgame.domain.item.ItemKey;
 import dk.dodgame.domain.skill.SkillKey;
-import java.io.IOException;
-import java.util.Objects;
 
 public class ChangeKeyDeserializer extends JsonDeserializer<ChangeKey> {
 
   @Override
   public ChangeKey deserialize(JsonParser jp, DeserializationContext context) throws IOException {
     String text = jp.getText();
-    Object value = jp.getCurrentValue();
+    Object value = jp.currentValue();
 
     try {
       return BaseTraitName.valueOf(text);
