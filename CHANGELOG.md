@@ -1,3 +1,10 @@
+## [1.20.12](https://github.com/mpeki/dod/compare/v1.20.11...v1.20.12) (2025-07-28)
+
+
+### Bug Fixes
+
+* **security:** bump io.hypersistence:hypersistence-utils-hibernate-63 ([#571](https://github.com/mpeki/dod/issues/571)) ([0e6d50e](https://github.com/mpeki/dod/commit/0e6d50e075c9875d240914013ec3e750b1a11a58))
+
 ## [1.20.11](https://github.com/mpeki/dod/compare/v1.20.10...v1.20.11) (2025-07-28)
 
 
