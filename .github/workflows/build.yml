@@ -130,6 +130,9 @@ jobs:
         use-docker: true
         docker-user: ${{ secrets.DOCKERHUB_USER }}
         docker-password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Force public npm registry
+      run: |
+        echo "registry=https://registry.npmjs.org/" > ~/.npmrc
     - name: Prepare semantic-release
       run: |
         npm clean-install
