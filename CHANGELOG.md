@@ -1,3 +1,10 @@
+## [1.20.11](https://github.com/mpeki/dod/compare/v1.20.10...v1.20.11) (2025-07-28)
+
+
+### Bug Fixes
+
+* **security:** bump commons-io:commons-io from 2.19.0 to 2.20.0 ([#570](https://github.com/mpeki/dod/issues/570)) ([870ee9e](https://github.com/mpeki/dod/commit/870ee9e0abc6f2140c722aa3358c606eefdb11f0))
+
 ## [1.20.10](https://github.com/mpeki/dod/compare/v1.20.9...v1.20.10) (2025-07-27)
 
 
