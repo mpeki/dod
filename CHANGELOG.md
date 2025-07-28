@@ -1,3 +1,10 @@
+## [1.20.16](https://github.com/mpeki/dod/compare/v1.20.15...v1.20.16) (2025-07-28)
+
+
+### Bug Fixes
+
+* prevent NPE in DODCharacter.equals ([#537](https://github.com/mpeki/dod/issues/537)) ([52df2ed](https://github.com/mpeki/dod/commit/52df2edbb5137144ce914057d4dc5c5101c26d1e))
+
 ## [1.20.16-rc.1](https://github.com/mpeki/dod/compare/v1.20.15...v1.20.16-rc.1) (2025-07-28)
 
 
