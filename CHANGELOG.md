@@ -1,3 +1,10 @@
+## [1.20.15](https://github.com/mpeki/dod/compare/v1.20.14...v1.20.15) (2025-07-28)
+
+
+### Bug Fixes
+
+* **security:** update api java version ([#577](https://github.com/mpeki/dod/issues/577)) ([e897dbc](https://github.com/mpeki/dod/commit/e897dbcfc0c53ce1183c03d854dfe21921b80ba5))
+
 ## [1.20.14](https://github.com/mpeki/dod/compare/v1.20.13...v1.20.14) (2025-07-28)
 
 
