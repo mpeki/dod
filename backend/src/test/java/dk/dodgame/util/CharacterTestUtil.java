@@ -44,7 +44,7 @@ public class CharacterTestUtil {
 
 
 	public static CharacterDTO createRandomCharacter() {
-
+		int weaponFv = Dice.roll("1t5+10");
 		CharacterItemDTO weapon = createRandomCharacterItem();
 		return CharacterDTO.builder()
 				.race(RaceDTO.builder().name("human").build())
@@ -52,14 +52,14 @@ public class CharacterTestUtil {
 				.name(faker.gameOfThrones().character())
 				.ageGroup(AgeGroup.MATURE)
 				.hero(false)
-				.skills(Map.of("short.sword", CharacterSkillDTO.builder().fv(10)
+				.skills(Map.of("short.sword", CharacterSkillDTO.builder().fv(weaponFv)
 						.skill(SkillDTO.builder()
 								.key(SkillKey.toSkillKey("short.sword"))
 								.category(Category.A)
 								.group(Group.COMBAT)
 								.build())
 								.skillName("short.sword")
-								.fv(10)
+								.fv(weaponFv)
 								.lastUsed(LocalDateTime.now())
 						.build()))
 				.items(new HashMap<>(Map.of(weapon.getItemName(), weapon)))

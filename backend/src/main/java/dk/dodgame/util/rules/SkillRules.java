@@ -1,5 +1,9 @@
 package dk.dodgame.util.rules;
 
+import static java.lang.Math.ceil;
+
+import lombok.extern.slf4j.Slf4j;
+
 import dk.dodgame.data.CharacterSkillDTO;
 import dk.dodgame.data.SkillDTO;
 import dk.dodgame.domain.action.model.ActionResult;
@@ -7,10 +11,6 @@ import dk.dodgame.domain.action.model.Difficulty;
 import dk.dodgame.domain.skill.model.Category;
 import dk.dodgame.system.rule.DoDRule;
 import dk.dodgame.util.Dice;
-
-import static java.lang.Math.ceil;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SkillRules {
@@ -34,15 +34,22 @@ public class SkillRules {
             return ActionResult.SUCCESS;
         }
     }
-    @DoDRule(name = "test skill - skillDTO", type = RuleType.SKILL_RULE)
-    public static ActionResult testSkill(CharacterSkillDTO charSkill, int roll, Difficulty difficulty) {
-        SkillDTO skill = charSkill.getSkill();
-        int fv = skill.getCategory() == Category.A ? charSkill.getFv() : getSkillCatBFV(charSkill.getFv());
-		ActionResult result = testSkill(fv, roll, difficulty);
-		log.info("Testing skill: {}, fv: {}, roll: {}, difficulty: {}, result: {}",
-				skill.getKey().getKeyValue(), charSkill.getFv(), roll, difficulty, result);
 
-        return result;
+	@DoDRule(name = "test skill - skillDTO", type = RuleType.SKILL_RULE)
+	public static ActionResult testSkill(CharacterSkillDTO charSkill, int roll, int modifier, Difficulty difficulty) {
+		SkillDTO skill = charSkill.getSkill();
+		int fv = skill.getCategory() == Category.A ? charSkill.getFv() : getSkillCatBFV(charSkill.getFv());
+		ActionResult result = testSkill(fv + modifier, roll, difficulty);
+		log.info("Testing skill: {}, fv: {}, modifier: {}, roll: {}, difficulty: {}, result: {}",
+				skill.getKey().getKeyValue(), charSkill.getFv(), modifier, roll, difficulty, result);
+
+		return result;
+	}
+
+
+	@DoDRule(name = "test skill - skillDTO", type = RuleType.SKILL_RULE)
+    public static ActionResult testSkill(CharacterSkillDTO charSkill, int roll, Difficulty difficulty) {
+		return testSkill(charSkill, roll, 0, difficulty);
     }
 
     private static int getSkillCatBFV(int fv) {

@@ -3,6 +3,8 @@ package dk.dodgame.domain.action.model;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import dk.dodgame.domain.character.model.body.BodyPartName;
+
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
@@ -11,4 +13,5 @@ import lombok.experimental.SuperBuilder;
 @ToString(exclude = { "target" })
 public class MeleeWeaponAttackAction extends MeleeWeaponAction {
     Actor target;
+	BodyPartName targetBodyPartName;
 }

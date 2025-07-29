@@ -1,5 +1,13 @@
 package dk.dodgame.util.rules;
 
+import static dk.dodgame.util.rules.RulesUtil.determineBodyPartName;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import lombok.extern.slf4j.Slf4j;
+
 import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.CharacterItemDTO;
 import dk.dodgame.data.combat.Fight;
@@ -7,15 +15,10 @@ import dk.dodgame.data.combat.FightState;
 import dk.dodgame.data.combat.Fighter;
 import dk.dodgame.data.combat.Turn;
 import dk.dodgame.domain.action.model.*;
-import dk.dodgame.domain.action.model.DodgeAction;
 import dk.dodgame.domain.character.model.CharacterState;
 import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.util.Dice;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import dk.dodgame.util.character.CharacterUtil;
 
 @Slf4j
 public class MeleeCombatRules {
@@ -24,15 +27,15 @@ public class MeleeCombatRules {
     }
 
     public static void doHit(MeleeWeaponAttackAction attackAction){
-		log.info("Attack was successful and block failed, applying damage");
 		Fighter attacker = (Fighter) attackAction.getActor();
 		Fighter target = (Fighter) attackAction.getTarget();
 		CharacterDTO attackerChar = attacker.getCharacter();
 		CharacterItemDTO primaryWeapon = FightRules.getPrimaryWeapon(attackerChar);
 		int damage = FightRules.calculateDamage(primaryWeapon, attackerChar, attackAction.getActionResult());
-		target.getCharacter().applyDamage(damage);
-		log.info("{} dealt {} damage to {}", attackerChar.getName(), damage, target.getCharacter().getName());
-		log.info("{}'s health is now {}", target.getCharacter().getName(), target.getCharacter().getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
+		target.applyDamage(attackAction.getTargetBodyPartName(), damage);
+
+		log.info("{} dealt {} damage to {}'s {}", attackerChar.getName(), damage, target.getCharacter().getName(), attackAction.getTargetBodyPartName().name());
+		CharacterUtil.logCharacter(target.getCharacter(), "HEALTH", "STATE");
     }
 
     public static void determineMeleeActions(Fight fight) {
@@ -42,15 +45,19 @@ public class MeleeCombatRules {
 				List<FightAction> actions = new ArrayList<>();
 				CharacterDTO character = fighter.getCharacter();
 				CharacterItemDTO primaryWeapon = FightRules.getPrimaryWeapon(character);
-				if (!primaryWeapon.getItemName().equals("no.item")) {
+				if (primaryWeapon != null) {
 					actions.add(MeleeWeaponAttackAction.builder()
 							.fightReference(fight.getRef())
+							.meleeWeapon(primaryWeapon)
+							.fv(FightRules.getItemFV(primaryWeapon, character))
 							.turnReference(fight.getCurrentTurn().getRef())
 							.actor(fighter)
 							.type(Type.MELEE_WEAPON_ATTACK)
 							.build());
 					actions.add(MeleeWeaponBlockAction.builder()
 							.fightReference(fight.getRef())
+							.meleeWeapon(primaryWeapon)
+							.fv(FightRules.getItemFV(primaryWeapon, character))
 							.turnReference(fight.getCurrentTurn().getRef())
 							.actor(fighter)
 							.type(Type.MELEE_WEAPON_PARRY)
@@ -103,48 +110,48 @@ public class MeleeCombatRules {
         Fighter defendingFighter = (Fighter) blockAction.getActor();
         CharacterDTO defendingCharacter = defendingFighter.getCharacter();
         CharacterItemDTO primaryWeapon = FightRules.getPrimaryWeapon(defendingCharacter);
-        log.info("{} is trying to block with a {}", defendingCharacter.getName(), primaryWeapon.getItemName());
+//        log.info("{} is trying to block with a {}", defendingCharacter.getName(), primaryWeapon.getItemName());
 		blockAction.setActionResult(
-				SkillRules.testSkill(defendingCharacter.getSkill(primaryWeapon.getItemName()), Dice.roll("1t20"),
+				SkillRules.testSkill(defendingCharacter.getSkill(primaryWeapon.getItemName()), Dice.roll("1t20"), blockAction.getModifier(),
 				blockAction.getDifficulty()));
 		if(attackAction.getActionResult().isSuccess() && blockAction.getActionResult().isFailure()) {
+//			log.info("Attack was successful and block failed, applying damage");
 			MeleeCombatRules.doHit(attackAction);
 		} else {
-			log.info("{} successfully blocked the attack", defendingCharacter.getName());
+//			log.info("{} successfully blocked the attack", defendingCharacter.getName());
 		}
 
-//		blockAction.setResolved(true);
+		blockAction.setResultDescription(createActionDescription(blockAction));
+		log.info(blockAction.getResultDescription().getShortActionDescription());
 		resolveActions(turn, blockAction);
         return blockAction;
     }
 
 
     public static MeleeWeaponAttackAction meleeAttack(Turn turn, MeleeWeaponAttackAction action) {
-        Fighter attacker = (Fighter) action.getActor();
-        CharacterDTO attackerChar = attacker.getCharacter();
-        CharacterItemDTO primaryWeapon = FightRules.getPrimaryWeapon(attackerChar);
-        log.info("{} is attacking {} with a {}", attackerChar.getName(), ((Fighter) action.getTarget()).getCharacter().getName(), primaryWeapon.getItemName());
-        int attackFv = FightRules.getItemFV(primaryWeapon, attackerChar);
-		action.setActionResult(
-				SkillRules.testSkill(
-						attackerChar.getSkill(primaryWeapon.getItemName()), Dice.roll("1t20"),
-						action.getDifficulty()
-				)
-		);
-        log.info("The attack result is: {}", action.getActionResult());
+		action.setActionResult(SkillRules.testSkill(action.getFv(), Dice.roll("1t20"), action.getDifficulty()));
+		if(action.getActionResult().isSuccess()) {
+			BodyPartName targetBodypart = determineBodyPartName(action.getTarget());
+			action.setTargetBodyPartName(targetBodypart);
+		}
+		action.setResultDescription(createActionDescription(action));
+		log.info(action.getResultDescription().getShortActionDescription());
 		resolveActions(turn, action);
         return action;
     }
 
 	private static void resolveActions(Turn turn, MeleeWeaponAction action) {
 		action.setResolved(true);
+		action.setTurnSequence(turn.getNextActionSequence());
 		if(action.getActor() instanceof Fighter actor) {
 			turn.getActionsFor(actor.getFighterId())
 				.stream()
 					.filter(a -> a.getType().isMeleeWeaponAction() && !a.isResolved())
 					.forEach(a -> {
 						a.setResolved(true);
-						log.info("Resolving action: {}", a.getType());
+						a.setTurnSequence(-1);
+						a.setActionResult(ActionResult.SKIPPED);
+						log.info("Resolving action: {} to {} ({})", a.getType(), ActionResult.SKIPPED, a.getRef());
 					});
 		}
 	}
@@ -167,5 +174,35 @@ public class MeleeCombatRules {
 				.filter(c -> c.getState() == CharacterState.IN_PLAY)
 				.count();
 		return aliveCount == 1;
+	}
+
+	private static ActionResultDescription createActionDescription(MeleeWeaponAction action) {
+		ActionResultDescription.ActionResultDescriptionBuilder result = ActionResultDescription.builder();
+
+		if(action instanceof MeleeWeaponAttackAction attackAction
+				&& attackAction.getActor() instanceof Fighter attacker) {
+			result.actorName(attacker.getCharacter().getName());
+			if(attackAction.getTarget() instanceof Fighter defender) {
+				result.targetName(defender.getCharacter().getName());
+				result.targetAreaName(attackAction.getActionResult().isSuccess()
+						?  attackAction.getTargetBodyPartName().name()
+						: "this air");
+			}
+			result.actionItemName(action.getMeleeWeapon().getItemName());
+			result.actionResult(action.getActionResult().name());
+			result.difficulty(action.getDifficulty().name());
+
+			return result.build();
+		}
+		if(action instanceof MeleeWeaponBlockAction blockAction
+				&& blockAction.getActor() instanceof Fighter blocker) {
+			result.actorName(blocker.getCharacter().getName());
+			result.actionItemName(action.getMeleeWeapon().getItemName());
+			result.actionResult(action.getActionResult().name());
+			result.difficulty(action.getDifficulty().name());
+
+			return result.build();
+		}
+		return ActionResultDescription.builder().build();
 	}
 }
