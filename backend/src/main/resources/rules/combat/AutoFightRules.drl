@@ -10,13 +10,16 @@ import dk.dodgame.domain.action.model.MeleeWeaponAttackAction;
 import dk.dodgame.domain.action.model.FightAction;
 import dk.dodgame.util.rules.MeleeCombatRules
 import dk.dodgame.data.combat.TurnActionType
+import dk.dodgame.util.rules.RulesUtil
 
 dialect "java"
 
 rule "New Turn"
     ruleflow-group "static-auto-fight"
+    agenda-group "static-auto-fight"
+    auto-focus true
     when
-        fight : Fight( fightPhase != FightState.DONE && fight.currentTurn == null )
+        fight : Fight( fightPhase != FightState.DONE && fight.getCurrentTurn() == null )
     then
         var turns = fight.getTurns();
         var turn = Turn.builder().phase(TurnPhase.NEW).isCurrent(true).turnCount(fight.getTurnCounter()).build();
@@ -31,6 +34,8 @@ end;
 
 rule "Determine Initiative"
     ruleflow-group "static-auto-fight"
+    agenda-group "static-auto-fight"
+    auto-focus true
     when
         fight : Fight( fightPhase != FightState.DONE )
         turn : Turn( phase == TurnPhase.DETERMINE_INITIATIVE) from fight.getCurrentTurn()
@@ -44,6 +49,8 @@ end;
 
 rule "Magic effects"
     ruleflow-group "static-auto-fight"
+    agenda-group "static-auto-fight"
+    auto-focus true
     when
         fight : Fight( fightPhase != FightState.DONE )
         turn : Turn( phase == TurnPhase.MAGIC) from fight.getCurrentTurn()
@@ -54,6 +61,8 @@ end;
 
 rule "Ranged weapons"
     ruleflow-group "static-auto-fight"
+    agenda-group "static-auto-fight"
+    auto-focus true
     when
         fight : Fight( fightPhase != FightState.DONE )
         turn : Turn( phase == TurnPhase.RANGED_WEAPONS) from fight.getCurrentTurn()
@@ -64,6 +73,8 @@ end;
 
 rule "Melee weapons - initialization"
     ruleflow-group "static-auto-fight"
+    agenda-group "static-auto-fight"
+    auto-focus true
     when
         fight : Fight( fightPhase != FightState.DONE )
         turn : Turn( phase == TurnPhase.MELEE_WEAPONS && actions.isEmpty()) from fight.getCurrentTurn()
@@ -76,6 +87,8 @@ end;
 
 rule "Movement"
     ruleflow-group "static-auto-fight"
+    agenda-group "static-auto-fight"
+    auto-focus true
     when
         fight : Fight( fightPhase != FightState.DONE )
         turn : Turn( phase == TurnPhase.MOVEMENT) from fight.getCurrentTurn()
@@ -86,6 +99,8 @@ end;
 
 rule "End Turn"
     ruleflow-group "static-auto-fight"
+    agenda-group "static-auto-fight"
+    auto-focus true
     when
         fight : Fight( fightPhase != FightState.DONE)
         turn : Turn( phase == TurnPhase.DONE) from fight.getCurrentTurn()
@@ -93,6 +108,7 @@ rule "End Turn"
         turn.setCurrent(false);
         int nextTurnCounter = fight.getTurnCounter() + 1;
         fight.setTurnCounter(nextTurnCounter);
-        turn.nextPhase();
+        RulesUtil.debugFight(fight);
+//        turn.nextPhase();
         update(fight)
 end;

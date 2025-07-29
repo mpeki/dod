@@ -1,5 +1,13 @@
 package dk.dodgame.util.rules;
 
+import static dk.dodgame.util.rules.RulesUtil.determineBodyPartName;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import lombok.extern.slf4j.Slf4j;
+
 import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.CharacterItemDTO;
 import dk.dodgame.data.combat.Fight;
@@ -7,15 +15,9 @@ import dk.dodgame.data.combat.FightState;
 import dk.dodgame.data.combat.Fighter;
 import dk.dodgame.data.combat.Turn;
 import dk.dodgame.domain.action.model.*;
-import dk.dodgame.domain.action.model.DodgeAction;
 import dk.dodgame.domain.character.model.CharacterState;
 import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.util.Dice;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 public class MeleeCombatRules {
@@ -131,7 +133,11 @@ public class MeleeCombatRules {
 						action.getDifficulty()
 				)
 		);
-        log.info("The attack result is: {}", action.getActionResult());
+		log.info("The attack result is: {}", action.getActionResult());
+		if(action.getActionResult().isSuccess()) {
+			action.setTargetBodyPartName(determineBodyPartName(action.getTarget()));
+			log.info("{} successfully hit the target's {}", attackerChar.getName(), action.getTargetBodyPartName());
+		}
 		resolveActions(turn, action);
         return action;
     }

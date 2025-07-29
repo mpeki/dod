@@ -29,8 +29,7 @@ public class Turn {
 			case MAGIC -> this.phase = TurnPhase.RANGED_WEAPONS;
 			case RANGED_WEAPONS -> this.phase = TurnPhase.MELEE_WEAPONS;
 			case MELEE_WEAPONS -> this.phase = TurnPhase.MOVEMENT;
-			case MOVEMENT -> this.phase = TurnPhase.DONE;
-			case DONE -> this.phase = TurnPhase.NEW;
+			case MOVEMENT, DONE -> this.phase = TurnPhase.DONE;
 			default -> throw new IllegalStateException("Unexpected value: " + phase);
 		}
 	}

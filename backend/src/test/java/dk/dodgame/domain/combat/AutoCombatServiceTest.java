@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.CharacterItemDTO;
 import dk.dodgame.data.ItemDTO;
 import dk.dodgame.data.combat.Fight;
+import dk.dodgame.data.combat.FightState;
 import dk.dodgame.data.combat.Fighter;
 import dk.dodgame.domain.character.CharacterFactory;
 import dk.dodgame.domain.character.model.CharacterState;
@@ -57,7 +59,7 @@ class AutoCombatServiceTest {
         System.out.println("[DEBUG_LOG] Starting testAutoFight");
 
 		List<Fight> fights = new ArrayList<>();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 3; i++) {
 			CharacterDTO characterOne = characterFactory.createCharacterDTO(CharacterTestUtil.createRandomCharacter(), CharacterTestUtil.createHumanRace());
 			characterOne.setState(CharacterState.IN_PLAY);
 			CharacterDTO characterTwo = characterFactory.createCharacterDTO(CharacterTestUtil.createRandomCharacter(), CharacterTestUtil.createHumanRace());
@@ -97,9 +99,11 @@ class AutoCombatServiceTest {
 				System.out.println("Character HP: " + fighter.getCharacter().getBodyParts().get(BodyPartName.TOTAL));
 			});
 			System.out.println("Turn Counter: " + fight.getTurnCounter());
+			System.out.println("Fight Status: " + fight.getFightPhase());
 			System.out.println("==================================== END FIGHT =========================");
+			Assertions.assertThat(fight.getFightPhase()).isEqualTo(FightState.DONE);
 		});
-        System.out.println("[DEBUG_LOG] Finished testAutoFight");
+        System.out.println("[DEBUG_LOG] Finished testAutoFight: ");
     }
 
 	private void setWeapon(Fighter fighter) {

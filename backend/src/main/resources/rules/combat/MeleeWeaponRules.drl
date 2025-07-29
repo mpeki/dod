@@ -17,7 +17,7 @@ import dk.dodgame.util.rules.MeleeCombatRules;
 //    ruleflow-group "static-auto-fight"
 //    salience 10
 //    no-loop
-//    when
+//    whenv
 //        fight : Fight( fightPhase != FightState.DONE )
 //        turn : Turn( phase == TurnPhase.MELEE_WEAPONS) from fight.getCurrentTurn()
 //        attackAction : MeleeWeaponAttackAction( actionResult != ActionResult.FAILURE && resolved == true)
@@ -32,6 +32,7 @@ import dk.dodgame.util.rules.MeleeCombatRules;
 
 rule "Melee Weapon Attack Action"
     ruleflow-group "static-auto-fight"
+    auto-focus true
     salience 30
     when
         fight : Fight( fightPhase != FightState.DONE)
@@ -44,6 +45,7 @@ end;
 
 rule "Melee Weapon Attack Reaction"
     ruleflow-group "static-auto-fight"
+    auto-focus true
     salience 20
     when
         fight : Fight( fightPhase != FightState.DONE )
@@ -60,6 +62,7 @@ end;
 
 rule "Melee Weapon Block Action"
     ruleflow-group "static-auto-fight"
+    auto-focus true
     salience 20
     when
         fight : Fight( fightPhase != FightState.DONE )
@@ -74,6 +77,7 @@ end;
 
 rule "Melee Weapon Next Phase"
     ruleflow-group "static-auto-fight"
+    auto-focus true
     salience 10
     when
         fight : Fight( fightPhase != FightState.DONE )
