@@ -4,10 +4,7 @@ import static dk.dodgame.domain.character.model.AgeGroup.MATURE;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -28,7 +25,10 @@ import dk.dodgame.domain.item.ItemKey;
 import dk.dodgame.domain.item.model.Coin;
 import dk.dodgame.domain.item.model.ItemType;
 import dk.dodgame.domain.item.model.ManyPiece;
+import dk.dodgame.util.Dice;
 import dk.dodgame.util.DoDTsidGenerator;
+import dk.dodgame.util.character.CharacterUtil;
+import dk.dodgame.util.rules.FightRules;
 import dk.dodgame.util.rules.RulesUtil;
 
 @Data
@@ -85,14 +85,26 @@ public class CharacterDTO implements DODFact, Actor, Serializable {
 	@EqualsAndHashCode.Exclude
 	@JsonInclude(Include.NON_EMPTY)
 	private EnumMap<BodyPartName, List<CharacterItemDTO>> wield = new EnumMap<>(Map.of(
-			BodyPartName.RIGHT_ARM, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
-			BodyPartName.LEFT_ARM, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
-			BodyPartName.RIGHT_LEG, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
-			BodyPartName.LEFT_LEG, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
-			BodyPartName.HEAD, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
-			BodyPartName.CHEST, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()),
-			BodyPartName.STOMACH, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build())
+			BodyPartName.RIGHT_ARM, new ArrayList<>(),
+			BodyPartName.LEFT_ARM, new ArrayList<>(),
+			BodyPartName.RIGHT_LEG, new ArrayList<>(),
+			BodyPartName.LEFT_LEG, new ArrayList<>(),
+			BodyPartName.HEAD, new ArrayList<>(),
+			BodyPartName.CHEST, new ArrayList<>(),
+			BodyPartName.STOMACH, new ArrayList<>()
 	));
+
+/*
+	private EnumMap<BodyPartName, List<CharacterItemDTO>> wield = new EnumMap<>(Map.of(
+			BodyPartName.RIGHT_ARM, new ArrayList<>(List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build())),
+			BodyPartName.LEFT_ARM, new ArrayList<>(List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build())),
+			BodyPartName.RIGHT_LEG, new ArrayList<>(List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build())),
+			BodyPartName.LEFT_LEG, new ArrayList<>(List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build())),
+			BodyPartName.HEAD, new ArrayList<>(List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build())),
+			BodyPartName.CHEST, new ArrayList<>(List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build())),
+			BodyPartName.STOMACH, new ArrayList<>(List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()))
+	));
+*/
 
 	public Integer getBaseTraitValue(BaseTraitName baseTraitName) {
 		if (baseTraits.containsKey(baseTraitName)) {
@@ -261,21 +273,50 @@ public class CharacterDTO implements DODFact, Actor, Serializable {
 		return List.of();
 	}
 
-	public void applyDamage(int damage) {
-		BodyPartDTO totalHp = bodyParts.get(BodyPartName.TOTAL);
-		BaseTraitDTO constitution = baseTraits.get(BaseTraitName.CONSTITUTION);
-		totalHp.setCurrentHP(totalHp.getCurrentHP() - damage);
-		if (totalHp.getCurrentHP() <= 0 ) {
-			state = CharacterState.INCAPACITATED;
-		}
-		if (totalHp.getCurrentHP() <= - (constitution.getCurrentValue()) ) {
-			state = CharacterState.DEAD;
+	public void dropAllItemsIn(BodyPartName bodyPartName) {
+		if (wield.containsKey(bodyPartName)) {
+			wield.put(bodyPartName, List.of(CharacterItemDTO.builder().itemName(NO_ITEM).build()));
 		}
 	}
+
+	public void dropItemIn(BodyPartName bodyPartName, CharacterItemDTO item) {
+		if (item != null && wield.containsKey(bodyPartName)) {
+			wield.get(bodyPartName).removeIf(i -> i.getItemName().equals(item.getItemName()));
+		}
+	}
+
+
+	public int applyDamage(BodyPartName bodyPartName, int damage) {
+		BodyPartDTO totalHp = bodyParts.get(BodyPartName.TOTAL);
+		BodyPartDTO afflictedPartHp = bodyParts.get(bodyPartName);
+		afflictedPartHp.setCurrentHP(afflictedPartHp.getCurrentHP() - damage);
+		if( afflictedPartHp.getCurrentHP() < 0 ) {
+			dropItemIn(bodyPartName, FightRules.getWeaponFor(this, bodyPartName));
+		}
+		if( afflictedPartHp.getCurrentHP() < - afflictedPartHp.getMaxHP() ) {
+			afflictedPartHp.setPercentLeft(100 - Dice.roll("1t100"));
+		}
+		totalHp.setCurrentHP(totalHp.getCurrentHP() - CharacterUtil.calculateTotalHPDamage(bodyPartName, damage));
+		state = CharacterUtil.determineCharacterState(this);
+		return afflictedPartHp.getCurrentHP();
+	}
+
+	public Integer getBleeding() {
+		int result = 0;
+		for (BodyPartDTO bodyPart : bodyParts.values()) {
+			if(bodyPart.getCurrentHP() < 0) {
+				result += 1;
+			}
+		}
+		return result;
+	}
+
+
 
 	@Override
 	@JsonProperty("actorType")
 	public String getActorType() {
 		return "character";
 	}
+
 }

@@ -1,30 +1,25 @@
 package dk.dodgame.domain.actions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-import dk.dodgame.DodApplication;
-import dk.dodgame.data.CharacterDTO;
-import dk.dodgame.data.CharacterSkillDTO;
-import dk.dodgame.domain.action.CharacterActionService;
-import dk.dodgame.domain.action.model.Action;
-import dk.dodgame.domain.action.model.ActionResult;
-import dk.dodgame.domain.action.model.Difficulty;
-import dk.dodgame.domain.action.model.SkillTrainingAction;
-import dk.dodgame.domain.action.model.Type;
-import dk.dodgame.domain.character.model.CharacterState;
-import dk.dodgame.domain.skill.SkillKey;
-import dk.dodgame.domain.skill.SkillService;
-import dk.dodgame.data.SkillDTO;
-import dk.dodgame.util.RandomObjectFiller;
 import java.util.Map;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import dk.dodgame.DodApplication;
+import dk.dodgame.data.CharacterDTO;
+import dk.dodgame.data.CharacterSkillDTO;
+import dk.dodgame.data.SkillDTO;
+import dk.dodgame.domain.action.CharacterActionService;
+import dk.dodgame.domain.action.model.*;
+import dk.dodgame.domain.character.model.CharacterState;
+import dk.dodgame.domain.skill.SkillKey;
+import dk.dodgame.domain.skill.SkillService;
+import dk.dodgame.util.RandomObjectFiller;
 
 @SpringBootTest(classes = DodApplication.class)
 @Tag("regression")
@@ -50,7 +45,7 @@ class CharacterActionServiceWithRulesTest {
         .build();
     cut.doAction(action);
     Assertions.assertEquals(ActionResult.INVALID_ACTION, action.getActionResult());
-    assertTrue(action.getResultDescription().contains("Character is not ready to play"));
+    assertTrue(action.getResultDescription().getActionResult().contains("Character is not ready to play"));
   }
 
   @Test
@@ -65,7 +60,7 @@ class CharacterActionServiceWithRulesTest {
         .build();
     cut.doAction(action);
     assertEquals(ActionResult.INVALID_ACTION, action.getActionResult());
-    assertTrue(action.getResultDescription().contains("Skill does not exist"));
+    assertTrue(action.getResultDescription().getActionResult().contains("Skill does not exist"));
   }
 
   @Test
@@ -73,8 +68,8 @@ class CharacterActionServiceWithRulesTest {
     CharacterDTO testSubject = new RandomObjectFiller().createAndFill(CharacterDTO.class);
     CharacterSkillDTO characterSkill = new RandomObjectFiller().createAndFill(CharacterSkillDTO.class);
     SkillKey key = SkillKey.builder().value(TEST_SKILL_KEY).build();
-    characterSkill.setSkill(SkillDTO.builder().key(key).build());;
-    characterSkill.setFv(15);
+    characterSkill.setSkill(SkillDTO.builder().key(key).build());
+	  characterSkill.setFv(15);
     characterSkill.setExperience(0);
     Map<String, CharacterSkillDTO> skills = Map.of(key.getValue().getKeyValue(), characterSkill);
     testSubject.setSkills(skills);
@@ -99,7 +94,7 @@ class CharacterActionServiceWithRulesTest {
         assertTrue(expBefore < expAfter);
       }
       assertNotEquals(ActionResult.INVALID_ACTION, action.getActionResult());
-      assertTrue(action.getResultDescription().contains("Rolled ["));
+      assertTrue(action.getResultDescription().getActionResult().contains("Rolled ["));
       System.out.println(testSubject.getSkills().get(TEST_SKILL_KEY).getExperience());
     }
     System.out.println(testSubject);

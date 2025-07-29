@@ -4,7 +4,7 @@ import dk.dodgame.util.ExcludeFromCoverageReportGenerated;
 
 @ExcludeFromCoverageReportGenerated
 public enum ActionResult {
-    PERFECT, MASTERFUL, SUCCESS, FAILURE, FUMBLE, INVALID_ACTION;
+    PERFECT, MASTERFUL, SUCCESS, FAILURE, FUMBLE, INVALID_ACTION, SKIPPED;
 
 	public boolean isSuccess() {
 		return this == PERFECT || this == MASTERFUL || this == SUCCESS;

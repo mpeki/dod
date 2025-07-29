@@ -545,7 +545,7 @@ class CharacterDTOTest {
 		void hpReducesButStateRemainsWhenDamageIsNonLethal() {
 			CharacterDTO dto = buildCharacter(10, 5);
 
-			dto.applyDamage(3);
+			dto.applyDamage(BodyPartName.CHEST, 3);
 
 			assertEquals(7, dto.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
 			assertEquals(CharacterState.IN_PLAY, dto.getState());
@@ -555,7 +555,7 @@ class CharacterDTOTest {
 		void reachingZeroHpSetsStateToIncapacitated() {
 			CharacterDTO dto = buildCharacter(10, 5);
 
-			dto.applyDamage(10);
+			dto.applyDamage(BodyPartName.CHEST,10);
 
 			assertEquals(0, dto.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
 			assertEquals(CharacterState.INCAPACITATED, dto.getState());
@@ -565,7 +565,7 @@ class CharacterDTOTest {
 		void negativeHpAboveMinusConstitutionKeepsIncapacitatedState() {
 			CharacterDTO dto = buildCharacter(10, 5);
 
-			dto.applyDamage(12); // HP becomes −2 (-2 > −5)
+			dto.applyDamage(BodyPartName.CHEST, 12); // HP becomes −2 (-2 > −5)
 
 			assertEquals(-2, dto.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
 			assertEquals(CharacterState.INCAPACITATED, dto.getState());
@@ -575,7 +575,7 @@ class CharacterDTOTest {
 		void hpAtOrBelowMinusConstitutionSetsStateToDead() {
 			CharacterDTO dto = buildCharacter(10, 5);
 
-			dto.applyDamage(20); // HP becomes −10 (-10 ≤ −5) → DEAD
+			dto.applyDamage(BodyPartName.CHEST,20); // HP becomes −10 (-10 ≤ −5) → DEAD
 
 			assertEquals(-10, dto.getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
 			assertEquals(CharacterState.DEAD, dto.getState());

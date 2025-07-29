@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.CharacterItemDTO;
 import dk.dodgame.data.ItemDTO;
 import dk.dodgame.data.combat.Fight;
+import dk.dodgame.data.combat.FightState;
 import dk.dodgame.data.combat.Fighter;
 import dk.dodgame.domain.character.CharacterFactory;
 import dk.dodgame.domain.character.model.CharacterState;
@@ -28,6 +30,7 @@ import dk.dodgame.domain.item.ItemKey;
 import dk.dodgame.domain.item.ItemService;
 import dk.dodgame.domain.item.model.ItemType;
 import dk.dodgame.util.CharacterTestUtil;
+import dk.dodgame.util.rules.FightRules;
 
 @SpringBootTest(classes = DodApplication.class)
 @Tag("regression")
@@ -57,7 +60,7 @@ class AutoCombatServiceTest {
         System.out.println("[DEBUG_LOG] Starting testAutoFight");
 
 		List<Fight> fights = new ArrayList<>();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 10; i++) {
 			CharacterDTO characterOne = characterFactory.createCharacterDTO(CharacterTestUtil.createRandomCharacter(), CharacterTestUtil.createHumanRace());
 			characterOne.setState(CharacterState.IN_PLAY);
 			CharacterDTO characterTwo = characterFactory.createCharacterDTO(CharacterTestUtil.createRandomCharacter(), CharacterTestUtil.createHumanRace());
@@ -88,18 +91,20 @@ class AutoCombatServiceTest {
 		//Print a report of the fight
 		System.out.println("[DEBUG_LOG] Fight Report:");
 		fights.forEach(fight -> {
-			System.out.println("Fight ID: " + fight.getRef());
-			fight.getFighters().forEach((id, fighter) -> {
-				System.out.println("Fighter ID: " + id);
-				System.out.println("Character Name: " + fighter.getCharacter().getName());
-				System.out.println("Character State: " + fighter.getCharacter().getState());
-				System.out.println("Character damage bonus: " + fighter.getCharacter().getDamageBonus());
-				System.out.println("Character HP: " + fighter.getCharacter().getBodyParts().get(BodyPartName.TOTAL));
-			});
-			System.out.println("Turn Counter: " + fight.getTurnCounter());
+			FightRules.logFight(fight);
+//			System.out.println("Fight ID: " + fight.getRef());
+//			fight.getFighters().forEach((id, fighter) -> {
+//				System.out.println("Fighter ID: " + id);
+//				System.out.println("Character Name: " + fighter.getCharacter().getName());
+//				System.out.println("Character State: " + fighter.getCharacter().getState());
+//				System.out.println("Character damage bonus: " + fighter.getCharacter().getDamageBonus());
+//				System.out.println("Character HP: " + fighter.getCharacter().getBodyParts().get(BodyPartName.TOTAL));
+//			});
+//			System.out.println("Turn Counter: " + fight.getTurnCounter());
+//			System.out.println("Fight Status: " + fight.getFightPhase());
 			System.out.println("==================================== END FIGHT =========================");
+			Assertions.assertThat(fight.getFightPhase()).isEqualTo(FightState.DONE);
 		});
-        System.out.println("[DEBUG_LOG] Finished testAutoFight");
     }
 
 	private void setWeapon(Fighter fighter) {
@@ -109,8 +114,8 @@ class AutoCombatServiceTest {
 		var favoriteHand = fighter.getCharacter().getFavoriteHand();
 		var wield = character.getWield();
 		switch (favoriteHand) {
-			case LEFT -> wield.put(BodyPartName.LEFT_ARM, List.of(weapon));
-			case RIGHT, DOUBLE, AMBIDEXTROUS -> wield.put(BodyPartName.RIGHT_ARM, List.of(weapon));
+			case LEFT -> wield.put(BodyPartName.LEFT_ARM, new ArrayList<>(List.of(weapon)));
+			case RIGHT, DOUBLE, AMBIDEXTROUS -> wield.put(BodyPartName.RIGHT_ARM, new ArrayList<>(List.of(weapon)));
 		}
 		character.setWield(wield);
 	}

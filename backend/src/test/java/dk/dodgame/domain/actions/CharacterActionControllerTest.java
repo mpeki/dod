@@ -23,10 +23,7 @@ import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.RaceDTO;
 import dk.dodgame.data.SkillDTO;
 import dk.dodgame.domain.action.CharacterActionService;
-import dk.dodgame.domain.action.model.ActionResult;
-import dk.dodgame.domain.action.model.Difficulty;
-import dk.dodgame.domain.action.model.SkillTrainingAction;
-import dk.dodgame.domain.action.model.Type;
+import dk.dodgame.domain.action.model.*;
 import dk.dodgame.domain.character.CharacterService;
 import dk.dodgame.domain.character.model.AgeGroup;
 import dk.dodgame.domain.skill.SkillNotFoundException;
@@ -74,7 +71,7 @@ class CharacterActionControllerTest extends BaseControllerTest {
     SkillTrainingAction actionSuccess = testAction
         .toBuilder()
         .actionResult(ActionResult.SUCCESS)
-        .resultDescription("test action success!")
+        .resultDescription(ActionResultDescription.builder().actionResult("test action success!").build())
         .skillKey("primary.weapon")
         .skill(skill)
         .build();
