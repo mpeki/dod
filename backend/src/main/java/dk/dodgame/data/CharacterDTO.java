@@ -28,7 +28,9 @@ import dk.dodgame.domain.item.ItemKey;
 import dk.dodgame.domain.item.model.Coin;
 import dk.dodgame.domain.item.model.ItemType;
 import dk.dodgame.domain.item.model.ManyPiece;
+import dk.dodgame.util.Dice;
 import dk.dodgame.util.DoDTsidGenerator;
+import dk.dodgame.util.character.CharacterUtil;
 import dk.dodgame.util.rules.RulesUtil;
 
 @Data
@@ -261,16 +263,17 @@ public class CharacterDTO implements DODFact, Actor, Serializable {
 		return List.of();
 	}
 
-	public void applyDamage(int damage) {
+	public void applyDamage(BodyPartName bodyPartName, int damage) {
 		BodyPartDTO totalHp = bodyParts.get(BodyPartName.TOTAL);
-		BaseTraitDTO constitution = baseTraits.get(BaseTraitName.CONSTITUTION);
-		totalHp.setCurrentHP(totalHp.getCurrentHP() - damage);
-		if (totalHp.getCurrentHP() <= 0 ) {
-			state = CharacterState.INCAPACITATED;
+		BodyPartDTO afflictedPartHp = bodyParts.get(bodyPartName);
+		afflictedPartHp.setCurrentHP(afflictedPartHp.getCurrentHP() - damage);
+		if( afflictedPartHp.getCurrentHP() <= - afflictedPartHp.getMaxHP() ) {
+			afflictedPartHp.setPercentLeft(100 - Dice.roll("1t100"));
 		}
-		if (totalHp.getCurrentHP() <= - (constitution.getCurrentValue()) ) {
-			state = CharacterState.DEAD;
-		}
+		totalHp.setCurrentHP(totalHp.getCurrentHP() - CharacterUtil.calculateTotalHPDamage(bodyPartName, damage));
+		state = CharacterUtil.determineCharacterState(this);
+
+
 	}
 
 	@Override

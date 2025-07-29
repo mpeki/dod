@@ -51,7 +51,8 @@ public class RulesUtil {
   }
 
   public static void debugFight(Fight fight) {
-	  log.info("Fight: {}", fight);
+	  log.info("Fight: {}", fight.getRef());
+	  log.info("Fighters health: {}", fight.getRef());
   }
 
 }

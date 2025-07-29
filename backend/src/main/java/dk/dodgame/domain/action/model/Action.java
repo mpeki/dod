@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import dk.dodgame.data.DODFact;
+import dk.dodgame.util.DoDTsidGenerator;
 
 @Data
 @SuperBuilder(toBuilder = true)
@@ -11,6 +12,8 @@ import dk.dodgame.data.DODFact;
 @AllArgsConstructor
 @ToString(exclude = { "actor" })
 public class Action implements DODFact {
+	@Builder.Default
+	private String ref = DoDTsidGenerator.createReferenceNo("act");
 	Type type;
 	Difficulty difficulty;
 	Actor actor;

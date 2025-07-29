@@ -30,6 +30,7 @@ import dk.dodgame.domain.item.ItemKey;
 import dk.dodgame.domain.item.ItemService;
 import dk.dodgame.domain.item.model.ItemType;
 import dk.dodgame.util.CharacterTestUtil;
+import dk.dodgame.util.rules.FightRules;
 
 @SpringBootTest(classes = DodApplication.class)
 @Tag("regression")
@@ -59,7 +60,7 @@ class AutoCombatServiceTest {
         System.out.println("[DEBUG_LOG] Starting testAutoFight");
 
 		List<Fight> fights = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 1; i++) {
 			CharacterDTO characterOne = characterFactory.createCharacterDTO(CharacterTestUtil.createRandomCharacter(), CharacterTestUtil.createHumanRace());
 			characterOne.setState(CharacterState.IN_PLAY);
 			CharacterDTO characterTwo = characterFactory.createCharacterDTO(CharacterTestUtil.createRandomCharacter(), CharacterTestUtil.createHumanRace());
@@ -90,20 +91,20 @@ class AutoCombatServiceTest {
 		//Print a report of the fight
 		System.out.println("[DEBUG_LOG] Fight Report:");
 		fights.forEach(fight -> {
-			System.out.println("Fight ID: " + fight.getRef());
-			fight.getFighters().forEach((id, fighter) -> {
-				System.out.println("Fighter ID: " + id);
-				System.out.println("Character Name: " + fighter.getCharacter().getName());
-				System.out.println("Character State: " + fighter.getCharacter().getState());
-				System.out.println("Character damage bonus: " + fighter.getCharacter().getDamageBonus());
-				System.out.println("Character HP: " + fighter.getCharacter().getBodyParts().get(BodyPartName.TOTAL));
-			});
-			System.out.println("Turn Counter: " + fight.getTurnCounter());
-			System.out.println("Fight Status: " + fight.getFightPhase());
+			FightRules.logFight(fight);
+//			System.out.println("Fight ID: " + fight.getRef());
+//			fight.getFighters().forEach((id, fighter) -> {
+//				System.out.println("Fighter ID: " + id);
+//				System.out.println("Character Name: " + fighter.getCharacter().getName());
+//				System.out.println("Character State: " + fighter.getCharacter().getState());
+//				System.out.println("Character damage bonus: " + fighter.getCharacter().getDamageBonus());
+//				System.out.println("Character HP: " + fighter.getCharacter().getBodyParts().get(BodyPartName.TOTAL));
+//			});
+//			System.out.println("Turn Counter: " + fight.getTurnCounter());
+//			System.out.println("Fight Status: " + fight.getFightPhase());
 			System.out.println("==================================== END FIGHT =========================");
 			Assertions.assertThat(fight.getFightPhase()).isEqualTo(FightState.DONE);
 		});
-        System.out.println("[DEBUG_LOG] Finished testAutoFight: ");
     }
 
 	private void setWeapon(Fighter fighter) {

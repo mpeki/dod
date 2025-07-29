@@ -31,8 +31,8 @@ public class FightActionDecider {
 				meleeAction.setDifficulty(Difficulty.NORMAL);
 				meleeAction.setModifier(0);
 				if (meleeAction.getTarget() instanceof Fighter target) {
-					log.info("{} has decided to attack {} with a melee weapon",
-							initiate.getCharacter().getName(), target.getCharacter().getName());
+					log.info("{} has decided to attack {} with a melee weapon ({})",
+							initiate.getCharacter().getName(), target.getCharacter().getName(), meleeAction.getRef());
 				}
 			} else {
 				log.warn("No targets found for fighter {}", initiate.getCharacter().getName());
@@ -82,13 +82,13 @@ public class FightActionDecider {
 	private static FightAction handleAttackSuccess(MeleeWeaponAttackAction attackAction, List<Action> availableReactions) {
 		Fighter attacker = (Fighter) attackAction.getActor();
 		Fighter target = (Fighter) attackAction.getTarget();
-		log.info("{} is reacting to {} {} attack", target.getCharacter().getName(), attacker.getCharacter().getName(), attackAction.getActionResult());
+		log.info("{} is reacting to {} {} attack ({})", target.getCharacter().getName(), attacker.getCharacter().getName(), attackAction.getActionResult(), attackAction.getRef());
 		for (Action availableReaction : availableReactions) {
 			if( availableReaction instanceof MeleeWeaponBlockAction blockAction && blockAction.getType() == Type.MELEE_WEAPON_PARRY) {
-				log.info("{} is using a parry reaction", target.getCharacter().getName());
+				log.info("{} is using a parry reaction ({})", target.getCharacter().getName(), blockAction.getRef());
 				blockAction.setType(Type.MELEE_WEAPON_PARRY);
 				blockAction.setDifficulty(Difficulty.NORMAL);
-				blockAction.setModifier(getModifierForReaction(attackAction.getActionResult()));
+				blockAction.setModifier(FightRules.getModifierForResult(attackAction.getActionResult()));
 				return blockAction;
 			}
 		}
@@ -98,7 +98,7 @@ public class FightActionDecider {
 	private static FightAction handleAttackFailure(MeleeWeaponAttackAction attackAction, List<Action> availableReactions) {
 		Fighter attacker = (Fighter) attackAction.getActor();
 		Fighter target = (Fighter) attackAction.getTarget();
-		log.info("{} is reacting to {} {} attack", target.getCharacter().getName(), attacker.getCharacter().getName(), attackAction.getActionResult());
+		log.info("{} is reacting to {} {} attack ({})", target.getCharacter().getName(), attacker.getCharacter().getName(), attackAction.getActionResult(), attackAction.getRef());
 		for (Action availableReaction : availableReactions) {
 			if( availableReaction instanceof MeleeWeaponAttackAction attackReaction && attackReaction.getType() == Type.MELEE_WEAPON_ATTACK) {
 				log.info("{} is striking back!", target.getCharacter().getName());
@@ -111,15 +111,5 @@ public class FightActionDecider {
 			}
 		}
 		return NoFightAction.builder().build();
-	}
-
-	private static int getModifierForReaction(ActionResult attackResult) {
-		return switch (attackResult) {
-			case PERFECT -> -10;
-			case MASTERFUL -> -5;
-			case SUCCESS -> 0;
-			case FAILURE, FUMBLE -> 0; // No modifier for failure or fumble
-			default -> 0; // Default case
-		};
 	}
 }

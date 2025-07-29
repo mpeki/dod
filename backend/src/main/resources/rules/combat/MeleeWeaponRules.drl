@@ -31,7 +31,7 @@ import dk.dodgame.util.rules.MeleeCombatRules;
 
 
 rule "Melee Weapon Attack Action"
-    ruleflow-group "static-auto-fight"
+//    ruleflow-group "static-auto-fight"
     auto-focus true
     salience 30
     when
@@ -44,7 +44,7 @@ rule "Melee Weapon Attack Action"
 end;
 
 rule "Melee Weapon Attack Reaction"
-    ruleflow-group "static-auto-fight"
+//    ruleflow-group "static-auto-fight"
     auto-focus true
     salience 20
     when
@@ -61,7 +61,7 @@ end;
 
 
 rule "Melee Weapon Block Action"
-    ruleflow-group "static-auto-fight"
+//    ruleflow-group "static-auto-fight"
     auto-focus true
     salience 20
     when
@@ -76,7 +76,7 @@ rule "Melee Weapon Block Action"
 end;
 
 rule "Melee Weapon Next Phase"
-    ruleflow-group "static-auto-fight"
+//    ruleflow-group "static-auto-fight"
     auto-focus true
     salience 10
     when

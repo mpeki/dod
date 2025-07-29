@@ -15,7 +15,6 @@ import dk.dodgame.util.rules.RulesUtil
 dialect "java"
 
 rule "New Turn"
-    ruleflow-group "static-auto-fight"
     agenda-group "static-auto-fight"
     auto-focus true
     when
@@ -33,7 +32,6 @@ rule "New Turn"
 end;
 
 rule "Determine Initiative"
-    ruleflow-group "static-auto-fight"
     agenda-group "static-auto-fight"
     auto-focus true
     when
@@ -48,7 +46,6 @@ rule "Determine Initiative"
 end;
 
 rule "Magic effects"
-    ruleflow-group "static-auto-fight"
     agenda-group "static-auto-fight"
     auto-focus true
     when
@@ -60,7 +57,6 @@ rule "Magic effects"
 end;
 
 rule "Ranged weapons"
-    ruleflow-group "static-auto-fight"
     agenda-group "static-auto-fight"
     auto-focus true
     when
@@ -72,7 +68,6 @@ rule "Ranged weapons"
 end;
 
 rule "Melee weapons - initialization"
-    ruleflow-group "static-auto-fight"
     agenda-group "static-auto-fight"
     auto-focus true
     when
@@ -86,7 +81,6 @@ rule "Melee weapons - initialization"
 end;
 
 rule "Movement"
-    ruleflow-group "static-auto-fight"
     agenda-group "static-auto-fight"
     auto-focus true
     when
@@ -98,7 +92,6 @@ rule "Movement"
 end;
 
 rule "End Turn"
-    ruleflow-group "static-auto-fight"
     agenda-group "static-auto-fight"
     auto-focus true
     when

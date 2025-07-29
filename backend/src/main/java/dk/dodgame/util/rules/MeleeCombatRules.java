@@ -16,8 +16,8 @@ import dk.dodgame.data.combat.Fighter;
 import dk.dodgame.data.combat.Turn;
 import dk.dodgame.domain.action.model.*;
 import dk.dodgame.domain.character.model.CharacterState;
-import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.util.Dice;
+import dk.dodgame.util.character.CharacterUtil;
 
 @Slf4j
 public class MeleeCombatRules {
@@ -32,9 +32,9 @@ public class MeleeCombatRules {
 		CharacterDTO attackerChar = attacker.getCharacter();
 		CharacterItemDTO primaryWeapon = FightRules.getPrimaryWeapon(attackerChar);
 		int damage = FightRules.calculateDamage(primaryWeapon, attackerChar, attackAction.getActionResult());
-		target.getCharacter().applyDamage(damage);
-		log.info("{} dealt {} damage to {}", attackerChar.getName(), damage, target.getCharacter().getName());
-		log.info("{}'s health is now {}", target.getCharacter().getName(), target.getCharacter().getBodyParts().get(BodyPartName.TOTAL).getCurrentHP());
+		target.getCharacter().applyDamage(attackAction.getTargetBodyPartName(), damage);
+		log.info("{} dealt {} damage to {}'s {}", attackerChar.getName(), damage, target.getCharacter().getName(), attackAction.getTargetBodyPartName().name());
+		CharacterUtil.logCharacter(target.getCharacter(), "HEALTH", "STATE");
     }
 
     public static void determineMeleeActions(Fight fight) {
@@ -107,15 +107,13 @@ public class MeleeCombatRules {
         CharacterItemDTO primaryWeapon = FightRules.getPrimaryWeapon(defendingCharacter);
         log.info("{} is trying to block with a {}", defendingCharacter.getName(), primaryWeapon.getItemName());
 		blockAction.setActionResult(
-				SkillRules.testSkill(defendingCharacter.getSkill(primaryWeapon.getItemName()), Dice.roll("1t20"),
+				SkillRules.testSkill(defendingCharacter.getSkill(primaryWeapon.getItemName()), Dice.roll("1t20"), blockAction.getModifier(),
 				blockAction.getDifficulty()));
 		if(attackAction.getActionResult().isSuccess() && blockAction.getActionResult().isFailure()) {
 			MeleeCombatRules.doHit(attackAction);
 		} else {
 			log.info("{} successfully blocked the attack", defendingCharacter.getName());
 		}
-
-//		blockAction.setResolved(true);
 		resolveActions(turn, blockAction);
         return blockAction;
     }
@@ -133,7 +131,7 @@ public class MeleeCombatRules {
 						action.getDifficulty()
 				)
 		);
-		log.info("The attack result is: {}", action.getActionResult());
+		log.info("The attack result is: {} ({})", action.getActionResult(), action.getRef() );
 		if(action.getActionResult().isSuccess()) {
 			action.setTargetBodyPartName(determineBodyPartName(action.getTarget()));
 			log.info("{} successfully hit the target's {}", attackerChar.getName(), action.getTargetBodyPartName());
@@ -150,7 +148,7 @@ public class MeleeCombatRules {
 					.filter(a -> a.getType().isMeleeWeaponAction() && !a.isResolved())
 					.forEach(a -> {
 						a.setResolved(true);
-						log.info("Resolving action: {}", a.getType());
+						log.info("Resolving action: {} ({})", a.getType(), a.getRef());
 					});
 		}
 	}

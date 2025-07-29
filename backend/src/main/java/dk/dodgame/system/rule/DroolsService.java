@@ -3,8 +3,6 @@ package dk.dodgame.system.rule;
 import java.util.List;
 
 import org.kie.api.KieBase;
-import org.kie.api.definition.KiePackage;
-import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.AgendaFilter;
@@ -34,13 +32,15 @@ public class DroolsService {
 		return executeRulesFor(List.of(fact), null);
 	}
 
-	public int executeGroupFlowRulesFor(List<DODFact> dodFacts, String... ruleFlowGroups) {
+	public int executeGroupFlowRulesFor(List<DODFact> dodFacts, String... agendaGroups) {
 		KieBase kieBase = kieContainer.getKieBase();
+/*
 		for (KiePackage kp : kieBase.getKiePackages()) {
 			for (Rule rule : kp.getRules()) {
 				log.debug("Package {} rule {}", kp, rule.getName());
 			}
 		}
+*/
 		KieSession kieSession = kieContainer.newKieSession();
 		kieSession.addEventListener(new LoggingAgendaEventListener());
 //		kieSession.addEventListener(new DebugAgendaEventListener());          // agenda tracing
@@ -48,7 +48,7 @@ public class DroolsService {
 		kieSession.setGlobal("skillService", skillService);
 		kieSession.setGlobal("itemService", itemService);
 
-		for (String ruleFlowGroup : ruleFlowGroups) {
+		for (String ruleFlowGroup : agendaGroups) {
 			kieSession.getAgenda().getAgendaGroup(ruleFlowGroup).setFocus();
 		}
 		for (DODFact dodFact : dodFacts) {
@@ -62,11 +62,13 @@ public class DroolsService {
 	public int executeRulesFor(List<DODFact> dodFacts, AgendaFilter filter) {
 		KieSession kieSession = kieContainer.newKieSession();
 		log.debug("KieSession created - listing rules in session: ");
+/*
 		for (KiePackage kiePackage : kieSession.getKieBase().getKiePackages()) {
 			for (Rule rule : kiePackage.getRules()) {
-				log.debug("Package: " + kiePackage + " rule: " + rule.getName());
+				log.trace("Package: " + kiePackage + " rule: " + rule.getName());
 			}
 		}
+*/
 		kieSession.addEventListener(new LoggingAgendaEventListener());
 		kieSession.setGlobal("itemService", itemService);
 		kieSession.setGlobal("skillService", skillService);

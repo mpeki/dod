@@ -1,21 +1,20 @@
 package dk.dodgame.util.rules;
 
+import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
+
 import dk.dodgame.data.CharacterDTO;
 import dk.dodgame.data.CharacterItemDTO;
 import dk.dodgame.data.CharacterSkillDTO;
 import dk.dodgame.data.combat.Fight;
 import dk.dodgame.data.combat.Fighter;
-import dk.dodgame.data.combat.Turn;
 import dk.dodgame.domain.action.model.ActionResult;
 import dk.dodgame.domain.character.model.BaseTraitName;
-import dk.dodgame.domain.character.model.FavoriteHand;
 import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.domain.item.model.ItemType;
 import dk.dodgame.util.Dice;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
-import java.util.Map;
+import dk.dodgame.util.character.CharacterUtil;
 
 @Slf4j
 public class FightRules {
@@ -150,8 +149,49 @@ public class FightRules {
     }
 
 	public static int calculateDamage(CharacterItemDTO primaryWeapon, CharacterDTO attackerChar, ActionResult actionResult) {
-		int weaponDamage = Dice.roll(primaryWeapon.getItem().getDamage());
-		int damageBonus = Dice.roll(attackerChar.getDamageBonus());
+
+		int weaponDamage;
+		int damageBonus;
+
+		if(actionResult == ActionResult.MASTERFUL || actionResult == ActionResult.PERFECT) {
+			weaponDamage = Dice.max(primaryWeapon.getItem().getDamage());
+			damageBonus = Dice.max(attackerChar.getDamageBonus());
+		} else {
+			weaponDamage = Dice.roll(primaryWeapon.getItem().getDamage());
+			damageBonus = Dice.roll(attackerChar.getDamageBonus());
+		}
 		return weaponDamage + damageBonus;
 	}
+
+	public static int getModifierForResult(ActionResult result) {
+		return switch (result) {
+			case PERFECT -> -10;
+			case MASTERFUL -> -5;
+			case SUCCESS -> 0;
+			case FAILURE, FUMBLE -> 0; // No modifier for failure or fumble
+			default -> 0; // Default case
+		};
+	}
+
+	public static void logFight(Fight fight, String... stats) {
+
+		log.info("Fight reference: {}", fight.getRef());
+		fight.getFighters().forEach((id, fighter) -> {
+			CharacterDTO character = fighter.getCharacter();
+			CharacterUtil.logCharacter(character);
+		});
+
+		stats = stats.length == 0 ? new String[] {"TURN", "PHASE"} : stats;
+		for (String stat : stats) {
+			if(stat.equalsIgnoreCase("TURN")){
+				log.info("Turn Counter: {}", fight.getTurnCounter());
+			}
+			if(stat.equalsIgnoreCase("PHASE")){
+				log.info("Fight Phase: {}", fight.getFightPhase());
+			}
+
+		}
+
+	}
+
 }

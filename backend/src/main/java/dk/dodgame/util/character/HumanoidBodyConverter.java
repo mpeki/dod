@@ -1,12 +1,14 @@
 package dk.dodgame.util.character;
 
+import java.util.EnumMap;
+import java.util.Map;
+
+import org.modelmapper.Converter;
+
 import dk.dodgame.data.BodyPartDTO;
 import dk.dodgame.domain.character.model.body.BodyPart;
 import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.domain.character.model.body.HumanoidBody;
-import java.util.EnumMap;
-import java.util.Map;
-import org.modelmapper.Converter;
 
 public class HumanoidBodyConverter {
 
@@ -49,7 +51,7 @@ public class HumanoidBodyConverter {
 
   private static BodyPartDTO convertBodyPartToBodyPartDTO(BodyPartName name, BodyPart sourceBodyPart) {
     return new BodyPartDTO(name, sourceBodyPart != null ? sourceBodyPart.getMaxHP() : -1,
-        sourceBodyPart != null ? sourceBodyPart.getCurrentHP() : -1);
+        sourceBodyPart != null ? sourceBodyPart.getCurrentHP() : -1, 100);
   }
 
   private static BodyPart createBodyPartEntityFromSourceDTO(BodyPartName bodyPartName,
