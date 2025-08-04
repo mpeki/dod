@@ -21,6 +21,7 @@ public class Turn {
 	private List<Action> actions = new ArrayList<>();
 	private TurnPhase phase;
 	private String initiativeWinnerId;
+	private String initiativeLoserId;
 
 	public void nextPhase() {
 		switch (phase) {
@@ -77,6 +78,16 @@ public class Turn {
 			}
 		}
 		return actorActions;
+	}
+
+	public int getNextActionSequence() {
+		int nextSequence = 0;
+		for (Action action : actions) {
+			if (action.getTurnSequence() > nextSequence) {
+				nextSequence = action.getTurnSequence();
+			}
+		}
+		return nextSequence + 1;
 	}
 
 

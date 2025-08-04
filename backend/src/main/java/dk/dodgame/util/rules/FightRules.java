@@ -10,6 +10,7 @@ import dk.dodgame.data.CharacterSkillDTO;
 import dk.dodgame.data.combat.Fight;
 import dk.dodgame.data.combat.Fighter;
 import dk.dodgame.domain.action.model.ActionResult;
+import dk.dodgame.domain.action.model.Difficulty;
 import dk.dodgame.domain.character.model.BaseTraitName;
 import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.domain.item.model.ItemType;
@@ -43,6 +44,17 @@ public class FightRules {
             return getInitiative(opponentA, opponentB);
         }
     }
+
+	public static Fighter getInitiativeLoser(Fight fight) {
+		//get the fighter who lost initiative
+		if (fight.getCurrentTurn() == null || fight.getCurrentTurn().getInitiativeWinnerId() == null) {
+			log.warn("No current turn or initiative winner found in fight {}", fight.getRef());
+			return null; // No initiative winner, cannot determine loser
+		}
+		String initiativeWinnerId = fight.getCurrentTurn().getInitiativeWinnerId();
+		return fight.getFighters().values().stream()
+				.filter(fighter -> !fighter.getFighterId().equals(initiativeWinnerId)).findFirst().get();
+	}
 
     private static CharacterDTO getMeetingInitiative(CharacterDTO opponentA, CharacterDTO opponentB) {
         log.info("Determining meeting initiative");
@@ -108,6 +120,17 @@ public class FightRules {
             case DOUBLE, AMBIDEXTROUS -> findFirstStrikeWeapon(rightHandItem, leftHandItem);
         };
     }
+
+	public static CharacterItemDTO getWeaponFor(CharacterDTO character, BodyPartName bodyPartName) {
+		List<CharacterItemDTO> items = character.getItemsIn(bodyPartName);
+		if (items.isEmpty()) {
+			return null; // No weapon found in the specified body part
+		}
+		return items.stream()
+				.filter(item -> item.getItem().getItemType() == ItemType.MELEE_WEAPON)
+				.findFirst()
+				.orElse(null); // Return the first melee weapon found
+	}
 
     private static CharacterItemDTO findFirstStrikeWeapon(CharacterItemDTO rightHandWeapon, CharacterItemDTO leftHandWeapon) {
         if(rightHandWeapon == null && leftHandWeapon == null) {
@@ -194,4 +217,22 @@ public class FightRules {
 
 	}
 
+	public static int calculateModifier() {
+		// This method is a placeholder for any future logic that might be needed to calculate a modifier.
+		return 0;
+	}
+
+	public static Difficulty calculateDifficulty(Fighter fighter) {
+		CharacterDTO character = fighter.getCharacter();
+		int totalCurrentHP = CharacterUtil.getTotalHitPoints(character.getBodyParts().get(BodyPartName.TOTAL));
+		if(fighter.isDowned()){
+			log.debug("Character {} is downed, setting difficulty to HARD", character.getName());
+			return Difficulty.HARD;
+		}
+		if(totalCurrentHP <= 3) {
+			log.debug("Character {} has {} hit points left, setting difficulty to VERY_HARD", character.getName(), totalCurrentHP);
+			return Difficulty.VERY_HARD;
+		}
+		return Difficulty.NORMAL;
+	}
 }

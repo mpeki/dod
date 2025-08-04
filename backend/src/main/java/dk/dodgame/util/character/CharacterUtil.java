@@ -1,5 +1,7 @@
 package dk.dodgame.util.character;
 
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 
 import dk.dodgame.data.BaseTraitDTO;
@@ -40,10 +42,10 @@ public class CharacterUtil {
 		BodyPartDTO stomach = character.getBodyParts().get(BodyPartName.STOMACH);
 
 		// Check if the character is dead
-		if (totalHp.getCurrentHP() <= - (constitution.getCurrentValue()) ||
-				(head.getCurrentHP() <= - (head.getMaxHP())) ||
-				chest.getCurrentHP() <= - (chest.getMaxHP()) ||
-				stomach.getCurrentHP() <= - (stomach.getMaxHP())) {
+		if (totalHp.getCurrentHP() < - (constitution.getCurrentValue()) ||
+				(head.getCurrentHP() < - (head.getMaxHP())) ||
+				chest.getCurrentHP() < - (chest.getMaxHP()) ||
+				stomach.getCurrentHP() < - (stomach.getMaxHP())) {
 			return CharacterState.DEAD;
 		}
 
@@ -74,6 +76,20 @@ public class CharacterUtil {
 			}
 			if("STATE".equalsIgnoreCase(stat)) {
 				log.info("State: {}", character.getState());
+			}
+		}
+	}
+
+	public static void checkBleeding(List<CharacterDTO> listCharacters) {
+		log.info("Checking for bleeding characters...");
+		for (CharacterDTO character : listCharacters) {
+			int bloodLoss = character.getBleeding();
+			if (bloodLoss > 0) {
+				log.info("Character {} is bleeding with {} HP", character.getName(), bloodLoss);
+				BodyPartDTO totalHp = character.getBodyParts().get(BodyPartName.TOTAL);
+				int newHp = totalHp.getCurrentHP() - character.getBleeding();
+				totalHp.setCurrentHP(newHp);
+				log.info("New Total HP after bleeding: {}", newHp);
 			}
 		}
 	}

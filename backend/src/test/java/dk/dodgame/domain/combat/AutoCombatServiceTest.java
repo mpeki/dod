@@ -60,7 +60,7 @@ class AutoCombatServiceTest {
         System.out.println("[DEBUG_LOG] Starting testAutoFight");
 
 		List<Fight> fights = new ArrayList<>();
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 10; i++) {
 			CharacterDTO characterOne = characterFactory.createCharacterDTO(CharacterTestUtil.createRandomCharacter(), CharacterTestUtil.createHumanRace());
 			characterOne.setState(CharacterState.IN_PLAY);
 			CharacterDTO characterTwo = characterFactory.createCharacterDTO(CharacterTestUtil.createRandomCharacter(), CharacterTestUtil.createHumanRace());
@@ -114,8 +114,8 @@ class AutoCombatServiceTest {
 		var favoriteHand = fighter.getCharacter().getFavoriteHand();
 		var wield = character.getWield();
 		switch (favoriteHand) {
-			case LEFT -> wield.put(BodyPartName.LEFT_ARM, List.of(weapon));
-			case RIGHT, DOUBLE, AMBIDEXTROUS -> wield.put(BodyPartName.RIGHT_ARM, List.of(weapon));
+			case LEFT -> wield.put(BodyPartName.LEFT_ARM, new ArrayList<>(List.of(weapon)));
+			case RIGHT, DOUBLE, AMBIDEXTROUS -> wield.put(BodyPartName.RIGHT_ARM, new ArrayList<>(List.of(weapon)));
 		}
 		character.setWield(wield);
 	}

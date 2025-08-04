@@ -6,6 +6,7 @@ import dk.dodgame.data.combat.Fight;
 import dk.dodgame.domain.action.model.Actor;
 import dk.dodgame.domain.character.model.body.BodyPartName;
 import dk.dodgame.util.Dice;
+import dk.dodgame.util.character.CharacterUtil;
 
 @Slf4j
 public class RulesUtil {
@@ -49,6 +50,11 @@ public class RulesUtil {
 		  }
 	  };
   }
+
+	public static void handleEndOfTurnEvents(Fight fight) {
+	  log.info("Handling end of turn events for fight: {}", fight.getRef());
+	  CharacterUtil.checkBleeding(fight.getListCharacters());
+	}
 
   public static void debugFight(Fight fight) {
 	  log.info("Fight: {}", fight.getRef());

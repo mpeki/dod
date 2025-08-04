@@ -41,6 +41,7 @@ rule "Determine Initiative"
         fight.setFightPhase(FightState.IN_PROGRESS);
         var initWinner = FightRules.determineInitiative(fight);
         turn.setInitiativeWinnerId(initWinner.getId());
+        turn.setInitiativeLoserId(initWinner.getId() == );
         turn.nextPhase();
         update(fight)
 end;
@@ -101,7 +102,7 @@ rule "End Turn"
         turn.setCurrent(false);
         int nextTurnCounter = fight.getTurnCounter() + 1;
         fight.setTurnCounter(nextTurnCounter);
+        RulesUtil.handleEndOfTurnEvents(fight);
         RulesUtil.debugFight(fight);
-//        turn.nextPhase();
         update(fight)
 end;
