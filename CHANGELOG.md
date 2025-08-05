@@ -1,3 +1,10 @@
+## [1.20.18](https://github.com/mpeki/dod/compare/v1.20.17...v1.20.18) (2025-08-05)
+
+
+### Bug Fixes
+
+* **security:** bump org.seleniumhq.selenium:selenium-java ([33445a7](https://github.com/mpeki/dod/commit/33445a7bae6949e8e36feeedc12909ad7f8f6af6))
+
 ## [1.20.17](https://github.com/mpeki/dod/compare/v1.20.16...v1.20.17) (2025-08-05)
 
 
