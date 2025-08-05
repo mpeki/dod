@@ -1,3 +1,10 @@
+## [1.20.17](https://github.com/mpeki/dod/compare/v1.20.16...v1.20.17) (2025-08-05)
+
+
+### Bug Fixes
+
+* **security:** bump org.drools:drools-bom from 8.44.2.Final to 10.1.0 ([2466ec7](https://github.com/mpeki/dod/commit/2466ec784c46d4674bea47e4bbf37dbc235276c0))
+
 ## [1.20.16](https://github.com/mpeki/dod/compare/v1.20.15...v1.20.16) (2025-07-28)
 
 
