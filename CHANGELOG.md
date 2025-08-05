@@ -1,3 +1,10 @@
+## [1.20.20](https://github.com/mpeki/dod/compare/v1.20.19...v1.20.20) (2025-08-05)
+
+
+### Bug Fixes
+
+* **security:** bump org.junit.jupiter:junit-jupiter ([632293c](https://github.com/mpeki/dod/commit/632293cfd7defbafcd050d954124d4f615319ec8))
+
 ## [1.20.19](https://github.com/mpeki/dod/compare/v1.20.18...v1.20.19) (2025-08-05)
 
 
