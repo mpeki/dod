@@ -10,12 +10,17 @@ java {
 }
 
 dependencies {
+
+	testImplementation platform('org.junit:junit-bom:5.13.4')
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
     testImplementation 'org.seleniumhq.selenium:selenium-java:4.34.0'
     testImplementation 'org.seleniumhq.selenium:selenium-grid:4.34.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.5'
+//    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.13.4'
     testImplementation 'commons-io:commons-io:2.20.0'
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
-	//https://github.com/artsok/rerunner-jupiter
+	// https://github.com/artsok/rerunner-jupiter
     testImplementation 'io.github.artsok:rerunner-jupiter:2.1.6'
 }
 
