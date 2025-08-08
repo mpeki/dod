@@ -1,3 +1,10 @@
+## [1.20.23](https://github.com/mpeki/dod/compare/v1.20.22...v1.20.23) (2025-08-08)
+
+
+### Bug Fixes
+
+* **security:** bump org.junit.jupiter:junit-jupiter-engine ([5c99c49](https://github.com/mpeki/dod/commit/5c99c49f061828183fc5bd7dd730c4cf7a6c931d))
+
 ## [1.20.22](https://github.com/mpeki/dod/compare/v1.20.21...v1.20.22) (2025-08-08)
 
 
