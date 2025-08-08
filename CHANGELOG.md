@@ -1,3 +1,10 @@
+## [1.20.21](https://github.com/mpeki/dod/compare/v1.20.20...v1.20.21) (2025-08-08)
+
+
+### Bug Fixes
+
+* **security:** bump org.springframework.boot from 3.5.3 to 3.5.4 ([5239090](https://github.com/mpeki/dod/commit/5239090ee89cdb81366bc85c63c883fd70034f6b))
+
 ## [1.20.20](https://github.com/mpeki/dod/compare/v1.20.19...v1.20.20) (2025-08-05)
 
 
