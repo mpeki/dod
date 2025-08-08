@@ -1,3 +1,10 @@
+## [1.20.22](https://github.com/mpeki/dod/compare/v1.20.21...v1.20.22) (2025-08-08)
+
+
+### Bug Fixes
+
+* **security:** bump com.mysql:mysql-connector-j from 9.3.0 to 9.4.0 ([9495e01](https://github.com/mpeki/dod/commit/9495e01d4963581ebf4d9f67a65348d99df39339))
+
 ## [1.20.21](https://github.com/mpeki/dod/compare/v1.20.20...v1.20.21) (2025-08-08)
 
 
