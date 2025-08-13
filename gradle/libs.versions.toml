@@ -24,8 +24,13 @@ mysql-connector = "9.4.0"       # https://mvnrepository.com/artifact/com.mysql/m
 spring-retry = "2.0.12"         # https://mvnrepository.com/artifact/org.springframework.retry/spring-retry
 modelmapper = "3.2.4"           # https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 guava = "33.4.7-jre"            # https://mvnrepository.com/artifact/com.google.guava/guava
+junit-bom = "5.13.4"            # https://mvnrepository.com/artifact/org.junit/junit-bom
 junit-jupiter = "5.13.4"
-faker = "1.0.2"                #
+rerunner-jupiter = "2.1.6"      # https://mvnrepository.com/artifact/org.rerunner/rerunner-jupiter
+selenium-java = "4.34.0"
+selenium-grid = "4.34.0"        # https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-grid
+commons-io = "2.20.0"           # https://mvnrepository.com/artifact/commons-io/commons-io
+faker = "1.0.2"                 # https://mvnrepository.com/artifact/com.github.javafaker/javafaker
 
 [libraries]
 # Drools
@@ -70,18 +75,22 @@ keycloak-test-helper = { module = "org.keycloak:keycloak-test-helper", version.r
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
 h2database = { module = "com.h2database:h2" }
 reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-bom" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
-
+rerunner-jupiter = { module = "io.github.artsok:rerunner-jupiter", version.ref = "rerunner-jupiter" }
+selenium-java = { module = "org.seleniumhq.selenium:selenium-java", version.ref = "selenium-java" }
+selenium-grid = { module = "org.seleniumhq.selenium:selenium-grid", version.ref = "selenium-grid" }
 
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 
 
-# Tools
+# Tools / libraries
 boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 keycloak-admin-client = { module = "org.keycloak:keycloak-admin-client", version.ref = "keycloak-admin-client" }
 faker = { module = "com.github.javafaker:javafaker", version.ref = "faker" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
 
 [plugins]
 springboot = { id = "org.springframework.boot", version.ref = "springboot" }
@@ -100,5 +109,6 @@ drools = ["drools-engine", "drools-mvel", "drools-assert"]
 boot-starters = ["boot-starter-actuator", "boot-starter-data-jpa", "boot-starter-aop", "boot-starter-security", "boot-starter-web", "boot-starter-cache", "boot-starter-validation", "boot-starter-hateoas", "boot-starter-oauth2-client"]
 logging = ["logback-classic", "logback-core"]
 test = ["spring-security-test", "keycloak-test-helper", "testcontainers", "testcontainers-junit", "h2database", "reflections", "spring-boot-starter-test", "junit-jupiter", "junit-jupiter-api", "keycloak-admin-client", "faker"]
+selenium-test = ["selenium-java", "selenium-grid", "junit-jupiter", "junit-platform-launcher", "commons-io", "faker", "rerunner-jupiter"]
 test-runtime = [ "junit-platform-launcher", "junit-jupiter-engine" ]
 tools = ["boot-devtools"]

@@ -1,10 +1,14 @@
 package dk.dodgame.selenium;
 
-import dk.dodgame.selenium.helpers.AuthenticationHelper;
-import dk.dodgame.selenium.helpers.CharacterHelper;
-import dk.dodgame.selenium.helpers.LanguageHelper;
-import dk.dodgame.selenium.helpers.NavigationHelper;
-import io.github.artsok.RepeatedIfExceptionsTest;
+import static dk.dodgame.selenium.helpers.AuthenticationHelper.logout;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.time.Duration;
+
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
@@ -15,14 +19,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.time.Duration;
+import io.github.artsok.RepeatedIfExceptionsTest;
 
-import static dk.dodgame.selenium.helpers.AuthenticationHelper.logout;
-import static org.junit.jupiter.api.Assertions.*;
+import dk.dodgame.selenium.helpers.AuthenticationHelper;
+import dk.dodgame.selenium.helpers.CharacterHelper;
+import dk.dodgame.selenium.helpers.LanguageHelper;
+import dk.dodgame.selenium.helpers.NavigationHelper;
 
 @ExtendWith(ScreenshotOnFailureExtension.class)
 @Tag("integration")
@@ -34,7 +36,7 @@ class CharacterTest {
     private NavigationHelper navigationHelper;
     private LanguageHelper languageHelper;
 
-    private static String AGE_GROUP_OLD = "Old";
+    private static final String AGE_GROUP_OLD = "Old";
     private static final String AGE_GROUP_YOUNG = "Young";
     private static final String RACE_HUMAN = "Human";
     private static final String RACE_DWARF = "Dwarf";
