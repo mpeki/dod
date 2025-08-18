@@ -1,3 +1,10 @@
+## [1.20.24](https://github.com/mpeki/dod/compare/v1.20.23...v1.20.24) (2025-08-18)
+
+
+### Bug Fixes
+
+* **security:** bump org.openrewrite.rewrite from 7.12.1 to 7.14.0 ([c7f2dec](https://github.com/mpeki/dod/commit/c7f2dec251b16a5e1c6f20860e7c01648420546a))
+
 ## [1.20.23](https://github.com/mpeki/dod/compare/v1.20.22...v1.20.23) (2025-08-08)
 
 
