@@ -1,3 +1,10 @@
+## [1.20.29](https://github.com/mpeki/dod/compare/v1.20.28...v1.20.29) (2025-09-09)
+
+
+### Bug Fixes
+
+* **security:** bump com.gorylenko.gradle-git-properties ([baa898f](https://github.com/mpeki/dod/commit/baa898fc71e24c6a4526081cc5d3a3ffee5827bf))
+
 ## [1.20.28](https://github.com/mpeki/dod/compare/v1.20.27...v1.20.28) (2025-09-09)
 
 
