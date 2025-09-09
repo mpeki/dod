@@ -1,3 +1,11 @@
+## [1.20.28](https://github.com/mpeki/dod/compare/v1.20.27...v1.20.28) (2025-09-09)
+
+
+### Bug Fixes
+
+* **security:** bump org.asciidoctor.jvm.convert from 4.0.4 to 4.0.5 ([59fe5ec](https://github.com/mpeki/dod/commit/59fe5ec746306429d4309776742efb3ed507a650))
+* **security:** bump org.springframework.boot from 3.5.4 to 3.5.5 ([9b3f159](https://github.com/mpeki/dod/commit/9b3f159ca4d003c657b20c09aaffec20bed03ca1))
+
 ## [1.20.27](https://github.com/mpeki/dod/compare/v1.20.26...v1.20.27) (2025-08-21)
 
 
