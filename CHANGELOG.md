@@ -1,3 +1,11 @@
+## [1.20.30](https://github.com/mpeki/dod/compare/v1.20.29...v1.20.30) (2025-09-11)
+
+
+### Bug Fixes
+
+* **security:** bump io.hypersistence:hypersistence-utils-hibernate-63 ([ccc9686](https://github.com/mpeki/dod/commit/ccc9686462a4d418a67ad072b816759546c64f25))
+* **security:** bump org.sonarqube from 6.2.0.5505 to 6.3.1.5724 ([8bb85aa](https://github.com/mpeki/dod/commit/8bb85aa11e8c5b662fd2c2fa500790fcddee5136))
+
 ## [1.20.29](https://github.com/mpeki/dod/compare/v1.20.28...v1.20.29) (2025-09-09)
 
 
