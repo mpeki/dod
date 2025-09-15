@@ -1,3 +1,10 @@
+## [1.20.34](https://github.com/mpeki/dod/compare/v1.20.33...v1.20.34) (2025-09-15)
+
+
+### Bug Fixes
+
+* **security:** bump org.keycloak:keycloak-core from 26.3.3 to 26.3.4 ([6f85ad6](https://github.com/mpeki/dod/commit/6f85ad62f9b328ae8bda11a2a564be94185c2cf8))
+
 ## [1.20.33](https://github.com/mpeki/dod/compare/v1.20.32...v1.20.33) (2025-09-11)
 
 
