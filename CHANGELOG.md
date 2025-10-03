@@ -1,3 +1,10 @@
+## [1.20.37](https://github.com/mpeki/dod/compare/v1.20.36...v1.20.37) (2025-10-03)
+
+
+### Bug Fixes
+
+* **security:** bump com.google.guava:guava from 33.4.7-jre to 33.5.0-jre ([7784c21](https://github.com/mpeki/dod/commit/7784c2134e80ae955bac9640faed6c9965460b02))
+
 ## [1.20.36](https://github.com/mpeki/dod/compare/v1.20.35...v1.20.36) (2025-10-03)
 
 
