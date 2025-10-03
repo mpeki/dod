@@ -1,3 +1,10 @@
+## [1.20.36](https://github.com/mpeki/dod/compare/v1.20.35...v1.20.36) (2025-10-03)
+
+
+### Bug Fixes
+
+* **security:** bump org.projectlombok:lombok from 1.18.40 to 1.18.42 ([3661e67](https://github.com/mpeki/dod/commit/3661e67c3d3e801caf36e4bba5c5ed2e5ae5c692))
+
 ## [1.20.35](https://github.com/mpeki/dod/compare/v1.20.34...v1.20.35) (2025-10-03)
 
 
