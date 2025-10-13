@@ -59,7 +59,7 @@ dependencies {
     developmentOnly libs.bundles.tools
 
 	rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:latest.release"))
-	rewrite("io.moderne.recipe:rewrite-spring:0.13.0")
+	rewrite("io.moderne.recipe:rewrite-spring:0.14.0")
 
 }
 
