@@ -1,3 +1,10 @@
+## [1.20.38](https://github.com/mpeki/dod/compare/v1.20.37...v1.20.38) (2025-10-23)
+
+
+### Bug Fixes
+
+* **security:** bump org.modelmapper:modelmapper from 3.2.4 to 3.2.5 ([2aeb106](https://github.com/mpeki/dod/commit/2aeb106e5efe8718b51b55dedf2d782c4b462dec))
+
 ## [1.20.37](https://github.com/mpeki/dod/compare/v1.20.36...v1.20.37) (2025-10-03)
 
 
