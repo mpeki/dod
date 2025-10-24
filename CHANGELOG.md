@@ -1,3 +1,11 @@
+## [1.20.41](https://github.com/mpeki/dod/compare/v1.20.40...v1.20.41) (2025-10-24)
+
+
+### Bug Fixes
+
+* **security:** bump org.keycloak:keycloak-admin-client ([1c86208](https://github.com/mpeki/dod/commit/1c8620846a611d99da1f24fbc9bdd7a040024bf7))
+* **security:** bump org.springframework.boot from 3.5.6 to 3.5.7 ([de27c6a](https://github.com/mpeki/dod/commit/de27c6a1d53dab89ecb8542e5db5897d5ebcbbce))
+
 ## [1.20.40](https://github.com/mpeki/dod/compare/v1.20.39...v1.20.40) (2025-10-23)
 
 
