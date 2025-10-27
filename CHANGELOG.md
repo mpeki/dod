@@ -1,3 +1,10 @@
+## [1.20.42](https://github.com/mpeki/dod/compare/v1.20.41...v1.20.42) (2025-10-27)
+
+
+### Bug Fixes
+
+* **security:** bump org.junit:junit-bom from 5.13.4 to 6.0.0 ([c00bfcd](https://github.com/mpeki/dod/commit/c00bfcda841fab141419855b3a2571b42df7ac4b))
+
 ## [1.20.41](https://github.com/mpeki/dod/compare/v1.20.40...v1.20.41) (2025-10-24)
 
 
