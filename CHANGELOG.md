@@ -1,3 +1,10 @@
+## [1.20.43](https://github.com/mpeki/dod/compare/v1.20.42...v1.20.43) (2025-10-27)
+
+
+### Bug Fixes
+
+* **security:** bump org.sonarqube from 6.3.1.5724 to 7.0.1.6134 ([aa4b0b8](https://github.com/mpeki/dod/commit/aa4b0b833d92d95ad1c00e9742ab1238cfb21683))
+
 ## [1.20.42](https://github.com/mpeki/dod/compare/v1.20.41...v1.20.42) (2025-10-27)
 
 
