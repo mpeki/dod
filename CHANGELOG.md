@@ -1,3 +1,11 @@
+## [1.20.44](https://github.com/mpeki/dod/compare/v1.20.43...v1.20.44) (2025-10-28)
+
+
+### Bug Fixes
+
+* **security:** bump org.openrewrite.rewrite from 7.16.0 to 7.19.0 ([f434c42](https://github.com/mpeki/dod/commit/f434c424557dc317aa36eebd146bc2e376b5f4d8))
+* **security:** bump org.seleniumhq.selenium:selenium-grid ([358b88a](https://github.com/mpeki/dod/commit/358b88a6f5fe0f389e09f4dd7199bfe48586af62))
+
 ## [1.20.43](https://github.com/mpeki/dod/compare/v1.20.42...v1.20.43) (2025-10-27)
 
 
