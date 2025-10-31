@@ -1,3 +1,10 @@
+## [1.20.48](https://github.com/mpeki/dod/compare/v1.20.47...v1.20.48) (2025-10-31)
+
+
+### Bug Fixes
+
+* **security:** bump io.moderne.recipe:rewrite-spring ([5a04598](https://github.com/mpeki/dod/commit/5a04598aa3516feb9efa71440a6ba2d563dc4d88))
+
 ## [1.20.47](https://github.com/mpeki/dod/compare/v1.20.46...v1.20.47) (2025-10-31)
 
 
