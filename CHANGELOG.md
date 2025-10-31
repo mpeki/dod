@@ -1,3 +1,10 @@
+## [1.20.47](https://github.com/mpeki/dod/compare/v1.20.46...v1.20.47) (2025-10-31)
+
+
+### Bug Fixes
+
+* **security:** bump com.bmuschko.docker-remote-api from 9.4.0 to 10.0.0 ([9478a9f](https://github.com/mpeki/dod/commit/9478a9fb8678da4aa26d7949b4b3fa4bbffa5de5))
+
 ## [1.20.46](https://github.com/mpeki/dod/compare/v1.20.45...v1.20.46) (2025-10-29)
 
 
