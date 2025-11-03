@@ -1,3 +1,10 @@
+## [1.20.50](https://github.com/mpeki/dod/compare/v1.20.49...v1.20.50) (2025-11-03)
+
+
+### Bug Fixes
+
+* **security:** bump org.junit.jupiter:junit-jupiter from 6.0.0 to 6.0.1 ([bc1bcdc](https://github.com/mpeki/dod/commit/bc1bcdc51038cea678a181c658a8ed3ef23cc991))
+
 ## [1.20.49](https://github.com/mpeki/dod/compare/v1.20.48...v1.20.49) (2025-11-03)
 
 
