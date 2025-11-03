@@ -24,7 +24,7 @@ mysql-connector = "9.5.0"       # https://mvnrepository.com/artifact/com.mysql/m
 spring-retry = "2.0.12"         # https://mvnrepository.com/artifact/org.springframework.retry/spring-retry
 modelmapper = "3.2.5"           # https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 guava = "33.5.0-jre"            # https://mvnrepository.com/artifact/com.google.guava/guava
-junit-jupiter = "6.0.0"
+junit-jupiter = "6.0.1"
 faker = "1.0.2"                #
 
 [libraries]
