@@ -1,3 +1,10 @@
+## [1.20.52](https://github.com/mpeki/dod/compare/v1.20.51...v1.20.52) (2025-11-14)
+
+
+### Bug Fixes
+
+* **security:** bump org.keycloak:keycloak-core from 26.4.2 to 26.4.4 ([f22647a](https://github.com/mpeki/dod/commit/f22647a6e1ec1de545e32364e0d05e9b26932b4c))
+
 ## [1.20.51](https://github.com/mpeki/dod/compare/v1.20.50...v1.20.51) (2025-11-14)
 
 
