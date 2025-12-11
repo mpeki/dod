@@ -1,3 +1,13 @@
+## [1.20.53](https://github.com/mpeki/dod/compare/v1.20.52...v1.20.53) (2025-12-11)
+
+
+### Bug Fixes
+
+* **security:** bump com.google.cloud.tools.jib from 3.4.5 to 3.5.0 ([4add764](https://github.com/mpeki/dod/commit/4add764c86eb6622d622babdc65cb352816345f7))
+* **security:** bump commons-io:commons-io from 2.20.0 to 2.21.0 ([b6bdce3](https://github.com/mpeki/dod/commit/b6bdce3498eba08615d4334dc953ef5da1bc9c01))
+* **security:** bump io.moderne.recipe:rewrite-spring ([acf0e00](https://github.com/mpeki/dod/commit/acf0e00fffe06096a7568e3d4ddfded5a1193c16))
+* **security:** bump org.openrewrite.rewrite from 7.19.0 to 7.20.0 ([423eae2](https://github.com/mpeki/dod/commit/423eae287a12eb35d7318dc10b260d0cfeb75bf3))
+
 ## [1.20.52](https://github.com/mpeki/dod/compare/v1.20.51...v1.20.52) (2025-11-14)
 
 
