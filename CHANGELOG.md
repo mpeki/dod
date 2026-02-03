@@ -1,3 +1,11 @@
+## [1.20.54](https://github.com/mpeki/dod/compare/v1.20.53...v1.20.54) (2026-02-03)
+
+
+### Bug Fixes
+
+* **security:** bump com.google.cloud.tools.jib from 3.5.0 to 3.5.1 ([be6a647](https://github.com/mpeki/dod/commit/be6a647e755a21dd7884e1b8b071e59b4b5e3389))
+* **security:** bump com.gorylenko.gradle-git-properties ([545c494](https://github.com/mpeki/dod/commit/545c49467bd897c5756e417a77ab83805b2220da))
+
 ## [1.20.53](https://github.com/mpeki/dod/compare/v1.20.52...v1.20.53) (2025-12-11)
 
 
