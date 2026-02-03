@@ -1,3 +1,10 @@
+## [1.20.56](https://github.com/mpeki/dod/compare/v1.20.55...v1.20.56) (2026-02-03)
+
+
+### Bug Fixes
+
+* **security:** bump org.seleniumhq.selenium:selenium-grid ([8606dc2](https://github.com/mpeki/dod/commit/8606dc2c93069532eb89420ba0a8dd914a8240f6))
+
 ## [1.20.55](https://github.com/mpeki/dod/compare/v1.20.54...v1.20.55) (2026-02-03)
 
 
