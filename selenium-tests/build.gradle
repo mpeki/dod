@@ -15,8 +15,8 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    testImplementation 'org.seleniumhq.selenium:selenium-java:4.38.0'
-    testImplementation 'org.seleniumhq.selenium:selenium-grid:4.38.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.40.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-grid:4.40.0'
 //    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.13.4'
     testImplementation 'commons-io:commons-io:2.21.0'
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
