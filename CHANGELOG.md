@@ -1,3 +1,10 @@
+## [1.20.58](https://github.com/mpeki/dod/compare/v1.20.57...v1.20.58) (2026-02-06)
+
+
+### Bug Fixes
+
+* **security:** bump com.mysql:mysql-connector-j from 9.5.0 to 9.6.0 ([8eda615](https://github.com/mpeki/dod/commit/8eda615b7fd7c6aee2018d7984ac919fc44f15a8))
+
 ## [1.20.57](https://github.com/mpeki/dod/compare/v1.20.56...v1.20.57) (2026-02-06)
 
 
