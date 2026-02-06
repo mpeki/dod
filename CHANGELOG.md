@@ -1,3 +1,10 @@
+## [1.20.57](https://github.com/mpeki/dod/compare/v1.20.56...v1.20.57) (2026-02-06)
+
+
+### Bug Fixes
+
+* **security:** bump org.junit:junit-bom from 6.0.1 to 6.0.2 ([286eb02](https://github.com/mpeki/dod/commit/286eb02d00172d719ddbcc8fbad24ea8dc5e9c15))
+
 ## [1.20.56](https://github.com/mpeki/dod/compare/v1.20.55...v1.20.56) (2026-02-03)
 
 
