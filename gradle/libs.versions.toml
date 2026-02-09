@@ -1,14 +1,14 @@
 [versions]
 # Plugin versions
 springboot = "3.5.7"            # https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
-sonar = "7.0.1.6134"            # https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
+sonar = "7.2.2.6593"            # https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
 depMgmt = "1.1.7"               # https://plugins.gradle.org/plugin/io.spring.dependency-management
 jib = "3.5.1"                   # https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
 asciidoctor = "4.0.5"           # https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
 dockerCompose = "0.17.12"       # https://plugins.gradle.org/plugin/com.avast.gradle.docker-compose
 gitProps = "2.5.6"              # https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
 frontend = "10.0.0"             # https://plugins.gradle.org/plugin/org.siouan.frontend-jdk11
-rewrite = "7.20.0"
+rewrite = "7.25.0"
 
 # Library versions
 testcontainers = "1.21.3"
@@ -18,7 +18,7 @@ hypersistence = "3.15.1"         #
 lombok = "1.18.42"              # https://projectlombok.org/
 keycloak-core = "26.3.0"        # https://mvnrepository.com/artifact/org.keycloak/keycloak-core
 keycloak-test-helper = "25.0.6" # https://mvnrepository.com/artifact/org.keycloak/keycloak-test-helper
-keycloak-admin-client= "26.0.7" # https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client
+keycloak-admin-client= "26.0.8" # https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client
 reflections = "0.10.2"          # https://mvnrepository.com/artifact/org.reflections/reflections
 mysql-connector = "9.6.0"       # https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
 spring-retry = "2.0.12"         # https://mvnrepository.com/artifact/org.springframework.retry/spring-retry
