@@ -1,3 +1,12 @@
+## [1.20.60](https://github.com/mpeki/dod/compare/v1.20.59...v1.20.60) (2026-02-09)
+
+
+### Bug Fixes
+
+* **security:** bump org.keycloak:keycloak-admin-client ([1c2bbb4](https://github.com/mpeki/dod/commit/1c2bbb45550057cdd37bd2b51771ea8c1daded94))
+* **security:** bump org.openrewrite.rewrite from 7.20.0 to 7.25.0 ([5c76ab8](https://github.com/mpeki/dod/commit/5c76ab86b999d7ed3edce9dca27cffff1a11420e))
+* **security:** bump org.sonarqube from 7.0.1.6134 to 7.2.2.6593 ([eabc3b5](https://github.com/mpeki/dod/commit/eabc3b57acb7f39be2da81e6474208bd73249e97))
+
 ## [1.20.59](https://github.com/mpeki/dod/compare/v1.20.58...v1.20.59) (2026-02-09)
 
 
