@@ -1,3 +1,11 @@
+## [1.20.61](https://github.com/mpeki/dod/compare/v1.20.60...v1.20.61) (2026-02-10)
+
+
+### Bug Fixes
+
+* **security:** bump com.google.cloud.tools.jib from 3.5.1 to 3.5.3 ([3a9505f](https://github.com/mpeki/dod/commit/3a9505fd5a8b49fa032461b0ae135b53661ddffd))
+* **security:** bump org.modelmapper:modelmapper from 3.2.5 to 3.2.6 ([6bf6fd9](https://github.com/mpeki/dod/commit/6bf6fd99169385ad67ab8451ab05f83ba0876b3f))
+
 ## [1.20.60](https://github.com/mpeki/dod/compare/v1.20.59...v1.20.60) (2026-02-09)
 
 
