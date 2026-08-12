@@ -69,7 +69,7 @@ class CharacterActionControllerTest extends BaseControllerTest {
     SkillDTO skill = SkillDTO.builder().build();
     testAction.setSkill(skill);
     SkillTrainingAction actionSuccess = testAction
-        .toBuilder()
+        .toBuilder().actor(testBeing)
         .actionResult(ActionResult.SUCCESS)
         .resultDescription(ActionResultDescription.builder().actionResult("test action success!").build())
         .skillKey("primary.weapon")
